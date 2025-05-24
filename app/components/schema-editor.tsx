@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
+import { useTheme } from "next-themes";
 import {
   Card,
   CardContent,
@@ -24,6 +25,8 @@ interface SchemaEditorProps {
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
 const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
+  const { theme, resolvedTheme } = useTheme();
+  const [editorTheme, setEditorTheme] = useState<string>('light');
   // Initialize state with data from localStorage or default to omniGarden
   const [schemaText, setSchemaText] = useState<string>(() => {
     if (typeof window !== "undefined") {
@@ -39,6 +42,11 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, schemaText);
   }, [schemaText]);
+
+  // Update editor theme when system/site theme changes
+  useEffect(() => {
+    setEditorTheme(resolvedTheme === 'dark' ? 'vs-dark' : 'light');
+  }, [resolvedTheme]);
 
   // Apply the saved schema on initial load
   useEffect(() => {
@@ -128,6 +136,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
                   height="400px"
                   defaultLanguage="json"
                   value={schemaText}
+                  theme={editorTheme}
                   onChange={(value) => {
                     if (value) setSchemaText(value);
                     setError(null);
