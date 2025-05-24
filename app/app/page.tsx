@@ -80,7 +80,7 @@ const HomePage = () => (
                   Visualize Your Ecosystem{" "}
                 </h1>
 
-                <Sparkles className="w-10 h-10" />
+                <Sparkles className="w-10 h-10 hidden md:flex" />
               </div>
 
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
