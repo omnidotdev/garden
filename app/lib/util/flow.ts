@@ -196,9 +196,9 @@ export const gardenToFlow = (
       });
     }
 
-    // Recursively process subcategories
-    if (category.subcategories && Array.isArray(category.subcategories)) {
-      category.subcategories.forEach((subcategory: any, subcategoryIndex: number) => {
+    // Recursively process nested categories
+    if (category.categories && Array.isArray(category.categories)) {
+      category.categories.forEach((subcategory: any, subcategoryIndex: number) => {
         processCategory(
           subcategory,
           categoryId,

@@ -10,8 +10,17 @@ export const GardenItem = Schema.Struct({
   description: Schema.optional(Schema.String),
 });
 
-// First declare the schema as a variable
-const CategorySpecRef: any = { schema: null };
+// Create a recursive CategorySpec schema with proper type safety
+export interface CategorySpecModel {
+  name: string;
+  description?: string;
+  icon_color?: string;
+  items?: Array<typeof GardenItem.Type>;
+  categories?: Array<CategorySpecModel>;
+}
+
+// First declare the schema as a variable with proper type annotation
+const CategorySpecRef: { schema: Schema.Schema<CategorySpecModel> } = { schema: null as any };
 
 // Create the CategorySpec schema with recursive reference
 export const CategorySpec = Schema.Struct({
@@ -19,7 +28,7 @@ export const CategorySpec = Schema.Struct({
   description: Schema.optional(Schema.String),
   icon_color: Schema.optional(Schema.String),
   items: Schema.optional(Schema.Array(GardenItem)),
-  subcategories: Schema.optional(
+  categories: Schema.optional(
     Schema.Array(Schema.suspend(() => CategorySpecRef.schema))
   ),
 });
@@ -63,7 +72,7 @@ export const sampleGarden: typeof GardenSpec.Type = {
     {
       name: "Productivity",
       description: "Tools to enhance work efficiency and organization",
-      subcategories: [
+      categories: [
         {
           name: "Task Management",
           description: "Organize and track tasks and projects",
@@ -84,8 +93,8 @@ export const sampleGarden: typeof GardenSpec.Type = {
               description: "Team collaboration tool",
             },
           ],
-          // Demonstrating recursive subcategories
-          subcategories: [
+          // Demonstrating recursive categories
+          categories: [
             {
               name: "Personal Tasks",
               description: "Manage individual productivity",
@@ -99,7 +108,7 @@ export const sampleGarden: typeof GardenSpec.Type = {
                 },
               ],
               // Another level of nesting
-              subcategories: [
+              categories: [
                 {
                   name: "Daily Tasks",
                   description: "Track everyday to-dos and routines",
@@ -137,7 +146,7 @@ export const sampleGarden: typeof GardenSpec.Type = {
       name: "Development",
       description: "Programming tools and environments for developers",
       icon_color: "hsl(var(--chart-3))",
-      subcategories: [
+      categories: [
         {
           name: "Code Editors",
           description: "Text editors optimized for programming",
@@ -177,7 +186,7 @@ export const sampleGarden: typeof GardenSpec.Type = {
       name: "Communication",
       description: "Tools for team and client interactions",
       icon_color: "hsl(var(--chart-4))",
-      subcategories: [
+      categories: [
         {
           name: "Messaging",
           description: "Real-time communication tools",
@@ -210,7 +219,7 @@ export const sampleGarden: typeof GardenSpec.Type = {
       name: "Design",
       description: "Creative tools for visual and UX design",
       icon_color: "hsl(var(--chart-5))",
-      subcategories: [
+      categories: [
         {
           name: "UI/UX",
           description: "User interface and experience design tools",
@@ -271,6 +280,19 @@ export const omniGarden: typeof GardenSpec.Type = {
           description: "User feedback reporting and voting",
         },
       ],
+      categories: [
+        {
+          name: "User Feedback",
+          description: "Tools for gathering and managing user feedback",
+          items: [
+            {
+              name: "Feedback Portal",
+              homepage_url: "https://feedback.omni.dev",
+              description: "Public user feedback portal",
+            }
+          ]
+        }
+      ]
     },
     {
       name: "Developer Tools",
@@ -279,10 +301,58 @@ export const omniGarden: typeof GardenSpec.Type = {
         {
           name: "Sigil",
           homepage_url: "https://sigil.omni.dev",
-          // logo: "https://via.placeholder.com/150?text=DX",
-          description: "UI stuff",
+          description: "UI components and design system",
         },
       ],
+      categories: [
+        {
+          name: "Design Systems",
+          items: [
+            {
+              name: "Component Library",
+              homepage_url: "https://components.omni.dev",
+              description: "Reusable UI components",
+            }
+          ]
+        }
+      ]
+    },
+    {
+      name: "Specifications & Schemas",
+      description: "For nerds",
+      items: [
+        {
+          name: "Garden",
+          homepage_url: "https://garden.omni.dev",
+          description: "Product ecosystem visualization",
+        },
+      ],
+      categories: [
+        {
+          name: "APIs",
+          description: "API specifications and tools",
+          items: [
+            {
+              name: "API Standards",
+              homepage_url: "https://api.omni.dev",
+              description: "API design guidelines",
+            }
+          ],
+          categories: [
+            {
+              name: "OpenAPI",
+              description: "OpenAPI specifications and tools",
+              items: [
+                {
+                  name: "Swagger UI",
+                  homepage_url: "https://swagger.omni.dev",
+                  description: "API documentation viewer",
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
   ],
 };

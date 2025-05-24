@@ -203,7 +203,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
                   </li>
                   <li>
                     <code className="text-sm bg-muted px-1 rounded">
-                      subcategories
+                      categories
                     </code>
                     : (Optional) Array of category objects (recursive)
                   </li>
@@ -213,9 +213,9 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
               <div className="space-y-2">
                 <h4 className="font-medium">Recursive Structure:</h4>
                 <p>
-                  Categories can contain subcategories which are themselves
-                  categories, allowing for infinite nesting. Each subcategory
-                  can contain both items and further subcategories.
+                  Categories can contain nested categories which are themselves
+                  categories, allowing for infinite nesting. Each category
+                  can contain both items and further categories.
                 </p>
               </div>
 
