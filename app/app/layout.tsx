@@ -19,9 +19,9 @@ const RootLayout = ({ children }: PropsWithChildren) => (
   <html lang="en" suppressHydrationWarning>
     <body className={inter.className}>
       <ThemeProvider
+        enableSystem
         attribute="class"
         defaultTheme="system"
-        enableSystem
         disableTransitionOnChange
       >
         <NuqsAdapter>{children}</NuqsAdapter>
