@@ -9,29 +9,33 @@ import { GardenSpec } from "@/lib/schema/garden";
 interface GardenTabsProps {
   garden: typeof GardenSpec.Type;
   onSchemaChange: (schema: typeof GardenSpec.Type) => void;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
 }
 
-const GardenTabs = ({ garden, onSchemaChange }: GardenTabsProps) => (
-  <Tabs defaultValue="visualize" className="space-y-6">
-    <TabsList className="grid w-full max-w-md grid-cols-2">
-      <TabsTrigger value="visualize" className="flex items-center gap-2">
-        <BarChart className="h-4 w-4" />
-        Visualize
-      </TabsTrigger>
-      <TabsTrigger value="edit" className="flex items-center gap-2">
-        <Code className="h-4 w-4" />
-        Edit Schema
-      </TabsTrigger>
-    </TabsList>
+const GardenTabs = ({ garden, onSchemaChange, activeTab, onTabChange }: GardenTabsProps) => {
+  return (
+    <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-6">
+      <TabsList className="grid w-full max-w-md grid-cols-2">
+        <TabsTrigger value="visualize" className="flex items-center gap-2">
+          <BarChart className="h-4 w-4" />
+          Visualize
+        </TabsTrigger>
+        <TabsTrigger value="edit" className="flex items-center gap-2">
+          <Code className="h-4 w-4" />
+          Edit Schema
+        </TabsTrigger>
+      </TabsList>
 
-    <TabsContent value="visualize" className="space-y-4">
-      <GardenFlow garden={garden} />
-    </TabsContent>
+      <TabsContent value="visualize" className="space-y-4">
+        <GardenFlow garden={garden} />
+      </TabsContent>
 
-    <TabsContent value="edit">
-      <SchemaEditor onSchemaChange={onSchemaChange} />
-    </TabsContent>
-  </Tabs>
-);
+      <TabsContent value="edit">
+        <SchemaEditor onSchemaChange={onSchemaChange} />
+      </TabsContent>
+    </Tabs>
+  );
+};
 
 export default GardenTabs;

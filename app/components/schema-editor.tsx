@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Editor from "@monaco-editor/react";
 import {
   Card,
   CardContent,
@@ -20,17 +21,42 @@ interface SchemaEditorProps {
   onSchemaChange: (schema: typeof GardenSpec.Type) => void;
 }
 
+const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
+
 const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
-  const [schemaText, setSchemaText] = useState<string>(
-    JSON.stringify(omniGarden, null, 2)
-  );
+  // Initialize state with data from localStorage or default to omniGarden
+  const [schemaText, setSchemaText] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      const savedSchema = localStorage.getItem(LOCAL_STORAGE_KEY);
+      return savedSchema || JSON.stringify(omniGarden, null, 2);
+    }
+    return JSON.stringify(omniGarden, null, 2);
+  });
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const handleSchemaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setSchemaText(e.target.value);
-    setError(null);
-  };
+  // Save schema to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, schemaText);
+  }, [schemaText]);
+
+  // Apply the saved schema on initial load
+  useEffect(() => {
+    try {
+      const parsedJson = JSON.parse(schemaText);
+      if (
+        parsedJson.name &&
+        parsedJson.version &&
+        Array.isArray(parsedJson.categories)
+      ) {
+        onSchemaChange(parsedJson as typeof GardenSpec.Type);
+      }
+    } catch (err) {
+      // Silently fail on initial load - we'll show errors when they try to apply
+    }
+  }, []);
+
+  // Note: handleSchemaChange is no longer needed as Monaco editor handles this directly
 
   const validateAndApply = () => {
     try {
@@ -55,9 +81,11 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
   };
 
   const resetToSample = () => {
-    setSchemaText(JSON.stringify(omniGarden, null, 2));
+    const sampleText = JSON.stringify(omniGarden, null, 2);
+    setSchemaText(sampleText);
     setError(null);
     onSchemaChange(omniGarden);
+    localStorage.setItem(LOCAL_STORAGE_KEY, sampleText);
   };
 
   const copyToClipboard = () => {
@@ -81,7 +109,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Garden Schema Editor</CardTitle>
+        <CardTitle>Garden Editor</CardTitle>
         <CardDescription>
           Edit the JSON schema for your Garden visualization
         </CardDescription>
@@ -95,12 +123,28 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
 
           <TabsContent value="editor" className="space-y-4">
             <div className="relative">
-              <Textarea
-                value={schemaText}
-                onChange={handleSchemaChange}
-                className="font-mono h-[400px] resize-none"
-              />
-              <div className="absolute top-2 right-2">
+              <div className="h-[400px] border rounded-md overflow-hidden">
+                <Editor
+                  height="400px"
+                  defaultLanguage="json"
+                  value={schemaText}
+                  onChange={(value) => {
+                    if (value) setSchemaText(value);
+                    setError(null);
+                  }}
+                  options={{
+                    minimap: { enabled: false },
+                    scrollBeyondLastLine: false,
+                    fontSize: 14,
+                    scrollbar: {
+                      vertical: 'auto',
+                      horizontal: 'auto',
+                    },
+                    automaticLayout: true,
+                  }}
+                />
+              </div>
+              <div className="absolute top-2 right-2 z-10">
                 <Button
                   variant="ghost"
                   size="icon"
@@ -214,8 +258,8 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
                 <h4 className="font-medium">Recursive Structure:</h4>
                 <p>
                   Categories can contain nested categories which are themselves
-                  categories, allowing for infinite nesting. Each category
-                  can contain both items and further categories.
+                  categories, allowing for infinite nesting. Each category can
+                  contain both items and further categories.
                 </p>
               </div>
 

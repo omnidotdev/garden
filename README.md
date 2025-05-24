@@ -2,7 +2,7 @@
 
 Omni Garden specification and visualizer app. Garden is a specification for modeling an ecosystem (e.g. products, services) as a directed acyclic graph with unlimited category recursion.
 
-For a reference implementation, check out the [Omniverse](https://github.com/omnidotdev/verse).
+For a reference implementation, check out the [Omniverse](https://verse.omni.dev) (coming soon).
 
 In the future, a `<Garden />` React component will be created as well as the ability to compose and nest gardens as "subgardens" within a "supergarden".
 
@@ -10,7 +10,7 @@ Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel
 
 ## Why "Garden"?
 
-*Cultivation*. A garden is a place where plants are grown and cultivated, and one's ecosystem thrives on this same approach.
+*Cultivation*. A garden is a place where plants are grown and cultivated, and digital ecosystems thrive on this same approach.
 
 ## Features
 

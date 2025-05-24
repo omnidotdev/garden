@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { PropsWithChildren } from "react";
 
 import { ThemeProvider } from "@/components/theme-provider";
@@ -23,7 +24,7 @@ const RootLayout = ({ children }: PropsWithChildren) => (
         enableSystem
         disableTransitionOnChange
       >
-        {children}
+        <NuqsAdapter>{children}</NuqsAdapter>
       </ThemeProvider>
     </body>
   </html>

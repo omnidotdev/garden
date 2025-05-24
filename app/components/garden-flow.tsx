@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -57,38 +57,38 @@ const GardenFlowInner = ({ garden }: GardenFlowProps) => {
   }, []);
 
   // Initialize flow when garden data and container width are available
-  useEffect(() => {
-    if (garden && containerWidth) {
-      const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
-        garden,
-        containerWidth
-      );
+    useEffect(() => {
+      if (garden && containerWidth) {
+        const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
+          garden,
+          containerWidth
+        );
 
-      if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
-        // Apply auto layout and get optimized edges
-        autoLayout(initialNodes, initialEdges)
-          .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
-            setNodes(layoutedNodes);
-            setEdges(layoutedEdges);
-            // Update node internals after layout
-            layoutedNodes.forEach((node) => updateNodeInternals(node.id));
+        if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
+          // Apply auto layout and get optimized edges
+          autoLayout(initialNodes, initialEdges)
+            .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
+              setNodes(layoutedNodes);
+              setEdges(layoutedEdges);
+              // Update node internals after layout
+              layoutedNodes.forEach((node) => updateNodeInternals(node.id));
 
-            // Fit view after nodes are positioned
-            setTimeout(() => {
-              fitView({ padding: 0.2 });
+              // Fit view after nodes are positioned
+              setTimeout(() => {
+                fitView({ padding: 0.2 });
+                setInitialized(true);
+              }, 100);
+            })
+            .catch((error) => {
+              console.error("Layout error:", error);
+              // Fallback to initial layout if auto-layout fails
+              setNodes(initialNodes);
+              setEdges(initialEdges);
               setInitialized(true);
-            }, 100);
-          })
-          .catch((error) => {
-            console.error("Layout error:", error);
-            // Fallback to initial layout if auto-layout fails
-            setNodes(initialNodes);
-            setEdges(initialEdges);
-            setInitialized(true);
-          });
+            });
+        }
       }
-    }
-  }, [garden, containerWidth, initialized, setNodes, setEdges, fitView]);
+    }, [garden, containerWidth, initialized, setNodes, setEdges, fitView, updateNodeInternals]);
 
   // Handle layout refresh
   const onLayout = useCallback(() => {
