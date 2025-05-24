@@ -68,7 +68,7 @@ const HomePage = () => (
 
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-4 text-center">
-            <div className="inline-flex items-center rounded-lg bg-muted px-3 py-1 text-sm font-medium">
+            <div className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium">
               <p>
                 🌱 See the Forest <i>and</i> the Trees 🌱
               </p>
