@@ -6,7 +6,7 @@ For a reference implementation, check out the [Omniverse](https://github.com/omn
 
 ## Why "Garden"?
 
-*Cultivation**. A garden is a place where plants are grown and cultivated, and one's ecosystem thrives on this same approach.
+*Cultivation*. A garden is a place where plants are grown and cultivated, and one's ecosystem thrives on this same approach.
 
 ## Features
 
