@@ -57,38 +57,46 @@ const GardenFlowInner = ({ garden }: GardenFlowProps) => {
   }, []);
 
   // Initialize flow when garden data and container width are available
-    useEffect(() => {
-      if (garden && containerWidth) {
-        const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
-          garden,
-          containerWidth
-        );
+  useEffect(() => {
+    if (garden && containerWidth) {
+      const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
+        garden,
+        containerWidth
+      );
 
-        if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
-          // Apply auto layout and get optimized edges
-          autoLayout(initialNodes, initialEdges)
-            .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
-              setNodes(layoutedNodes);
-              setEdges(layoutedEdges);
-              // Update node internals after layout
-              layoutedNodes.forEach((node) => updateNodeInternals(node.id));
+      if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
+        // Apply auto layout and get optimized edges
+        autoLayout(initialNodes, initialEdges)
+          .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
+            setNodes(layoutedNodes);
+            setEdges(layoutedEdges);
+            // Update node internals after layout
+            layoutedNodes.forEach((node) => updateNodeInternals(node.id));
 
-              // Fit view after nodes are positioned
-              setTimeout(() => {
-                fitView({ padding: 0.2 });
-                setInitialized(true);
-              }, 100);
-            })
-            .catch((error) => {
-              console.error("Layout error:", error);
-              // Fallback to initial layout if auto-layout fails
-              setNodes(initialNodes);
-              setEdges(initialEdges);
+            // Fit view after nodes are positioned
+            setTimeout(() => {
+              fitView({ padding: 0.2 });
               setInitialized(true);
-            });
-        }
+            }, 100);
+          })
+          .catch((error) => {
+            console.error("Layout error:", error);
+            // Fallback to initial layout if auto-layout fails
+            setNodes(initialNodes);
+            setEdges(initialEdges);
+            setInitialized(true);
+          });
       }
-    }, [garden, containerWidth, initialized, setNodes, setEdges, fitView, updateNodeInternals]);
+    }
+  }, [
+    garden,
+    containerWidth,
+    initialized,
+    setNodes,
+    setEdges,
+    fitView,
+    updateNodeInternals,
+  ]);
 
   // Handle layout refresh
   const onLayout = useCallback(() => {
@@ -158,6 +166,7 @@ const GardenFlowInner = ({ garden }: GardenFlowProps) => {
         >
           <RefreshCw className="h-4 w-4" />
         </Button>
+
         <Button
           variant="outline"
           size="icon"
@@ -172,14 +181,12 @@ const GardenFlowInner = ({ garden }: GardenFlowProps) => {
 };
 
 // Wrap with provider to avoid context issues
-const GardenFlow = (props: GardenFlowProps) => {
-  return (
-    <ReactFlowProvider>
-      <div className="w-full h-[800px] border rounded-lg overflow-hidden">
-        <GardenFlowInner {...props} />
-      </div>
-    </ReactFlowProvider>
-  );
-};
+const GardenFlow = (props: GardenFlowProps) => (
+  <ReactFlowProvider>
+    <div className="w-full h-[800px] border rounded-lg overflow-hidden">
+      <GardenFlowInner {...props} />
+    </div>
+  </ReactFlowProvider>
+);
 
 export default GardenFlow;

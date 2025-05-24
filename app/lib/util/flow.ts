@@ -64,6 +64,7 @@ export const gardenToFlow = (
     type: NODE_TYPES.GARDEN,
     data: {
       label: garden.name,
+      description: garden.description,
       version: garden.version,
       theme: garden.theme,
       icon_color: "hsl(var(--primary))",
