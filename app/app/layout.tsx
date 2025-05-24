@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Assistant } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { PropsWithChildren } from "react";
 
@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const assistant = Assistant({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Garden",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: PropsWithChildren) => (
   <html lang="en" suppressHydrationWarning>
-    <body className={inter.className}>
+    <body className={assistant.className}>
       <ThemeProvider
         enableSystem
         attribute="class"

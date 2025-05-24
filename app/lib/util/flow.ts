@@ -1,8 +1,7 @@
-import { GardenSpec, GardenItem, CategorySpec } from "../schema/garden";
+import { GardenSpec } from "../schema/garden";
 import { Node, Edge, Position, MarkerType } from "reactflow";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { type ElkNode } from "elkjs";
-import { TypeId } from "@effect/schema/Schema";
 
 const elk = new ELK();
 
@@ -81,30 +80,37 @@ export const gardenToFlow = (
 
   // Function to recursively process categories
   const processCategory = (
-    category: any, 
-    parentId: string, 
-    depth: number = 0, 
+    category: any,
+    parentId: string,
+    depth: number = 0,
     indexInParent: number = 0,
     xPosition: number = centerX
   ) => {
     if (!category || !category.name) return;
 
-    const categoryId = generateId(NODE_TYPES.CATEGORY, `${parentId}-${category.name}`);
-    
+    const categoryId = generateId(
+      NODE_TYPES.CATEGORY,
+      `${parentId}-${category.name}`
+    );
+
     const yPosition = 200 + depth * 200 + indexInParent * 150;
 
     // Get appropriate icon based on category name
     const getCategoryIcon = (name: string) => {
       const lowerName = name.toLowerCase();
       if (lowerName.includes("productivity")) return "Zap";
-      if (lowerName.includes("development") || lowerName.includes("code")) return "Code";
-      if (lowerName.includes("communication") || lowerName.includes("message")) return "MessageSquare";
-      if (lowerName.includes("design") || lowerName.includes("ui")) return "Palette";
+      if (lowerName.includes("development") || lowerName.includes("code"))
+        return "Code";
+      if (lowerName.includes("communication") || lowerName.includes("message"))
+        return "MessageSquare";
+      if (lowerName.includes("design") || lowerName.includes("ui"))
+        return "Palette";
       if (lowerName.includes("task")) return "CheckSquare";
       if (lowerName.includes("note")) return "FileText";
       if (lowerName.includes("version")) return "Git";
       if (lowerName.includes("video")) return "Video";
-      if (lowerName.includes("graphics") || lowerName.includes("image")) return "Image";
+      if (lowerName.includes("graphics") || lowerName.includes("image"))
+        return "Image";
       return "Folder";
     };
 
@@ -130,9 +136,9 @@ export const gardenToFlow = (
       targetHandle: "top",
       type: "smoothstep",
       animated: true,
-      style: { 
-        stroke: "hsl(var(--muted-foreground))", 
-        strokeWidth: depth === 0 ? 2 : 1.5 
+      style: {
+        stroke: "hsl(var(--muted-foreground))",
+        strokeWidth: depth === 0 ? 2 : 1.5,
       },
       markerEnd: { type: MarkerType.ArrowClosed },
       interactionWidth: 1,
@@ -143,7 +149,10 @@ export const gardenToFlow = (
       category.items.forEach((item: any, itemIndex: number) => {
         if (!item || !item.name) return;
 
-        const itemId = generateId(NODE_TYPES.ITEM, `${categoryId}-${item.name}`);
+        const itemId = generateId(
+          NODE_TYPES.ITEM,
+          `${categoryId}-${item.name}`
+        );
         const itemYPosition = yPosition + (itemIndex + 1) * 100;
 
         nodes.push({
@@ -198,15 +207,17 @@ export const gardenToFlow = (
 
     // Recursively process nested categories
     if (category.categories && Array.isArray(category.categories)) {
-      category.categories.forEach((subcategory: any, subcategoryIndex: number) => {
-        processCategory(
-          subcategory,
-          categoryId,
-          depth + 1,
-          subcategoryIndex,
-          xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150) // Alternately offset to avoid overlap
-        );
-      });
+      category.categories.forEach(
+        (subcategory: any, subcategoryIndex: number) => {
+          processCategory(
+            subcategory,
+            categoryId,
+            depth + 1,
+            subcategoryIndex,
+            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150) // Alternately offset to avoid overlap
+          );
+        }
+      );
     }
   };
 
