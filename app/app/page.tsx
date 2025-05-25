@@ -2,7 +2,7 @@ import { ArrowRight, Sprout, Zap, Code, Share2, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/util/cn";
+import cn from "@/lib/util/cn";
 
 const features = [
   {
