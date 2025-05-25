@@ -84,7 +84,7 @@ export const productsGarden: GardenTypes = {
   name: "Omni Products",
   description: "Core products in the Omni ecosystem",
   version: "1.8.0",
-  parent_gardens: [
+  supergardens: [
     {
       name: "Omni Ecosystem",
       url: "https://ecosystem.omni.example",
@@ -168,7 +168,7 @@ export const devToolsGarden: GardenTypes = {
   name: "Omni Dev Tools",
   description: "Development tools and utilities for Omni ecosystem",
   version: "1.5.2",
-  parent_gardens: [
+  supergardens: [
     {
       name: "Omni Ecosystem",
       url: "https://ecosystem.omni.example",
@@ -258,7 +258,7 @@ export const specificationsGarden: GardenTypes = {
   name: "Omni Specifications",
   description: "Specifications and standards for Omni ecosystem",
   version: "1.3.1",
-  parent_gardens: [
+  supergardens: [
     {
       name: "Omni Ecosystem",
       url: "https://ecosystem.omni.example",

@@ -87,7 +87,7 @@ pub struct Garden {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub theme: Option<Theme>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub parent_gardens: Option<Vec<GardenReference>>,
+    pub supergardens: Option<Vec<GardenReference>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub subgardens: Option<Vec<GardenReference>>,
 }

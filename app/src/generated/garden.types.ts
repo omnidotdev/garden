@@ -8,16 +8,16 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface GardenTypes {
-    categories:      Category[];
-    created_at?:     null | string;
-    description?:    null | string;
-    maintainers?:    Maintainer[] | null;
-    name:            string;
-    parent_gardens?: GardenReference[] | null;
-    subgardens?:     GardenReference[] | null;
-    theme?:          null | Theme;
-    updated_at?:     null | string;
-    version:         string;
+    categories:    Category[];
+    created_at?:   null | string;
+    description?:  null | string;
+    maintainers?:  Maintainer[] | null;
+    name:          string;
+    subgardens?:   GardenReference[] | null;
+    supergardens?: GardenReference[] | null;
+    theme?:        null | Theme;
+    updated_at?:   null | string;
+    version:       string;
     [property: string]: any;
 }
 
@@ -237,8 +237,8 @@ const typeMap: any = {
         { json: "description", js: "description", typ: u(undefined, u(null, "")) },
         { json: "maintainers", js: "maintainers", typ: u(undefined, u(a(r("Maintainer")), null)) },
         { json: "name", js: "name", typ: "" },
-        { json: "parent_gardens", js: "parent_gardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
         { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
+        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
         { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
         { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
         { json: "version", js: "version", typ: "" },

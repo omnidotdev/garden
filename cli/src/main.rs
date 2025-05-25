@@ -63,7 +63,7 @@ fn main() {
                     created_at: None,
                     updated_at: None,
                     theme: None,
-                    parent_gardens: None,
+                    supergardens: None,
                     subgardens: None,
                 };
 

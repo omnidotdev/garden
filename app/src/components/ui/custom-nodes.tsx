@@ -181,7 +181,7 @@ export const GardenRefNode = ({ data }: { data: any }) => {
   );
 };
 
-export const ParentGardenNode = ({ data }: { data: any }) => {
+export const SupergardenNode = ({ data }: { data: any }) => {
   return (
     <BaseNode data={data}>
       <Handle
@@ -193,7 +193,7 @@ export const ParentGardenNode = ({ data }: { data: any }) => {
       <div className="p-4 flex flex-col items-center text-center relative transition-transform hover:scale-105 cursor-pointer border-2 border-dashed border-white/70" 
            style={{ background: "hsl(var(--chart-9))", color: "hsl(var(--chart-9-foreground))", borderRadius: "var(--radius)" }}>
         <div className="absolute top-1 right-1 bg-white/30 text-white px-1 py-0.5 rounded text-xs font-semibold">
-          Navigate Up
+          Supergarden
         </div>
         <Globe className="h-6 w-6 mb-2 animate-pulse" />
         <h3 className="font-medium">{data.label}</h3>
@@ -276,7 +276,7 @@ export const nodeTypes = {
   category: CategoryNode,
   item: ItemNode,
   garden_ref: GardenRefNode,
-  parent_garden: ParentGardenNode,
+  supergarden: SupergardenNode,
   subgarden: SubgardenNode,
   default: ({ data }: { data: any }) => (
     <div className="p-2">{data.label}</div>

@@ -38,7 +38,7 @@
     "name": {
       "type": "string"
     },
-    "parent_gardens": {
+    "subgardens": {
       "type": [
         "array",
         "null"
@@ -47,7 +47,7 @@
         "$ref": "#/definitions/GardenReference"
       }
     },
-    "subgardens": {
+    "supergardens": {
       "type": [
         "array",
         "null"

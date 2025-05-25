@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -23,7 +23,7 @@ import { nodeTypes } from "@/components/ui/custom-nodes";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Maximize, RefreshCw, Layers } from "lucide-react";
+import { Maximize, RefreshCw, Layers, Globe } from "lucide-react";
 
 interface GardenFlowProps {
   garden: GardenTypes;
@@ -148,25 +148,39 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   const onNodeClick: NodeMouseHandler = useCallback((event, clickedNode) => {
     if (!onNavigateToGarden) return;
     
-    // Handle navigation to parent garden
-    if (clickedNode.type === 'parent_garden' && clickedNode.data?.label) {
-      onNavigateToGarden(clickedNode.data.label);
+    // Determine the garden name to navigate to
+    let gardenName = clickedNode.data?.label;
+    
+    // Check if this is an expanded subgarden label
+    if (clickedNode.data?.isExpandedSubgardenLabel) {
+      gardenName = clickedNode.data?.label.replace(' (Expanded)', '');
     }
     
-    // Handle navigation to subgarden
-    if (clickedNode.type === 'subgarden' && clickedNode.data?.label) {
-      onNavigateToGarden(clickedNode.data.label);
-    }
-    
-    // Handle navigation to garden reference
-    if (clickedNode.type === 'garden_ref' && clickedNode.data?.label) {
-      onNavigateToGarden(clickedNode.data.label);
+    // For all navigable node types, navigate to the garden by name
+    if (gardenName && (
+      clickedNode.type === 'supergarden' || 
+      clickedNode.type === 'subgarden' || 
+      clickedNode.type === 'garden_ref' ||
+      clickedNode.data?.isExpandedSubgardenLabel
+    )) {
+      // Prevent rapid multiple clicks
+      event.preventDefault();
+      event.stopPropagation();
+      
+      // Debounce navigation to prevent multiple rapid calls
+      if ((window as any).lastNavigationTime && 
+          Date.now() - (window as any).lastNavigationTime < 500) {
+        return;
+      }
+      
+      (window as any).lastNavigationTime = Date.now();
+      onNavigateToGarden(gardenName);
     }
   }, [onNavigateToGarden]);
   
   // Handle node mouse enter/leave for hover effects
   const onNodeMouseEnter: NodeMouseHandler = useCallback((event, node) => {
-    if (node.type === 'parent_garden' || node.type === 'subgarden' || node.type === 'garden_ref') {
+    if (node.type === 'supergarden' || node.type === 'subgarden' || node.type === 'garden_ref' || node.data?.isExpandedSubgardenLabel) {
       setHoveredNode(node.id);
       document.body.style.cursor = 'pointer';
     }
@@ -184,9 +198,9 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
         style: {
           ...node.style,
           boxShadow: hoveredNode === node.id ? '0 0 10px 2px rgba(99, 102, 241, 0.7)' : undefined,
-          cursor: (node.type === 'parent_garden' || node.type === 'subgarden' || node.type === 'garden_ref') ? 'pointer' : undefined,
+          cursor: (node.type === 'supergarden' || node.type === 'subgarden' || node.type === 'garden_ref' || node.data?.isExpandedSubgardenLabel) ? 'pointer' : undefined,
           // Add visual hint for navigable nodes
-          border: (node.type === 'parent_garden' || node.type === 'subgarden' || node.type === 'garden_ref') 
+          border: (node.type === 'supergarden' || node.type === 'subgarden' || node.type === 'garden_ref' || node.data?.isExpandedSubgardenLabel) 
             ? '2px dashed rgba(99, 102, 241, 0.7)' 
             : undefined,
         }
@@ -284,6 +298,15 @@ const GardenFlow = (props: GardenFlowProps) => (
                 <Layers className="h-3 w-3 text-primary" />
               </div>
               <p className="text-muted-foreground">Use the <Layers className="h-3 w-3 inline mx-1" /> toggle to expand or condense subgardens</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 flex items-center justify-center">
+                <Globe className="h-3 w-3 text-primary" />
+              </div>
+              <p className="text-muted-foreground">Navigate up to supergardens or down to subgardens</p>
+            </div>
+            <div className="mt-1 text-xs text-muted-foreground italic">
+              Note: Changes to garden names are reflected in navigation
             </div>
           </div>
         </div>

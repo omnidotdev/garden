@@ -17,7 +17,7 @@ Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel
 ## Features
 
 - A visual representation of an ecosystem of projects and their relationships
-- Composable: point to a garden spec, load it into a node as a "sub-garden"
+- Composable: each garden is independently processable as its own garden, and gardens can be nested inside of each other ("supergardens" and "subgardens").
 
 ## Generate the Schema
 

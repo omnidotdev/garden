@@ -243,7 +243,7 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
                   </li>
                   <li>
                     <code className="text-sm bg-muted px-1 rounded">
-                      parent_gardens
+                      supergardens
                     </code>
                     : Array of garden reference objects that this garden belongs to
                   </li>
