@@ -9,7 +9,7 @@
     "check": "biome check src",
     "format": "biome format --write src",
     "lint": "biome lint src",
-    "generate": "bunx quicktype@23.2.4 -s schema ../cli/garden.schema.json -o src/generated/garden.types.ts"
+    "generate": "bunx quicktype@23.2.4 -s schema ../garden.schema.json -o src/generated/garden.types.ts"
   },
   "devDependencies": {
     "@types/node": "22.15.21",
