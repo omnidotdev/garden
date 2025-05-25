@@ -23,11 +23,11 @@ const GardenTabs = ({
     <TabsList className="grid w-full max-w-md grid-cols-2">
       <TabsTrigger value="visualize" className="flex items-center gap-2">
         <BarChart className="h-4 w-4" />
-        Visualize
+        Visualize Garden
       </TabsTrigger>
       <TabsTrigger value="edit" className="flex items-center gap-2">
         <Code className="h-4 w-4" />
-        Edit Schema
+        Edit Garden
       </TabsTrigger>
     </TabsList>
 
