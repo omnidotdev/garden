@@ -6,10 +6,11 @@ import Header from "@/components/Header";
 import GardenTabs from "@/components/GardenTabs";
 import { parseAsString, useQueryState } from "nuqs";
 
-// Create a tab state with nuqs
-
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
+/**
+ * Garden visualizer.
+ */
 const Visualizer = () => {
   const [garden, setGarden] = useState<typeof Garden.Type>(omniGarden);
   const [activeTab, setActiveTab] = useQueryState(
@@ -17,7 +18,7 @@ const Visualizer = () => {
     parseAsString.withDefault("visualize")
   );
 
-  // Load garden from localStorage on initial render
+  // load garden from local storage on initial render
   useEffect(() => {
     if (typeof window !== "undefined") {
       try {
@@ -34,7 +35,7 @@ const Visualizer = () => {
         }
       } catch (err) {
         console.error("Error loading garden from localStorage:", err);
-        // Fallback to default garden
+        // fallback to default garden
       }
     }
   }, []);
@@ -42,8 +43,6 @@ const Visualizer = () => {
   return (
     <main className="min-h-screen bg-background">
       <div className="container mx-auto py-8 px-4">
-        <Header />
-
         <GardenTabs
           garden={garden}
           onSchemaChange={setGarden}
