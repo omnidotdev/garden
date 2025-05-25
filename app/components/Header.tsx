@@ -1,7 +1,7 @@
 "use client";
 
 import { Sprout } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
 
 /**

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Garden, omniGarden } from "@/lib/schema/garden";
-import Header from "@/components/header";
-import GardenTabs from "@/components/garden-tabs";
+import Header from "@/components/Header";
+import GardenTabs from "@/components/GardenTabs";
 import { parseAsString, useQueryState } from "nuqs";
 
 // Create a tab state with nuqs

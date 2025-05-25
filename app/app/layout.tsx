@@ -2,7 +2,7 @@ import { Assistant } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { PropsWithChildren } from "react";
 
-import { ThemeProvider } from "@/components/theme-provider";
+import ThemeProvider from "@/components/ThemeProvider";
 
 import type { Metadata } from "next";
 

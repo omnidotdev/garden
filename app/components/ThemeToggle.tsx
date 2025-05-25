@@ -6,20 +6,20 @@ import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle() {
+const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    if (theme === 'dark') {
-      setTheme('light');
+    if (theme === "dark") {
+      setTheme("light");
     } else {
-      setTheme('dark');
+      setTheme("dark");
     }
   };
 
   return (
-    <Button 
-      variant="outline" 
+    <Button
+      variant="outline"
       size="icon"
       onClick={toggleTheme}
       title="Toggle theme"
@@ -29,4 +29,6 @@ export function ThemeToggle() {
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
-}
+};
+
+export default ThemeToggle;
