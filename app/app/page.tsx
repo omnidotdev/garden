@@ -28,8 +28,8 @@ const features = [
  * Home page.
  */
 const HomePage = () => (
-  <div className="flex min-h-screen flex-col bg-gradient-to-b from-background via-background/90 to-background/80">
-    <main className="flex-1">
+  <div className="flex flex-col bg-gradient-to-b from-background via-background/90 to-background/80">
+    <main>
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative justify-center flex">
         <div className="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
           <div className="absolute left-1/2 top-0 ml-[-38rem] h-[25rem] w-[81.25rem] dark:[mask-image:linear-gradient(white,transparent)]">

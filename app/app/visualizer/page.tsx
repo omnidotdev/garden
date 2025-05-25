@@ -41,16 +41,14 @@ const Visualizer = () => {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="container mx-auto py-8 px-4">
-        <GardenTabs
-          garden={garden}
-          onSchemaChange={setGarden}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      </div>
-    </main>
+    <div className="container mx-auto py-8 px-4">
+      <GardenTabs
+        garden={garden}
+        onSchemaChange={setGarden}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+    </div>
   );
 };
 
