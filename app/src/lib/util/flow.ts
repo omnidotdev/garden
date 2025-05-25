@@ -18,7 +18,7 @@ const calculateNodeHeight = (node: any): number => {
   return 80; // Default height
 };
 
-export const NODE_TYPES = {
+const NODE_TYPES = {
   GARDEN: "garden",
   CATEGORY: "category",
   ITEM: "item",
