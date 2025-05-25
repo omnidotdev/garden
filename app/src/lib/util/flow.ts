@@ -1,4 +1,4 @@
-import { GardenTypes } from "@/generated/garden.types";
+import { GardenTypes, GardenReference } from "@/generated/garden.types";
 import { Node, Edge, Position, MarkerType } from "reactflow";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { type ElkNode } from "elkjs";
@@ -18,10 +18,14 @@ const calculateNodeHeight = (node: any): number => {
   return 80; // Default height
 };
 
-const NODE_TYPES = {
+export const NODE_TYPES = {
   GARDEN: "garden",
   CATEGORY: "category",
   ITEM: "item",
+  GARDEN_REF: "garden_ref",
+  PARENT_GARDEN: "parent_garden",
+  SUBGARDEN: "subgarden",
+  EXPANDED_SUBGARDEN_LABEL: "expanded_subgarden_label",
 };
 
 const generateId = (type: string, name: string): string => {
@@ -39,17 +43,27 @@ const getNodePositions = (
       };
     case NODE_TYPES.CATEGORY:
       return { targetPosition: Position.Top, sourcePosition: Position.Bottom };
-
     case NODE_TYPES.ITEM:
       return { targetPosition: Position.Top };
+    case NODE_TYPES.GARDEN_REF:
+      return { sourcePosition: Position.Bottom, targetPosition: Position.Bottom };
+    case NODE_TYPES.PARENT_GARDEN:
+      return { sourcePosition: Position.Bottom, targetPosition: Position.Top };
+    case NODE_TYPES.SUBGARDEN:
+      return { sourcePosition: Position.Top, targetPosition: Position.Bottom };
     default:
       return {};
   }
 };
 
+interface FlowOptions {
+  expandSubgardens?: boolean;
+}
+
 export const gardenToFlow = (
   garden: GardenTypes,
-  width: number = 1600
+  width: number = 1600,
+  options: FlowOptions = {}
 ): { nodes: Node[]; edges: Edge[] } => {
   if (!garden || !garden.categories) {
     return { nodes: [], edges: [] };
@@ -80,6 +94,242 @@ export const gardenToFlow = (
       borderRadius: "var(--radius)",
     },
   });
+
+  // Process parent gardens if any
+  if (garden.parent_gardens && Array.isArray(garden.parent_gardens)) {
+    garden.parent_gardens.forEach((parentGarden, index) => {
+      const parentId = generateId(NODE_TYPES.PARENT_GARDEN, parentGarden.name);
+      const xOffset = -400 + (index * 150); // Position parent gardens to the left and above
+      
+      nodes.push({
+        id: parentId,
+        type: NODE_TYPES.PARENT_GARDEN,
+        data: {
+          label: parentGarden.name,
+          description: parentGarden.description,
+          url: parentGarden.url,
+          logo: parentGarden.logo,
+          version: parentGarden.version,
+          icon: "Globe",
+          icon_color: "hsl(var(--chart-9))",
+        },
+        position: { x: centerX + xOffset, y: -200 },
+        ...getNodePositions(NODE_TYPES.PARENT_GARDEN),
+        style: {
+          background: "hsl(var(--chart-9))",
+          color: "hsl(var(--chart-9-foreground))",
+          borderRadius: "var(--radius)",
+        },
+      });
+
+      // Create edge from parent garden to this garden
+      edges.push({
+        id: `${parentId}-to-${gardenId}`,
+        source: parentId,
+        sourceHandle: "bottom",
+        target: gardenId,
+        targetHandle: "top",
+        type: "smoothstep",
+        animated: true,
+        style: {
+          stroke: "hsl(var(--chart-9))",
+          strokeWidth: 2,
+          strokeDasharray: "5,5",
+        },
+        markerEnd: { type: MarkerType.ArrowClosed },
+        interactionWidth: 1,
+      });
+    });
+  }
+
+  // Process subgardens if any
+  if (garden.subgardens && Array.isArray(garden.subgardens)) {
+    garden.subgardens.forEach((subgarden, index) => {
+      const subgardenId = generateId(NODE_TYPES.SUBGARDEN, subgarden.name);
+      const xOffset = 400 - (index * 150); // Position subgardens to the right and above
+      
+      // If expandSubgardens is true, try to incorporate the subgarden's nodes directly
+      if (options.expandSubgardens && typeof window !== 'undefined' && window.gardenData) {
+        try {
+          // Get the actual garden data from the global store
+          const subgardenData = window.gardenData[subgarden.name];
+          
+          if (subgardenData) {
+            // Generate a flow for the subgarden with expansion disabled (to prevent infinite recursion)
+            const subFlow = gardenToFlow(
+              subgardenData,
+              width,
+              { expandSubgardens: false }
+            );
+            
+            // Add a label node to indicate this is an expanded subgarden
+            nodes.push({
+              id: `${subgardenId}-label`,
+              type: "default",
+              data: { 
+                label: `${subgarden.name} (Expanded)`,
+                isExpandedSubgardenLabel: true
+              },
+              position: { 
+                x: centerX + xOffset, 
+                y: 300 + (index * 100)
+              },
+              style: {
+                background: "hsl(var(--chart-8))",
+                color: "hsl(var(--chart-8-foreground))",
+                padding: "8px 12px",
+                borderRadius: "var(--radius)",
+                fontSize: "14px",
+                fontWeight: "bold",
+                border: '2px dashed hsl(var(--chart-8))',
+                boxShadow: '0 0 15px rgba(0, 0, 0, 0.1)',
+                zIndex: 1000,
+              }
+            });
+            
+            // Add a background node to visually group the expanded subgarden
+            nodes.push({
+              id: `${subgardenId}-background`,
+              type: "default",
+              data: { 
+                label: '',
+              },
+              position: { 
+                x: centerX + xOffset - 200, 
+                y: 350 + (index * 100)
+              },
+              style: {
+                width: 600,
+                height: 600,
+                background: `hsla(var(--chart-8), 0.05)`,
+                border: '2px dashed hsla(var(--chart-8), 0.3)',
+                borderRadius: '16px',
+                zIndex: 1,
+                pointerEvents: 'none',
+              }
+            });
+
+            // Connect main garden to expanded subgarden label
+            edges.push({
+              id: `${gardenId}-to-${subgardenId}-label`,
+              source: gardenId,
+              target: `${subgardenId}-label`,
+              type: "smoothstep",
+              animated: true,
+              style: {
+                stroke: "hsl(var(--chart-8))",
+                strokeWidth: 2,
+                strokeDasharray: "5,5",
+              },
+              markerEnd: { type: MarkerType.ArrowClosed },
+            });
+            
+            // Process all nodes from the subgarden
+            const processedNodes = subFlow.nodes.map(node => ({
+              ...node,
+              // Add the subgarden name as a prefix to the ID to avoid collisions
+              id: `${subgardenId}-${node.id}`,
+              data: {
+                ...node.data,
+                // Add a reference to the parent garden
+                parentGarden: garden.name,
+                // Add a flag to identify this as an expanded subgarden node
+                isExpandedSubgarden: true,
+                // Add the subgarden name for reference
+                subgardenName: subgarden.name
+              },
+              // Adjust position to place the expanded subgarden in the appropriate area
+              position: {
+                x: node.position.x + xOffset,
+                // Place them below the main garden, with extra spacing
+                y: node.position.y + 400 + (index * 200)
+              },
+              // Add a special style to indicate these are part of a subgarden
+              style: {
+                ...node.style,
+                opacity: 0.95,
+                border: node.type === NODE_TYPES.GARDEN 
+                  ? '2px solid hsl(var(--chart-8))' 
+                  : '1px dashed hsl(var(--chart-8))',
+                zIndex: 10, // Ensure nodes are above the background
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+              }
+            }));
+            
+            // Process the edges to connect to the new node IDs
+            const processedEdges = subFlow.edges.map(edge => ({
+              ...edge,
+              id: `${subgardenId}-${edge.id}`,
+              source: `${subgardenId}-${edge.source}`,
+              target: `${subgardenId}-${edge.target}`,
+              style: {
+                ...edge.style,
+                stroke: edge.style?.stroke || "hsl(var(--chart-8))",
+                opacity: 0.8,
+              }
+            }));
+            
+            // Add all the processed nodes and edges
+            nodes.push(...processedNodes);
+            edges.push(...processedEdges);
+          } else {
+            // Fallback to a condensed node if data isn't available
+            addCondensedSubgardenNode();
+          }
+        } catch (error) {
+          console.error(`Error expanding subgarden ${subgarden.name}:`, error);
+          // Fallback to a condensed node if there's an error
+          addCondensedSubgardenNode();
+        }
+      } else {
+        // Add a condensed subgarden node when not expanding
+        addCondensedSubgardenNode();
+      }
+      
+      function addCondensedSubgardenNode() {
+        nodes.push({
+          id: subgardenId,
+          type: NODE_TYPES.SUBGARDEN,
+          data: {
+            label: subgarden.name,
+            description: subgarden.description,
+            url: subgarden.url,
+            logo: subgarden.logo,
+            version: subgarden.version,
+            icon: "Git",
+            icon_color: "hsl(var(--chart-8))",
+            expandable: true // Flag to indicate this can be expanded
+          },
+          position: { x: centerX + xOffset, y: -200 },
+          ...getNodePositions(NODE_TYPES.SUBGARDEN),
+          style: {
+            background: "hsl(var(--chart-8))",
+            color: "hsl(var(--chart-8-foreground))",
+            borderRadius: "var(--radius)",
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          },
+        });
+
+        // Create edge from this garden to subgarden
+        edges.push({
+          id: `${gardenId}-to-${subgardenId}`,
+          source: gardenId,
+          sourceHandle: "top",
+          target: subgardenId,
+          targetHandle: "bottom",
+          type: "smoothstep",
+          animated: true,
+          style: {
+            stroke: "hsl(var(--chart-8))",
+            strokeWidth: 2,
+            strokeDasharray: "5,5",
+          },
+          markerEnd: { type: MarkerType.ArrowClosed },
+          interactionWidth: 1,
+        });
+      }
+    });
+  }
 
   /**
    * Recursively process categories.
@@ -209,6 +459,68 @@ export const gardenToFlow = (
         });
       });
     }
+    
+    // Process garden references in this category
+    if (category.garden_refs && Array.isArray(category.garden_refs)) {
+      category.garden_refs.forEach((gardenRef: any, refIndex: number) => {
+        if (!gardenRef || !gardenRef.name) return;
+
+        const refId = generateId(
+          NODE_TYPES.GARDEN_REF,
+          `${categoryId}-${gardenRef.name}`
+        );
+        // Position garden refs to the right of the category
+        const refXPosition = xPosition + 250;
+        const refYPosition = yPosition + (refIndex + 1) * 100;
+
+        nodes.push({
+          id: refId,
+          type: NODE_TYPES.GARDEN_REF,
+          data: {
+            label: gardenRef.name,
+            description: gardenRef.description || "",
+            url: gardenRef.url,
+            logo: gardenRef.logo || "",
+            version: gardenRef.version || "",
+            icon: "Link",
+            icon_color: "hsl(var(--chart-7))",
+            cta: {
+              primary: {
+                label: "Visit Garden",
+                url: gardenRef.url || "",
+              }
+            },
+          },
+          position: {
+            x: refXPosition,
+            y: refYPosition,
+          },
+          ...getNodePositions(NODE_TYPES.GARDEN_REF),
+          style: {
+            background: "hsl(var(--chart-7))",
+            color: "hsl(var(--chart-7-foreground))",
+            borderRadius: "var(--radius)",
+          },
+        });
+
+        edges.push({
+          id: `${categoryId}-to-${refId}`,
+          source: categoryId,
+          sourceHandle: "bottom",
+          target: refId,
+          targetHandle: "left",
+          type: "smoothstep",
+          animated: true,
+          style: {
+            stroke: "hsl(var(--chart-7))",
+            strokeWidth: 1.5,
+            strokeDasharray: "5,5",
+          },
+          markerEnd: { type: MarkerType.ArrowClosed },
+          interactionWidth: 1,
+        });
+      });
+    }
 
     // Recursively process nested categories
     if (category.categories && Array.isArray(category.categories)) {
@@ -311,7 +623,12 @@ export const autoLayout = async (
     // Update edges with the new node positions
     const nextEdges = edges.map((edge) => ({
       ...edge,
-      style: { stroke: "hsl(var(--muted-foreground))", strokeWidth: 1.5 },
+      style: {
+        ...(edge.style || {}),
+        stroke: edge.style?.stroke || "hsl(var(--muted-foreground))", 
+        strokeWidth: edge.style?.strokeWidth || 1.5,
+        transition: 'stroke 0.3s, stroke-width 0.3s',
+      },
     }));
 
     return { nodes: nextNodes, edges: nextEdges };

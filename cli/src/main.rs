@@ -63,6 +63,8 @@ fn main() {
                     created_at: None,
                     updated_at: None,
                     theme: None,
+                    parent_gardens: None,
+                    subgardens: None,
                 };
 
                 match serde_json::to_string_pretty(&example) {

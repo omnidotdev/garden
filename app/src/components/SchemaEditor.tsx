@@ -15,26 +15,32 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Check, Copy, Download } from "lucide-react";
-import { omniGarden } from "@/lib/schema/garden";
 import { GardenTypes } from "@/generated/garden.types";
 
 interface SchemaEditorProps {
   onSchemaChange: (schema: GardenTypes) => void;
+  garden?: GardenTypes;
 }
 
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
-const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
+const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
   const { theme, resolvedTheme } = useTheme();
   const [editorTheme, setEditorTheme] = useState<string>("light");
-  // Initialize state with data from localStorage or default to omniGarden
-  const [schemaText, setSchemaText] = useState<string>(() => {
+  // Initialize schema text with current garden or stored value
+  const [schemaText, setSchemaText] = useState<string>("");
+  
+  // Initialize with the current garden or saved data
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const savedSchema = localStorage.getItem(LOCAL_STORAGE_KEY);
-      return savedSchema || JSON.stringify(omniGarden, null, 2);
+      if (savedSchema) {
+        setSchemaText(savedSchema);
+      } else if (garden) {
+        setSchemaText(JSON.stringify(garden, null, 2));
+      }
     }
-    return JSON.stringify(omniGarden, null, 2);
-  });
+  }, []);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -48,21 +54,20 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
     setEditorTheme(resolvedTheme === "dark" ? "vs-dark" : "light");
   }, [resolvedTheme]);
 
-  // Apply the saved schema on initial load
+  // Update editor when the garden prop changes
   useEffect(() => {
-    try {
-      const parsedJson = JSON.parse(schemaText);
-      if (
-        parsedJson.name &&
-        parsedJson.version &&
-        Array.isArray(parsedJson.categories)
-      ) {
-        onSchemaChange(parsedJson as GardenTypes);
+    if (garden) {
+      const currentGardenStr = JSON.stringify(garden, null, 2);
+      // Check if there are unsaved changes before updating
+      const savedSchema = localStorage.getItem(LOCAL_STORAGE_KEY);
+      
+      // If no saved schema or the saved schema matches exactly what we'd set,
+      // update the editor with the new garden
+      if (!savedSchema || JSON.stringify(JSON.parse(savedSchema)) === JSON.stringify(garden)) {
+        setSchemaText(currentGardenStr);
       }
-    } catch (err) {
-      // Silently fail on initial load - we'll show errors when they try to apply
     }
-  }, []);
+  }, [garden]);
 
   // Note: handleSchemaChange is no longer needed as Monaco editor handles this directly
 
@@ -89,12 +94,14 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
   };
 
   const resetToSample = () => {
-    const sampleText = JSON.stringify(omniGarden, null, 2);
-    setSchemaText(sampleText);
-    setError(null);
-    onSchemaChange(omniGarden);
-    localStorage.setItem(LOCAL_STORAGE_KEY, sampleText);
-  };
+      if (!garden) return;
+    
+      const sampleText = JSON.stringify(garden, null, 2);
+      setSchemaText(sampleText);
+      setError(null);
+      onSchemaChange(garden);
+      localStorage.setItem(LOCAL_STORAGE_KEY, sampleText);
+    };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(schemaText);
@@ -234,6 +241,18 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
                     <code className="text-sm bg-muted px-1 rounded">theme</code>
                     : Visual theme settings
                   </li>
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">
+                      parent_gardens
+                    </code>
+                    : Array of garden reference objects that this garden belongs to
+                  </li>
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">
+                      subgardens
+                    </code>
+                    : Array of garden reference objects that belong to this garden
+                  </li>
                 </ul>
               </div>
 
@@ -259,6 +278,12 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
                       categories
                     </code>
                     : (Optional) Array of category objects (recursive)
+                  </li>
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">
+                      garden_refs
+                    </code>
+                    : (Optional) Array of garden reference objects related to this category
                   </li>
                 </ul>
               </div>
@@ -306,6 +331,40 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
                       twitter
                     </code>
                     : (Optional) Twitter handle
+                  </li>
+                </ul>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium">Garden Reference Structure:</h4>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">name</code>:
+                    Garden name
+                  </li>
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">
+                      url
+                    </code>
+                    : URL to the referenced garden
+                  </li>
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">
+                      description
+                    </code>
+                    : (Optional) Garden description
+                  </li>
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">
+                      logo
+                    </code>
+                    : (Optional) Logo URL
+                  </li>
+                  <li>
+                    <code className="text-sm bg-muted px-1 rounded">
+                      version
+                    </code>
+                    : (Optional) Garden version
                   </li>
                 </ul>
               </div>

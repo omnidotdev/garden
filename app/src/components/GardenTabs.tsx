@@ -11,6 +11,7 @@ interface GardenTabsProps {
   onSchemaChange: (schema: GardenTypes) => void;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onNavigateToGarden?: (gardenName: string) => void;
 }
 
 const GardenTabs = ({
@@ -18,6 +19,7 @@ const GardenTabs = ({
   onSchemaChange,
   activeTab,
   onTabChange,
+  onNavigateToGarden,
 }: GardenTabsProps) => (
   <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-6">
     <TabsList className="grid w-full max-w-md grid-cols-2">
@@ -32,11 +34,11 @@ const GardenTabs = ({
     </TabsList>
 
     <TabsContent value="visualize" className="space-y-4">
-      <GardenFlow garden={garden} />
+      <GardenFlow garden={garden} onNavigateToGarden={onNavigateToGarden} />
     </TabsContent>
 
     <TabsContent value="edit">
-      <SchemaEditor onSchemaChange={onSchemaChange} />
+      <SchemaEditor garden={garden} onSchemaChange={onSchemaChange} />
     </TabsContent>
   </Tabs>
 );

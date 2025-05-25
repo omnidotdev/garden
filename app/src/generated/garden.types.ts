@@ -8,23 +8,35 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface GardenTypes {
-    categories:   Category[];
-    created_at?:  null | string;
-    description?: null | string;
-    maintainers?: Maintainer[] | null;
-    name:         string;
-    theme?:       null | Theme;
-    updated_at?:  null | string;
-    version:      string;
+    categories:      Category[];
+    created_at?:     null | string;
+    description?:    null | string;
+    maintainers?:    Maintainer[] | null;
+    name:            string;
+    parent_gardens?: GardenReference[] | null;
+    subgardens?:     GardenReference[] | null;
+    theme?:          null | Theme;
+    updated_at?:     null | string;
+    version:         string;
     [property: string]: any;
 }
 
 export interface Category {
     categories?:  Category[] | null;
     description?: null | string;
+    garden_refs?: GardenReference[] | null;
     icon_color?:  null | string;
     items?:       GardenItem[] | null;
     name:         string;
+    [property: string]: any;
+}
+
+export interface GardenReference {
+    description?: null | string;
+    logo?:        null | string;
+    name:         string;
+    url:          string;
+    version?:     null | string;
     [property: string]: any;
 }
 
@@ -225,6 +237,8 @@ const typeMap: any = {
         { json: "description", js: "description", typ: u(undefined, u(null, "")) },
         { json: "maintainers", js: "maintainers", typ: u(undefined, u(a(r("Maintainer")), null)) },
         { json: "name", js: "name", typ: "" },
+        { json: "parent_gardens", js: "parent_gardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
+        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
         { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
         { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
         { json: "version", js: "version", typ: "" },
@@ -232,9 +246,17 @@ const typeMap: any = {
     "Category": o([
         { json: "categories", js: "categories", typ: u(undefined, u(a(r("Category")), null)) },
         { json: "description", js: "description", typ: u(undefined, u(null, "")) },
+        { json: "garden_refs", js: "garden_refs", typ: u(undefined, u(a(r("GardenReference")), null)) },
         { json: "icon_color", js: "icon_color", typ: u(undefined, u(null, "")) },
         { json: "items", js: "items", typ: u(undefined, u(a(r("GardenItem")), null)) },
         { json: "name", js: "name", typ: "" },
+    ], "any"),
+    "GardenReference": o([
+        { json: "description", js: "description", typ: u(undefined, u(null, "")) },
+        { json: "logo", js: "logo", typ: u(undefined, u(null, "")) },
+        { json: "name", js: "name", typ: "" },
+        { json: "url", js: "url", typ: "" },
+        { json: "version", js: "version", typ: u(undefined, u(null, "")) },
     ], "any"),
     "GardenItem": o([
         { json: "description", js: "description", typ: u(undefined, u(null, "")) },

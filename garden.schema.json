@@ -38,6 +38,24 @@
     "name": {
       "type": "string"
     },
+    "parent_gardens": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/GardenReference"
+      }
+    },
+    "subgardens": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/GardenReference"
+      }
+    },
     "theme": {
       "anyOf": [
         {
@@ -79,6 +97,15 @@
             "string",
             "null"
           ]
+        },
+        "garden_refs": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/GardenReference"
+          }
         },
         "icon_color": {
           "type": [
@@ -138,6 +165,39 @@
           ]
         },
         "twitter": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "GardenReference": {
+      "type": "object",
+      "required": [
+        "name",
+        "url"
+      ],
+      "properties": {
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "logo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "version": {
           "type": [
             "string",
             "null"

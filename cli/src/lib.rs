@@ -18,6 +18,19 @@ pub struct GardenItem {
     pub description: Option<String>,
 }
 
+// GardenReference struct for linking to other gardens
+#[derive(JsonSchema, Serialize, Deserialize, Debug)]
+pub struct GardenReference {
+    pub name: String,
+    pub url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub logo: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub version: Option<String>,
+}
+
 // Category struct (recursively defined)
 #[derive(JsonSchema, Serialize, Deserialize, Debug)]
 pub struct Category {
@@ -30,6 +43,8 @@ pub struct Category {
     pub items: Option<Vec<GardenItem>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub categories: Option<Vec<Category>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub garden_refs: Option<Vec<GardenReference>>,
 }
 
 // Maintainer struct
@@ -71,6 +86,10 @@ pub struct Garden {
     pub updated_at: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub theme: Option<Theme>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parent_gardens: Option<Vec<GardenReference>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub subgardens: Option<Vec<GardenReference>>,
 }
 
 // Function to generate JSON schema for Garden
