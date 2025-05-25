@@ -5,7 +5,9 @@ import { type ElkNode } from "elkjs";
 
 const elk = new ELK();
 
-// Helper function to calculate node height based on content
+/**
+ * Calculate node height based on content.
+ */
 const calculateNodeHeight = (node: any): number => {
   if (node.type === NODE_TYPES.ITEM) {
     return 180; // Items have fixed height
@@ -79,7 +81,9 @@ export const gardenToFlow = (
     },
   });
 
-  // Function to recursively process categories
+  /**
+   * Recursively process categories.
+   */
   const processCategory = (
     category: any,
     parentId: string,
