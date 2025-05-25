@@ -15,14 +15,14 @@ import ReactFlow, {
   MarkerType,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { GardenSpec } from "@/lib/schema/garden";
+import { Garden } from "@/lib/schema/garden";
 import { gardenToFlow, autoLayout } from "@/lib/util/flow";
 import { nodeTypes } from "@/components/ui/custom-nodes";
 import { Button } from "@/components/ui/button";
 import { Maximize, RefreshCw } from "lucide-react";
 
 interface GardenFlowProps {
-  garden: typeof GardenSpec.Type;
+  garden: typeof Garden.Type;
 }
 
 const GardenFlowInner = ({ garden }: GardenFlowProps) => {

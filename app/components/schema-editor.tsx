@@ -16,17 +16,17 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Check, Copy, Download } from "lucide-react";
-import { GardenSpec, omniGarden } from "@/lib/schema/garden";
+import { Garden, omniGarden } from "@/lib/schema/garden";
 
 interface SchemaEditorProps {
-  onSchemaChange: (schema: typeof GardenSpec.Type) => void;
+  onSchemaChange: (schema: typeof Garden.Type) => void;
 }
 
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
 const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
   const { theme, resolvedTheme } = useTheme();
-  const [editorTheme, setEditorTheme] = useState<string>('light');
+  const [editorTheme, setEditorTheme] = useState<string>("light");
   // Initialize state with data from localStorage or default to omniGarden
   const [schemaText, setSchemaText] = useState<string>(() => {
     if (typeof window !== "undefined") {
@@ -45,7 +45,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
 
   // Update editor theme when system/site theme changes
   useEffect(() => {
-    setEditorTheme(resolvedTheme === 'dark' ? 'vs-dark' : 'light');
+    setEditorTheme(resolvedTheme === "dark" ? "vs-dark" : "light");
   }, [resolvedTheme]);
 
   // Apply the saved schema on initial load
@@ -57,7 +57,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
         parsedJson.version &&
         Array.isArray(parsedJson.categories)
       ) {
-        onSchemaChange(parsedJson as typeof GardenSpec.Type);
+        onSchemaChange(parsedJson as typeof Garden.Type);
       }
     } catch (err) {
       // Silently fail on initial load - we'll show errors when they try to apply
@@ -82,7 +82,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
       }
 
       setError(null);
-      onSchemaChange(parsedJson as typeof GardenSpec.Type);
+      onSchemaChange(parsedJson as typeof Garden.Type);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }
@@ -146,8 +146,8 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
                     scrollBeyondLastLine: false,
                     fontSize: 14,
                     scrollbar: {
-                      vertical: 'auto',
-                      horizontal: 'auto',
+                      vertical: "auto",
+                      horizontal: "auto",
                     },
                     automaticLayout: true,
                   }}

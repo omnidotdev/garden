@@ -4,16 +4,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Code, BarChart } from "lucide-react";
 import GardenFlow from "@/components/garden-flow";
 import SchemaEditor from "@/components/schema-editor";
-import { GardenSpec } from "@/lib/schema/garden";
+import { Garden } from "@/lib/schema/garden";
 
 interface GardenTabsProps {
-  garden: typeof GardenSpec.Type;
-  onSchemaChange: (schema: typeof GardenSpec.Type) => void;
+  garden: typeof Garden.Type;
+  onSchemaChange: (schema: typeof Garden.Type) => void;
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
 
-const GardenTabs = ({ garden, onSchemaChange, activeTab, onTabChange }: GardenTabsProps) => {
+const GardenTabs = ({
+  garden,
+  onSchemaChange,
+  activeTab,
+  onTabChange,
+}: GardenTabsProps) => {
   return (
     <Tabs value={activeTab} onValueChange={onTabChange} className="space-y-6">
       <TabsList className="grid w-full max-w-md grid-cols-2">

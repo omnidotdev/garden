@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GardenSpec, omniGarden } from "@/lib/schema/garden";
+import { Garden, omniGarden } from "@/lib/schema/garden";
 import Header from "@/components/header";
 import GardenTabs from "@/components/garden-tabs";
 import { parseAsString, useQueryState } from "nuqs";
@@ -11,8 +11,11 @@ import { parseAsString, useQueryState } from "nuqs";
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
 const Visualizer = () => {
-  const [garden, setGarden] = useState<typeof GardenSpec.Type>(omniGarden);
-  const [activeTab, setActiveTab] = useQueryState("tab", parseAsString.withDefault("visualize"));
+  const [garden, setGarden] = useState<typeof Garden.Type>(omniGarden);
+  const [activeTab, setActiveTab] = useQueryState(
+    "tab",
+    parseAsString.withDefault("visualize")
+  );
 
   // Load garden from localStorage on initial render
   useEffect(() => {
@@ -41,9 +44,9 @@ const Visualizer = () => {
       <div className="container mx-auto py-8 px-4">
         <Header />
 
-        <GardenTabs 
-          garden={garden} 
-          onSchemaChange={setGarden} 
+        <GardenTabs
+          garden={garden}
+          onSchemaChange={setGarden}
           activeTab={activeTab}
           onTabChange={setActiveTab}
         />

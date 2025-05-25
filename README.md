@@ -1,6 +1,8 @@
 # 🌱 Garden
 
-Omni Garden specification and visualizer app. Garden is a specification for modeling an ecosystem (e.g. products, services) as a directed acyclic graph with unlimited category recursion.
+[TODO LOGO + DEMO IMAGE]
+
+Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed acyclic graph with unlimited category recursion. This repository holds a CLI for generating the JSON schema in `cli`, and visualizer web app in `app`, powered by Next.js.
 
 For a reference implementation, check out the [Omniverse](https://verse.omni.dev) (coming soon).
 
@@ -16,6 +18,10 @@ Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel
 
 - A visual representation of an ecosystem of projects and their relationships
 - Composable: point to a garden spec, load it into a node as a "sub-garden"
+
+## Generate the Schema
+
+`cd cli`, then `cargo run -- $OUTPUT_FILE`. For example, `cargo run -- garden.schema.json`.
 
 ## Local Development (Web App)
 

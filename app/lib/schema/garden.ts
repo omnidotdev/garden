@@ -10,38 +10,40 @@ export const GardenItem = Schema.Struct({
   description: Schema.optional(Schema.String),
 });
 
-// Create a recursive CategorySpec schema with proper type safety
-export interface CategorySpecModel {
+// Create a recursive Category schema with proper type safety
+export interface CategoryModel {
   name: string;
   description?: string;
   icon_color?: string;
   items?: Array<typeof GardenItem.Type>;
-  categories?: Array<CategorySpecModel>;
+  categories?: Array<CategoryModel>;
 }
 
 // First declare the schema as a variable with proper type annotation
-const CategorySpecRef: { schema: Schema.Schema<CategorySpecModel> } = { schema: null as any };
+const CategoryRef: { schema: Schema.Schema<CategoryModel> } = {
+  schema: null as any,
+};
 
-// Create the CategorySpec schema with recursive reference
-export const CategorySpec = Schema.Struct({
+// Create the Category schema with recursive reference
+export const Category = Schema.Struct({
   name: Schema.String,
   description: Schema.optional(Schema.String),
   icon_color: Schema.optional(Schema.String),
   items: Schema.optional(Schema.Array(GardenItem)),
   categories: Schema.optional(
-    Schema.Array(Schema.suspend(() => CategorySpecRef.schema))
+    Schema.Array(Schema.suspend(() => CategoryRef.schema))
   ),
 });
 
 // Assign the created schema to the reference to complete the recursive definition
-CategorySpecRef.schema = CategorySpec;
+CategoryRef.schema = Category;
 
 // Garden schema (completely independent)
-export const GardenSpec = Schema.Struct({
+export const Garden = Schema.Struct({
   name: Schema.String,
   description: Schema.optional(Schema.String),
   version: Schema.String,
-  categories: Schema.Array(CategorySpec),
+  categories: Schema.Array(Category),
   maintainers: Schema.optional(
     Schema.Array(
       Schema.Struct({
@@ -64,7 +66,7 @@ export const GardenSpec = Schema.Struct({
 });
 
 // Sample data with Omni in the center and products around it
-export const sampleGarden: typeof GardenSpec.Type = {
+export const sampleGarden: typeof Garden.Type = {
   name: "Omni Garden",
   description: "Omni product ecosystem",
   version: "1.0.0",
@@ -266,7 +268,7 @@ export const sampleGarden: typeof GardenSpec.Type = {
   },
 };
 
-export const omniGarden: typeof GardenSpec.Type = {
+export const omniGarden: typeof Garden.Type = {
   name: "Omni Garden",
   description: "Omni product ecosystem",
   version: "1.0.0",
@@ -289,10 +291,10 @@ export const omniGarden: typeof GardenSpec.Type = {
               name: "Feedback Portal",
               homepage_url: "https://feedback.omni.dev",
               description: "Public user feedback portal",
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     },
     {
       name: "Developer Tools",
@@ -312,10 +314,10 @@ export const omniGarden: typeof GardenSpec.Type = {
               name: "Component Library",
               homepage_url: "https://components.omni.dev",
               description: "Reusable UI components",
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     },
     {
       name: "Specifications & Schemas",
@@ -336,7 +338,7 @@ export const omniGarden: typeof GardenSpec.Type = {
               name: "API Standards",
               homepage_url: "https://api.omni.dev",
               description: "API design guidelines",
-            }
+            },
           ],
           categories: [
             {
@@ -347,12 +349,12 @@ export const omniGarden: typeof GardenSpec.Type = {
                   name: "Swagger UI",
                   homepage_url: "https://swagger.omni.dev",
                   description: "API documentation viewer",
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
 };
