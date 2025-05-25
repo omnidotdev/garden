@@ -1,4 +1,4 @@
-import { Garden } from "../schema/garden";
+import { GardenTypes } from "@/generated/garden.types";
 import { Node, Edge, Position, MarkerType } from "reactflow";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { type ElkNode } from "elkjs";
@@ -48,7 +48,7 @@ const getNodePositions = (
 };
 
 export const gardenToFlow = (
-  garden: typeof Garden.Type,
+  garden: GardenTypes,
   width: number = 1600
 ): { nodes: Node[]; edges: Edge[] } => {
   if (!garden || !garden.categories) {

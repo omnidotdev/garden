@@ -15,10 +15,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Check, Copy, Download } from "lucide-react";
-import { Garden, omniGarden } from "@/lib/schema/garden";
+import { omniGarden } from "@/lib/schema/garden";
+import { GardenTypes } from "@/generated/garden.types";
 
 interface SchemaEditorProps {
-  onSchemaChange: (schema: typeof Garden.Type) => void;
+  onSchemaChange: (schema: GardenTypes) => void;
 }
 
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
@@ -56,7 +57,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
         parsedJson.version &&
         Array.isArray(parsedJson.categories)
       ) {
-        onSchemaChange(parsedJson as typeof Garden.Type);
+        onSchemaChange(parsedJson as GardenTypes);
       }
     } catch (err) {
       // Silently fail on initial load - we'll show errors when they try to apply
@@ -81,7 +82,7 @@ const SchemaEditor = ({ onSchemaChange }: SchemaEditorProps) => {
       }
 
       setError(null);
-      onSchemaChange(parsedJson as typeof Garden.Type);
+      onSchemaChange(parsedJson as GardenTypes);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }

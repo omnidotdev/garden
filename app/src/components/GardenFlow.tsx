@@ -15,14 +15,14 @@ import ReactFlow, {
   MarkerType,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { Garden } from "@/lib/schema/garden";
+import { GardenTypes } from "@/generated/garden.types";
 import { gardenToFlow, autoLayout } from "@/lib/util/flow";
 import { nodeTypes } from "@/components/ui/custom-nodes";
 import { Button } from "@/components/ui/button";
 import { Maximize, RefreshCw } from "lucide-react";
 
 interface GardenFlowProps {
-  garden: typeof Garden.Type;
+  garden: GardenTypes;
 }
 
 const GardenFlowInner = ({ garden }: GardenFlowProps) => {
@@ -148,10 +148,7 @@ const GardenFlowInner = ({ garden }: GardenFlowProps) => {
         type: "smoothstep",
         animated: true,
         style: { stroke: "#999", strokeWidth: 1.5 },
-        markerEnd: { type: MarkerType.ArrowClosed },
-        pathOptions: {
-          offset: 10,
-        },
+        markerEnd: { type: MarkerType.ArrowClosed }
       }}
     >
       <Background />

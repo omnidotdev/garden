@@ -4,11 +4,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Code, BarChart } from "lucide-react";
 import GardenFlow from "@/components/GardenFlow";
 import SchemaEditor from "@/components/SchemaEditor";
-import { Garden } from "@/lib/schema/garden";
+import { GardenTypes } from "@/generated/garden.types";
 
 interface GardenTabsProps {
-  garden: typeof Garden.Type;
-  onSchemaChange: (schema: typeof Garden.Type) => void;
+  garden: GardenTypes;
+  onSchemaChange: (schema: GardenTypes) => void;
   activeTab: string;
   onTabChange: (tab: string) => void;
 }

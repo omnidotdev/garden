@@ -27,6 +27,10 @@ Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel
 
 The app is a landing page and visualizer for Garden schemas. `cd app`, then continue below.
 
+### Generate Types from Schema
+
+`bun generate`
+
 ### Building and Running
 
 ```sh

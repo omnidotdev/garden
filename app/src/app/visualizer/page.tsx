@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Garden, omniGarden } from "@/lib/schema/garden";
-import Header from "@/components/Header";
+import { omniGarden } from "@/lib/schema/garden";
+import { GardenTypes } from "@/generated/garden.types";
 import GardenTabs from "@/components/GardenTabs";
 import { parseAsString, useQueryState } from "nuqs";
 
@@ -12,7 +12,7 @@ const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
  * Garden visualizer.
  */
 const Visualizer = () => {
-  const [garden, setGarden] = useState<typeof Garden.Type>(omniGarden);
+  const [garden, setGarden] = useState<GardenTypes>(omniGarden);
   const [activeTab, setActiveTab] = useQueryState(
     "tab",
     parseAsString.withDefault("visualize")

@@ -1,72 +1,7 @@
-import { Schema } from "@effect/schema";
-
-export const GardenItem = Schema.Struct({
-  name: Schema.String,
-  homepage_url: Schema.String,
-  logo: Schema.optional(Schema.String),
-  repo_url: Schema.optional(Schema.String),
-  project_url: Schema.optional(Schema.String),
-  twitter: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-});
-
-// Create a recursive Category schema with proper type safety
-export interface CategoryModel {
-  name: string;
-  description?: string;
-  icon_color?: string;
-  items?: Array<typeof GardenItem.Type>;
-  categories?: Array<CategoryModel>;
-}
-
-// First declare the schema as a variable with proper type annotation
-const CategoryRef: { schema: Schema.Schema<CategoryModel> } = {
-  schema: null as any,
-};
-
-// Create the Category schema with recursive reference
-export const Category = Schema.Struct({
-  name: Schema.String,
-  description: Schema.optional(Schema.String),
-  icon_color: Schema.optional(Schema.String),
-  items: Schema.optional(Schema.Array(GardenItem)),
-  categories: Schema.optional(
-    Schema.Array(Schema.suspend(() => CategoryRef.schema))
-  ),
-});
-
-// Assign the created schema to the reference to complete the recursive definition
-CategoryRef.schema = Category;
-
-// Garden schema (completely independent)
-export const Garden = Schema.Struct({
-  name: Schema.String,
-  description: Schema.optional(Schema.String),
-  version: Schema.String,
-  categories: Schema.Array(Category),
-  maintainers: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        name: Schema.String,
-        email: Schema.optional(Schema.String),
-        url: Schema.optional(Schema.String),
-      })
-    )
-  ),
-  created_at: Schema.optional(Schema.String),
-  updated_at: Schema.optional(Schema.String),
-  theme: Schema.optional(
-    Schema.Struct({
-      primary_color: Schema.optional(Schema.String),
-      secondary_color: Schema.optional(Schema.String),
-      background_color: Schema.optional(Schema.String),
-      text_color: Schema.optional(Schema.String),
-    })
-  ),
-});
+import { GardenTypes } from "@/generated/garden.types";
 
 // Sample data with Omni in the center and products around it
-export const sampleGarden: typeof Garden.Type = {
+export const sampleGarden: GardenTypes = {
   name: "Omni Garden",
   description: "Omni product ecosystem",
   version: "1.0.0",
@@ -268,7 +203,7 @@ export const sampleGarden: typeof Garden.Type = {
   },
 };
 
-export const omniGarden: typeof Garden.Type = {
+export const omniGarden: GardenTypes = {
   name: "Omni Garden",
   description: "Omni product ecosystem",
   version: "1.0.0",
