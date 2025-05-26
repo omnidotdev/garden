@@ -28,7 +28,8 @@ const GardenNode = ({ data }: { data: any }) => (
 
       <h4>{data.description}</h4>
     </div>
-    <Handle type="source" position={Position.Bottom} id="bottom" />
+    <Handle type="target" position={Position.Top} />
+    <Handle type="source" position={Position.Bottom} />
   </BaseNode>
 );
 
@@ -40,49 +41,10 @@ const CategoryNode = ({ data }: { data: any }) => {
       <Handle
         type="target"
         position={Position.Top}
-        id="top"
-        style={{ visibility: "visible" }}
       />
       <Handle
         type="source"
         position={Position.Bottom}
-        id="bottom"
-        style={{ visibility: "visible" }}
-      />
-      <div className="p-4">
-        <div
-          className="flex items-center gap-3"
-          style={{ color: data.icon_color }}
-        >
-          {Icon && <Icon className="h-5 w-5" />}
-          <h3 className="font-medium">{data.label}</h3>
-        </div>
-        {data.description && (
-          <p className="mt-1 text-muted-foreground text-sm">
-            {data.description}
-          </p>
-        )}
-      </div>
-    </BaseNode>
-  );
-};
-
-const SubcategoryNode = ({ data }: { data: any }) => {
-  const Icon = Icons[data.icon];
-
-  return (
-    <BaseNode data={data}>
-      <Handle
-        type="target"
-        position={Position.Top}
-        id="top"
-        style={{ visibility: "visible" }}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="bottom"
-        style={{ visibility: "visible" }}
       />
       <div className="p-4">
         <div
@@ -141,7 +103,8 @@ const ItemNode = ({ data }: { data: any }) => (
         )}
       </div>
     </div>
-    <Handle type="target" position={Position.Top} id="top" />
+    <Handle type="target" position={Position.Top} />
+    <Handle type="source" position={Position.Bottom} />
   </BaseNode>
 );
 
@@ -149,9 +112,11 @@ const GardenRefNode = ({ data }: { data: any }) => (
   <BaseNode data={data}>
     <Handle
       type="target"
-      position={Position.Bottom}
-      id="bottom"
-      style={{ visibility: "visible" }}
+      position={Position.Top}
+    />
+    <Handle
+      type="target"
+      position={Position.Left}
     />
     <div className="relative flex cursor-pointer flex-col items-center rounded-md border-2 border-primary/50 border-dashed p-4 text-center transition-colors hover:bg-primary-foreground/10">
       <div className="absolute top-1 right-1 rounded bg-primary/20 px-1 py-0.5 font-semibold text-primary text-xs">
@@ -183,7 +148,6 @@ const GardenRefNode = ({ data }: { data: any }) => (
         </Button>
       </div>
     </div>
-    <Handle type="target" position={Position.Left} id="left" />
   </BaseNode>
 );
 
@@ -192,8 +156,6 @@ const SupergardenNode = ({ data }: { data: any }) => (
     <Handle
       type="source"
       position={Position.Bottom}
-      id="bottom"
-      style={{ visibility: "visible" }}
     />
     <div
       className="relative flex cursor-pointer flex-col items-center border-2 border-white/70 border-dashed p-4 text-center transition-transform hover:scale-105"
@@ -234,8 +196,6 @@ const SubgardenNode = ({ data }: { data: any }) => (
     <Handle
       type="target"
       position={Position.Bottom}
-      id="bottom"
-      style={{ visibility: "visible" }}
     />
     <div
       className="relative flex cursor-pointer flex-col items-center p-4 text-center transition-transform hover:scale-105"
@@ -284,5 +244,14 @@ export const nodeTypes = {
   garden_ref: GardenRefNode,
   supergarden: SupergardenNode,
   subgarden: SubgardenNode,
-  default: ({ data }: { data: any }) => <div className="p-2">{data.label}</div>,
+  default: ({ data }: { data: any }) => (
+    <>
+      <Handle type="source" position={Position.Top} />
+      <Handle type="source" position={Position.Bottom} />
+      <Handle type="target" position={Position.Top} />
+      <Handle type="target" position={Position.Bottom} />
+      <Handle type="target" position={Position.Left} />
+      <div className="p-2">{data.label}</div>
+    </>
+  ),
 };

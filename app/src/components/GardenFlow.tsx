@@ -2,6 +2,7 @@
 
 import {
   Background,
+  ConnectionLineType,
   Controls,
   MarkerType,
   MiniMap,
@@ -23,7 +24,7 @@ import { Switch } from "@/components/ui/switch";
 import { autoLayout, gardenToFlow } from "@/lib/util/flow";
 
 import type { GardenTypes } from "@/generated/garden.types";
-import type { NodeMouseHandler } from "@xyflow/react";
+import type { Edge, Node, NodeMouseHandler } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
 
@@ -43,8 +44,8 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   const [isToggling, setIsToggling] = useState(false);
 
   // Initialize with empty arrays to prevent undefined errors
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   // Update container width on mount and resize
   useEffect(() => {
@@ -89,11 +90,26 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
       );
 
       if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
+        // Clean up handles in edges to prevent warnings
+        const cleanEdges = initialEdges.map((edge) => ({
+          ...edge,
+          sourceHandle: null,
+          targetHandle: null,
+        }));
+
         // Apply auto layout and get optimized edges
-        autoLayout(initialNodes, initialEdges)
+        autoLayout(initialNodes, cleanEdges)
           .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
             setNodes(layoutedNodes);
-            setEdges(layoutedEdges);
+            // Ensure edges don't have explicit handle references
+            setEdges(
+              layoutedEdges.map((edge) => ({
+                ...edge,
+                sourceHandle: null,
+                targetHandle: null,
+              })),
+            );
+
             // Update node internals after layout
             for (const node of layoutedNodes) {
               updateNodeInternals(node.id);
@@ -126,15 +142,30 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   ]);
 
   // Handle layout refresh
-  const onLayout = useCallback(() => {
+  const onLayout = useCallback(async () => {
     if (nodes.length === 0 || edges.length === 0) return;
 
     setLayouting(true);
 
-    autoLayout(nodes, edges)
+    // Clean up handles in edges to prevent warnings
+    const cleanEdges = edges.map((edge) => ({
+      ...edge,
+      sourceHandle: null,
+      targetHandle: null,
+    }));
+
+    await autoLayout(nodes, cleanEdges)
       .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
         setNodes([...layoutedNodes]);
-        setEdges([...layoutedEdges]);
+        // Ensure edges don't have explicit handle references
+        setEdges(
+          layoutedEdges.map((edge) => ({
+            ...edge,
+            sourceHandle: null,
+            targetHandle: null,
+          })),
+        );
+
         // Update node internals after layout refresh
         for (const node of layoutedNodes) {
           updateNodeInternals(node.id);
@@ -157,11 +188,14 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
       if (!onNavigateToGarden) return;
 
       // Determine the garden name to navigate to
-      let gardenName = clickedNode.data?.label;
+      let gardenName = clickedNode.data?.label as string;
 
       // Check if this is an expanded subgarden label
       if (clickedNode.data?.isExpandedSubgardenLabel) {
-        gardenName = clickedNode.data?.label.replace(" (Expanded)", "");
+        gardenName = (clickedNode.data?.label as string).replace(
+          " (Expanded)",
+          "",
+        );
       }
 
       // For all navigable node types, navigate to the garden by name
@@ -236,7 +270,12 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
               : undefined,
         },
       }))}
-      edges={edges}
+      edges={edges.map((edge) => ({
+        ...edge,
+        type: "smoothstep",
+        sourceHandle: null,
+        targetHandle: null,
+      }))}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onNodeClick={onNodeClick}
@@ -264,6 +303,7 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
         style: { stroke: "#999", strokeWidth: 1.5 },
         markerEnd: { type: MarkerType.ArrowClosed },
       }}
+      connectionLineType={ConnectionLineType.SmoothStep}
     >
       <Background />
       <MiniMap nodeStrokeWidth={3} zoomable pannable />

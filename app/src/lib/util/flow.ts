@@ -41,7 +41,7 @@ const getNodePositions = (
     case NODE_TYPES.GARDEN:
       return {
         sourcePosition: Position.Bottom,
-        targetPosition: Position.Bottom,
+        targetPosition: Position.Top,
       };
     case NODE_TYPES.CATEGORY:
       return { targetPosition: Position.Top, sourcePosition: Position.Bottom };
@@ -49,13 +49,12 @@ const getNodePositions = (
       return { targetPosition: Position.Top };
     case NODE_TYPES.GARDEN_REF:
       return {
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Bottom,
+        targetPosition: Position.Left,
       };
     case NODE_TYPES.SUPERGARDEN:
-      return { sourcePosition: Position.Bottom, targetPosition: Position.Top };
+      return { sourcePosition: Position.Bottom };
     case NODE_TYPES.SUBGARDEN:
-      return { sourcePosition: Position.Top, targetPosition: Position.Bottom };
+      return { targetPosition: Position.Bottom };
     default:
       return {};
   }
@@ -137,9 +136,7 @@ export const gardenToFlow = (
       edges.push({
         id: `${supergardenId}-to-${gardenId}`,
         source: supergardenId,
-        sourceHandle: "bottom",
         target: gardenId,
-        targetHandle: "top",
         type: "smoothstep",
         animated: true,
         style: {
@@ -328,9 +325,7 @@ export const gardenToFlow = (
         edges.push({
           id: `${gardenId}-to-${subgardenId}`,
           source: gardenId,
-          sourceHandle: "top",
           target: subgardenId,
-          targetHandle: "bottom",
           type: "smoothstep",
           animated: true,
           style: {
@@ -400,9 +395,7 @@ export const gardenToFlow = (
     edges.push({
       id: `${supergardenId}-to-${categoryId}`,
       source: supergardenId,
-      sourceHandle: "bottom",
       target: categoryId,
-      targetHandle: "top",
       type: "smoothstep",
       animated: true,
       style: {
@@ -459,9 +452,7 @@ export const gardenToFlow = (
         edges.push({
           id: `${categoryId}-to-${itemId}`,
           source: categoryId,
-          sourceHandle: "bottom",
           target: itemId,
-          targetHandle: "top",
           type: "smoothstep",
           animated: true,
           style: {
@@ -520,9 +511,7 @@ export const gardenToFlow = (
         edges.push({
           id: `${categoryId}-to-${refId}`,
           source: categoryId,
-          sourceHandle: "bottom",
           target: refId,
-          targetHandle: "left",
           type: "smoothstep",
           animated: true,
           style: {
