@@ -307,9 +307,40 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
     >
       <Background />
       <MiniMap nodeStrokeWidth={3} zoomable pannable />
+      <div className="absolute top-4 left-4 z-10 rounded-md bg-background/80 p-3 text-sm shadow-md backdrop-blur-sm">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <div className="h-3 w-3 rounded-full border-2 border-primary border-dashed" />
+            <p className="text-muted-foreground">
+              Click on dashed nodes to navigate between gardens
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex h-3 w-3 items-center justify-center">
+              <Layers className="h-3 w-3 text-primary" />
+            </div>
+            <p className="text-muted-foreground">
+              Use the <Layers className="mx-1 inline h-3 w-3" /> toggle to
+              expand or condense subgardens
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex h-3 w-3 items-center justify-center">
+              <Globe className="h-3 w-3 text-primary" />
+            </div>
+            <p className="text-muted-foreground">
+              Navigate up to supergardens or down to subgardens
+            </p>
+          </div>
+          <div className="mt-1 text-muted-foreground text-xs italic">
+            Note: Changes to garden names are reflected in navigation
+          </div>
+        </div>
+      </div>
+      {/* TODO: fix styles for dark mode */}
       <Controls />
       <Panel position="top-right" className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           <Button
             variant="outline"
             size="icon"
@@ -368,39 +399,6 @@ const GardenFlow = (props: GardenFlowProps) => (
   <ReactFlowProvider>
     <div className="h-[800px] w-full overflow-hidden rounded-lg border">
       <GardenFlowInner {...props} />
-      {props.onNavigateToGarden && (
-        // TODO: re-position this
-        <div className="absolute bottom-4 left-4 z-10 rounded-md bg-background/80 p-3 text-sm shadow-md backdrop-blur-sm">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-full border-2 border-primary border-dashed" />
-              <p className="text-muted-foreground">
-                Click on dashed nodes to navigate between gardens
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex h-3 w-3 items-center justify-center">
-                <Layers className="h-3 w-3 text-primary" />
-              </div>
-              <p className="text-muted-foreground">
-                Use the <Layers className="mx-1 inline h-3 w-3" /> toggle to
-                expand or condense subgardens
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex h-3 w-3 items-center justify-center">
-                <Globe className="h-3 w-3 text-primary" />
-              </div>
-              <p className="text-muted-foreground">
-                Navigate up to supergardens or down to subgardens
-              </p>
-            </div>
-            <div className="mt-1 text-muted-foreground text-xs italic">
-              Note: Changes to garden names are reflected in navigation
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   </ReactFlowProvider>
 );
