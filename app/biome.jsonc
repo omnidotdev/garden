@@ -7,11 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [
-      "src/generated/**",
-      "src/components/ui/**",
-      "public/mockServiceWorker.js"
-    ]
+    "ignore": ["src/generated/**", "src/components/ui/**"]
   },
   "formatter": {
     "enabled": true,
