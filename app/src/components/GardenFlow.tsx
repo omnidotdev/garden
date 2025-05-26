@@ -328,6 +328,7 @@ const GardenFlow = (props: GardenFlowProps) => (
     <div className="h-[800px] w-full overflow-hidden rounded-lg border">
       <GardenFlowInner {...props} />
       {props.onNavigateToGarden && (
+        // TODO: re-position this
         <div className="absolute bottom-4 left-4 z-10 rounded-md bg-background/80 p-3 text-sm shadow-md backdrop-blur-sm">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
