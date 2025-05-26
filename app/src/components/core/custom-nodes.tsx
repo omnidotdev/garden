@@ -1,7 +1,15 @@
+import {
+  ExternalLink,
+  GitBranch,
+  Globe,
+  Layers,
+  Link,
+  Sprout,
+} from "lucide-react";
 import { Handle, Position } from "reactflow";
-import { Card } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Sprout, Globe, GitBranch, Link, Layers } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Icons } from "@/components/ui/icons";
 
 const BaseNode = ({
@@ -12,12 +20,12 @@ const BaseNode = ({
   children: React.ReactNode;
 }) => <Card className="w-[200px] border-2 shadow-lg">{children}</Card>;
 
-export const GardenNode = ({ data }: { data: any }) => {
+const GardenNode = ({ data }: { data: any }) => {
   return (
     <BaseNode data={data}>
-      <div className="flex flex-col items-center justify-center gap-2 p-4 bg-primary text-primary-foreground rounded-md text-center">
+      <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-primary p-4 text-center text-primary-foreground">
         <Sprout className="h-8 w-8" />
-        <h2 className="text-2xl font-semibold">{data.label}</h2>
+        <h2 className="font-semibold text-2xl">{data.label}</h2>
 
         <h4>{data.description}</h4>
       </div>
@@ -26,7 +34,7 @@ export const GardenNode = ({ data }: { data: any }) => {
   );
 };
 
-export const CategoryNode = ({ data }: { data: any }) => {
+const CategoryNode = ({ data }: { data: any }) => {
   const Icon = Icons[data.icon];
   return (
     <BaseNode data={data}>
@@ -51,7 +59,7 @@ export const CategoryNode = ({ data }: { data: any }) => {
           <h3 className="font-medium">{data.label}</h3>
         </div>
         {data.description && (
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="mt-1 text-muted-foreground text-sm">
             {data.description}
           </p>
         )}
@@ -60,7 +68,7 @@ export const CategoryNode = ({ data }: { data: any }) => {
   );
 };
 
-export const SubcategoryNode = ({ data }: { data: any }) => {
+const SubcategoryNode = ({ data }: { data: any }) => {
   const Icon = Icons[data.icon];
   return (
     <BaseNode data={data}>
@@ -85,7 +93,7 @@ export const SubcategoryNode = ({ data }: { data: any }) => {
           <h3 className="font-medium">{data.label}</h3>
         </div>
         {data.description && (
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="mt-1 text-muted-foreground text-sm">
             {data.description}
           </p>
         )}
@@ -94,7 +102,7 @@ export const SubcategoryNode = ({ data }: { data: any }) => {
   );
 };
 
-export const ItemNode = ({ data }: { data: any }) => {
+const ItemNode = ({ data }: { data: any }) => {
   return (
     <BaseNode data={data}>
       <div className="space-y-3">
@@ -102,25 +110,25 @@ export const ItemNode = ({ data }: { data: any }) => {
           <img
             src={data.image}
             alt={data.label}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
           />
         </div>
         <div className="px-4">
           <h3 className="font-medium">{data.label}</h3>
           {data.description && (
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+            <p className="mt-1 line-clamp-2 text-muted-foreground text-sm">
               {data.description}
             </p>
           )}
         </div>
-        <div className="p-4 pt-0 flex gap-2">
+        <div className="flex gap-2 p-4 pt-0">
           <Button
             variant="default"
             size="sm"
             className="w-full"
             onClick={() => window.open(data.cta.primary.url, "_blank")}
           >
-            <ExternalLink className="h-4 w-4 mr-1" />
+            <ExternalLink className="mr-1 h-4 w-4" />
             {data.cta.primary.label}
           </Button>
           {data.cta.secondary && (
@@ -139,7 +147,7 @@ export const ItemNode = ({ data }: { data: any }) => {
   );
 };
 
-export const GardenRefNode = ({ data }: { data: any }) => {
+const GardenRefNode = ({ data }: { data: any }) => {
   return (
     <BaseNode data={data}>
       <Handle
@@ -148,19 +156,21 @@ export const GardenRefNode = ({ data }: { data: any }) => {
         id="bottom"
         style={{ visibility: "visible" }}
       />
-      <div className="p-4 flex flex-col items-center text-center relative hover:bg-primary-foreground/10 transition-colors cursor-pointer rounded-md border-2 border-dashed border-primary/50">
-        <div className="absolute top-1 right-1 bg-primary/20 text-primary px-1 py-0.5 rounded text-xs font-semibold">
+      <div className="relative flex cursor-pointer flex-col items-center rounded-md border-2 border-primary/50 border-dashed p-4 text-center transition-colors hover:bg-primary-foreground/10">
+        <div className="absolute top-1 right-1 rounded bg-primary/20 px-1 py-0.5 font-semibold text-primary text-xs">
           Navigate
         </div>
-        <Link className="h-6 w-6 mb-2" style={{ color: data.icon_color }} />
+        <Link className="mb-2 h-6 w-6" style={{ color: data.icon_color }} />
         <h3 className="font-medium">{data.label}</h3>
         {data.description && (
-          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+          <p className="mt-1 line-clamp-2 text-muted-foreground text-sm">
             {data.description}
           </p>
         )}
         {data.version && (
-          <span className="text-xs text-muted-foreground mt-1">v{data.version}</span>
+          <span className="mt-1 text-muted-foreground text-xs">
+            v{data.version}
+          </span>
         )}
         <div className="mt-3 flex gap-2">
           <Button
@@ -171,7 +181,7 @@ export const GardenRefNode = ({ data }: { data: any }) => {
               window.open(data.url, "_blank");
             }}
           >
-            <ExternalLink className="h-3 w-3 mr-1" />
+            <ExternalLink className="mr-1 h-3 w-3" />
             View
           </Button>
         </div>
@@ -181,7 +191,7 @@ export const GardenRefNode = ({ data }: { data: any }) => {
   );
 };
 
-export const SupergardenNode = ({ data }: { data: any }) => {
+const SupergardenNode = ({ data }: { data: any }) => {
   return (
     <BaseNode data={data}>
       <Handle
@@ -190,21 +200,23 @@ export const SupergardenNode = ({ data }: { data: any }) => {
         id="bottom"
         style={{ visibility: "visible" }}
       />
-      <div className="p-4 flex flex-col items-center text-center relative transition-transform hover:scale-105 cursor-pointer border-2 border-dashed border-white/70" 
-           style={{ background: "hsl(var(--chart-9))", color: "hsl(var(--chart-9-foreground))", borderRadius: "var(--radius)" }}>
-        <div className="absolute top-1 right-1 bg-white/30 text-white px-1 py-0.5 rounded text-xs font-semibold">
+      <div
+        className="relative flex cursor-pointer flex-col items-center border-2 border-white/70 border-dashed p-4 text-center transition-transform hover:scale-105"
+        style={{
+          background: "hsl(var(--chart-9))",
+          color: "hsl(var(--chart-9-foreground))",
+          borderRadius: "var(--radius)",
+        }}
+      >
+        <div className="absolute top-1 right-1 rounded bg-white/30 px-1 py-0.5 font-semibold text-white text-xs">
           Supergarden
         </div>
-        <Globe className="h-6 w-6 mb-2 animate-pulse" />
+        <Globe className="mb-2 h-6 w-6 animate-pulse" />
         <h3 className="font-medium">{data.label}</h3>
         {data.description && (
-          <p className="text-sm mt-1 line-clamp-2">
-            {data.description}
-          </p>
+          <p className="mt-1 line-clamp-2 text-sm">{data.description}</p>
         )}
-        {data.version && (
-          <span className="text-xs mt-1">v{data.version}</span>
-        )}
+        {data.version && <span className="mt-1 text-xs">v{data.version}</span>}
         <div className="mt-3 flex gap-2">
           <Button
             variant="secondary"
@@ -214,7 +226,7 @@ export const SupergardenNode = ({ data }: { data: any }) => {
               window.open(data.url, "_blank");
             }}
           >
-            <ExternalLink className="h-3 w-3 mr-1" />
+            <ExternalLink className="mr-1 h-3 w-3" />
             View
           </Button>
         </div>
@@ -223,7 +235,7 @@ export const SupergardenNode = ({ data }: { data: any }) => {
   );
 };
 
-export const SubgardenNode = ({ data }: { data: any }) => {
+const SubgardenNode = ({ data }: { data: any }) => {
   return (
     <BaseNode data={data}>
       <Handle
@@ -232,27 +244,29 @@ export const SubgardenNode = ({ data }: { data: any }) => {
         id="bottom"
         style={{ visibility: "visible" }}
       />
-      <div className="p-4 flex flex-col items-center text-center relative transition-transform hover:scale-105 cursor-pointer" 
-           style={{ background: "hsl(var(--chart-8))", color: "hsl(var(--chart-8-foreground))", borderRadius: "var(--radius)" }}>
-        <div className="absolute top-1 right-1 bg-white/30 text-white px-1 py-0.5 rounded text-xs font-semibold">
+      <div
+        className="relative flex cursor-pointer flex-col items-center p-4 text-center transition-transform hover:scale-105"
+        style={{
+          background: "hsl(var(--chart-8))",
+          color: "hsl(var(--chart-8-foreground))",
+          borderRadius: "var(--radius)",
+        }}
+      >
+        <div className="absolute top-1 right-1 rounded bg-white/30 px-1 py-0.5 font-semibold text-white text-xs">
           Navigate Down
         </div>
         {data.expandable && (
-          <div className="absolute top-1 left-1 bg-white/30 text-white px-1 py-0.5 rounded text-xs font-semibold flex items-center">
-            <Layers className="h-3 w-3 mr-1" />
+          <div className="absolute top-1 left-1 flex items-center rounded bg-white/30 px-1 py-0.5 font-semibold text-white text-xs">
+            <Layers className="mr-1 h-3 w-3" />
             Expandable
           </div>
         )}
-        <GitBranch className="h-6 w-6 mb-2 animate-pulse" />
+        <GitBranch className="mb-2 h-6 w-6 animate-pulse" />
         <h3 className="font-medium">{data.label}</h3>
         {data.description && (
-          <p className="text-sm mt-1 line-clamp-2">
-            {data.description}
-          </p>
+          <p className="mt-1 line-clamp-2 text-sm">{data.description}</p>
         )}
-        {data.version && (
-          <span className="text-xs mt-1">v{data.version}</span>
-        )}
+        {data.version && <span className="mt-1 text-xs">v{data.version}</span>}
         <div className="mt-3 flex gap-2">
           <Button
             variant="secondary"
@@ -262,7 +276,7 @@ export const SubgardenNode = ({ data }: { data: any }) => {
               window.open(data.url, "_blank");
             }}
           >
-            <ExternalLink className="h-3 w-3 mr-1" />
+            <ExternalLink className="mr-1 h-3 w-3" />
             View
           </Button>
         </div>
@@ -278,19 +292,5 @@ export const nodeTypes = {
   garden_ref: GardenRefNode,
   supergarden: SupergardenNode,
   subgarden: SubgardenNode,
-  default: ({ data }: { data: any }) => (
-    <div className="p-2">{data.label}</div>
-  ),
-};
-
-// Helper to get garden nodes
-export const getGardenByName = (name: string, allGardens: Record<string, any>) => {
-  return Object.values(allGardens).find((garden: any) => garden.name === name);
-};
-
-// Direction helpers for navigation
-export const DIRECTION = {
-  UP: "up",
-  DOWN: "down",
-  SIDE: "side",
+  default: ({ data }: { data: any }) => <div className="p-2">{data.label}</div>,
 };

@@ -15,8 +15,8 @@ import ReactFlow, {
   MarkerType,
 } from "reactflow";
 
+import { nodeTypes } from "@/components/core/custom-nodes";
 import { Button } from "@/components/ui/button";
-import { nodeTypes } from "@/components/ui/custom-nodes";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { autoLayout, gardenToFlow } from "@/lib/util/flow";
