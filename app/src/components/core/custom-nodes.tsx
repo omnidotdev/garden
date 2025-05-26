@@ -1,3 +1,4 @@
+import { Handle, Position } from "@xyflow/react";
 import {
   ExternalLink,
   GitBranch,
@@ -6,7 +7,6 @@ import {
   Link,
   Sprout,
 } from "lucide-react";
-import { Handle, Position } from "reactflow";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -34,7 +34,7 @@ const GardenNode = ({ data }: { data: any }) => (
 
 const CategoryNode = ({ data }: { data: any }) => {
   const Icon = Icons[data.icon];
-  
+
   return (
     <BaseNode data={data}>
       <Handle
@@ -69,7 +69,7 @@ const CategoryNode = ({ data }: { data: any }) => {
 
 const SubcategoryNode = ({ data }: { data: any }) => {
   const Icon = Icons[data.icon];
-  
+
   return (
     <BaseNode data={data}>
       <Handle

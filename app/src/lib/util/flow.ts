@@ -1,9 +1,9 @@
+import { MarkerType, Position } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
-import { MarkerType, Position } from "reactflow";
 
 import type { GardenTypes } from "@/generated/garden.types";
+import type { Edge, Node } from "@xyflow/react";
 import type { ElkNode } from "elkjs";
-import type { Edge, Node } from "reactflow";
 
 const elk = new ELK();
 

@@ -1,19 +1,20 @@
 "use client";
 
-import { Globe, Layers, Maximize, RefreshCw } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import ReactFlow, {
-  ReactFlowProvider,
-  Controls,
+import {
   Background,
-  useNodesState,
-  useEdgesState,
+  Controls,
+  MarkerType,
+  MiniMap,
   Panel,
+  ReactFlow,
+  ReactFlowProvider,
+  useEdgesState,
+  useNodesState,
   useReactFlow,
   useUpdateNodeInternals,
-  MiniMap,
-  MarkerType,
-} from "reactflow";
+} from "@xyflow/react";
+import { Globe, Layers, Maximize, RefreshCw } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
 import { nodeTypes } from "@/components/core/custom-nodes";
 import { Button } from "@/components/ui/button";
@@ -22,9 +23,9 @@ import { Switch } from "@/components/ui/switch";
 import { autoLayout, gardenToFlow } from "@/lib/util/flow";
 
 import type { GardenTypes } from "@/generated/garden.types";
-import type { NodeMouseHandler } from "reactflow";
+import type { NodeMouseHandler } from "@xyflow/react";
 
-import "reactflow/dist/style.css";
+import "@xyflow/react/dist/style.css";
 
 interface GardenFlowProps {
   garden: GardenTypes;

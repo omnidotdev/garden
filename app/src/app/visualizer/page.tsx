@@ -241,15 +241,17 @@ const Visualizer = () => {
                   <button
                     type="button"
                     onClick={() => handleBreadcrumbClick(index)}
-                    className={`inline-flex items-center font-medium text-sm transition-colors hover:text-primary hover:underline ${
+                    className={`inline-flex items-center gap-1 font-medium text-sm transition-colors hover:text-primary ${
                       index === breadcrumbs.length - 1
-                        ? "rounded bg-primary/10 px-2 py-0.5 font-semibold text-primary"
+                        ? "rounded px-2 py-0.5 font-semibold text-primary"
                         : "text-muted-foreground"
                     }`}
                   >
-                    {index === 0 && "🏠 "}
-                    {index === breadcrumbs.length - 1 && "📍 "}
-                    {crumb}
+                    <p>{index === 0 && "🏠 "}</p>
+                    <p>
+                      {index !== 0 && index === breadcrumbs.length - 1 && "📍 "}
+                    </p>
+                    <p>{crumb}</p>
                   </button>
                 </li>
               ))}
