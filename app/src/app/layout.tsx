@@ -1,14 +1,14 @@
 import { Assistant } from "next/font/google";
+import Link from "next/link";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { PropsWithChildren } from "react";
 
+import Header from "@/components/Header";
 import ThemeProvider from "@/components/ThemeProvider";
 
 import type { Metadata } from "next";
+import type { PropsWithChildren } from "react";
 
 import "./globals.css";
-import Link from "next/link";
-import Header from "@/components/Header";
 
 const assistant = Assistant({ subsets: ["latin"] });
 
@@ -29,29 +29,31 @@ const RootLayout = ({ children }: PropsWithChildren) => (
         <NuqsAdapter>
           <Header />
 
-          {children}
+          <div className="relative flex h-[100dvh] w-full flex-col">
+            <main className="mt-[72px] w-full flex-1">{children}</main>
 
-          <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-muted/10">
-            <p className="text-xs text-muted-foreground">
-              © {new Date().getFullYear()} Omni
-            </p>
+            <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t bg-muted/10 px-4 py-6 sm:flex-row md:px-6">
+              <p className="text-muted-foreground text-xs">
+                © {new Date().getFullYear()} Omni
+              </p>
 
-            <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-              <Link
-                className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                href="https://omni.dev/terms-of-service"
-              >
-                Terms of Service
-              </Link>
+              <nav className="flex gap-4 sm:ml-auto sm:gap-6">
+                <Link
+                  className="text-muted-foreground text-xs transition-colors hover:text-primary"
+                  href="https://omni.dev/terms-of-service"
+                >
+                  Terms of Service
+                </Link>
 
-              <Link
-                className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                href="https://omni.dev/privacy-policy"
-              >
-                Privacy
-              </Link>
-            </nav>
-          </footer>
+                <Link
+                  className="text-muted-foreground text-xs transition-colors hover:text-primary"
+                  href="https://omni.dev/privacy-policy"
+                >
+                  Privacy
+                </Link>
+              </nav>
+            </footer>
+          </div>
         </NuqsAdapter>
       </ThemeProvider>
     </body>

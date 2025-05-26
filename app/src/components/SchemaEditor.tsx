@@ -1,8 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
+import { AlertCircle, Check, Copy, Download } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,10 +16,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, Check, Copy, Download } from "lucide-react";
-import { GardenTypes } from "@/generated/garden.types";
+
+import type { GardenTypes } from "@/generated/garden.types";
 
 interface SchemaEditorProps {
   onSchemaChange: (schema: GardenTypes) => void;
@@ -25,11 +27,13 @@ interface SchemaEditorProps {
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
 const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
-  const { theme, resolvedTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [editorTheme, setEditorTheme] = useState<string>("light");
   // Initialize schema text with current garden or stored value
   const [schemaText, setSchemaText] = useState<string>("");
-  
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
   // Initialize with the current garden or saved data
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -40,9 +44,7 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
         setSchemaText(JSON.stringify(garden, null, 2));
       }
     }
-  }, []);
-  const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  }, [garden]);
 
   // Save schema to localStorage whenever it changes
   useEffect(() => {
@@ -60,10 +62,13 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
       const currentGardenStr = JSON.stringify(garden, null, 2);
       // Check if there are unsaved changes before updating
       const savedSchema = localStorage.getItem(LOCAL_STORAGE_KEY);
-      
+
       // If no saved schema or the saved schema matches exactly what we'd set,
       // update the editor with the new garden
-      if (!savedSchema || JSON.stringify(JSON.parse(savedSchema)) === JSON.stringify(garden)) {
+      if (
+        !savedSchema ||
+        JSON.stringify(JSON.parse(savedSchema)) === JSON.stringify(garden)
+      ) {
         setSchemaText(currentGardenStr);
       }
     }
@@ -82,7 +87,7 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
         !Array.isArray(parsedJson.categories)
       ) {
         throw new Error(
-          "Invalid schema: missing required fields (name, version, or categories)"
+          "Invalid schema: missing required fields (name, version, or categories)",
         );
       }
 
@@ -94,14 +99,14 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
   };
 
   const resetToSample = () => {
-      if (!garden) return;
-    
-      const sampleText = JSON.stringify(garden, null, 2);
-      setSchemaText(sampleText);
-      setError(null);
-      onSchemaChange(garden);
-      localStorage.setItem(LOCAL_STORAGE_KEY, sampleText);
-    };
+    if (!garden) return;
+
+    const sampleText = JSON.stringify(garden, null, 2);
+    setSchemaText(sampleText);
+    setError(null);
+    onSchemaChange(garden);
+    localStorage.setItem(LOCAL_STORAGE_KEY, sampleText);
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(schemaText);
@@ -138,7 +143,7 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
 
           <TabsContent value="editor" className="space-y-4">
             <div className="relative">
-              <div className="h-[400px] border rounded-md overflow-hidden">
+              <div className="h-[400px] overflow-hidden rounded-md border">
                 <Editor
                   height="400px"
                   defaultLanguage="json"
@@ -176,7 +181,7 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Error</AlertTitle>
-                <AlertDescription className="font-mono text-xs overflow-auto max-h-32">
+                <AlertDescription className="max-h-32 overflow-auto font-mono text-xs">
                   {error}
                 </AlertDescription>
               </Alert>
@@ -185,24 +190,24 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
 
           <TabsContent value="help">
             <div className="space-y-4">
-              <h3 className="text-lg font-medium">Garden Schema Structure</h3>
+              <h3 className="font-medium text-lg">Garden Schema Structure</h3>
               <p>The Garden schema is designed to visualize ecosystems:</p>
 
               <div className="space-y-2">
                 <h4 className="font-medium">Required Fields:</h4>
-                <ul className="list-disc pl-6 space-y-1">
+                <ul className="list-disc space-y-1 pl-6">
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">name</code>:
+                    <code className="rounded bg-muted px-1 text-sm">name</code>:
                     Name of your Garden
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       version
                     </code>
                     : Version of the schema
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       categories
                     </code>
                     : Array of categories
@@ -212,78 +217,81 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
 
               <div className="space-y-2">
                 <h4 className="font-medium">Optional Fields:</h4>
-                <ul className="list-disc pl-6 space-y-1">
+                <ul className="list-disc space-y-1 pl-6">
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       description
                     </code>
                     : Description of your Garden
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       maintainers
                     </code>
                     : Array of maintainer objects
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       created_at
                     </code>
                     : Creation timestamp
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       updated_at
                     </code>
                     : Last update timestamp
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">theme</code>
+                    <code className="rounded bg-muted px-1 text-sm">theme</code>
                     : Visual theme settings
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       supergardens
                     </code>
-                    : Array of garden reference objects that this garden belongs to
+                    : Array of garden reference objects that this garden belongs
+                    to
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       subgardens
                     </code>
-                    : Array of garden reference objects that belong to this garden
+                    : Array of garden reference objects that belong to this
+                    garden
                   </li>
                 </ul>
               </div>
 
               <div className="space-y-2">
                 <h4 className="font-medium">Category Structure:</h4>
-                <ul className="list-disc pl-6 space-y-1">
+                <ul className="list-disc space-y-1 pl-6">
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">name</code>:
+                    <code className="rounded bg-muted px-1 text-sm">name</code>:
                     Category name
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       description
                     </code>
                     : (Optional) Category description
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">items</code>
+                    <code className="rounded bg-muted px-1 text-sm">items</code>
                     : (Optional) Array of item objects
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       categories
                     </code>
                     : (Optional) Array of category objects (recursive)
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       garden_refs
                     </code>
-                    : (Optional) Array of garden reference objects related to this category
+                    : (Optional) Array of garden reference objects related to
+                    this category
                   </li>
                 </ul>
               </div>
@@ -299,35 +307,35 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
 
               <div className="space-y-2">
                 <h4 className="font-medium">Item Structure:</h4>
-                <ul className="list-disc pl-6 space-y-1">
+                <ul className="list-disc space-y-1 pl-6">
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">name</code>:
+                    <code className="rounded bg-muted px-1 text-sm">name</code>:
                     Item name
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       homepage_url
                     </code>
                     : Website URL
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">logo</code>:
+                    <code className="rounded bg-muted px-1 text-sm">logo</code>:
                     Logo URL
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       repo_url
                     </code>
                     : (Optional) Repository URL
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       description
                     </code>
                     : (Optional) Item description
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       twitter
                     </code>
                     : (Optional) Twitter handle
@@ -337,31 +345,27 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
 
               <div className="space-y-2">
                 <h4 className="font-medium">Garden Reference Structure:</h4>
-                <ul className="list-disc pl-6 space-y-1">
+                <ul className="list-disc space-y-1 pl-6">
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">name</code>:
+                    <code className="rounded bg-muted px-1 text-sm">name</code>:
                     Garden name
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
-                      url
-                    </code>
-                    : URL to the referenced garden
+                    <code className="rounded bg-muted px-1 text-sm">url</code>:
+                    URL to the referenced garden
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       description
                     </code>
                     : (Optional) Garden description
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
-                      logo
-                    </code>
-                    : (Optional) Logo URL
+                    <code className="rounded bg-muted px-1 text-sm">logo</code>:
+                    (Optional) Logo URL
                   </li>
                   <li>
-                    <code className="text-sm bg-muted px-1 rounded">
+                    <code className="rounded bg-muted px-1 text-sm">
                       version
                     </code>
                     : (Optional) Garden version

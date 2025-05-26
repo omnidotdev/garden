@@ -12,10 +12,10 @@
     "generate": "bunx quicktype@23.2.4 -s schema ../garden.schema.json -o src/generated/garden.types.ts"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/node": "22.15.21",
     "@types/react": "19.1.5",
     "@types/react-dom": "19.1.5",
-    "biome": "^0.3.3",
     "knip": "^5.58.0"
   },
   "dependencies": {
