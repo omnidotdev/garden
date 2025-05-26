@@ -1,10 +1,12 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Code, BarChart } from "lucide-react";
+import { BarChart, Code } from "lucide-react";
+
 import GardenFlow from "@/components/GardenFlow";
 import SchemaEditor from "@/components/SchemaEditor";
-import { GardenTypes } from "@/generated/garden.types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import type { GardenTypes } from "@/generated/garden.types";
 
 interface GardenTabsProps {
   garden: GardenTypes;

@@ -1,29 +1,32 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from "react";
-import ReactFlow, {
-  ReactFlowProvider,
-  Controls,
+import {
   Background,
-  useNodesState,
-  useEdgesState,
+  ConnectionLineType,
+  Controls,
+  MarkerType,
+  MiniMap,
   Panel,
+  ReactFlow,
+  ReactFlowProvider,
+  useEdgesState,
+  useNodesState,
   useReactFlow,
   useUpdateNodeInternals,
-  MiniMap,
-  ConnectionLineType,
-  MarkerType,
-  NodeMouseHandler,
-  Node,
-} from "reactflow";
-import "reactflow/dist/style.css";
-import { GardenTypes } from "@/generated/garden.types";
-import { gardenToFlow, autoLayout } from "@/lib/util/flow";
-import { nodeTypes } from "@/components/ui/custom-nodes";
+} from "@xyflow/react";
+import { Globe, Layers, Maximize, RefreshCw } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+
+import { nodeTypes } from "@/components/core/custom-nodes";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Maximize, RefreshCw, Layers, Globe } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { autoLayout, gardenToFlow } from "@/lib/util/flow";
+
+import type { GardenTypes } from "@/generated/garden.types";
+import type { Edge, Node, NodeMouseHandler } from "@xyflow/react";
+
+import "@xyflow/react/dist/style.css";
 
 interface GardenFlowProps {
   garden: GardenTypes;
@@ -41,8 +44,8 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   const [isToggling, setIsToggling] = useState(false);
 
   // Initialize with empty arrays to prevent undefined errors
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   // Update container width on mount and resize
   useEffect(() => {
@@ -65,6 +68,7 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   }, []);
 
   // Reset initialization when garden changes or expand setting changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: trigger when garden.name changes
   useEffect(() => {
     setInitialized(false);
     // Reset positions to trigger new layout when toggling expand mode
@@ -82,17 +86,34 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
         garden,
         containerWidth,
-        { expandSubgardens }
+        { expandSubgardens },
       );
 
       if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
+        // Clean up handles in edges to prevent warnings
+        const cleanEdges = initialEdges.map((edge) => ({
+          ...edge,
+          sourceHandle: null,
+          targetHandle: null,
+        }));
+
         // Apply auto layout and get optimized edges
-        autoLayout(initialNodes, initialEdges)
+        autoLayout(initialNodes, cleanEdges)
           .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
             setNodes(layoutedNodes);
-            setEdges(layoutedEdges);
+            // Ensure edges don't have explicit handle references
+            setEdges(
+              layoutedEdges.map((edge) => ({
+                ...edge,
+                sourceHandle: null,
+                targetHandle: null,
+              })),
+            );
+
             // Update node internals after layout
-            layoutedNodes.forEach((node) => updateNodeInternals(node.id));
+            for (const node of layoutedNodes) {
+              updateNodeInternals(node.id);
+            }
 
             // Fit view after nodes are positioned
             setTimeout(() => {
@@ -121,17 +142,34 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   ]);
 
   // Handle layout refresh
-  const onLayout = useCallback(() => {
+  const onLayout = useCallback(async () => {
     if (nodes.length === 0 || edges.length === 0) return;
 
     setLayouting(true);
 
-    autoLayout(nodes, edges)
+    // Clean up handles in edges to prevent warnings
+    const cleanEdges = edges.map((edge) => ({
+      ...edge,
+      sourceHandle: null,
+      targetHandle: null,
+    }));
+
+    await autoLayout(nodes, cleanEdges)
       .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
         setNodes([...layoutedNodes]);
-        setEdges([...layoutedEdges]);
+        // Ensure edges don't have explicit handle references
+        setEdges(
+          layoutedEdges.map((edge) => ({
+            ...edge,
+            sourceHandle: null,
+            targetHandle: null,
+          })),
+        );
+
         // Update node internals after layout refresh
-        layoutedNodes.forEach((node) => updateNodeInternals(node.id));
+        for (const node of layoutedNodes) {
+          updateNodeInternals(node.id);
+        }
 
         setTimeout(() => {
           fitView({ padding: 0.2 });
@@ -142,70 +180,102 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
         console.error("Layout refresh error:", error);
         setLayouting(false);
       });
-  }, [nodes, edges, setNodes, setEdges, fitView]);
-  
+  }, [nodes, edges, setNodes, setEdges, fitView, updateNodeInternals]);
+
   // Handle node click for garden navigation
-  const onNodeClick: NodeMouseHandler = useCallback((event, clickedNode) => {
-    if (!onNavigateToGarden) return;
-    
-    // Determine the garden name to navigate to
-    let gardenName = clickedNode.data?.label;
-    
-    // Check if this is an expanded subgarden label
-    if (clickedNode.data?.isExpandedSubgardenLabel) {
-      gardenName = clickedNode.data?.label.replace(' (Expanded)', '');
-    }
-    
-    // For all navigable node types, navigate to the garden by name
-    if (gardenName && (
-      clickedNode.type === 'supergarden' || 
-      clickedNode.type === 'subgarden' || 
-      clickedNode.type === 'garden_ref' ||
-      clickedNode.data?.isExpandedSubgardenLabel
-    )) {
-      // Prevent rapid multiple clicks
-      event.preventDefault();
-      event.stopPropagation();
-      
-      // Debounce navigation to prevent multiple rapid calls
-      if ((window as any).lastNavigationTime && 
-          Date.now() - (window as any).lastNavigationTime < 500) {
-        return;
+  const onNodeClick: NodeMouseHandler = useCallback(
+    (event, clickedNode) => {
+      if (!onNavigateToGarden) return;
+
+      // Determine the garden name to navigate to
+      let gardenName = clickedNode.data?.label as string;
+
+      // Check if this is an expanded subgarden label
+      if (clickedNode.data?.isExpandedSubgardenLabel) {
+        gardenName = (clickedNode.data?.label as string).replace(
+          " (Expanded)",
+          "",
+        );
       }
-      
-      (window as any).lastNavigationTime = Date.now();
-      onNavigateToGarden(gardenName);
-    }
-  }, [onNavigateToGarden]);
-  
+
+      // For all navigable node types, navigate to the garden by name
+      if (
+        gardenName &&
+        (clickedNode.type === "supergarden" ||
+          clickedNode.type === "subgarden" ||
+          clickedNode.type === "garden_ref" ||
+          clickedNode.data?.isExpandedSubgardenLabel)
+      ) {
+        // Prevent rapid multiple clicks
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Debounce navigation to prevent multiple rapid calls
+        if (
+          (window as any).lastNavigationTime &&
+          Date.now() - (window as any).lastNavigationTime < 500
+        ) {
+          return;
+        }
+
+        (window as any).lastNavigationTime = Date.now();
+        onNavigateToGarden(gardenName);
+      }
+    },
+    [onNavigateToGarden],
+  );
+
   // Handle node mouse enter/leave for hover effects
   const onNodeMouseEnter: NodeMouseHandler = useCallback((event, node) => {
-    if (node.type === 'supergarden' || node.type === 'subgarden' || node.type === 'garden_ref' || node.data?.isExpandedSubgardenLabel) {
+    if (
+      node.type === "supergarden" ||
+      node.type === "subgarden" ||
+      node.type === "garden_ref" ||
+      node.data?.isExpandedSubgardenLabel
+    ) {
       setHoveredNode(node.id);
-      document.body.style.cursor = 'pointer';
+      document.body.style.cursor = "pointer";
     }
   }, []);
-  
+
   const onNodeMouseLeave: NodeMouseHandler = useCallback(() => {
     setHoveredNode(null);
-    document.body.style.cursor = 'default';
+    document.body.style.cursor = "default";
   }, []);
 
   return (
     <ReactFlow
-      nodes={nodes.map(node => ({
+      nodes={nodes.map((node) => ({
         ...node,
         style: {
           ...node.style,
-          boxShadow: hoveredNode === node.id ? '0 0 10px 2px rgba(99, 102, 241, 0.7)' : undefined,
-          cursor: (node.type === 'supergarden' || node.type === 'subgarden' || node.type === 'garden_ref' || node.data?.isExpandedSubgardenLabel) ? 'pointer' : undefined,
+          boxShadow:
+            hoveredNode === node.id
+              ? "0 0 10px 2px rgba(99, 102, 241, 0.7)"
+              : undefined,
+          cursor:
+            node.type === "supergarden" ||
+            node.type === "subgarden" ||
+            node.type === "garden_ref" ||
+            node.data?.isExpandedSubgardenLabel
+              ? "pointer"
+              : undefined,
           // Add visual hint for navigable nodes
-          border: (node.type === 'supergarden' || node.type === 'subgarden' || node.type === 'garden_ref' || node.data?.isExpandedSubgardenLabel) 
-            ? '2px dashed rgba(99, 102, 241, 0.7)' 
-            : undefined,
-        }
+          border:
+            node.type === "supergarden" ||
+            node.type === "subgarden" ||
+            node.type === "garden_ref" ||
+            node.data?.isExpandedSubgardenLabel
+              ? "2px dashed rgba(99, 102, 241, 0.7)"
+              : undefined,
+        },
       }))}
-      edges={edges}
+      edges={edges.map((edge) => ({
+        ...edge,
+        type: "smoothstep",
+        sourceHandle: null,
+        targetHandle: null,
+      }))}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onNodeClick={onNodeClick}
@@ -231,8 +301,9 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
         type: "smoothstep",
         animated: true,
         style: { stroke: "#999", strokeWidth: 1.5 },
-        markerEnd: { type: MarkerType.ArrowClosed }
+        markerEnd: { type: MarkerType.ArrowClosed },
       }}
+      connectionLineType={ConnectionLineType.SmoothStep}
     >
       <Background />
       <MiniMap nodeStrokeWidth={3} zoomable pannable />
@@ -256,12 +327,16 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
             <Maximize className="h-4 w-4" />
           </Button>
         </div>
-        
-        <div className={`bg-background/80 backdrop-blur-sm p-2 rounded-md shadow-md flex items-center gap-2 transition-all duration-300 ${isToggling ? "animate-pulse ring ring-primary/50" : ""}`}>
-          <Layers className={`h-4 w-4 ${expandSubgardens ? "text-primary" : "text-muted-foreground"}`} />
+
+        <div
+          className={`flex items-center gap-2 rounded-md bg-background/80 p-2 shadow-md backdrop-blur-sm transition-all duration-300 ${isToggling ? "animate-pulse ring ring-primary/50" : ""}`}
+        >
+          <Layers
+            className={`h-4 w-4 ${expandSubgardens ? "text-primary" : "text-muted-foreground"}`}
+          />
           <div className="flex items-center space-x-2">
-            <Switch 
-              id="expand-subgardens" 
+            <Switch
+              id="expand-subgardens"
               checked={expandSubgardens}
               onCheckedChange={(checked) => {
                 setExpandSubgardens(checked);
@@ -271,8 +346,15 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
                 setTimeout(() => setIsToggling(false), 1000);
               }}
             />
-            <Label htmlFor="expand-subgardens" className={`text-xs transition-all duration-150 ${expandSubgardens ? "font-semibold text-primary" : ""}`}>
-              {isToggling ? "Processing..." : expandSubgardens ? "Expanded" : "Condensed"}
+            <Label
+              htmlFor="expand-subgardens"
+              className={`text-xs transition-all duration-150 ${expandSubgardens ? "font-semibold text-primary" : ""}`}
+            >
+              {isToggling
+                ? "Processing..."
+                : expandSubgardens
+                  ? "Expanded"
+                  : "Condensed"}
             </Label>
           </div>
         </div>
@@ -284,28 +366,36 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
 // Wrap with provider to avoid context issues
 const GardenFlow = (props: GardenFlowProps) => (
   <ReactFlowProvider>
-    <div className="w-full h-[800px] border rounded-lg overflow-hidden">
+    <div className="h-[800px] w-full overflow-hidden rounded-lg border">
       <GardenFlowInner {...props} />
       {props.onNavigateToGarden && (
-        <div className="absolute bottom-4 left-4 bg-background/80 backdrop-blur-sm p-3 rounded-md shadow-md text-sm z-10">
+        // TODO: re-position this
+        <div className="absolute bottom-4 left-4 z-10 rounded-md bg-background/80 p-3 text-sm shadow-md backdrop-blur-sm">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 border-2 border-dashed border-primary rounded-full"></div>
-              <p className="text-muted-foreground">Click on dashed nodes to navigate between gardens</p>
+              <div className="h-3 w-3 rounded-full border-2 border-primary border-dashed" />
+              <p className="text-muted-foreground">
+                Click on dashed nodes to navigate between gardens
+              </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 flex items-center justify-center">
+              <div className="flex h-3 w-3 items-center justify-center">
                 <Layers className="h-3 w-3 text-primary" />
               </div>
-              <p className="text-muted-foreground">Use the <Layers className="h-3 w-3 inline mx-1" /> toggle to expand or condense subgardens</p>
+              <p className="text-muted-foreground">
+                Use the <Layers className="mx-1 inline h-3 w-3" /> toggle to
+                expand or condense subgardens
+              </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 flex items-center justify-center">
+              <div className="flex h-3 w-3 items-center justify-center">
                 <Globe className="h-3 w-3 text-primary" />
               </div>
-              <p className="text-muted-foreground">Navigate up to supergardens or down to subgardens</p>
+              <p className="text-muted-foreground">
+                Navigate up to supergardens or down to subgardens
+              </p>
             </div>
-            <div className="mt-1 text-xs text-muted-foreground italic">
+            <div className="mt-1 text-muted-foreground text-xs italic">
               Note: Changes to garden names are reflected in navigation
             </div>
           </div>

@@ -1,7 +1,9 @@
-import { GardenTypes, GardenReference } from "@/generated/garden.types";
-import { Node, Edge, Position, MarkerType } from "reactflow";
+import { MarkerType, Position } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
-import { type ElkNode } from "elkjs";
+
+import type { GardenTypes } from "@/generated/garden.types";
+import type { Edge, Node } from "@xyflow/react";
+import type { ElkNode } from "elkjs";
 
 const elk = new ELK();
 
@@ -18,7 +20,7 @@ const calculateNodeHeight = (node: any): number => {
   return 80; // Default height
 };
 
-export const NODE_TYPES = {
+const NODE_TYPES = {
   GARDEN: "garden",
   CATEGORY: "category",
   ITEM: "item",
@@ -33,13 +35,13 @@ const generateId = (type: string, name: string): string => {
 };
 
 const getNodePositions = (
-  type: string
+  type: string,
 ): { sourcePosition?: Position; targetPosition?: Position } => {
   switch (type) {
     case NODE_TYPES.GARDEN:
       return {
         sourcePosition: Position.Bottom,
-        targetPosition: Position.Bottom,
+        targetPosition: Position.Top,
       };
     case NODE_TYPES.CATEGORY:
       return { targetPosition: Position.Top, sourcePosition: Position.Bottom };
@@ -47,13 +49,12 @@ const getNodePositions = (
       return { targetPosition: Position.Top };
     case NODE_TYPES.GARDEN_REF:
       return {
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Bottom,
+        targetPosition: Position.Left,
       };
     case NODE_TYPES.SUPERGARDEN:
-      return { sourcePosition: Position.Bottom, targetPosition: Position.Top };
+      return { sourcePosition: Position.Bottom };
     case NODE_TYPES.SUBGARDEN:
-      return { sourcePosition: Position.Top, targetPosition: Position.Bottom };
+      return { targetPosition: Position.Bottom };
     default:
       return {};
   }
@@ -65,8 +66,8 @@ interface FlowOptions {
 
 export const gardenToFlow = (
   garden: GardenTypes,
-  width: number = 1600,
-  options: FlowOptions = {}
+  width = 1600,
+  options: FlowOptions = {},
 ): { nodes: Node[]; edges: Edge[] } => {
   // Create a shallow copy to prevent reference issues
   const gardenCopy = { ...garden };
@@ -106,7 +107,7 @@ export const gardenToFlow = (
     gardenCopy.supergardens.forEach((supergarden: any, index: number) => {
       const supergardenId = generateId(
         NODE_TYPES.SUPERGARDEN,
-        supergarden.name
+        supergarden.name,
       );
       const xOffset = -400 + index * 150; // Position supergardens to the left and above
 
@@ -135,9 +136,7 @@ export const gardenToFlow = (
       edges.push({
         id: `${supergardenId}-to-${gardenId}`,
         source: supergardenId,
-        sourceHandle: "bottom",
         target: gardenId,
-        targetHandle: "top",
         type: "smoothstep",
         animated: true,
         style: {
@@ -212,7 +211,7 @@ export const gardenToFlow = (
               style: {
                 width: 600,
                 height: 600,
-                background: `hsla(var(--chart-8), 0.05)`,
+                background: "hsla(var(--chart-8), 0.05)",
                 border: "2px dashed hsla(var(--chart-8), 0.3)",
                 borderRadius: "16px",
                 zIndex: 1,
@@ -326,9 +325,7 @@ export const gardenToFlow = (
         edges.push({
           id: `${gardenId}-to-${subgardenId}`,
           source: gardenId,
-          sourceHandle: "top",
           target: subgardenId,
-          targetHandle: "bottom",
           type: "smoothstep",
           animated: true,
           style: {
@@ -349,15 +346,15 @@ export const gardenToFlow = (
   const processCategory = (
     category: any,
     supergardenId: string,
-    depth: number = 0,
-    indexInSupergarden: number = 0,
-    xPosition: number = centerX
+    depth = 0,
+    indexInSupergarden = 0,
+    xPosition: number = centerX,
   ) => {
     if (!category || !category.name) return;
 
     const categoryId = generateId(
       NODE_TYPES.CATEGORY,
-      `${supergardenId}-${category.name}`
+      `${supergardenId}-${category.name}`,
     );
 
     const yPosition = 200 + depth * 200 + indexInSupergarden * 150;
@@ -398,9 +395,7 @@ export const gardenToFlow = (
     edges.push({
       id: `${supergardenId}-to-${categoryId}`,
       source: supergardenId,
-      sourceHandle: "bottom",
       target: categoryId,
-      targetHandle: "top",
       type: "smoothstep",
       animated: true,
       style: {
@@ -418,7 +413,7 @@ export const gardenToFlow = (
 
         const itemId = generateId(
           NODE_TYPES.ITEM,
-          `${categoryId}-${item.name}`
+          `${categoryId}-${item.name}`,
         );
         const itemYPosition = yPosition + (itemIndex + 1) * 100;
 
@@ -457,9 +452,7 @@ export const gardenToFlow = (
         edges.push({
           id: `${categoryId}-to-${itemId}`,
           source: categoryId,
-          sourceHandle: "bottom",
           target: itemId,
-          targetHandle: "top",
           type: "smoothstep",
           animated: true,
           style: {
@@ -479,7 +472,7 @@ export const gardenToFlow = (
 
         const refId = generateId(
           NODE_TYPES.GARDEN_REF,
-          `${categoryId}-${gardenRef.name}`
+          `${categoryId}-${gardenRef.name}`,
         );
         // Position garden refs to the right of the category
         const refXPosition = xPosition + 250;
@@ -518,9 +511,7 @@ export const gardenToFlow = (
         edges.push({
           id: `${categoryId}-to-${refId}`,
           source: categoryId,
-          sourceHandle: "bottom",
           target: refId,
-          targetHandle: "left",
           type: "smoothstep",
           animated: true,
           style: {
@@ -543,9 +534,9 @@ export const gardenToFlow = (
             categoryId,
             depth + 1,
             subcategoryIndex,
-            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150) // Alternately offset to avoid overlap
+            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150), // Alternately offset to avoid overlap
           );
-        }
+        },
       );
     }
   };
@@ -560,7 +551,7 @@ export const gardenToFlow = (
 
 export const autoLayout = async (
   nodes: Node[],
-  edges: Edge[]
+  edges: Edge[],
 ): Promise<{ nodes: Node[]; edges: Edge[] }> => {
   if (!nodes?.length || !edges?.length) {
     return { nodes: nodes || [], edges: edges || [] };

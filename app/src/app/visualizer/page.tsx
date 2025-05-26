@@ -1,14 +1,20 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { ArrowLeft } from "lucide-react";
+import { parseAsString, useQueryState } from "nuqs";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import GardenTabs from "@/components/GardenTabs";
+import { Button } from "@/components/ui/button";
 import {
-  omniGarden,
+  devToolsGarden,
   gardens,
   omniEcosystem,
   productsGarden,
-  devToolsGarden,
   specificationsGarden,
 } from "@/lib/schema/garden";
+
+import type { GardenTypes } from "@/generated/garden.types";
 
 // Make garden data globally available for subgarden expansion
 declare global {
@@ -16,12 +22,6 @@ declare global {
     gardenData?: Record<string, any>;
   }
 }
-import { GardenTypes } from "@/generated/garden.types";
-import Header from "@/components/Header";
-import GardenTabs from "@/components/GardenTabs";
-import { parseAsString, useQueryState } from "nuqs";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
@@ -29,10 +29,10 @@ const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
  * Garden visualizer.
  */
 const Visualizer = () => {
-  const [garden, setGarden] = useState<GardenTypes>(omniGarden);
+  const [garden, setGarden] = useState<GardenTypes>(omniEcosystem);
   const [activeTab, setActiveTab] = useQueryState(
     "tab",
-    parseAsString.withDefault("visualize")
+    parseAsString.withDefault("visualize"),
   );
   const [gardenKey, setGardenKey] = useState<number>(0); // Add key to force re-render
   const [navigationHistory, setNavigationHistory] = useState<
@@ -75,6 +75,7 @@ const Visualizer = () => {
   // Use useCallback to memoize the handler
   const handleGardenSwitch = useCallback(
     (selectedGarden: GardenTypes) => {
+      // biome-ignore lint/suspicious/noConsoleLog: TODO remove
       console.log("Switching garden to:", selectedGarden.name);
 
       // Clear localStorage first to prevent conflicts
@@ -120,7 +121,7 @@ const Visualizer = () => {
         setActiveTab("visualize");
       }
     },
-    [activeTab, setActiveTab, garden, breadcrumbs]
+    [activeTab, setActiveTab, garden, breadcrumbs],
   );
 
   // Handler for direct garden navigation from ReactFlow
@@ -130,12 +131,13 @@ const Visualizer = () => {
       if (targetGarden) {
         handleGardenSwitch(targetGarden);
         // Log navigation for debugging
+        // biome-ignore lint/suspicious/noConsoleLog: TODO remove
         console.log(`Navigated to ${gardenName}`);
       } else {
         console.warn(`Garden not found: ${gardenName}`);
       }
     },
-    [allGardens, handleGardenSwitch]
+    [allGardens, handleGardenSwitch],
   );
 
   // Handler for back navigation
@@ -199,12 +201,12 @@ const Visualizer = () => {
         }
       }
     },
-    [allGardens, breadcrumbs]
+    [allGardens, breadcrumbs],
   );
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="flex flex-col gap-2 mb-4">
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-4 flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {navigationHistory.length > 0 && (
@@ -214,13 +216,13 @@ const Visualizer = () => {
                 onClick={handleNavigateBack}
                 className="mr-2"
               >
-                <ArrowLeft className="h-4 w-4 mr-1" />
+                <ArrowLeft className="mr-1 h-4 w-4" />
                 Back
               </Button>
             )}
-            <h1 className="text-2xl font-bold">{garden.name}</h1>
+            <h1 className="font-bold text-2xl">{garden.name}</h1>
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             {garden.version && `v${garden.version}`}
           </div>
         </div>
@@ -228,24 +230,28 @@ const Visualizer = () => {
         {/* Navigation Breadcrumbs */}
         {breadcrumbs.length > 0 && (
           <nav className="flex" aria-label="Breadcrumb">
-            <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse bg-muted/40 rounded-md px-3 py-1">
+            <ol className="inline-flex items-center space-x-1 rounded-md bg-muted/40 px-3 py-1 md:space-x-2 rtl:space-x-reverse">
               {breadcrumbs.map((crumb, index) => (
                 <li
+                  // biome-ignore lint/suspicious/noArrayIndexKey: index used for simplicity
                   key={`${crumb}-${index}`}
                   className="inline-flex items-center"
                 >
                   {index > 0 && <span className="mx-1 text-gray-400">→</span>}
                   <button
+                    type="button"
                     onClick={() => handleBreadcrumbClick(index)}
-                    className={`inline-flex items-center text-sm font-medium hover:text-primary hover:underline transition-colors ${
+                    className={`inline-flex items-center gap-1 font-medium text-sm transition-colors hover:text-primary ${
                       index === breadcrumbs.length - 1
-                        ? "text-primary font-semibold bg-primary/10 px-2 py-0.5 rounded"
+                        ? "rounded px-2 py-0.5 font-semibold text-primary"
                         : "text-muted-foreground"
                     }`}
                   >
-                    {index === 0 && "🏠 "}
-                    {index === breadcrumbs.length - 1 && "📍 "}
-                    {crumb}
+                    <p>{index === 0 && "🏠 "}</p>
+                    <p>
+                      {index !== 0 && index === breadcrumbs.length - 1 && "📍 "}
+                    </p>
+                    <p>{crumb}</p>
                   </button>
                 </li>
               ))}
@@ -255,7 +261,7 @@ const Visualizer = () => {
       </div>
 
       <div className="mb-6 flex flex-col gap-3">
-        <div className="text-sm text-muted-foreground mb-1">
+        <div className="mb-1 text-muted-foreground text-sm">
           Select a garden to view:
         </div>
         <div className="flex flex-wrap gap-2">

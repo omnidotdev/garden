@@ -1,4 +1,4 @@
-import { GardenTypes, GardenReference } from "@/generated/garden.types";
+import type { GardenTypes } from "@/generated/garden.types";
 
 // Omni Ecosystem - Root garden
 export const omniEcosystem: GardenTypes = {
@@ -10,23 +10,23 @@ export const omniEcosystem: GardenTypes = {
       name: "Omni Products",
       url: "https://products.omni.example",
       description: "Core products in the Omni ecosystem",
-      logo: "https://via.placeholder.com/150?text=Products",
-      version: "1.8.0"
+      logo: "https://placehold.co/150?text=Products",
+      version: "1.8.0",
     },
     {
       name: "Omni Dev Tools",
       url: "https://devtools.omni.example",
       description: "Development tools and utilities for Omni ecosystem",
-      logo: "https://via.placeholder.com/150?text=DevTools",
-      version: "1.5.2"
+      logo: "https://placehold.co/150?text=DevTools",
+      version: "1.5.2",
     },
     {
       name: "Omni Specifications",
       url: "https://specs.omni.example",
       description: "Specifications and standards for Omni ecosystem",
-      logo: "https://via.placeholder.com/150?text=Specs",
-      version: "1.3.1"
-    }
+      logo: "https://placehold.co/150?text=Specs",
+      version: "1.3.1",
+    },
   ],
   categories: [
     {
@@ -38,15 +38,15 @@ export const omniEcosystem: GardenTypes = {
           name: "Omni Auth",
           homepage_url: "https://auth.omni.example",
           description: "Authentication and authorization service",
-          logo: "https://via.placeholder.com/150?text=Auth"
+          logo: "https://placehold.co/150?text=Auth",
         },
         {
           name: "Omni Data",
           homepage_url: "https://data.omni.example",
           description: "Data management platform",
-          logo: "https://via.placeholder.com/150?text=Data"
-        }
-      ]
+          logo: "https://placehold.co/150?text=Data",
+        },
+      ],
     },
     {
       name: "Documentation",
@@ -57,17 +57,17 @@ export const omniEcosystem: GardenTypes = {
           name: "Omni Docs",
           homepage_url: "https://docs.omni.example",
           description: "Documentation portal",
-          logo: "https://via.placeholder.com/150?text=Docs"
-        }
-      ]
-    }
+          logo: "https://placehold.co/150?text=Docs",
+        },
+      ],
+    },
   ],
   maintainers: [
     {
       name: "Omni Core Team",
       email: "core@omni.example",
-      url: "https://core.omni.example"
-    }
+      url: "https://core.omni.example",
+    },
   ],
   created_at: "2022-01-15T00:00:00Z",
   updated_at: "2023-06-10T00:00:00Z",
@@ -75,8 +75,8 @@ export const omniEcosystem: GardenTypes = {
     primary_color: "#6366F1",
     secondary_color: "#A5B4FC",
     background_color: "#F9FAFB",
-    text_color: "#111827"
-  }
+    text_color: "#111827",
+  },
 };
 
 // Omni Products Garden
@@ -89,9 +89,9 @@ export const productsGarden: GardenTypes = {
       name: "Omni Ecosystem",
       url: "https://ecosystem.omni.example",
       description: "Complete Omni product and tooling ecosystem",
-      logo: "https://via.placeholder.com/150?text=Ecosystem",
-      version: "2.0.0"
-    }
+      logo: "https://placehold.co/150?text=Ecosystem",
+      version: "2.0.0",
+    },
   ],
   categories: [
     {
@@ -103,15 +103,15 @@ export const productsGarden: GardenTypes = {
           name: "Omni Feedback",
           homepage_url: "https://feedback.omni.example",
           description: "User feedback collection and management",
-          logo: "https://via.placeholder.com/150?text=Feedback"
+          logo: "https://placehold.co/150?text=Feedback",
         },
         {
           name: "Omni Portal",
           homepage_url: "https://portal.omni.example",
           description: "Customer portal and dashboard",
-          logo: "https://via.placeholder.com/150?text=Portal"
-        }
-      ]
+          logo: "https://placehold.co/150?text=Portal",
+        },
+      ],
     },
     {
       name: "Analytics",
@@ -122,15 +122,15 @@ export const productsGarden: GardenTypes = {
           name: "Omni Insights",
           homepage_url: "https://insights.omni.example",
           description: "Business intelligence and analytics",
-          logo: "https://via.placeholder.com/150?text=Insights"
+          logo: "https://placehold.co/150?text=Insights",
         },
         {
           name: "Omni Metrics",
           homepage_url: "https://metrics.omni.example",
           description: "Performance metrics and monitoring",
-          logo: "https://via.placeholder.com/150?text=Metrics"
-        }
-      ]
+          logo: "https://placehold.co/150?text=Metrics",
+        },
+      ],
     },
     {
       name: "Content Management",
@@ -141,17 +141,17 @@ export const productsGarden: GardenTypes = {
           name: "Omni CMS",
           homepage_url: "https://cms.omni.example",
           description: "Content management system",
-          logo: "https://via.placeholder.com/150?text=CMS"
-        }
-      ]
-    }
+          logo: "https://placehold.co/150?text=CMS",
+        },
+      ],
+    },
   ],
   maintainers: [
     {
       name: "Omni Product Team",
       email: "products@omni.example",
-      url: "https://products.omni.example/team"
-    }
+      url: "https://products.omni.example/team",
+    },
   ],
   created_at: "2022-03-20T00:00:00Z",
   updated_at: "2023-05-15T00:00:00Z",
@@ -159,8 +159,8 @@ export const productsGarden: GardenTypes = {
     primary_color: "#2563EB",
     secondary_color: "#93C5FD",
     background_color: "#F8FAFC",
-    text_color: "#1E293B"
-  }
+    text_color: "#1E293B",
+  },
 };
 
 // Omni Dev Tools Garden
@@ -173,9 +173,9 @@ export const devToolsGarden: GardenTypes = {
       name: "Omni Ecosystem",
       url: "https://ecosystem.omni.example",
       description: "Complete Omni product and tooling ecosystem",
-      logo: "https://via.placeholder.com/150?text=Ecosystem",
-      version: "2.0.0"
-    }
+      logo: "https://placehold.co/150?text=Ecosystem",
+      version: "2.0.0",
+    },
   ],
   categories: [
     {
@@ -187,15 +187,15 @@ export const devToolsGarden: GardenTypes = {
           name: "Omni Lint",
           homepage_url: "https://lint.omni.example",
           description: "Code linting and formatting tools",
-          logo: "https://via.placeholder.com/150?text=Lint"
+          logo: "https://placehold.co/150?text=Lint",
         },
         {
           name: "Omni Test",
           homepage_url: "https://test.omni.example",
           description: "Testing frameworks and tools",
-          logo: "https://via.placeholder.com/150?text=Test"
-        }
-      ]
+          logo: "https://placehold.co/150?text=Test",
+        },
+      ],
     },
     {
       name: "Development",
@@ -206,15 +206,15 @@ export const devToolsGarden: GardenTypes = {
           name: "Omni IDE",
           homepage_url: "https://ide.omni.example",
           description: "Integrated development environment",
-          logo: "https://via.placeholder.com/150?text=IDE"
+          logo: "https://placehold.co/150?text=IDE",
         },
         {
           name: "Omni CLI",
           homepage_url: "https://cli.omni.example",
           description: "Command line interface tools",
-          logo: "https://via.placeholder.com/150?text=CLI"
-        }
-      ]
+          logo: "https://placehold.co/150?text=CLI",
+        },
+      ],
     },
     {
       name: "DevOps",
@@ -225,23 +225,23 @@ export const devToolsGarden: GardenTypes = {
           name: "Omni CI/CD",
           homepage_url: "https://cicd.omni.example",
           description: "Continuous integration and deployment",
-          logo: "https://via.placeholder.com/150?text=CICD"
+          logo: "https://placehold.co/150?text=CICD",
         },
         {
           name: "Omni Monitor",
           homepage_url: "https://monitor.omni.example",
           description: "System monitoring and alerts",
-          logo: "https://via.placeholder.com/150?text=Monitor"
-        }
-      ]
-    }
+          logo: "https://placehold.co/150?text=Monitor",
+        },
+      ],
+    },
   ],
   maintainers: [
     {
       name: "Omni DevEx Team",
       email: "devex@omni.example",
-      url: "https://devtools.omni.example/team"
-    }
+      url: "https://devtools.omni.example/team",
+    },
   ],
   created_at: "2022-04-12T00:00:00Z",
   updated_at: "2023-04-30T00:00:00Z",
@@ -249,8 +249,8 @@ export const devToolsGarden: GardenTypes = {
     primary_color: "#0891B2",
     secondary_color: "#67E8F9",
     background_color: "#ECFEFF",
-    text_color: "#164E63"
-  }
+    text_color: "#164E63",
+  },
 };
 
 // Omni Specifications Garden
@@ -263,9 +263,9 @@ export const specificationsGarden: GardenTypes = {
       name: "Omni Ecosystem",
       url: "https://ecosystem.omni.example",
       description: "Complete Omni product and tooling ecosystem",
-      logo: "https://via.placeholder.com/150?text=Ecosystem",
-      version: "2.0.0"
-    }
+      logo: "https://placehold.co/150?text=Ecosystem",
+      version: "2.0.0",
+    },
   ],
   categories: [
     {
@@ -277,15 +277,15 @@ export const specificationsGarden: GardenTypes = {
           name: "Omni REST",
           homepage_url: "https://rest.omni.example",
           description: "REST API design guidelines",
-          logo: "https://via.placeholder.com/150?text=REST"
+          logo: "https://placehold.co/150?text=REST",
         },
         {
           name: "Omni GraphQL",
           homepage_url: "https://graphql.omni.example",
           description: "GraphQL schema design standards",
-          logo: "https://via.placeholder.com/150?text=GraphQL"
-        }
-      ]
+          logo: "https://placehold.co/150?text=GraphQL",
+        },
+      ],
     },
     {
       name: "Data Models",
@@ -296,15 +296,15 @@ export const specificationsGarden: GardenTypes = {
           name: "Omni Schema",
           homepage_url: "https://schema.omni.example",
           description: "Data schema definitions and standards",
-          logo: "https://via.placeholder.com/150?text=Schema"
+          logo: "https://placehold.co/150?text=Schema",
         },
         {
           name: "Omni Taxonomy",
           homepage_url: "https://taxonomy.omni.example",
           description: "Taxonomy and classification standards",
-          logo: "https://via.placeholder.com/150?text=Taxonomy"
-        }
-      ]
+          logo: "https://placehold.co/150?text=Taxonomy",
+        },
+      ],
     },
     {
       name: "UX Standards",
@@ -315,23 +315,23 @@ export const specificationsGarden: GardenTypes = {
           name: "Omni Design System",
           homepage_url: "https://design.omni.example",
           description: "Design system guidelines",
-          logo: "https://via.placeholder.com/150?text=Design"
+          logo: "https://placehold.co/150?text=Design",
         },
         {
           name: "Omni Accessibility",
           homepage_url: "https://a11y.omni.example",
           description: "Accessibility standards and guidelines",
-          logo: "https://via.placeholder.com/150?text=A11Y"
-        }
-      ]
-    }
+          logo: "https://placehold.co/150?text=A11Y",
+        },
+      ],
+    },
   ],
   maintainers: [
     {
       name: "Omni Standards Team",
       email: "standards@omni.example",
-      url: "https://specs.omni.example/team"
-    }
+      url: "https://specs.omni.example/team",
+    },
   ],
   created_at: "2022-02-28T00:00:00Z",
   updated_at: "2023-03-15T00:00:00Z",
@@ -339,20 +339,14 @@ export const specificationsGarden: GardenTypes = {
     primary_color: "#A855F7",
     secondary_color: "#D8B4FE",
     background_color: "#FAF5FF",
-    text_color: "#581C87"
-  }
+    text_color: "#581C87",
+  },
 };
-
-// Default garden for the visualizer
-export const omniGarden: GardenTypes = omniEcosystem;
-
-// Additional sample garden for testing
-export const sampleGarden: GardenTypes = productsGarden;
 
 // Make all gardens available for easy access
 export const gardens = {
   "Omni Ecosystem": omniEcosystem,
   "Omni Products": productsGarden,
   "Omni Dev Tools": devToolsGarden,
-  "Omni Specifications": specificationsGarden
+  "Omni Specifications": specificationsGarden,
 };

@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["src/generated/**", "public/mockServiceWorker.js"]
+    "ignore": ["src/generated/**", "src/components/ui/**"]
   },
   "formatter": {
     "enabled": true,
@@ -29,12 +29,24 @@
       "correctness": {
         "noUnusedImports": "error"
       },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {
+            "attributes": ["className"],
+            "functions": ["cn"]
+          }
+        }
+      },
       "style": {
         "noNonNullAssertion": "off",
         "useSingleVarDeclarator": "off"
       },
       "suspicious": {
-        "noConsoleLog": "error"
+        "noConsoleLog": "error",
+        // TODO: remove this, and make sure it is indeed an error. For scaffolding purposes, it is easier to just have this be a warning for now
+        "noExplicitAny": "warn"
       }
     }
   }
