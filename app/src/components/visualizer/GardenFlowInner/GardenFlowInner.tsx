@@ -8,32 +8,29 @@ import {
   MiniMap,
   Panel,
   ReactFlow,
-  ReactFlowProvider,
   useEdgesState,
   useNodesState,
   useReactFlow,
   useUpdateNodeInternals,
 } from "@xyflow/react";
-import { Globe, Layers, Maximize, RefreshCw } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
-import { nodeTypes } from "@/components/core/custom-nodes";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { autoLayout, gardenToFlow } from "@/lib/util/flow";
+import { Icons } from "components/core";
+import nodeTypes from "components/core/CustomNodes/CustomNodes";
+import { Button, Label, Switch } from "components/ui";
+import { autoLayout, gardenToFlow } from "lib/util/flow";
 
-import type { GardenTypes } from "@/generated/garden.types";
+import type { GardenTypes } from "generated/garden.types";
 import type { Edge, Node, NodeMouseHandler } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
 
-interface GardenFlowProps {
+interface Props {
   garden: GardenTypes;
   onNavigateToGarden?: (gardenName: string) => void;
 }
 
-const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
+const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
   const [initialized, setInitialized] = useState(false);
@@ -317,16 +314,16 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
           </div>
           <div className="flex items-center gap-2">
             <div className="flex h-3 w-3 items-center justify-center">
-              <Layers className="h-3 w-3 text-primary" />
+              <Icons.Layers className="h-3 w-3 text-primary" />
             </div>
             <p className="text-muted-foreground">
-              Use the <Layers className="mx-1 inline h-3 w-3" /> toggle to
+              Use the <Icons.Layers className="mx-1 inline h-3 w-3" /> toggle to
               expand or condense subgardens
             </p>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex h-3 w-3 items-center justify-center">
-              <Globe className="h-3 w-3 text-primary" />
+              <Icons.Globe className="h-3 w-3 text-primary" />
             </div>
             <p className="text-muted-foreground">
               Navigate up to supergardens or down to subgardens
@@ -347,7 +344,7 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
             onClick={onLayout}
             disabled={layouting}
           >
-            <RefreshCw className="h-4 w-4" />
+            <Icons.RefreshCw className="h-4 w-4" />
           </Button>
 
           <Button
@@ -355,14 +352,14 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
             size="icon"
             onClick={() => fitView({ padding: 0.2 })}
           >
-            <Maximize className="h-4 w-4" />
+            <Icons.Maximize className="h-4 w-4" />
           </Button>
         </div>
 
         <div
           className={`flex items-center gap-2 rounded-md bg-background/80 p-2 shadow-md backdrop-blur-sm transition-all duration-300 ${isToggling ? "animate-pulse ring ring-primary/50" : ""}`}
         >
-          <Layers
+          <Icons.Layers
             className={`h-4 w-4 ${expandSubgardens ? "text-primary" : "text-muted-foreground"}`}
           />
           <div className="flex items-center space-x-2">
@@ -394,13 +391,4 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   );
 };
 
-// Wrap with provider to avoid context issues
-const GardenFlow = (props: GardenFlowProps) => (
-  <ReactFlowProvider>
-    <div className="h-[800px] w-full overflow-hidden rounded-lg border">
-      <GardenFlowInner {...props} />
-    </div>
-  </ReactFlowProvider>
-);
-
-export default GardenFlow;
+export default GardenFlowInner;
