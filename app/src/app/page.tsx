@@ -97,7 +97,7 @@ const HomePage = () => (
       </div>
     </section>
 
-    <section className="flex w-full h-full flex-col items-center justify-center py-12 bg-muted/50">
+    <section className="flex h-full w-full flex-col items-center justify-center bg-muted/50 py-12">
       <div className="container px-4 md:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
@@ -105,7 +105,7 @@ const HomePage = () => (
               key={feature.title}
               className={cn(
                 "group relative flex flex-col items-center space-y-4 text-center",
-                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl"
+                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl",
               )}
             >
               <div className="rounded-full bg-primary/10 p-4 text-primary">
