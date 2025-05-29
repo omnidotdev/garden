@@ -41,6 +41,8 @@ const RootLayout = ({ children }: PropsWithChildren) => (
                 <Link
                   className="text-muted-foreground text-xs transition-colors hover:text-primary"
                   href="https://omni.dev/terms-of-service"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Terms of Service
                 </Link>
@@ -48,6 +50,8 @@ const RootLayout = ({ children }: PropsWithChildren) => (
                 <Link
                   className="text-muted-foreground text-xs transition-colors hover:text-primary"
                   href="https://omni.dev/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Privacy
                 </Link>
