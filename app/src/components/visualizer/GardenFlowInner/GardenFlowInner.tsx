@@ -30,6 +30,9 @@ interface Props {
   onNavigateToGarden?: (gardenName: string) => void;
 }
 
+/**
+ * Garden Flow Inner.
+ */
 const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();

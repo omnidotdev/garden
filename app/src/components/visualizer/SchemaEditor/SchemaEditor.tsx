@@ -36,6 +36,9 @@ interface SchemaEditorProps {
 
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
+/**
+ * Schema Editor.
+ */
 const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
   // Initialize schema text with current garden or stored value
   const [schemaText, setSchemaText] = useState<string>("");

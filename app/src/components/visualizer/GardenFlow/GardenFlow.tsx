@@ -8,7 +8,9 @@ interface Props {
   onNavigateToGarden?: (gardenName: string) => void;
 }
 
-// Wrap with provider to avoid context issues
+/**
+ * Garden Flow.
+ */
 const GardenFlow = ({ garden, onNavigateToGarden }: Props) => {
   return (
     <ReactFlowProvider>

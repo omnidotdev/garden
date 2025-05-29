@@ -35,9 +35,13 @@ import {
   X,
   RefreshCw,
   Maximize,
+  ArrowLeft,
   type LucideIcon,
 } from "lucide-react";
 
+/**
+ * Application Icons.
+ */
 export const Icons: Record<string, LucideIcon> = {
   Sprout,
   Zap,
@@ -76,4 +80,5 @@ export const Icons: Record<string, LucideIcon> = {
   X,
   RefreshCw,
   Maximize,
+  ArrowLeft,
 };

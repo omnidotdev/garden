@@ -3,16 +3,23 @@ import { Handle, Position } from "@xyflow/react";
 import { Icons } from "components/core";
 import { Button, Card } from "components/ui";
 
-const BaseNode = ({
-  data,
-  children,
-}: {
-  data: any;
-  children: React.ReactNode;
-}) => <Card className="w-[200px] border-2 shadow-lg">{children}</Card>;
+interface NodeData {
+  label: string;
+  description?: string;
+  icon: keyof typeof Icons;
+  icon_color?: string;
+  image?: string;
+  expandable?: boolean;
+  version?: string;
+  url?: string;
+  cta?: {
+    primary: { label: string; url: string };
+    secondary?: { label: string; url: string };
+  };
+}
 
-const GardenNode = ({ data }: { data: any }) => (
-  <BaseNode data={data}>
+const GardenNode = ({ data }: { data: NodeData }) => (
+  <Card className="w-[200px] border-2 shadow-lg">
     <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-primary p-4 text-center text-primary-foreground">
       <Icons.Sprout className="h-8 w-8" />
       <h2 className="font-semibold text-2xl">{data.label}</h2>
@@ -21,14 +28,14 @@ const GardenNode = ({ data }: { data: any }) => (
     </div>
     <Handle type="target" position={Position.Top} />
     <Handle type="source" position={Position.Bottom} />
-  </BaseNode>
+  </Card>
 );
 
-const CategoryNode = ({ data }: { data: any }) => {
+const CategoryNode = ({ data }: { data: NodeData }) => {
   const Icon = Icons[data.icon];
 
   return (
-    <BaseNode data={data}>
+    <Card className="w-[200px] border-2 shadow-lg">
       <Handle type="target" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />
       <div className="p-4">
@@ -45,12 +52,12 @@ const CategoryNode = ({ data }: { data: any }) => {
           </p>
         )}
       </div>
-    </BaseNode>
+    </Card>
   );
 };
 
-const ItemNode = ({ data }: { data: any }) => (
-  <BaseNode data={data}>
+const ItemNode = ({ data }: { data: NodeData }) => (
+  <Card className="w-[200px] border-2 shadow-lg">
     <div className="space-y-3">
       <div className="aspect-video w-full overflow-hidden rounded-t-lg">
         <img
@@ -72,16 +79,17 @@ const ItemNode = ({ data }: { data: any }) => (
           variant="default"
           size="sm"
           className="w-full"
-          onClick={() => window.open(data.cta.primary.url, "_blank")}
+          onClick={() => window.open(data.cta?.primary.url, "_blank")}
         >
           <Icons.ExternalLink className="mr-1 h-4 w-4" />
-          {data.cta.primary.label}
+          {data.cta?.primary.label}
         </Button>
-        {data.cta.secondary && (
+
+        {data.cta?.secondary && (
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(data.cta.secondary.url, "_blank")}
+            onClick={() => window.open(data.cta?.secondary?.url, "_blank")}
           >
             <Icons.Git className="h-4 w-4" />
           </Button>
@@ -90,11 +98,11 @@ const ItemNode = ({ data }: { data: any }) => (
     </div>
     <Handle type="target" position={Position.Top} />
     <Handle type="source" position={Position.Bottom} />
-  </BaseNode>
+  </Card>
 );
 
-const GardenRefNode = ({ data }: { data: any }) => (
-  <BaseNode data={data}>
+const GardenRefNode = ({ data }: { data: NodeData }) => (
+  <Card className="w-[200px] border-2 shadow-lg">
     <Handle type="target" position={Position.Top} />
     <Handle type="target" position={Position.Left} />
     <div className="relative flex cursor-pointer flex-col items-center rounded-md border-2 border-primary/50 border-dashed p-4 text-center transition-colors hover:bg-primary-foreground/10">
@@ -127,11 +135,11 @@ const GardenRefNode = ({ data }: { data: any }) => (
         </Button>
       </div>
     </div>
-  </BaseNode>
+  </Card>
 );
 
-const SupergardenNode = ({ data }: { data: any }) => (
-  <BaseNode data={data}>
+const SupergardenNode = ({ data }: { data: NodeData }) => (
+  <Card className="w-[200px] border-2 shadow-lg">
     <Handle type="source" position={Position.Bottom} />
     <div
       className="relative flex cursor-pointer flex-col items-center border-2 border-white/70 border-dashed p-4 text-center transition-transform hover:scale-105"
@@ -164,11 +172,11 @@ const SupergardenNode = ({ data }: { data: any }) => (
         </Button>
       </div>
     </div>
-  </BaseNode>
+  </Card>
 );
 
-const SubgardenNode = ({ data }: { data: any }) => (
-  <BaseNode data={data}>
+const SubgardenNode = ({ data }: { data: NodeData }) => (
+  <Card className="w-[200px] border-2 shadow-lg">
     <Handle type="target" position={Position.Bottom} />
     <div
       className="relative flex cursor-pointer flex-col items-center p-4 text-center transition-transform hover:scale-105"
@@ -207,7 +215,7 @@ const SubgardenNode = ({ data }: { data: any }) => (
         </Button>
       </div>
     </div>
-  </BaseNode>
+  </Card>
 );
 
 export const nodeTypes = {
@@ -217,7 +225,7 @@ export const nodeTypes = {
   garden_ref: GardenRefNode,
   supergarden: SupergardenNode,
   subgarden: SubgardenNode,
-  default: ({ data }: { data: any }) => (
+  default: ({ data }: { data: NodeData }) => (
     <>
       <Handle type="source" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />

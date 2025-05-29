@@ -1,3 +1,6 @@
+/**
+ * Schema Help.
+ */
 const SchemaHelp = () => (
   <div className="space-y-4">
     <h3 className="font-medium text-lg">Garden Schema Structure</h3>

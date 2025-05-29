@@ -13,6 +13,9 @@ interface Props {
   garden?: GardenTypes;
 }
 
+/**
+ * Editor Actions.
+ */
 const EditorActions = ({
   schemaText,
   setSchemaText,

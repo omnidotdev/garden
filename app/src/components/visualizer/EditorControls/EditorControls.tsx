@@ -2,6 +2,9 @@ import { Icons } from "components/core";
 import { Button } from "components/ui";
 import useSearchParams from "lib/hooks/useSearchParams";
 
+/**
+ * Editor Controls.
+ */
 const EditorControls = () => {
   const [{ fontSize, editorExpanded }, setSearchParams] = useSearchParams();
 

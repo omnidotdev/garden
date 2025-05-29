@@ -15,6 +15,9 @@ interface Props {
   setError: (error: string | null) => void;
 }
 
+/**
+ * Text Editor.
+ */
 const TextEditor = ({ schemaText, setSchemaText, error, setError }: Props) => {
   const [editorTheme, setEditorTheme] = useState<string>("light");
   const [copied, setCopied] = useState(false);

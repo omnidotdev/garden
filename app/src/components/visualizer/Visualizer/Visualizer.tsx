@@ -1,6 +1,5 @@
 "use client";
 
-import { parseAsString, useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Icons } from "components/core";
@@ -13,6 +12,7 @@ import {
   productsGarden,
   specificationsGarden,
 } from "lib/schema/garden";
+import useSearchParams from "lib/hooks/useSearchParams";
 
 import type { GardenTypes } from "generated/garden.types";
 
@@ -25,17 +25,17 @@ declare global {
 
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
+/**
+ * Visualizer.
+ */
 const Visualizer = () => {
   const [garden, setGarden] = useState<GardenTypes>(omniEcosystem);
-  const [activeTab, setActiveTab] = useQueryState(
-    "tab",
-    parseAsString.withDefault("visualize"),
-  );
   const [gardenKey, setGardenKey] = useState<number>(0); // Add key to force re-render
   const [navigationHistory, setNavigationHistory] = useState<
     { garden: GardenTypes; timestamp: number }[]
   >([]);
   const [breadcrumbs, setBreadcrumbs] = useState<string[]>([]);
+  const [{ activeTab }, setSearchParams] = useSearchParams();
 
   // load garden from local storage on initial render
   useEffect(() => {
@@ -115,10 +115,12 @@ const Visualizer = () => {
 
       // Switch to visualize tab if not already there
       if (activeTab !== "visualize") {
-        setActiveTab("visualize");
+        setSearchParams({
+          activeTab: "visualize",
+        });
       }
     },
-    [activeTab, setActiveTab, garden, breadcrumbs],
+    [activeTab, setSearchParams, garden, breadcrumbs],
   );
 
   // Handler for direct garden navigation from ReactFlow
@@ -326,8 +328,6 @@ const Visualizer = () => {
         key={gardenKey}
         garden={garden}
         onSchemaChange={setGarden}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
         onNavigateToGarden={handleNavigateToGarden}
       />
     </div>

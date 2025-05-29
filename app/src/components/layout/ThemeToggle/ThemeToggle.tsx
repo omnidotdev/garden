@@ -5,6 +5,9 @@ import { useTheme } from "next-themes";
 import { Icons } from "components/core";
 import { Button } from "components/ui";
 
+/**
+ * Layout theme toggle.
+ */
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
 
