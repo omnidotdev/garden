@@ -6,7 +6,7 @@ import { Visualizer } from "components/visualizer";
  * Garden visualizer.
  */
 const VisualizerPage = () => (
-  <Suspense fallback={<div>Loading visualizer...</div>}>
+  <Suspense>
     <Visualizer />
   </Suspense>
 );

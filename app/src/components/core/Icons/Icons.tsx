@@ -31,6 +31,10 @@ import {
   Sparkles,
   ArrowRight,
   Share2,
+  BarChart,
+  X,
+  RefreshCw,
+  Maximize,
   type LucideIcon,
 } from "lucide-react";
 
@@ -68,4 +72,8 @@ export const Icons: Record<string, LucideIcon> = {
   Sparkles,
   ArrowRight,
   Share2,
+  BarChart,
+  X,
+  RefreshCw,
+  Maximize,
 };
