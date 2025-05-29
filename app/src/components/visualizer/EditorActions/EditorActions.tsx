@@ -1,8 +1,7 @@
-import { Download } from "lucide-react";
+import { Icons } from "components/core";
+import { Button } from "components/ui";
 
-import { Button } from "@/components/ui/button";
-
-import type { GardenTypes } from "@/generated/garden.types";
+import type { GardenTypes } from "generated/garden.types";
 
 const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
 
@@ -73,12 +72,13 @@ const EditorActions = ({
         </Button>
 
         <Button onClick={resetToSample} variant="outline">
-          Reset to Sample
+          <Icons.RotateCcw size={16} />
+          <p className="ml-2 hidden md:flex">Reset to Sample</p>
         </Button>
       </div>
 
       <Button onClick={downloadSchema} variant="outline">
-        <Download size={16} />
+        <Icons.Download size={16} />
 
         <p className="ml-2 hidden md:flex">Download Schema</p>
       </Button>

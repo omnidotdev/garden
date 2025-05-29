@@ -1,4 +1,4 @@
-const Help = () => (
+const SchemaHelp = () => (
   <div className="space-y-4">
     <h3 className="font-medium text-lg">Garden Schema Structure</h3>
     <p>The Garden schema is designed to visualize ecosystems:</p>
@@ -146,4 +146,4 @@ const Help = () => (
   </div>
 );
 
-export default Help;
+export default SchemaHelp;

@@ -1,9 +1,13 @@
 "use client";
 
-import { Expand, Minimize2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import {
+  EditorActions,
+  EditorControls,
+  SchemaHelp,
+  TextEditor,
+} from "components/visualizer";
 import {
   Card,
   CardContent,
@@ -11,26 +15,19 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "components/ui";
+import useSearchParams from "lib/hooks/useSearchParams";
 
-import {
-  EditorActions,
-  EditorControls,
-  Help,
-  TextEditor,
-} from "@/components/edit";
-
-import type { GardenTypes } from "@/generated/garden.types";
+import type { GardenTypes } from "generated/garden.types";
 
 interface SchemaEditorProps {
   onSchemaChange: (schema: GardenTypes) => void;
@@ -43,6 +40,10 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
   // Initialize schema text with current garden or stored value
   const [schemaText, setSchemaText] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [{ editorExpanded }, setSearchParams] = useSearchParams();
+
+  const title = "Garden Editor";
+  const description = "Edit the JSON schema for your Garden visualization";
 
   // Initialize with the current garden or saved data
   useEffect(() => {
@@ -82,78 +83,50 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Garden Editor</CardTitle>
-        <CardDescription>
-          Edit the JSON schema for your Garden visualization
-        </CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="editor">
-          <TabsList className="mb-4">
+          <TabsList>
             <TabsTrigger value="editor">JSON Editor</TabsTrigger>
             <TabsTrigger value="help">Schema Help</TabsTrigger>
           </TabsList>
 
           <TabsContent value="editor" className="mt-0 flex flex-col gap-4">
-            <div className="flex w-full justify-end gap-2">
-              <EditorControls />
+            <EditorControls />
 
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    title="Expand Editor"
-                    className="h-7 w-7"
-                  >
-                    <Expand size={16} />
-                  </Button>
-                </SheetTrigger>
+            <Sheet
+              open={editorExpanded}
+              onOpenChange={(open) => setSearchParams({ editorExpanded: open })}
+            >
+              <SheetContent
+                className="grid h-[96vh] w-full grid-rows-layout rounded-2xl"
+                side="bottom"
+              >
+                <SheetHeader className="flex flex-col items-start">
+                  <SheetTitle>{title}</SheetTitle>
+                  <SheetDescription>{description}</SheetDescription>
+                </SheetHeader>
 
-                <SheetContent
-                  className="grid h-[96vh] w-full grid-rows-layout rounded-2xl"
-                  side="bottom"
-                >
-                  <SheetHeader>
-                    <SheetTitle>Garden Editor</SheetTitle>
+                <EditorControls />
 
-                    <SheetDescription>
-                      Edit the JSON schema for your Garden visualization
-                    </SheetDescription>
-                  </SheetHeader>
+                <TextEditor
+                  error={error}
+                  schemaText={schemaText}
+                  setSchemaText={setSchemaText}
+                  setError={setError}
+                />
 
-                  <div className="flex w-full justify-center gap-2 md:justify-end">
-                    <EditorControls />
-
-                    <SheetClose asChild>
-                      <Button
-                        type="submit"
-                        variant="outline"
-                        size="icon"
-                        className="h-7 w-7"
-                      >
-                        <Minimize2 size={16} />
-                      </Button>
-                    </SheetClose>
-                  </div>
-
-                  <TextEditor
-                    error={error}
-                    schemaText={schemaText}
-                    setSchemaText={setSchemaText}
-                    setError={setError}
-                  />
-
-                  <EditorActions
-                    schemaText={schemaText}
-                    setSchemaText={setSchemaText}
-                    setError={setError}
-                    onSchemaChange={onSchemaChange}
-                    garden={garden}
-                  />
-                </SheetContent>
-              </Sheet>
-            </div>
+                <EditorActions
+                  schemaText={schemaText}
+                  setSchemaText={setSchemaText}
+                  setError={setError}
+                  onSchemaChange={onSchemaChange}
+                  garden={garden}
+                />
+              </SheetContent>
+            </Sheet>
 
             <div className="h-[400px]">
               <TextEditor
@@ -166,7 +139,7 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
           </TabsContent>
 
           <TabsContent value="help">
-            <Help />
+            <SchemaHelp />
           </TabsContent>
         </Tabs>
       </CardContent>

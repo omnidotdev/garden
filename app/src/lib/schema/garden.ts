@@ -1,4 +1,4 @@
-import type { GardenTypes } from "@/generated/garden.types";
+import type { GardenTypes } from "generated/garden.types";
 
 // Omni Ecosystem - Root garden
 export const omniEcosystem: GardenTypes = {

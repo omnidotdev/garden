@@ -1,23 +1,23 @@
-import { ArrowRight, Code, Share2, Sparkles, Zap } from "lucide-react";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
-import cn from "@/lib/util/cn";
+import { Icons } from "components/core";
+import { Button } from "components/ui";
+import cn from "lib/util/cn";
 
 const features = [
   {
-    icon: <Code className="h-6 w-6" />,
+    icon: <Icons.Code className="h-6 w-6" />,
     title: "Easy Modeling",
     description:
       "Define your ecosystem structure using an intuitive JSON schema",
   },
   {
-    icon: <Share2 className="h-6 w-6" />,
+    icon: <Icons.Share2 className="h-6 w-6" />,
     title: "Interactive Maps",
     description: "Transform complex relationships into clear, visual insights",
   },
   {
-    icon: <Zap className="h-6 w-6" />,
+    icon: <Icons.Zap className="h-6 w-6" />,
     title: "Dynamic Updates",
     description:
       "Watch your ecosystem map evolve in real-time as you make changes",
@@ -74,7 +74,7 @@ const HomePage = () => (
                 Visualize Your Ecosystem{" "}
               </h1>
 
-              <Sparkles className="hidden h-10 w-10 md:flex" />
+              <Icons.Sparkles className="hidden h-10 w-10 md:flex" />
             </div>
 
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
@@ -89,7 +89,7 @@ const HomePage = () => (
                 className="gap-2 bg-primary hover:bg-primary/90"
               >
                 Start Modeling
-                <ArrowRight className="h-4 w-4" />
+                <Icons.ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>
@@ -126,7 +126,7 @@ const HomePage = () => (
         <Link href="/visualizer">
           <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90">
             Start Modeling
-            <ArrowRight className="h-4 w-4" />
+            <Icons.ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
       </div>

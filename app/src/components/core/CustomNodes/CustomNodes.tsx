@@ -1,16 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
-import {
-  ExternalLink,
-  GitBranch,
-  Globe,
-  Layers,
-  Link,
-  Sprout,
-} from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Icons } from "@/components/ui/icons";
+import { Icons } from "components/core";
+import { Button, Card } from "components/ui";
 
 const BaseNode = ({
   data,
@@ -23,7 +14,7 @@ const BaseNode = ({
 const GardenNode = ({ data }: { data: any }) => (
   <BaseNode data={data}>
     <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-primary p-4 text-center text-primary-foreground">
-      <Sprout className="h-8 w-8" />
+      <Icons.Sprout className="h-8 w-8" />
       <h2 className="font-semibold text-2xl">{data.label}</h2>
 
       <h4>{data.description}</h4>
@@ -38,14 +29,8 @@ const CategoryNode = ({ data }: { data: any }) => {
 
   return (
     <BaseNode data={data}>
-      <Handle
-        type="target"
-        position={Position.Top}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-      />
+      <Handle type="target" position={Position.Top} />
+      <Handle type="source" position={Position.Bottom} />
       <div className="p-4">
         <div
           className="flex items-center gap-3"
@@ -89,7 +74,7 @@ const ItemNode = ({ data }: { data: any }) => (
           className="w-full"
           onClick={() => window.open(data.cta.primary.url, "_blank")}
         >
-          <ExternalLink className="mr-1 h-4 w-4" />
+          <Icons.ExternalLink className="mr-1 h-4 w-4" />
           {data.cta.primary.label}
         </Button>
         {data.cta.secondary && (
@@ -110,19 +95,13 @@ const ItemNode = ({ data }: { data: any }) => (
 
 const GardenRefNode = ({ data }: { data: any }) => (
   <BaseNode data={data}>
-    <Handle
-      type="target"
-      position={Position.Top}
-    />
-    <Handle
-      type="target"
-      position={Position.Left}
-    />
+    <Handle type="target" position={Position.Top} />
+    <Handle type="target" position={Position.Left} />
     <div className="relative flex cursor-pointer flex-col items-center rounded-md border-2 border-primary/50 border-dashed p-4 text-center transition-colors hover:bg-primary-foreground/10">
       <div className="absolute top-1 right-1 rounded bg-primary/20 px-1 py-0.5 font-semibold text-primary text-xs">
         Navigate
       </div>
-      <Link className="mb-2 h-6 w-6" style={{ color: data.icon_color }} />
+      <Icons.Link className="mb-2 h-6 w-6" style={{ color: data.icon_color }} />
       <h3 className="font-medium">{data.label}</h3>
       {data.description && (
         <p className="mt-1 line-clamp-2 text-muted-foreground text-sm">
@@ -143,7 +122,7 @@ const GardenRefNode = ({ data }: { data: any }) => (
             window.open(data.url, "_blank");
           }}
         >
-          <ExternalLink className="mr-1 h-3 w-3" />
+          <Icons.ExternalLink className="mr-1 h-3 w-3" />
           View
         </Button>
       </div>
@@ -153,10 +132,7 @@ const GardenRefNode = ({ data }: { data: any }) => (
 
 const SupergardenNode = ({ data }: { data: any }) => (
   <BaseNode data={data}>
-    <Handle
-      type="source"
-      position={Position.Bottom}
-    />
+    <Handle type="source" position={Position.Bottom} />
     <div
       className="relative flex cursor-pointer flex-col items-center border-2 border-white/70 border-dashed p-4 text-center transition-transform hover:scale-105"
       style={{
@@ -168,7 +144,7 @@ const SupergardenNode = ({ data }: { data: any }) => (
       <div className="absolute top-1 right-1 rounded bg-white/30 px-1 py-0.5 font-semibold text-white text-xs">
         Supergarden
       </div>
-      <Globe className="mb-2 h-6 w-6 animate-pulse" />
+      <Icons.Globe className="mb-2 h-6 w-6 animate-pulse" />
       <h3 className="font-medium">{data.label}</h3>
       {data.description && (
         <p className="mt-1 line-clamp-2 text-sm">{data.description}</p>
@@ -183,7 +159,7 @@ const SupergardenNode = ({ data }: { data: any }) => (
             window.open(data.url, "_blank");
           }}
         >
-          <ExternalLink className="mr-1 h-3 w-3" />
+          <Icons.ExternalLink className="mr-1 h-3 w-3" />
           View
         </Button>
       </div>
@@ -193,10 +169,7 @@ const SupergardenNode = ({ data }: { data: any }) => (
 
 const SubgardenNode = ({ data }: { data: any }) => (
   <BaseNode data={data}>
-    <Handle
-      type="target"
-      position={Position.Bottom}
-    />
+    <Handle type="target" position={Position.Bottom} />
     <div
       className="relative flex cursor-pointer flex-col items-center p-4 text-center transition-transform hover:scale-105"
       style={{
@@ -210,11 +183,11 @@ const SubgardenNode = ({ data }: { data: any }) => (
       </div>
       {data.expandable && (
         <div className="absolute top-1 left-1 flex items-center rounded bg-white/30 px-1 py-0.5 font-semibold text-white text-xs">
-          <Layers className="mr-1 h-3 w-3" />
+          <Icons.Layers className="mr-1 h-3 w-3" />
           Expandable
         </div>
       )}
-      <GitBranch className="mb-2 h-6 w-6 animate-pulse" />
+      <Icons.GitBranch className="mb-2 h-6 w-6 animate-pulse" />
       <h3 className="font-medium">{data.label}</h3>
       {data.description && (
         <p className="mt-1 line-clamp-2 text-sm">{data.description}</p>
@@ -229,7 +202,7 @@ const SubgardenNode = ({ data }: { data: any }) => (
             window.open(data.url, "_blank");
           }}
         >
-          <ExternalLink className="mr-1 h-3 w-3" />
+          <Icons.ExternalLink className="mr-1 h-3 w-3" />
           View
         </Button>
       </div>
@@ -255,3 +228,5 @@ export const nodeTypes = {
     </>
   ),
 };
+
+export default nodeTypes;

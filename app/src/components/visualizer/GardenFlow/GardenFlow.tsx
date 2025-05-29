@@ -14,16 +14,14 @@ import {
   useReactFlow,
   useUpdateNodeInternals,
 } from "@xyflow/react";
-import { Globe, Layers, Maximize, RefreshCw } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
-import { nodeTypes } from "@/components/core/custom-nodes";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { autoLayout, gardenToFlow } from "@/lib/util/flow";
+import { Icons } from "components/core";
+import nodeTypes from "components/core/CustomNodes/CustomNodes";
+import { Button, Label, Switch } from "components/ui";
+import { autoLayout, gardenToFlow } from "lib/util/flow";
 
-import type { GardenTypes } from "@/generated/garden.types";
+import type { GardenTypes } from "generated/garden.types";
 import type { Edge, Node, NodeMouseHandler } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -33,7 +31,8 @@ interface GardenFlowProps {
   onNavigateToGarden?: (gardenName: string) => void;
 }
 
-const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
+// Wrap with provider to avoid context issues
+const GardenFlow = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
   const [initialized, setInitialized] = useState(false);
@@ -244,163 +243,158 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: GardenFlowProps) => {
   }, []);
 
   return (
-    <ReactFlow
-      nodes={nodes.map((node) => ({
-        ...node,
-        style: {
-          ...node.style,
-          boxShadow:
-            hoveredNode === node.id
-              ? "0 0 10px 2px rgba(99, 102, 241, 0.7)"
-              : undefined,
-          cursor:
-            node.type === "supergarden" ||
-            node.type === "subgarden" ||
-            node.type === "garden_ref" ||
-            node.data?.isExpandedSubgardenLabel
-              ? "pointer"
-              : undefined,
-          // Add visual hint for navigable nodes
-          border:
-            node.type === "supergarden" ||
-            node.type === "subgarden" ||
-            node.type === "garden_ref" ||
-            node.data?.isExpandedSubgardenLabel
-              ? "2px dashed rgba(99, 102, 241, 0.7)"
-              : undefined,
-        },
-      }))}
-      edges={edges.map((edge) => ({
-        ...edge,
-        type: "smoothstep",
-        sourceHandle: null,
-        targetHandle: null,
-      }))}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onNodeClick={onNodeClick}
-      onNodeMouseEnter={onNodeMouseEnter}
-      onNodeMouseLeave={onNodeMouseLeave}
-      nodeTypes={nodeTypes}
-      fitView
-      minZoom={0.1}
-      maxZoom={1.5}
-      defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
-      attributionPosition="bottom-right"
-      nodesDraggable={false}
-      nodesConnectable={false}
-      elementsSelectable={!layouting}
-      fitViewOptions={{ padding: 0.2 }}
-      proOptions={{ hideAttribution: true }}
-      zoomOnScroll={true}
-      panOnScroll={false}
-      panOnDrag={true}
-      snapToGrid={true}
-      snapGrid={[10, 10]}
-      defaultEdgeOptions={{
-        type: "smoothstep",
-        animated: true,
-        style: { stroke: "#999", strokeWidth: 1.5 },
-        markerEnd: { type: MarkerType.ArrowClosed },
-      }}
-      connectionLineType={ConnectionLineType.SmoothStep}
-    >
-      <Background />
-      <MiniMap nodeStrokeWidth={3} zoomable pannable />
-      <div className="absolute top-4 left-4 z-10 rounded-md bg-background/80 p-3 text-sm shadow-md backdrop-blur-sm">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full border-2 border-primary border-dashed" />
-            <p className="text-muted-foreground">
-              Click on dashed nodes to navigate between gardens
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex h-3 w-3 items-center justify-center">
-              <Layers className="h-3 w-3 text-primary" />
-            </div>
-            <p className="text-muted-foreground">
-              Use the <Layers className="mx-1 inline h-3 w-3" /> toggle to
-              expand or condense subgardens
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex h-3 w-3 items-center justify-center">
-              <Globe className="h-3 w-3 text-primary" />
-            </div>
-            <p className="text-muted-foreground">
-              Navigate up to supergardens or down to subgardens
-            </p>
-          </div>
-          <div className="mt-1 text-muted-foreground text-xs italic">
-            Note: Changes to garden names are reflected in navigation
-          </div>
-        </div>
-      </div>
-      {/* TODO: fix styles for dark mode */}
-      <Controls />
-      <Panel position="top-right" className="flex flex-col gap-2">
-        <div className="flex items-center justify-end gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={onLayout}
-            disabled={layouting}
-          >
-            <RefreshCw className="h-4 w-4" />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => fitView({ padding: 0.2 })}
-          >
-            <Maximize className="h-4 w-4" />
-          </Button>
-        </div>
-
-        <div
-          className={`flex items-center gap-2 rounded-md bg-background/80 p-2 shadow-md backdrop-blur-sm transition-all duration-300 ${isToggling ? "animate-pulse ring ring-primary/50" : ""}`}
+    <ReactFlowProvider>
+      <div className="h-[800px] w-full overflow-hidden rounded-lg border">
+        <ReactFlow
+          nodes={nodes.map((node) => ({
+            ...node,
+            style: {
+              ...node.style,
+              boxShadow:
+                hoveredNode === node.id
+                  ? "0 0 10px 2px rgba(99, 102, 241, 0.7)"
+                  : undefined,
+              cursor:
+                node.type === "supergarden" ||
+                node.type === "subgarden" ||
+                node.type === "garden_ref" ||
+                node.data?.isExpandedSubgardenLabel
+                  ? "pointer"
+                  : undefined,
+              // Add visual hint for navigable nodes
+              border:
+                node.type === "supergarden" ||
+                node.type === "subgarden" ||
+                node.type === "garden_ref" ||
+                node.data?.isExpandedSubgardenLabel
+                  ? "2px dashed rgba(99, 102, 241, 0.7)"
+                  : undefined,
+            },
+          }))}
+          edges={edges.map((edge) => ({
+            ...edge,
+            type: "smoothstep",
+            sourceHandle: null,
+            targetHandle: null,
+          }))}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onNodeClick={onNodeClick}
+          onNodeMouseEnter={onNodeMouseEnter}
+          onNodeMouseLeave={onNodeMouseLeave}
+          nodeTypes={nodeTypes}
+          fitView
+          minZoom={0.1}
+          maxZoom={1.5}
+          defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
+          attributionPosition="bottom-right"
+          nodesDraggable={false}
+          nodesConnectable={false}
+          elementsSelectable={!layouting}
+          fitViewOptions={{ padding: 0.2 }}
+          proOptions={{ hideAttribution: true }}
+          zoomOnScroll={true}
+          panOnScroll={false}
+          panOnDrag={true}
+          snapToGrid={true}
+          snapGrid={[10, 10]}
+          defaultEdgeOptions={{
+            type: "smoothstep",
+            animated: true,
+            style: { stroke: "#999", strokeWidth: 1.5 },
+            markerEnd: { type: MarkerType.ArrowClosed },
+          }}
+          connectionLineType={ConnectionLineType.SmoothStep}
         >
-          <Layers
-            className={`h-4 w-4 ${expandSubgardens ? "text-primary" : "text-muted-foreground"}`}
-          />
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="expand-subgardens"
-              checked={expandSubgardens}
-              onCheckedChange={(checked) => {
-                setExpandSubgardens(checked);
-                // Force re-layout
-                setInitialized(false);
-                setIsToggling(true);
-                setTimeout(() => setIsToggling(false), 1000);
-              }}
-            />
-            <Label
-              htmlFor="expand-subgardens"
-              className={`text-xs transition-all duration-150 ${expandSubgardens ? "font-semibold text-primary" : ""}`}
-            >
-              {isToggling
-                ? "Processing..."
-                : expandSubgardens
-                  ? "Expanded"
-                  : "Condensed"}
-            </Label>
+          <Background />
+          <MiniMap nodeStrokeWidth={3} zoomable pannable />
+          <div className="absolute top-4 left-4 z-10 rounded-md bg-background/80 p-3 text-sm shadow-md backdrop-blur-sm">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full border-2 border-primary border-dashed" />
+                <p className="text-muted-foreground">
+                  Click on dashed nodes to navigate between gardens
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex h-3 w-3 items-center justify-center">
+                  <Icons.Layers className="h-3 w-3 text-primary" />
+                </div>
+                <p className="text-muted-foreground">
+                  Use the <Icons.Layers className="mx-1 inline h-3 w-3" />{" "}
+                  toggle to expand or condense subgardens
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex h-3 w-3 items-center justify-center">
+                  <Icons.Globe className="h-3 w-3 text-primary" />
+                </div>
+                <p className="text-muted-foreground">
+                  Navigate up to supergardens or down to subgardens
+                </p>
+              </div>
+              <div className="mt-1 text-muted-foreground text-xs italic">
+                Note: Changes to garden names are reflected in navigation
+              </div>
+            </div>
           </div>
-        </div>
-      </Panel>
-    </ReactFlow>
+          {/* TODO: fix styles for dark mode */}
+          <Controls />
+          <Panel position="top-right" className="flex flex-col gap-2">
+            <div className="flex items-center justify-end gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={onLayout}
+                disabled={layouting}
+              >
+                <Icons.RefreshCw className="h-4 w-4" />
+              </Button>
+
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => fitView({ padding: 0.2 })}
+              >
+                <Icons.Maximize className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div
+              className={`flex items-center gap-2 rounded-md bg-background/80 p-2 shadow-md backdrop-blur-sm transition-all duration-300 ${isToggling ? "animate-pulse ring ring-primary/50" : ""}`}
+            >
+              <Icons.Layers
+                className={`h-4 w-4 ${expandSubgardens ? "text-primary" : "text-muted-foreground"}`}
+              />
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="expand-subgardens"
+                  checked={expandSubgardens}
+                  onCheckedChange={(checked) => {
+                    setExpandSubgardens(checked);
+                    // Force re-layout
+                    setInitialized(false);
+                    setIsToggling(true);
+                    setTimeout(() => setIsToggling(false), 1000);
+                  }}
+                />
+                <Label
+                  htmlFor="expand-subgardens"
+                  className={`text-xs transition-all duration-150 ${expandSubgardens ? "font-semibold text-primary" : ""}`}
+                >
+                  {isToggling
+                    ? "Processing..."
+                    : expandSubgardens
+                      ? "Expanded"
+                      : "Condensed"}
+                </Label>
+              </div>
+            </div>
+          </Panel>
+        </ReactFlow>
+      </div>
+    </ReactFlowProvider>
   );
 };
-
-// Wrap with provider to avoid context issues
-const GardenFlow = (props: GardenFlowProps) => (
-  <ReactFlowProvider>
-    <div className="h-[800px] w-full overflow-hidden rounded-lg border">
-      <GardenFlowInner {...props} />
-    </div>
-  </ReactFlowProvider>
-);
 
 export default GardenFlow;
