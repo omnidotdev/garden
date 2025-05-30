@@ -4,20 +4,19 @@ import { GardenFlow, SchemaEditor } from "components/visualizer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "components/ui";
 
 import { Icons } from "components/core";
-import useSearchParams from "lib/hooks/useSearchParams";
+import { useSearchParams } from "lib/hooks";
 
-import type { GardenTypes } from "generated/garden.types";
+import type { Gardens } from "store";
 
 interface Props {
-  garden: GardenTypes;
-  onSchemaChange: (schema: GardenTypes) => void;
-  onNavigateToGarden?: (gardenName: string) => void;
+  /** All available gardens */
+  gardens: Gardens;
 }
 
 /**
  * Garden Tabs.
  */
-const GardenTabs = ({ garden, onSchemaChange, onNavigateToGarden }: Props) => {
+const GardenTabs = ({ gardens }: Props) => {
   const [{ activeTab }, setSearchParams] = useSearchParams();
 
   return (
@@ -28,25 +27,26 @@ const GardenTabs = ({ garden, onSchemaChange, onNavigateToGarden }: Props) => {
           activeTab: activeTab === "visualize" ? "edit" : "visualize",
         })
       }
-      className="space-y-6"
+      className="mt-6 space-y-6"
     >
-      <TabsList className="grid w-full max-w-md grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2 md:max-w-md">
         <TabsTrigger value="visualize" className="flex items-center gap-2">
-          <Icons.BarChart className="h-4 w-4" />
+          <Icons.BarChart size={16} />
           Visualize Garden
         </TabsTrigger>
+
         <TabsTrigger value="edit" className="flex items-center gap-2">
-          <Icons.Code className="h-4 w-4" />
+          <Icons.Code size={16} />
           Edit Garden
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="visualize" className="space-y-4">
-        <GardenFlow garden={garden} onNavigateToGarden={onNavigateToGarden} />
+      <TabsContent value="visualize">
+        <GardenFlow gardens={gardens} />
       </TabsContent>
 
       <TabsContent value="edit">
-        <SchemaEditor garden={garden} onSchemaChange={onSchemaChange} />
+        <SchemaEditor />
       </TabsContent>
     </Tabs>
   );

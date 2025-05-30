@@ -1,6 +1,6 @@
 import { Icons } from "components/core";
 import { Button } from "components/ui";
-import useSearchParams from "lib/hooks/useSearchParams";
+import { useSearchParams } from "lib/hooks";
 
 /**
  * Editor Controls.
@@ -28,6 +28,7 @@ const EditorControls = () => {
         <Icons.Plus size={16} />
       </Button>
 
+      {/* TODO: some theme provider rendering issues on close */}
       <Button
         variant="outline"
         size="icon"

@@ -6,12 +6,16 @@ import { useEffect, useState } from "react";
 
 import { Icons } from "components/core";
 import { Alert, AlertDescription, AlertTitle, Button } from "components/ui";
-import useSearchParams from "lib/hooks/useSearchParams";
+import { useSearchParams } from "lib/hooks";
 
 interface Props {
+  /** The current JSON schema text being edited. */
   schemaText: string;
+  /** Function to update the schema text. */
   setSchemaText: (text: string) => void;
+  /** Error message related to the schema. */
   error: string | null;
+  /** Function to set or clear the current error message. */
   setError: (error: string | null) => void;
 }
 

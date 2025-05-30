@@ -1,24 +1,22 @@
 import { ReactFlowProvider } from "@xyflow/react";
-import GardenFlowInner from "../GardenFlowInner/GardenFlowInner";
 
-import type { GardenTypes } from "generated/garden.types";
+import { GardenFlowInner } from "components/visualizer";
+
+import type { Gardens } from "store";
 
 interface Props {
-  garden: GardenTypes;
-  onNavigateToGarden?: (gardenName: string) => void;
+  /** All available gardens */
+  gardens: Gardens;
 }
 
 /**
  * Garden Flow.
  */
-const GardenFlow = ({ garden, onNavigateToGarden }: Props) => {
+const GardenFlow = ({ gardens }: Props) => {
   return (
     <ReactFlowProvider>
       <div className="h-[800px] w-full overflow-hidden rounded-lg border">
-        <GardenFlowInner
-          garden={garden}
-          onNavigateToGarden={onNavigateToGarden}
-        />
+        <GardenFlowInner gardens={gardens} />
       </div>
     </ReactFlowProvider>
   );

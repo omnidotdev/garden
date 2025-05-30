@@ -1,28 +1,26 @@
 import { Icons } from "components/core";
 import { Button } from "components/ui";
 
+import { LOCAL_STORAGE_KEY } from "lib/constants";
+import { useGardenStore } from "lib/hooks/store";
+
 import type { GardenTypes } from "generated/garden.types";
 
-const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
-
 interface Props {
+  /** The current JSON schema text being edited. */
   schemaText: string;
+  /** Function to update the schema text. */
   setSchemaText: (text: string) => void;
+  /** Function to set or clear the current error message. */
   setError: (error: string | null) => void;
-  onSchemaChange: (schema: GardenTypes) => void;
-  garden?: GardenTypes;
 }
 
 /**
  * Editor Actions.
  */
-const EditorActions = ({
-  schemaText,
-  setSchemaText,
-  setError,
-  onSchemaChange,
-  garden,
-}: Props) => {
+const EditorActions = ({ schemaText, setSchemaText, setError }: Props) => {
+  const { activeGarden, setActiveGarden } = useGardenStore();
+
   const validateAndApply = () => {
     try {
       const parsedJson = JSON.parse(schemaText);
@@ -39,19 +37,19 @@ const EditorActions = ({
       }
 
       setError(null);
-      onSchemaChange(parsedJson as GardenTypes);
+      setActiveGarden(parsedJson as GardenTypes);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }
   };
 
   const resetToSample = () => {
-    if (!garden) return;
+    if (!activeGarden) return;
 
-    const sampleText = JSON.stringify(garden, null, 2);
+    const sampleText = JSON.stringify(activeGarden, null, 2);
     setSchemaText(sampleText);
     setError(null);
-    onSchemaChange(garden);
+    setActiveGarden(activeGarden);
     localStorage.setItem(LOCAL_STORAGE_KEY, sampleText);
   };
 

@@ -16,24 +16,26 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 import { Icons } from "components/core";
-import nodeTypes from "components/core/CustomNodes/CustomNodes";
 import { Button, Label, Switch } from "components/ui";
+import { NodeTypes } from "components/visualizer/customNodes";
+import { LOCAL_STORAGE_KEY } from "lib/constants";
+import { useGardenStore } from "lib/hooks/store";
 import { autoLayout, gardenToFlow } from "lib/util/flow";
 
-import type { GardenTypes } from "generated/garden.types";
 import type { Edge, Node, NodeMouseHandler } from "@xyflow/react";
+import type { Gardens } from "store";
 
 import "@xyflow/react/dist/style.css";
 
 interface Props {
-  garden: GardenTypes;
-  onNavigateToGarden?: (gardenName: string) => void;
+  /** All available gardens */
+  gardens: Gardens;
 }
 
 /**
  * Garden Flow Inner.
  */
-const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
+const GardenFlowInner = ({ gardens }: Props) => {
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
   const [initialized, setInitialized] = useState(false);
@@ -46,6 +48,13 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
   // Initialize with empty arrays to prevent undefined errors
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+
+  const {
+    activeGarden,
+    setActiveGarden,
+    setBreadcrumbs,
+    setNavigationHistory,
+  } = useGardenStore();
 
   // Update container width on mount and resize
   useEffect(() => {
@@ -78,13 +87,13 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
       setIsToggling(true);
       setTimeout(() => setIsToggling(false), 1000);
     }
-  }, [garden.name, expandSubgardens, setNodes, setEdges]); // Reset when garden name or expand setting changes
+  }, [activeGarden.name, expandSubgardens, setNodes, setEdges]); // Reset when garden name or expand setting changes
 
   // Initialize flow when garden data and container width are available
   useEffect(() => {
-    if (garden && containerWidth) {
+    if (activeGarden && containerWidth) {
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
-        garden,
+        activeGarden,
         containerWidth,
         { expandSubgardens },
       );
@@ -131,7 +140,7 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
       }
     }
   }, [
-    garden,
+    activeGarden,
     containerWidth,
     initialized,
     expandSubgardens,
@@ -183,47 +192,49 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
   }, [nodes, edges, setNodes, setEdges, fitView, updateNodeInternals]);
 
   // Handle node click for garden navigation
-  const onNodeClick: NodeMouseHandler = useCallback(
-    (event, clickedNode) => {
-      if (!onNavigateToGarden) return;
+  const onNodeClick: NodeMouseHandler = (event, clickedNode) => {
+    // Determine the garden name to navigate to
+    let gardenName = clickedNode.data?.label as string;
 
-      // Determine the garden name to navigate to
-      let gardenName = clickedNode.data?.label as string;
+    // Check if this is an expanded subgarden label
+    if (clickedNode.data?.isExpandedSubgardenLabel) {
+      gardenName = (clickedNode.data?.label as string).replace(
+        " (Expanded)",
+        "",
+      );
+    }
 
-      // Check if this is an expanded subgarden label
-      if (clickedNode.data?.isExpandedSubgardenLabel) {
-        gardenName = (clickedNode.data?.label as string).replace(
-          " (Expanded)",
-          "",
-        );
-      }
+    // For all navigable node types, navigate to the garden by name
+    if (
+      gardenName &&
+      (clickedNode.type === "supergarden" ||
+        clickedNode.type === "subgarden" ||
+        clickedNode.type === "garden_ref" ||
+        clickedNode.data?.isExpandedSubgardenLabel)
+    ) {
+      // Prevent rapid multiple clicks
+      event.preventDefault();
+      event.stopPropagation();
 
-      // For all navigable node types, navigate to the garden by name
+      // Debounce navigation to prevent multiple rapid calls
       if (
-        gardenName &&
-        (clickedNode.type === "supergarden" ||
-          clickedNode.type === "subgarden" ||
-          clickedNode.type === "garden_ref" ||
-          clickedNode.data?.isExpandedSubgardenLabel)
+        (window as any).lastNavigationTime &&
+        Date.now() - (window as any).lastNavigationTime < 500
       ) {
-        // Prevent rapid multiple clicks
-        event.preventDefault();
-        event.stopPropagation();
-
-        // Debounce navigation to prevent multiple rapid calls
-        if (
-          (window as any).lastNavigationTime &&
-          Date.now() - (window as any).lastNavigationTime < 500
-        ) {
-          return;
-        }
-
-        (window as any).lastNavigationTime = Date.now();
-        onNavigateToGarden(gardenName);
+        return;
       }
-    },
-    [onNavigateToGarden],
-  );
+
+      (window as any).lastNavigationTime = Date.now();
+      // onNavigateToGarden(gardenName);
+
+      const garden = Object.values(gardens).find((g) => g.name === gardenName);
+
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+      setActiveGarden(garden!);
+      setNavigationHistory(garden!);
+      setBreadcrumbs(gardenName);
+    }
+  };
 
   // Handle node mouse enter/leave for hover effects
   const onNodeMouseEnter: NodeMouseHandler = useCallback((event, node) => {
@@ -281,7 +292,8 @@ const GardenFlowInner = ({ garden, onNavigateToGarden }: Props) => {
       onNodeClick={onNodeClick}
       onNodeMouseEnter={onNodeMouseEnter}
       onNodeMouseLeave={onNodeMouseLeave}
-      nodeTypes={nodeTypes}
+      // TODO: Check on this implementation
+      nodeTypes={NodeTypes()}
       fitView
       minZoom={0.1}
       maxZoom={1.5}

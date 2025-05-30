@@ -4,6 +4,7 @@ import type { GardenTypes } from "generated/garden.types";
 export const omniEcosystem: GardenTypes = {
   name: "Omni Ecosystem",
   description: "Complete Omni product and tooling ecosystem",
+  icon: "🌱",
   version: "2.0.0",
   subgardens: [
     {
@@ -83,6 +84,7 @@ export const omniEcosystem: GardenTypes = {
 export const productsGarden: GardenTypes = {
   name: "Omni Products",
   description: "Core products in the Omni ecosystem",
+  icon: "📦",
   version: "1.8.0",
   supergardens: [
     {
@@ -167,6 +169,7 @@ export const productsGarden: GardenTypes = {
 export const devToolsGarden: GardenTypes = {
   name: "Omni Dev Tools",
   description: "Development tools and utilities for Omni ecosystem",
+  icon: "🛠️",
   version: "1.5.2",
   supergardens: [
     {
@@ -257,6 +260,7 @@ export const devToolsGarden: GardenTypes = {
 export const specificationsGarden: GardenTypes = {
   name: "Omni Specifications",
   description: "Specifications and standards for Omni ecosystem",
+  icon: "📋",
   version: "1.3.1",
   supergardens: [
     {

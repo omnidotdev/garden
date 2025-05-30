@@ -3,12 +3,6 @@
 import { useEffect, useState } from "react";
 
 import {
-  EditorActions,
-  EditorControls,
-  SchemaHelp,
-  TextEditor,
-} from "components/visualizer";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -25,25 +19,26 @@ import {
   TabsList,
   TabsTrigger,
 } from "components/ui";
-import useSearchParams from "lib/hooks/useSearchParams";
-
-import type { GardenTypes } from "generated/garden.types";
-
-interface SchemaEditorProps {
-  onSchemaChange: (schema: GardenTypes) => void;
-  garden?: GardenTypes;
-}
-
-const LOCAL_STORAGE_KEY = "garden-schema-editor-content";
+import {
+  EditorActions,
+  EditorControls,
+  SchemaHelp,
+  TextEditor,
+} from "components/visualizer";
+import { LOCAL_STORAGE_KEY } from "lib/constants";
+import { useSearchParams } from "lib/hooks";
+import { useGardenStore } from "lib/hooks/store";
 
 /**
  * Schema Editor.
  */
-const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
+const SchemaEditor = () => {
   // Initialize schema text with current garden or stored value
   const [schemaText, setSchemaText] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [{ editorExpanded }, setSearchParams] = useSearchParams();
+
+  const { activeGarden } = useGardenStore();
 
   const title = "Garden Editor";
   const description = "Edit the JSON schema for your Garden visualization";
@@ -54,11 +49,11 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
       const savedSchema = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (savedSchema) {
         setSchemaText(savedSchema);
-      } else if (garden) {
-        setSchemaText(JSON.stringify(garden, null, 2));
+      } else if (activeGarden) {
+        setSchemaText(JSON.stringify(activeGarden, null, 2));
       }
     }
-  }, [garden]);
+  }, [activeGarden]);
 
   // Save schema to localStorage whenever it changes
   useEffect(() => {
@@ -67,8 +62,8 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
 
   // Update editor when the garden prop changes
   useEffect(() => {
-    if (garden) {
-      const currentGardenStr = JSON.stringify(garden, null, 2);
+    if (activeGarden) {
+      const currentGardenStr = JSON.stringify(activeGarden, null, 2);
       // Check if there are unsaved changes before updating
       const savedSchema = localStorage.getItem(LOCAL_STORAGE_KEY);
 
@@ -76,12 +71,12 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
       // update the editor with the new garden
       if (
         !savedSchema ||
-        JSON.stringify(JSON.parse(savedSchema)) === JSON.stringify(garden)
+        JSON.stringify(JSON.parse(savedSchema)) === JSON.stringify(activeGarden)
       ) {
         setSchemaText(currentGardenStr);
       }
     }
-  }, [garden]);
+  }, [activeGarden]);
 
   return (
     <Card className="w-full">
@@ -125,8 +120,6 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
                   schemaText={schemaText}
                   setSchemaText={setSchemaText}
                   setError={setError}
-                  onSchemaChange={onSchemaChange}
-                  garden={garden}
                 />
               </SheetContent>
             </Sheet>
@@ -152,8 +145,6 @@ const SchemaEditor = ({ onSchemaChange, garden }: SchemaEditorProps) => {
           schemaText={schemaText}
           setSchemaText={setSchemaText}
           setError={setError}
-          onSchemaChange={onSchemaChange}
-          garden={garden}
         />
       </CardFooter>
     </Card>
