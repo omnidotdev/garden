@@ -26,7 +26,7 @@
     --popover-foreground: 0 0% 3.9%;
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
+    --secondary: 0 0% 90.0%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
@@ -43,6 +43,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --garden: 142 40% 40%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -69,10 +70,34 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --garden: 142 45% 55%;
   }
 }
 
 @layer base {
+  /* xyflow/react style overrides */
+  .react-flow {
+    --xy-controls-button-background-color-default: hsl(var(--background));
+    --xy-controls-button-background-color-hover-default: hsl(var(--accent));
+    --xy-controls-button-color-default: hsl(var(--foreground));
+    --xy-controls-button-color-hover-default: hsl(var(--foreground));
+    --xy-controls-button-border-color-default: hsl(var(--border));
+    --xy-controls-box-shadow-default: 0 0 2px 1px rgba(0, 0, 0, 0.08);
+
+    --xy-minimap-background-color-default: hsl(var(--background))
+  }
+
+  .dark .react-flow {
+    --xy-controls-button-background-color-default: hsl(var(--background));
+    --xy-controls-button-background-color-hover-default: hsl(var(--accent));
+    --xy-controls-button-color-default: hsl(var(--foreground));
+    --xy-controls-button-color-hover-default: hsl(var(--foreground));
+    --xy-controls-button-border-color-default: hsl(var(--border));
+    --xy-controls-box-shadow-default: 0 0 2px 1px rgba(255, 255, 255, 0.18);
+
+    --xy-minimap-background-color-default	: hsl(var(--background))
+  }
+  
   * {
     @apply border-border;
   }

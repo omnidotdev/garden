@@ -2,6 +2,7 @@ export { default as Breadcrumbs } from "./Breadcrumbs/Breadcrumbs";
 export { default as EditorActions } from "./EditorActions/EditorActions";
 export { default as EditorControls } from "./EditorControls/EditorControls";
 export { default as GardenFlow } from "./GardenFlow/GardenFlow";
+export { default as GardenFlowHints } from "./GardenFlowHints/GardenFlowHints";
 export { default as GardenFlowInner } from "./GardenFlowInner/GardenFlowInner";
 export { default as GardenList } from "./GardenList/GardenList";
 export { default as GardenNavigation } from "./GardenNavigation/GardenNavigation";

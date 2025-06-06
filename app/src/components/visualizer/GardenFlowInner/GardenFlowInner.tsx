@@ -3,7 +3,6 @@
 import {
   Background,
   ConnectionLineType,
-  Controls,
   MarkerType,
   MiniMap,
   Panel,
@@ -15,8 +14,8 @@ import {
 } from "@xyflow/react";
 import { useCallback, useEffect, useState } from "react";
 
-import { Icons } from "components/core";
-import { Button, Label, Switch } from "components/ui";
+import { FloatingPanel } from "components/core";
+import { GardenFlowHints } from "components/visualizer";
 import { NodeTypes } from "components/visualizer/customNodes";
 import { LOCAL_STORAGE_KEY } from "lib/constants";
 import { useGardenStore } from "lib/hooks/store";
@@ -43,7 +42,6 @@ const GardenFlowInner = ({ gardens }: Props) => {
   const [containerWidth, setContainerWidth] = useState(1600);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [expandSubgardens, setExpandSubgardens] = useState(false);
-  const [isToggling, setIsToggling] = useState(false);
 
   // Initialize with empty arrays to prevent undefined errors
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
@@ -83,10 +81,6 @@ const GardenFlowInner = ({ gardens }: Props) => {
     // Reset positions to trigger new layout when toggling expand mode
     setNodes([]);
     setEdges([]);
-    if (expandSubgardens !== false) {
-      setIsToggling(true);
-      setTimeout(() => setIsToggling(false), 1000);
-    }
   }, [activeGarden.name, expandSubgardens, setNodes, setEdges]); // Reset when garden name or expand setting changes
 
   // Initialize flow when garden data and container width are available
@@ -256,6 +250,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
 
   return (
     <ReactFlow
+      className="relative"
       nodes={nodes.map((node) => ({
         ...node,
         style: {
@@ -312,96 +307,31 @@ const GardenFlowInner = ({ gardens }: Props) => {
       defaultEdgeOptions={{
         type: "smoothstep",
         animated: true,
-        style: { stroke: "#999", strokeWidth: 1.5 },
-        markerEnd: { type: MarkerType.ArrowClosed },
+        // style: { stroke: "#999", strokeWidth: 1.5 },
+        // markerEnd: { type: MarkerType.ArrowClosed },
       }}
       connectionLineType={ConnectionLineType.SmoothStep}
     >
       <Background />
-      <MiniMap nodeStrokeWidth={3} zoomable pannable />
-      <div className="absolute top-4 left-4 z-10 rounded-md bg-background/80 p-3 text-sm shadow-md backdrop-blur-sm">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full border-2 border-primary border-dashed" />
-            <p className="text-muted-foreground">
-              Click on dashed nodes to navigate between gardens
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex h-3 w-3 items-center justify-center">
-              <Icons.Layers className="h-3 w-3 text-primary" />
-            </div>
-            <p className="text-muted-foreground">
-              Use the <Icons.Layers className="mx-1 inline h-3 w-3" /> toggle to
-              expand or condense subgardens
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex h-3 w-3 items-center justify-center">
-              <Icons.Globe className="h-3 w-3 text-primary" />
-            </div>
-            <p className="text-muted-foreground">
-              Navigate up to supergardens or down to subgardens
-            </p>
-          </div>
-          <div className="mt-1 text-muted-foreground text-xs italic">
-            Note: Changes to garden names are reflected in navigation
-          </div>
-        </div>
-      </div>
-      {/* TODO: fix styles for dark mode */}
-      <Controls />
-      <Panel position="top-right" className="flex flex-col gap-2">
-        <div className="flex items-center justify-end gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={onLayout}
-            disabled={layouting}
-          >
-            <Icons.RefreshCw className="h-4 w-4" />
-          </Button>
 
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => fitView({ padding: 0.2 })}
-          >
-            <Icons.Maximize className="h-4 w-4" />
-          </Button>
-        </div>
+      <MiniMap
+        nodeColor="hsl(var(--foreground))"
+        nodeStrokeWidth={3}
+        zoomable
+        pannable
+      />
 
-        <div
-          className={`flex items-center gap-2 rounded-md bg-background/80 p-2 shadow-md backdrop-blur-sm transition-all duration-300 ${isToggling ? "animate-pulse ring ring-primary/50" : ""}`}
-        >
-          <Icons.Layers
-            className={`h-4 w-4 ${expandSubgardens ? "text-primary" : "text-muted-foreground"}`}
-          />
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="expand-subgardens"
-              checked={expandSubgardens}
-              onCheckedChange={(checked) => {
-                setExpandSubgardens(checked);
-                // Force re-layout
-                setInitialized(false);
-                setIsToggling(true);
-                setTimeout(() => setIsToggling(false), 1000);
-              }}
-            />
-            <Label
-              htmlFor="expand-subgardens"
-              className={`text-xs transition-all duration-150 ${expandSubgardens ? "font-semibold text-primary" : ""}`}
-            >
-              {isToggling
-                ? "Processing..."
-                : expandSubgardens
-                  ? "Expanded"
-                  : "Condensed"}
-            </Label>
-          </div>
-        </div>
+      {/* TODO: Update hints */}
+      <Panel position="top-right">
+        <GardenFlowHints />
       </Panel>
+
+      <FloatingPanel
+        setInitialized={setInitialized}
+        onLayout={onLayout}
+        expandSubgardens={expandSubgardens}
+        setExpandSubgardens={setExpandSubgardens}
+      />
     </ReactFlow>
   );
 };

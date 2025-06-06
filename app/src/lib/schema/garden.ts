@@ -56,7 +56,7 @@ export const omniEcosystem: GardenTypes = {
       items: [
         {
           name: "Omni Docs",
-          homepage_url: "https://docs.omni.example",
+          homepage_url: "https://docs.omni.dev/",
           description: "Documentation portal",
           logo: "https://placehold.co/150?text=Docs",
         },

@@ -17,7 +17,7 @@ const GardenNavigation = ({ gardens }: Props) => {
   const { activeGarden } = useGardenStore();
 
   return (
-    <div className="relative z-10 flex flex-col gap-8 rounded-md border bg-background p-4">
+    <div className="relative z-0 flex flex-col gap-8 rounded-md border bg-background p-4">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <NavigateBack />

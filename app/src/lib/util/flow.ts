@@ -1,5 +1,6 @@
 import { MarkerType, Position } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
+import { match } from "ts-pattern";
 
 import type { GardenTypes } from "generated/garden.types";
 import type { Edge, Node } from "@xyflow/react";
@@ -10,7 +11,7 @@ const elk = new ELK();
 /**
  * Calculate node height based on content.
  */
-const calculateNodeHeight = (node: any): number => {
+const calculateNodeHeight = (node: Node): number => {
   if (node.type === NODE_TYPES.ITEM) {
     return 180; // Items have fixed height
   }
@@ -37,27 +38,28 @@ const generateId = (type: string, name: string): string => {
 const getNodePositions = (
   type: string,
 ): { sourcePosition?: Position; targetPosition?: Position } => {
-  switch (type) {
-    case NODE_TYPES.GARDEN:
-      return {
-        sourcePosition: Position.Bottom,
-        targetPosition: Position.Top,
-      };
-    case NODE_TYPES.CATEGORY:
-      return { targetPosition: Position.Top, sourcePosition: Position.Bottom };
-    case NODE_TYPES.ITEM:
-      return { targetPosition: Position.Top };
-    case NODE_TYPES.GARDEN_REF:
-      return {
-        targetPosition: Position.Left,
-      };
-    case NODE_TYPES.SUPERGARDEN:
-      return { sourcePosition: Position.Bottom };
-    case NODE_TYPES.SUBGARDEN:
-      return { targetPosition: Position.Bottom };
-    default:
-      return {};
-  }
+  return match(type)
+    .with(NODE_TYPES.GARDEN, () => ({
+      sourcePosition: Position.Bottom,
+      targetPosition: Position.Top,
+    }))
+    .with(NODE_TYPES.CATEGORY, () => ({
+      sourcePosition: Position.Bottom,
+      targetPosition: Position.Top,
+    }))
+    .with(NODE_TYPES.ITEM, () => ({
+      targetPosition: Position.Top,
+    }))
+    .with(NODE_TYPES.GARDEN_REF, () => ({
+      targetPosition: Position.Left,
+    }))
+    .with(NODE_TYPES.SUPERGARDEN, () => ({
+      sourcePosition: Position.Bottom,
+    }))
+    .with(NODE_TYPES.SUBGARDEN, () => ({
+      targetPosition: Position.Bottom,
+    }))
+    .otherwise(() => ({}));
 };
 
 interface FlowOptions {

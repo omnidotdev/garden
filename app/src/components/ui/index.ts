@@ -17,6 +17,7 @@ export {
   ChartLegendContent,
   ChartStyle,
 } from "./chart";
+export { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible";
 export {
   Dialog,
   DialogPortal,
