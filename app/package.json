@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@types/node": "22.15.21",
+    "@types/node": "22.15.30",
     "@types/react": "19.1.5",
     "@types/react-dom": "19.1.5",
     "knip": "^5.58.0"
