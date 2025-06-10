@@ -104,7 +104,7 @@ const OptionsPanel = ({
     () => [
       {
         id: "expand-subgardens",
-        label: expandSubgardens ? "Expanded" : "Condensed",
+        label: expandSubgardens ? "Expand subgardens" : "Condense subgardens",
         onClick: () => {
           setExpandSubgardens(!expandSubgardens);
           // force re-layout
@@ -118,14 +118,14 @@ const OptionsPanel = ({
       },
       {
         id: "zoom-in",
-        label: "Zoom In",
+        label: "Zoom in",
         onClick: () => zoomIn(),
         icon: <PlusIcon size={14} />,
         disabled: maxZoomReached,
       },
       {
         id: "zoom-out",
-        label: "Zoom Out",
+        label: "Zoom out",
         onClick: () => zoomOut(),
         icon: <MinusIcon size={14} />,
         disabled: minZoomReached,

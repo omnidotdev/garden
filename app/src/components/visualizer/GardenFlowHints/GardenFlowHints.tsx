@@ -6,6 +6,7 @@ import {
   LightbulbIcon,
   LayersIcon,
   GlobeIcon,
+  Layers2Icon,
 } from "lucide-react";
 
 import {
@@ -43,7 +44,7 @@ const GardenFlowHints = () => {
             <div className="h-3 w-3 rounded-full border-2 border-primary border-dashed" />
 
             <p className="text-muted-foreground">
-              Click on dashed nodes to navigate between gardens
+              Click on dashed nodes to navigate into that garden
             </p>
           </div>
 
@@ -53,23 +54,10 @@ const GardenFlowHints = () => {
             </div>
 
             <p className="text-muted-foreground">
-              Use the <LayersIcon className="mx-1 inline h-3 w-3" /> toggle to
-              expand or condense subgardens
+              Use the <LayersIcon className="mx-1 inline h-3 w-3" /> /{" "}
+              <Layers2Icon className="mx-1 inline h-3 w-3" /> toggle to expand
+              or condense subgardens
             </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="flex h-3 w-3 items-center justify-center">
-              <GlobeIcon className="h-3 w-3 text-primary" />
-            </div>
-
-            <p className="text-muted-foreground">
-              Navigate up to supergardens or down to subgardens
-            </p>
-          </div>
-
-          <div className="mt-1 text-muted-foreground text-xs italic">
-            Note: Changes to garden names are reflected in navigation
           </div>
         </div>
       </CollapsibleContent>
