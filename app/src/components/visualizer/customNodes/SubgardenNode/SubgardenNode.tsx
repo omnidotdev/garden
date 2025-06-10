@@ -16,7 +16,7 @@ const SubgardenNode = ({ data }: Props) => {
 
   return (
     <Card className="w-[200px] border-2 shadow-lg transition-transform hover:scale-105">
-      {hasTargets && <Handle type="target" position={Position.Top} />}
+      <Handle type="target" position={Position.Top} />
 
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
         <div className="flex w-full justify-between">

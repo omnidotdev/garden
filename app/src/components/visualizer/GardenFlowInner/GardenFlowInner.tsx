@@ -221,7 +221,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
   };
 
   // handle node mouse enter/leave for hover effects
-  const onNodeMouseEnter: NodeMouseHandler = useCallback((event, node) => {
+  const onNodeMouseEnter: NodeMouseHandler = useCallback((_event, node) => {
     if (
       node.type === "supergarden" ||
       node.type === "subgarden" ||
@@ -238,6 +238,18 @@ const GardenFlowInner = ({ gardens }: Props) => {
     setHoveredNode(null);
     document.body.style.cursor = "default";
   }, []);
+
+  const renderedEdges = edges.map((edge) => ({
+    ...edge,
+    // TODO toggle this via settings
+    // type: "default",
+    animated: true,
+    style: {
+      ...edge.style,
+      strokeWidth: 2,
+      stroke: "gray",
+    },
+  }));
 
   return (
     <ReactFlow
@@ -264,7 +276,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
               : undefined,
         },
       }))}
-      edges={edges}
+      edges={renderedEdges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onNodeClick={onNodeClick}
@@ -290,8 +302,6 @@ const GardenFlowInner = ({ gardens }: Props) => {
       defaultEdgeOptions={{
         type: "smoothstep",
         animated: true,
-        // style: { stroke: "#999", strokeWidth: 1.5 },
-        // markerEnd: { type: MarkerType.ArrowClosed },
       }}
       connectionLineType={ConnectionLineType.SmoothStep}
     >

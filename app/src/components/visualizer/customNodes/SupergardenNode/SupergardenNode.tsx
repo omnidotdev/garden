@@ -38,19 +38,6 @@ const SupergardenNode = ({ data }: Props) => {
             <h4 className="line-clamp-2 text-sm">{data.description}</h4>
           )}
         </div>
-
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            window.open(data.url, "_blank");
-          }}
-          className="w-full"
-        >
-          <ExternalLinkIcon size={14} className="mr-1" />
-          View
-        </Button>
       </div>
     </Card>
   );

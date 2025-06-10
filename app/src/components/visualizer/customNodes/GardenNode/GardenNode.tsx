@@ -15,7 +15,8 @@ const GardenNode = ({ data }: Props) => {
     data.targetConnections && data.targetConnections.length > 0;
   const hasBottomSources =
     data.sourceConnections && data.sourceConnections.length > 0;
-  const hasRightSources = false; // optional: set this based on specific connection types
+  // optional: set this based on specific connection types
+  const hasRightSources = false;
 
   return (
     <Card className="w-[200px] border-2 shadow-lg">
