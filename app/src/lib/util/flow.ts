@@ -93,7 +93,7 @@ export const gardenToFlow = (
       version: garden.version,
       theme: garden.theme,
       icon_color: "hsl(var(--primary))",
-      icon: "Sprout",
+      icon: "SproutIcon",
     },
     position: { x: centerX, y: 0 },
     ...getNodePositions(NODE_TYPES.GARDEN),
@@ -122,7 +122,7 @@ export const gardenToFlow = (
           url: supergarden.url,
           logo: supergarden.logo,
           version: supergarden.version,
-          icon: "Globe",
+          icon: "GlobeIcon",
           icon_color: "hsl(var(--chart-9))",
         },
         position: { x: centerX + xOffset, y: -200 },
@@ -309,7 +309,7 @@ export const gardenToFlow = (
             url: subgarden.url,
             logo: subgarden.logo,
             version: subgarden.version,
-            icon: "Git",
+            icon: "GitIcon",
             icon_color: "hsl(var(--chart-8))",
             expandable: true, // Flag to indicate this can be expanded
           },
@@ -364,20 +364,20 @@ export const gardenToFlow = (
     // get appropriate icon based on category name
     const getCategoryIcon = (name: string) => {
       const lowerName = name.toLowerCase();
-      if (lowerName.includes("productivity")) return "Zap";
+      if (lowerName.includes("productivity")) return "ZapIcon";
       if (lowerName.includes("development") || lowerName.includes("code"))
-        return "Code";
+        return "CodeIcon";
       if (lowerName.includes("communication") || lowerName.includes("message"))
-        return "MessageSquare";
+        return "MessageSquareIcon";
       if (lowerName.includes("design") || lowerName.includes("ui"))
-        return "Palette";
-      if (lowerName.includes("task")) return "CheckSquare";
-      if (lowerName.includes("note")) return "FileText";
-      if (lowerName.includes("version")) return "Git";
-      if (lowerName.includes("video")) return "Video";
+        return "PaletteIcon";
+      if (lowerName.includes("task")) return "CheckSquareIcon";
+      if (lowerName.includes("note")) return "FileTextIcon";
+      if (lowerName.includes("version")) return "GitIcon";
+      if (lowerName.includes("video")) return "VideoIcon";
       if (lowerName.includes("graphics") || lowerName.includes("image"))
-        return "Image";
-      return "Folder";
+        return "ImageIcon";
+      return "FolderIcon";
     };
 
     nodes.push({

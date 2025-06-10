@@ -4,16 +4,16 @@ import { useReactFlow, useStore, useStoreApi } from "@xyflow/react";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { shallow } from "zustand/shallow";
 import {
-  Layers,
-  Layers2,
-  Plus,
-  Minus,
-  RefreshCw,
-  Maximize,
-  Lock,
-  LockOpen,
-  GripVertical,
-  Maximize2,
+  LayersIcon,
+  Layers2Icon,
+  PlusIcon,
+  MinusIcon,
+  RefreshCwIcon,
+  MaximizeIcon,
+  LockIcon,
+  LockOpenIcon,
+  GripVerticalIcon,
+  Maximize2Icon,
 } from "lucide-react";
 
 import { Button } from "components/ui";
@@ -110,39 +110,47 @@ const OptionsPanel = ({
           // force re-layout
           setInitialized(false);
         },
-        icon: expandSubgardens ? <Layers size={14} /> : <Layers2 size={14} />,
+        icon: expandSubgardens ? (
+          <LayersIcon size={14} />
+        ) : (
+          <Layers2Icon size={14} />
+        ),
       },
       {
         id: "zoom-in",
         label: "Zoom In",
         onClick: () => zoomIn(),
-        icon: <Plus size={14} />,
+        icon: <PlusIcon size={14} />,
         disabled: maxZoomReached,
       },
       {
         id: "zoom-out",
         label: "Zoom Out",
         onClick: () => zoomOut(),
-        icon: <Minus size={14} />,
+        icon: <MinusIcon size={14} />,
         disabled: minZoomReached,
       },
       {
         id: "layout",
         label: "Refresh layout",
         onClick: onLayout,
-        icon: <RefreshCw size={14} />,
+        icon: <RefreshCwIcon size={14} />,
       },
       {
         id: "fit-view",
         label: "Fit view",
         onClick: () => fitView({ padding: 0.2 }),
-        icon: <Maximize size={14} />,
+        icon: <MaximizeIcon size={14} />,
       },
       {
         id: "toggle-interactivity",
         label: isInteractive ? "Lock layout" : "Move layout",
         onClick: () => onToggleInteractivity(),
-        icon: isInteractive ? <Lock size={14} /> : <LockOpen size={14} />,
+        icon: isInteractive ? (
+          <LockIcon size={14} />
+        ) : (
+          <LockOpenIcon size={14} />
+        ),
       },
     ],
     [
@@ -185,7 +193,7 @@ const OptionsPanel = ({
         }}
         onMouseUp={() => setMoving(false)}
       >
-        <GripVertical
+        <GripVerticalIcon
           size={18}
           className="text-muted-foreground group-hover:text-secondary-foreground"
         />
@@ -202,7 +210,7 @@ const OptionsPanel = ({
             }}
             className="h-8 w-8"
           >
-            {minimized ? <Maximize2 size={14} /> : <Minus size={14} />}
+            {minimized ? <Maximize2Icon size={14} /> : <MinusIcon size={14} />}
           </Button>
         </div>
       </div>

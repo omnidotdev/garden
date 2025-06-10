@@ -1,15 +1,15 @@
 import { Handle, Position } from "@xyflow/react";
 import {
-  Folder,
-  Code,
-  Zap,
-  MessageSquare,
-  Palette,
-  CheckSquare,
-  FileText,
-  Git,
-  Video,
-  Image,
+  FolderIcon,
+  CodeIcon,
+  ZapIcon,
+  MessageSquareIcon,
+  PaletteIcon,
+  CheckSquareIcon,
+  FileTextIcon,
+  GitBranchIcon,
+  VideoIcon,
+  ImageIcon,
 } from "lucide-react";
 
 import { Card } from "components/ui";
@@ -25,27 +25,27 @@ const CategoryNode = ({ data }: Props) => {
   const getIconComponent = (iconName: string) => {
     switch (iconName) {
       case "Folder":
-        return Folder;
+        return FolderIcon;
       case "Code":
-        return Code;
+        return CodeIcon;
       case "Zap":
-        return Zap;
+        return ZapIcon;
       case "MessageSquare":
-        return MessageSquare;
+        return MessageSquareIcon;
       case "Palette":
-        return Palette;
+        return PaletteIcon;
       case "CheckSquare":
-        return CheckSquare;
+        return CheckSquareIcon;
       case "FileText":
-        return FileText;
+        return FileTextIcon;
       case "Git":
-        return Git;
+        return GitBranchIcon;
       case "Video":
-        return Video;
+        return VideoIcon;
       case "Image":
-        return Image;
+        return ImageIcon;
       default:
-        return Folder;
+        return FolderIcon;
     }
   };
 
