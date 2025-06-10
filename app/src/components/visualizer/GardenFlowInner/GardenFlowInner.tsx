@@ -253,7 +253,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
             node.type === "item" ||
             node.data?.isExpandedSubgardenLabel
               ? "pointer"
-              : undefined,
+              : "grab",
           // add visual hint for navigable nodes
           border:
             node.type === "supergarden" ||
