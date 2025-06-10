@@ -6,6 +6,21 @@ export const omniEcosystem: GardenTypes = {
   description: "Complete Omni product and tooling ecosystem",
   icon: "🌱",
   version: "2.0.0",
+  created_at: "2022-01-15T00:00:00Z",
+  updated_at: "2023-06-10T00:00:00Z",
+  theme: {
+    primary_color: "#6366f1",
+    secondary_color: "#a5b4fc",
+    background_color: "#f9fafb",
+    text_color: "#111827",
+  },
+  maintainers: [
+    {
+      name: "Omni Core Team",
+      email: "core@omni.example",
+      url: "https://core.omni.example",
+    },
+  ],
   subgardens: [
     {
       name: "Omni Products",
@@ -63,21 +78,6 @@ export const omniEcosystem: GardenTypes = {
       ],
     },
   ],
-  maintainers: [
-    {
-      name: "Omni Core Team",
-      email: "core@omni.example",
-      url: "https://core.omni.example",
-    },
-  ],
-  created_at: "2022-01-15T00:00:00Z",
-  updated_at: "2023-06-10T00:00:00Z",
-  theme: {
-    primary_color: "#6366f1",
-    secondary_color: "#a5b4fc",
-    background_color: "#f9fafb",
-    text_color: "#111827",
-  },
 };
 
 // Omni Products Garden
@@ -86,6 +86,21 @@ export const productsGarden: GardenTypes = {
   description: "Core products in the Omni ecosystem",
   icon: "📦",
   version: "1.8.0",
+  created_at: "2022-03-20T00:00:00Z",
+  updated_at: "2023-05-15T00:00:00Z",
+  theme: {
+    primary_color: "#2563EB",
+    secondary_color: "#93C5FD",
+    background_color: "#F8FAFC",
+    text_color: "#1E293B",
+  },
+  maintainers: [
+    {
+      name: "Omni Product Team",
+      email: "products@omni.example",
+      url: "https://products.omni.example/team",
+    },
+  ],
   supergardens: [
     {
       name: "Omni Ecosystem",
@@ -148,21 +163,6 @@ export const productsGarden: GardenTypes = {
       ],
     },
   ],
-  maintainers: [
-    {
-      name: "Omni Product Team",
-      email: "products@omni.example",
-      url: "https://products.omni.example/team",
-    },
-  ],
-  created_at: "2022-03-20T00:00:00Z",
-  updated_at: "2023-05-15T00:00:00Z",
-  theme: {
-    primary_color: "#2563EB",
-    secondary_color: "#93C5FD",
-    background_color: "#F8FAFC",
-    text_color: "#1E293B",
-  },
 };
 
 // Omni Dev Tools Garden
@@ -171,6 +171,21 @@ export const devToolsGarden: GardenTypes = {
   description: "Development tools and utilities for Omni ecosystem",
   icon: "🛠️",
   version: "1.5.2",
+  created_at: "2022-04-12T00:00:00Z",
+  updated_at: "2023-04-30T00:00:00Z",
+  theme: {
+    primary_color: "#0891B2",
+    secondary_color: "#67E8F9",
+    background_color: "#ECFEFF",
+    text_color: "#164E63",
+  },
+  maintainers: [
+    {
+      name: "Omni DevEx Team",
+      email: "devex@omni.example",
+      url: "https://devtools.omni.example/team",
+    },
+  ],
   supergardens: [
     {
       name: "Omni Ecosystem",
@@ -239,21 +254,6 @@ export const devToolsGarden: GardenTypes = {
       ],
     },
   ],
-  maintainers: [
-    {
-      name: "Omni DevEx Team",
-      email: "devex@omni.example",
-      url: "https://devtools.omni.example/team",
-    },
-  ],
-  created_at: "2022-04-12T00:00:00Z",
-  updated_at: "2023-04-30T00:00:00Z",
-  theme: {
-    primary_color: "#0891B2",
-    secondary_color: "#67E8F9",
-    background_color: "#ECFEFF",
-    text_color: "#164E63",
-  },
 };
 
 // Omni Specifications Garden
@@ -262,6 +262,21 @@ export const specificationsGarden: GardenTypes = {
   description: "Specifications and standards for Omni ecosystem",
   icon: "📋",
   version: "1.3.1",
+  created_at: "2022-02-28T00:00:00Z",
+  updated_at: "2023-03-15T00:00:00Z",
+  theme: {
+    primary_color: "#A855F7",
+    secondary_color: "#D8B4FE",
+    background_color: "#FAF5FF",
+    text_color: "#581C87",
+  },
+  maintainers: [
+    {
+      name: "Omni Standards Team",
+      email: "standards@omni.example",
+      url: "https://specs.omni.example/team",
+    },
+  ],
   supergardens: [
     {
       name: "Omni Ecosystem",
@@ -330,21 +345,6 @@ export const specificationsGarden: GardenTypes = {
       ],
     },
   ],
-  maintainers: [
-    {
-      name: "Omni Standards Team",
-      email: "standards@omni.example",
-      url: "https://specs.omni.example/team",
-    },
-  ],
-  created_at: "2022-02-28T00:00:00Z",
-  updated_at: "2023-03-15T00:00:00Z",
-  theme: {
-    primary_color: "#A855F7",
-    secondary_color: "#D8B4FE",
-    background_color: "#FAF5FF",
-    text_color: "#581C87",
-  },
 };
 
 // Make all gardens available for easy access
