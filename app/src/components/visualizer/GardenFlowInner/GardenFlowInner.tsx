@@ -15,7 +15,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 import { OptionsPanel } from "components/core";
-import { GardenFlowHints } from "components/visualizer";
+import { GardenFlowHints, ItemDetailDialog } from "components/visualizer";
 import { NodeTypes } from "components/visualizer/customNodes";
 import { LOCAL_STORAGE_KEY } from "lib/constants";
 import { useGardenStore } from "lib/hooks/store";
@@ -42,6 +42,8 @@ const GardenFlowInner = ({ gardens }: Props) => {
   const [containerWidth, setContainerWidth] = useState(1600);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [expandSubgardens, setExpandSubgardens] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // initialize with empty arrays to prevent undefined errors
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
@@ -159,8 +161,20 @@ const GardenFlowInner = ({ gardens }: Props) => {
       });
   }, [nodes, edges, setNodes, setEdges, fitView, updateNodeInternals]);
 
-  // handle node click for garden navigation
+  // handle node click for garden navigation and item details
   const onNodeClick: NodeMouseHandler = (event, clickedNode) => {
+    // prevent rapid multiple clicks
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Show item details dialog for item nodes
+    if (clickedNode.type === "item") {
+      setSelectedItem(clickedNode.data);
+      setIsDialogOpen(true);
+      return;
+    }
+
+    // For navigable nodes, handle garden navigation
     // determine the garden name to navigate to
     let gardenName = clickedNode.data?.label as string;
 
@@ -180,10 +194,6 @@ const GardenFlowInner = ({ gardens }: Props) => {
         clickedNode.type === "garden_ref" ||
         clickedNode.data?.isExpandedSubgardenLabel)
     ) {
-      // prevent rapid multiple clicks
-      event.preventDefault();
-      event.stopPropagation();
-
       // debounce navigation to prevent multiple rapid calls
       if (
         (window as any).lastNavigationTime &&
@@ -204,12 +214,19 @@ const GardenFlowInner = ({ gardens }: Props) => {
     }
   };
 
+  // Close dialog handler
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedItem(null);
+  };
+
   // handle node mouse enter/leave for hover effects
   const onNodeMouseEnter: NodeMouseHandler = useCallback((event, node) => {
     if (
       node.type === "supergarden" ||
       node.type === "subgarden" ||
       node.type === "garden_ref" ||
+      node.type === "item" ||
       node.data?.isExpandedSubgardenLabel
     ) {
       setHoveredNode(node.id);
@@ -229,14 +246,11 @@ const GardenFlowInner = ({ gardens }: Props) => {
         ...node,
         style: {
           ...node.style,
-          boxShadow:
-            hoveredNode === node.id
-              ? "0 0 10px 2px rgba(99, 102, 241, 0.7)"
-              : undefined,
           cursor:
             node.type === "supergarden" ||
             node.type === "subgarden" ||
             node.type === "garden_ref" ||
+            node.type === "item" ||
             node.data?.isExpandedSubgardenLabel
               ? "pointer"
               : undefined,
@@ -300,6 +314,13 @@ const GardenFlowInner = ({ gardens }: Props) => {
         onLayout={onLayout}
         expandSubgardens={expandSubgardens}
         setExpandSubgardens={setExpandSubgardens}
+      />
+
+      {/* Item Detail Dialog */}
+      <ItemDetailDialog
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+        item={selectedItem}
       />
     </ReactFlow>
   );

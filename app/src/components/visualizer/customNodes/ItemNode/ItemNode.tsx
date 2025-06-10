@@ -17,11 +17,11 @@ const ItemNode = ({ data }: Props) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   return (
-    <Card className="w-[200px] border-2 shadow-lg">
+    <Card className="w-[200px] border-2 shadow-lg hover:shadow-xl hover:border-primary/60 transition-all cursor-pointer">
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
       {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
 
-      <div className="space-y-3">
+      <div className="space-y-3 relative">
         <div className="aspect-video w-full overflow-hidden rounded-t-md">
           <img
             src={data.image}
