@@ -73,9 +73,9 @@ export const omniEcosystem: GardenTypes = {
   created_at: "2022-01-15T00:00:00Z",
   updated_at: "2023-06-10T00:00:00Z",
   theme: {
-    primary_color: "#6366F1",
-    secondary_color: "#A5B4FC",
-    background_color: "#F9FAFB",
+    primary_color: "#6366f1",
+    secondary_color: "#a5b4fc",
+    background_color: "#f9fafb",
     text_color: "#111827",
   },
 };
