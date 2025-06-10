@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { ExternalLink, GitBranch } from "lucide-react";
+import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
 import { Badge, Button, Card } from "components/ui";
 
@@ -25,7 +25,7 @@ const SubgardenNode = ({ data }: Props) => {
         </div>
 
         <div className="flex flex-col items-center gap-2 p-2">
-          <GitBranch size={24} className="animate-pulse" />
+          <GitBranchIcon size={24} className="animate-pulse" />
 
           <h3 className="font-bold">{data.label}</h3>
 
@@ -43,7 +43,7 @@ const SubgardenNode = ({ data }: Props) => {
           }}
           className="w-full"
         >
-          <ExternalLink size={14} className="mr-1" />
+          <ExternalLinkIcon size={14} className="mr-1" />
           View
         </Button>
       </div>

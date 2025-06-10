@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLinkIcon, GlobeIcon } from "lucide-react";
 
 import { Badge, Button, Card } from "components/ui";
 
@@ -29,7 +29,7 @@ const SupergardenNode = ({ data }: Props) => {
         </div>
 
         <div className="flex flex-col items-center gap-2 p-2">
-          <Globe size={24} className="animate-pulse" />
+          <GlobeIcon size={24} className="animate-pulse" />
 
           <h3 className="font-bold">{data.label}</h3>
 
@@ -47,7 +47,7 @@ const SupergardenNode = ({ data }: Props) => {
           }}
           className="w-full"
         >
-          <ExternalLink size={14} className="mr-1" />
+          <ExternalLinkIcon size={14} className="mr-1" />
           View
         </Button>
       </div>

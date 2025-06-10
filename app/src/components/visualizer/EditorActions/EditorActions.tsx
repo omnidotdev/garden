@@ -1,4 +1,4 @@
-import { Download, RotateCcw } from "lucide-react";
+import { DownloadIcon, RotateCcwIcon } from "lucide-react";
 import { Button } from "components/ui";
 
 import { LOCAL_STORAGE_KEY } from "lib/constants";
@@ -73,13 +73,13 @@ const EditorActions = ({ schemaText, setSchemaText, setError }: Props) => {
         </Button>
 
         <Button onClick={resetToSample} variant="outline">
-          <RotateCcw size={16} />
+          <RotateCcwIcon size={16} />
           <p className="ml-2 hidden md:flex">Reset to Sample</p>
         </Button>
       </div>
 
       <Button onClick={downloadSchema} variant="outline">
-        <Download size={16} />
+        <DownloadIcon size={16} />
 
         <p className="ml-2 hidden md:flex">Download Schema</p>
       </Button>

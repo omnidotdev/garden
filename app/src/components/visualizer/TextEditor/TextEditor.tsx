@@ -4,7 +4,7 @@ import Editor from "@monaco-editor/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-import { Check, Copy, AlertCircle } from "lucide-react";
+import { CheckIcon, CopyIcon, AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle, Button } from "components/ui";
 import { useSearchParams } from "lib/hooks";
 
@@ -70,12 +70,16 @@ const TextEditor = ({ schemaText, setSchemaText, error, setError }: Props) => {
           onClick={copyToClipboard}
           title="Copy to clipboard"
         >
-          {copied ? <Check size={16} color="green" /> : <Copy size={16} />}
+          {copied ? (
+            <CheckIcon size={16} color="green" />
+          ) : (
+            <CopyIcon size={16} />
+          )}
         </Button>
 
         {error && (
           <Alert variant="destructive">
-            <AlertCircle size={16} />
+            <AlertCircleIcon size={16} />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription className="max-h-32 overflow-auto font-mono text-xs">
               {error}

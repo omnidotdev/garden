@@ -2,7 +2,7 @@
 
 import { GardenFlow, SchemaEditor } from "components/visualizer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "components/ui";
-import { BarChart, Code } from "lucide-react";
+import { BarChartIcon, CodeIcon } from "lucide-react";
 
 import { useSearchParams } from "lib/hooks";
 
@@ -31,12 +31,12 @@ const GardenTabs = ({ gardens }: Props) => {
     >
       <TabsList className="grid w-full grid-cols-2 md:max-w-md">
         <TabsTrigger value="visualize" className="flex items-center gap-2">
-          <BarChart size={16} />
+          <BarChartIcon size={16} />
           Visualize Garden
         </TabsTrigger>
 
         <TabsTrigger value="edit" className="flex items-center gap-2">
-          <Code size={16} />
+          <CodeIcon size={16} />
           Edit Garden
         </TabsTrigger>
       </TabsList>

@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { Sprout } from "lucide-react";
+import { SproutIcon } from "lucide-react";
 
 import { Card } from "components/ui";
 
@@ -22,7 +22,7 @@ const GardenNode = ({ data }: Props) => {
       {hasRightSources && <Handle type="source" position={Position.Right} />}
 
       <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-primary p-4 text-center text-primary-foreground">
-        <Sprout size={24} />
+        <SproutIcon size={24} />
 
         <h3 className="font-bold">{data.label}</h3>
 
