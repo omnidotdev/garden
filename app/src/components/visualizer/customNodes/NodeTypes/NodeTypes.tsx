@@ -1,5 +1,4 @@
 import { Handle, Position } from "@xyflow/react";
-import { LucideIcon } from "lucide-react";
 
 import {
   CategoryNode,

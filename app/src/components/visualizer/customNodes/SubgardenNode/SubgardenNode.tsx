@@ -11,7 +11,8 @@ interface Props {
 
 const SubgardenNode = ({ data }: Props) => {
   // check if there are any connections
-  const hasTargets = data.targetConnections?.length > 0;
+  const hasTargets =
+    data.targetConnections && data.targetConnections.length > 0;
 
   return (
     <Card className="w-[200px] border-2 shadow-lg transition-transform hover:scale-105">

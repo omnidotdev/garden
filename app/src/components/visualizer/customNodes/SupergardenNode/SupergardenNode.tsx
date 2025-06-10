@@ -11,7 +11,8 @@ interface Props {
 
 const SupergardenNode = ({ data }: Props) => {
   // check if there are any connections
-  const hasBottomSources = data.sourceConnections?.length > 0;
+  const hasBottomSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
 
   return (
     <Card className="w-[200px] border-2 shadow-lg transition-transform hover:scale-105">

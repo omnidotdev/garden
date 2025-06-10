@@ -11,8 +11,10 @@ interface Props {
 
 const GardenNode = ({ data }: Props) => {
   // check if there are any connections
-  const hasTopTargets = data.targetConnections?.length > 0;
-  const hasBottomSources = data.sourceConnections?.length > 0;
+  const hasTopTargets =
+    data.targetConnections && data.targetConnections.length > 0;
+  const hasBottomSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
   const hasRightSources = false; // optional: set this based on specific connection types
 
   return (

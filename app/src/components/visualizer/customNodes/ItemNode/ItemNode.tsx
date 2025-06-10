@@ -11,8 +11,10 @@ interface Props {
 
 const ItemNode = ({ data }: Props) => {
   // check if there are any connections
-  const hasTopTargets = data.targetConnections?.length > 0;
-  const hasBottomSources = data.sourceConnections?.length > 0;
+  const hasTopTargets =
+    data.targetConnections && data.targetConnections.length > 0;
+  const hasBottomSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
 
   return (
     <Card className="w-[200px] border-2 shadow-lg">

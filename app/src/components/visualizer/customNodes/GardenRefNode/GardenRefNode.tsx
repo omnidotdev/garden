@@ -11,10 +11,11 @@ interface Props {
 
 const GardenRefNode = ({ data }: Props) => {
   // check if there are any connections
-  const hasTopTargets = data.targetConnections?.length > 0;
-  const hasLeftTargets = data.targetConnections?.some((id) =>
-    id.includes("category")
-  );
+  const hasTopTargets =
+    data.targetConnections && data.targetConnections.length > 0;
+  const hasLeftTargets =
+    data.targetConnections &&
+    data.targetConnections.some((id) => id.includes("category"));
 
   return (
     <Card className="w-[200px] border-2 shadow-lg">
