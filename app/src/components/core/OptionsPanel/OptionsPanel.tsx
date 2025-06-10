@@ -24,7 +24,7 @@ interface Props {
   setExpandSubgardens: (expand: boolean) => void;
 }
 
-const FloatingPanel = ({
+const OptionsPanel = ({
   setInitialized,
   onLayout,
   expandSubgardens,
@@ -231,4 +231,4 @@ const FloatingPanel = ({
   );
 };
 
-export default FloatingPanel;
+export default OptionsPanel;

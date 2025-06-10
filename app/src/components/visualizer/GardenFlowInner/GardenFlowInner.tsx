@@ -14,7 +14,7 @@ import {
 } from "@xyflow/react";
 import { useCallback, useEffect, useState } from "react";
 
-import { FloatingPanel } from "components/core";
+import { OptionsPanel } from "components/core";
 import { GardenFlowHints } from "components/visualizer";
 import { NodeTypes } from "components/visualizer/customNodes";
 import { LOCAL_STORAGE_KEY } from "lib/constants";
@@ -295,7 +295,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
         <GardenFlowHints />
       </Panel>
 
-      <FloatingPanel
+      <OptionsPanel
         setInitialized={setInitialized}
         onLayout={onLayout}
         expandSubgardens={expandSubgardens}
