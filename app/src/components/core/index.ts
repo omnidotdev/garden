@@ -1,2 +1,2 @@
 export { Icons, type Icon } from "./Icons/Icons";
-export { default as FloatingPanel } from "./floating-panel";
+export { default as FloatingPanel } from "./FloatingPanel/FloatingPanel";

@@ -71,7 +71,7 @@ export const gardenToFlow = (
   width = 1600,
   options: FlowOptions = {},
 ): { nodes: Node[]; edges: Edge[] } => {
-  // Create a shallow copy to prevent reference issues
+  // create a shallow copy to prevent reference issues
   const gardenCopy = { ...garden };
 
   if (!gardenCopy || !gardenCopy.categories) {
@@ -361,7 +361,7 @@ export const gardenToFlow = (
 
     const yPosition = 200 + depth * 200 + indexInSupergarden * 150;
 
-    // Get appropriate icon based on category name
+    // get appropriate icon based on category name
     const getCategoryIcon = (name: string) => {
       const lowerName = name.toLowerCase();
       if (lowerName.includes("productivity")) return "Zap";

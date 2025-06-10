@@ -84,7 +84,7 @@
     --xy-controls-button-border-color-default: hsl(var(--border));
     --xy-controls-box-shadow-default: 0 0 2px 1px rgba(0, 0, 0, 0.08);
 
-    --xy-minimap-background-color-default: hsl(var(--background))
+    --xy-minimap-background-color-default: hsl(var(--background));
   }
 
   .dark .react-flow {
@@ -95,9 +95,9 @@
     --xy-controls-button-border-color-default: hsl(var(--border));
     --xy-controls-box-shadow-default: 0 0 2px 1px rgba(255, 255, 255, 0.18);
 
-    --xy-minimap-background-color-default	: hsl(var(--background))
+    --xy-minimap-background-color-default: hsl(var(--background));
   }
-  
+
   * {
     @apply border-border;
   }

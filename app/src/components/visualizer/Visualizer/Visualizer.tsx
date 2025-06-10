@@ -9,7 +9,7 @@ import { useGardenStore } from "lib/hooks/store";
 import type { GardenTypes } from "generated/garden.types";
 import type { Gardens } from "store";
 
-// Make garden data globally available for subgarden expansion
+// make garden data globally available for subgarden expansion
 declare global {
   interface Window {
     gardenData?: Gardens;

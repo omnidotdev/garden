@@ -55,7 +55,7 @@ const FloatingPanel = ({
     });
   };
 
-  // Drag logic
+  // drag logic
   useEffect(() => {
     let animationFrameId: number;
 
@@ -88,7 +88,7 @@ const FloatingPanel = ({
     };
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Don't use onToggleInteractivity as a dependency.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: don't use onToggleInteractivity as a dependency.
   const controls = useMemo(
     () => [
       {
@@ -96,7 +96,7 @@ const FloatingPanel = ({
         label: expandSubgardens ? "Expanded" : "Condensed",
         onClick: () => {
           setExpandSubgardens(!expandSubgardens);
-          // Force re-layout
+          // force re-layout
           setInitialized(false);
         },
         icon: expandSubgardens ? (

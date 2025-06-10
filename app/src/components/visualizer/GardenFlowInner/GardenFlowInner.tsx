@@ -43,7 +43,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [expandSubgardens, setExpandSubgardens] = useState(false);
 
-  // Initialize with empty arrays to prevent undefined errors
+  // initialize with empty arrays to prevent undefined errors
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
@@ -54,7 +54,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
     setNavigationHistory,
   } = useGardenStore();
 
-  // Update container width on mount and resize
+  // update container width on mount and resize
   useEffect(() => {
     const updateWidth = () => {
       const container = document.querySelector(".react-flow") as HTMLElement;
@@ -63,10 +63,10 @@ const GardenFlowInner = ({ gardens }: Props) => {
       }
     };
 
-    // Initial update
+    // initial update
     updateWidth();
 
-    // Add resize listener
+    // add resize listener
     window.addEventListener("resize", updateWidth);
 
     return () => {
@@ -74,16 +74,16 @@ const GardenFlowInner = ({ gardens }: Props) => {
     };
   }, []);
 
-  // Reset initialization when garden changes or expand setting changes
+  // reset initialization when garden changes or expand setting changes
   // biome-ignore lint/correctness/useExhaustiveDependencies: trigger when garden.name changes
   useEffect(() => {
     setInitialized(false);
-    // Reset positions to trigger new layout when toggling expand mode
+    // reset positions to trigger new layout when toggling expand mode
     setNodes([]);
     setEdges([]);
   }, [activeGarden.name, expandSubgardens, setNodes, setEdges]); // Reset when garden name or expand setting changes
 
-  // Initialize flow when garden data and container width are available
+  // initialize flow when garden data and container width are available
   useEffect(() => {
     if (activeGarden && containerWidth) {
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
@@ -100,7 +100,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
           targetHandle: null,
         }));
 
-        // Apply auto layout and get optimized edges
+        // apply auto layout and get optimized edges
         autoLayout(initialNodes, cleanEdges)
           .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
             setNodes(layoutedNodes);
@@ -113,12 +113,12 @@ const GardenFlowInner = ({ gardens }: Props) => {
               })),
             );
 
-            // Update node internals after layout
+            // update node internals after layout
             for (const node of layoutedNodes) {
               updateNodeInternals(node.id);
             }
 
-            // Fit view after nodes are positioned
+            // fit view after nodes are positioned
             setTimeout(() => {
               fitView({ padding: 0.2 });
               setInitialized(true);
@@ -126,7 +126,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
           })
           .catch((error) => {
             console.error("Layout error:", error);
-            // Fallback to initial layout if auto-layout fails
+            // fallback to initial layout if auto-layout fails
             setNodes(initialNodes);
             setEdges(initialEdges);
             setInitialized(true);
@@ -144,7 +144,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
     updateNodeInternals,
   ]);
 
-  // Handle layout refresh
+  // handle layout refresh
   const onLayout = useCallback(async () => {
     if (nodes.length === 0 || edges.length === 0) return;
 
@@ -169,7 +169,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
           })),
         );
 
-        // Update node internals after layout refresh
+        // update node internals after layout refresh
         for (const node of layoutedNodes) {
           updateNodeInternals(node.id);
         }
@@ -185,12 +185,12 @@ const GardenFlowInner = ({ gardens }: Props) => {
       });
   }, [nodes, edges, setNodes, setEdges, fitView, updateNodeInternals]);
 
-  // Handle node click for garden navigation
+  // handle node click for garden navigation
   const onNodeClick: NodeMouseHandler = (event, clickedNode) => {
-    // Determine the garden name to navigate to
+    // determine the garden name to navigate to
     let gardenName = clickedNode.data?.label as string;
 
-    // Check if this is an expanded subgarden label
+    // check if this is an expanded subgarden label
     if (clickedNode.data?.isExpandedSubgardenLabel) {
       gardenName = (clickedNode.data?.label as string).replace(
         " (Expanded)",
@@ -198,7 +198,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
       );
     }
 
-    // For all navigable node types, navigate to the garden by name
+    // for all navigable node types, navigate to the garden by name
     if (
       gardenName &&
       (clickedNode.type === "supergarden" ||
@@ -206,11 +206,11 @@ const GardenFlowInner = ({ gardens }: Props) => {
         clickedNode.type === "garden_ref" ||
         clickedNode.data?.isExpandedSubgardenLabel)
     ) {
-      // Prevent rapid multiple clicks
+      // prevent rapid multiple clicks
       event.preventDefault();
       event.stopPropagation();
 
-      // Debounce navigation to prevent multiple rapid calls
+      // debounce navigation to prevent multiple rapid calls
       if (
         (window as any).lastNavigationTime &&
         Date.now() - (window as any).lastNavigationTime < 500
@@ -230,7 +230,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
     }
   };
 
-  // Handle node mouse enter/leave for hover effects
+  // handle node mouse enter/leave for hover effects
   const onNodeMouseEnter: NodeMouseHandler = useCallback((event, node) => {
     if (
       node.type === "supergarden" ||
@@ -266,7 +266,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
             node.data?.isExpandedSubgardenLabel
               ? "pointer"
               : undefined,
-          // Add visual hint for navigable nodes
+          // add visual hint for navigable nodes
           border:
             node.type === "supergarden" ||
             node.type === "subgarden" ||
@@ -287,7 +287,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
       onNodeClick={onNodeClick}
       onNodeMouseEnter={onNodeMouseEnter}
       onNodeMouseLeave={onNodeMouseLeave}
-      // TODO: Check on this implementation
+      // TODO: check on this implementation
       nodeTypes={NodeTypes()}
       fitView
       minZoom={0.1}
@@ -321,7 +321,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
         pannable
       />
 
-      {/* TODO: Update hints */}
+      {/* TODO: update hints */}
       <Panel position="top-right">
         <GardenFlowHints />
       </Panel>
