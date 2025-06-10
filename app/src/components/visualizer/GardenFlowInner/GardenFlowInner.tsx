@@ -316,7 +316,6 @@ const GardenFlowInner = ({ gardens }: Props) => {
         setExpandSubgardens={setExpandSubgardens}
       />
 
-      {/* Item Detail Dialog */}
       <ItemDetailDialog
         isOpen={isDialogOpen}
         onClose={handleCloseDialog}
