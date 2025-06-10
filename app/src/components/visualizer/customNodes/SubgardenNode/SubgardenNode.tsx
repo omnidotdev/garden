@@ -23,6 +23,10 @@ const SubgardenNode = ({ data }: Props) => {
           <Badge variant="outline" className="text-muted-foreground">
             v{data.version}
           </Badge>
+
+          <Badge variant="secondary" className="text-garden hover:bg-secondary">
+            Subgarden
+          </Badge>
         </div>
 
         <div className="flex flex-col items-center gap-2 p-2">
