@@ -5,7 +5,6 @@ export { default as GardenFlow } from "./GardenFlow/GardenFlow";
 export { default as GardenFlowHints } from "./GardenFlowHints/GardenFlowHints";
 export { default as GardenFlowInner } from "./GardenFlowInner/GardenFlowInner";
 export { default as GardenList } from "./GardenList/GardenList";
-export { default as GardenNavigation } from "./GardenNavigation/GardenNavigation";
 export { default as GardenTabs } from "./GardenTabs/GardenTabs";
 export { default as NavigateBack } from "./NavigateBack/NavigateBack";
 export { default as SchemaEditor } from "./SchemaEditor/SchemaEditor";

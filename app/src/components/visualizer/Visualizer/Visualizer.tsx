@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 
-import { GardenNavigation, GardenTabs } from "components/visualizer";
+import { GardenTabs } from "components/visualizer";
 import { LOCAL_STORAGE_KEY } from "lib/constants";
 import { useGardenStore } from "lib/hooks/store";
 
@@ -59,7 +59,6 @@ const Visualizer = ({ gardens }: Props) => {
 
   return (
     <div className="container mx-auto p-4">
-      <GardenNavigation gardens={allGardens} />
       <GardenTabs gardens={allGardens} />
     </div>
   );
