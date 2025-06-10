@@ -36,7 +36,7 @@ const generateId = (type: string, name: string): string => {
 };
 
 const getNodePositions = (
-  type: string,
+  type: string
 ): { sourcePosition?: Position; targetPosition?: Position } => {
   return match(type)
     .with(NODE_TYPES.GARDEN, () => ({
@@ -69,7 +69,7 @@ interface FlowOptions {
 export const gardenToFlow = (
   garden: GardenTypes,
   width = 1600,
-  options: FlowOptions = {},
+  options: FlowOptions = {}
 ): { nodes: Node[]; edges: Edge[] } => {
   // create a shallow copy to prevent reference issues
   const gardenCopy = { ...garden };
@@ -109,7 +109,7 @@ export const gardenToFlow = (
     gardenCopy.supergardens.forEach((supergarden: any, index: number) => {
       const supergardenId = generateId(
         NODE_TYPES.SUPERGARDEN,
-        supergarden.name,
+        supergarden.name
       );
       const xOffset = -400 + index * 150; // Position supergardens to the left and above
 
@@ -350,13 +350,13 @@ export const gardenToFlow = (
     supergardenId: string,
     depth = 0,
     indexInSupergarden = 0,
-    xPosition: number = centerX,
+    xPosition: number = centerX
   ) => {
     if (!category || !category.name) return;
 
     const categoryId = generateId(
       NODE_TYPES.CATEGORY,
-      `${supergardenId}-${category.name}`,
+      `${supergardenId}-${category.name}`
     );
 
     const yPosition = 200 + depth * 200 + indexInSupergarden * 150;
@@ -415,7 +415,7 @@ export const gardenToFlow = (
 
         const itemId = generateId(
           NODE_TYPES.ITEM,
-          `${categoryId}-${item.name}`,
+          `${categoryId}-${item.name}`
         );
         const itemYPosition = yPosition + (itemIndex + 1) * 100;
 
@@ -474,7 +474,7 @@ export const gardenToFlow = (
 
         const refId = generateId(
           NODE_TYPES.GARDEN_REF,
-          `${categoryId}-${gardenRef.name}`,
+          `${categoryId}-${gardenRef.name}`
         );
         // Position garden refs to the right of the category
         const refXPosition = xPosition + 250;
@@ -536,9 +536,9 @@ export const gardenToFlow = (
             categoryId,
             depth + 1,
             subcategoryIndex,
-            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150), // Alternately offset to avoid overlap
+            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150) // Alternately offset to avoid overlap
           );
-        },
+        }
       );
     }
   };
@@ -548,12 +548,49 @@ export const gardenToFlow = (
     processCategory(category, gardenId, 0, categoryIndex);
   });
 
+  // track connections for each node to control handle visibility
+  const nodeConnections = new Map();
+
+  // initialize connection tracking for each node
+  nodes.forEach((node) => {
+    nodeConnections.set(node.id, {
+      sources: new Set(),
+      targets: new Set(),
+    });
+  });
+
+  // track which nodes have connections
+  edges.forEach((edge) => {
+    const sourceConnections = nodeConnections.get(edge.source);
+    const targetConnections = nodeConnections.get(edge.target);
+
+    if (sourceConnections) {
+      sourceConnections.sources.add(edge.target);
+    }
+
+    if (targetConnections) {
+      targetConnections.targets.add(edge.source);
+    }
+  });
+
+  // update node data with connection information
+  nodes.forEach((node) => {
+    const connections = nodeConnections.get(node.id);
+    if (connections) {
+      node.data = {
+        ...node.data,
+        sourceConnections: Array.from(connections.sources),
+        targetConnections: Array.from(connections.targets),
+      };
+    }
+  });
+
   return { nodes, edges };
 };
 
 export const autoLayout = async (
   nodes: Node[],
-  edges: Edge[],
+  edges: Edge[]
 ): Promise<{ nodes: Node[]; edges: Edge[] }> => {
   if (!nodes?.length || !edges?.length) {
     return { nodes: nodes || [], edges: edges || [] };

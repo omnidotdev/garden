@@ -10,13 +10,17 @@ interface Props {
 }
 
 const ItemNode = ({ data }: Props) => {
+  // check if there are any connections
+  const hasTopTargets = data.targetConnections?.length > 0;
+  const hasBottomSources = data.sourceConnections?.length > 0;
+
   return (
     <Card className="w-[200px] border-2 shadow-lg">
-      <Handle type="target" position={Position.Top} />
-      <Handle type="source" position={Position.Bottom} />
+      {hasTopTargets && <Handle type="target" position={Position.Top} />}
+      {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
 
       <div className="space-y-3">
-        <div className="aspect-video w-full overflow-hidden rounded-t-lg">
+        <div className="aspect-video w-full overflow-hidden rounded-t-md">
           <img
             src={data.image}
             alt={data.label}

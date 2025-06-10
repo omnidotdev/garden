@@ -24,6 +24,9 @@ export interface NodeData {
     primary: { label: string; url: string };
     secondary?: { label: string; url: string };
   };
+  // connection information for determining which handles to show
+  sourceConnections?: string[];
+  targetConnections?: string[];
 }
 
 const NodeTypes = () => ({
@@ -33,16 +36,39 @@ const NodeTypes = () => ({
   garden_ref: GardenRefNode,
   supergarden: SupergardenNode,
   subgarden: SubgardenNode,
-  default: ({ data }: { data: NodeData }) => (
-    <>
-      <Handle type="source" position={Position.Top} />
-      <Handle type="source" position={Position.Bottom} />
-      <Handle type="target" position={Position.Top} />
-      <Handle type="target" position={Position.Bottom} />
-      <Handle type="target" position={Position.Left} />
-      <div className="p-2">{data.label}</div>
-    </>
-  ),
+  default: ({ data }: { data: NodeData }) => {
+    // check if there are any connections
+    const hasTopTargets = data.targetConnections?.some(
+      (id) => id.includes("top") || !id.includes("position")
+    );
+    const hasBottomTargets = data.targetConnections?.some((id) =>
+      id.includes("bottom")
+    );
+    const hasLeftTargets = data.targetConnections?.some((id) =>
+      id.includes("left")
+    );
+    const hasTopSources = data.sourceConnections?.some((id) =>
+      id.includes("top")
+    );
+    const hasBottomSources = data.sourceConnections?.some(
+      (id) => id.includes("bottom") || !id.includes("position")
+    );
+
+    return (
+      <>
+        {hasTopSources && <Handle type="source" position={Position.Top} />}
+        {hasBottomSources && (
+          <Handle type="source" position={Position.Bottom} />
+        )}
+        {hasTopTargets && <Handle type="target" position={Position.Top} />}
+        {hasBottomTargets && (
+          <Handle type="target" position={Position.Bottom} />
+        )}
+        {hasLeftTargets && <Handle type="target" position={Position.Left} />}
+        <div className="p-2">{data.label}</div>
+      </>
+    );
+  },
 });
 
 export default NodeTypes;

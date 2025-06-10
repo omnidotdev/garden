@@ -19,7 +19,7 @@ const GardenFlowHints = () => {
       onOpenChange={setIsOpen}
       className="flex w-[350px] flex-col gap-2"
     >
-      <CollapsibleTrigger asChild className="z-10 ml-auto w-fit gap-2 px-2">
+      <CollapsibleTrigger asChild className="z-10 ml-auto w-fit gap-2 px-4">
         <Button variant="outline" size="icon">
           {isOpen ? (
             <Icons.LightbulbOff size={16} />

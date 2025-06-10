@@ -89,29 +89,16 @@ const GardenFlowInner = ({ gardens }: Props) => {
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
         activeGarden,
         containerWidth,
-        { expandSubgardens },
+        { expandSubgardens }
       );
 
       if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
-        // Clean up handles in edges to prevent warnings
-        const cleanEdges = initialEdges.map((edge) => ({
-          ...edge,
-          sourceHandle: null,
-          targetHandle: null,
-        }));
-
         // apply auto layout and get optimized edges
-        autoLayout(initialNodes, cleanEdges)
+        autoLayout(initialNodes, initialEdges)
           .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
             setNodes(layoutedNodes);
-            // Ensure edges don't have explicit handle references
-            setEdges(
-              layoutedEdges.map((edge) => ({
-                ...edge,
-                sourceHandle: null,
-                targetHandle: null,
-              })),
-            );
+            // set edges without overriding handles
+            setEdges(layoutedEdges);
 
             // update node internals after layout
             for (const node of layoutedNodes) {
@@ -150,24 +137,11 @@ const GardenFlowInner = ({ gardens }: Props) => {
 
     setLayouting(true);
 
-    // Clean up handles in edges to prevent warnings
-    const cleanEdges = edges.map((edge) => ({
-      ...edge,
-      sourceHandle: null,
-      targetHandle: null,
-    }));
-
-    await autoLayout(nodes, cleanEdges)
+    await autoLayout(nodes, edges)
       .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
         setNodes([...layoutedNodes]);
-        // Ensure edges don't have explicit handle references
-        setEdges(
-          layoutedEdges.map((edge) => ({
-            ...edge,
-            sourceHandle: null,
-            targetHandle: null,
-          })),
-        );
+        // set edges without overriding handles
+        setEdges(layoutedEdges);
 
         // update node internals after layout refresh
         for (const node of layoutedNodes) {
@@ -194,7 +168,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
     if (clickedNode.data?.isExpandedSubgardenLabel) {
       gardenName = (clickedNode.data?.label as string).replace(
         " (Expanded)",
-        "",
+        ""
       );
     }
 
@@ -276,12 +250,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
               : undefined,
         },
       }))}
-      edges={edges.map((edge) => ({
-        ...edge,
-        type: "smoothstep",
-        sourceHandle: null,
-        targetHandle: null,
-      }))}
+      edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onNodeClick={onNodeClick}

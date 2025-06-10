@@ -10,10 +10,16 @@ interface Props {
 }
 
 const GardenNode = ({ data }: Props) => {
+  // check if there are any connections
+  const hasTopTargets = data.targetConnections?.length > 0;
+  const hasBottomSources = data.sourceConnections?.length > 0;
+  const hasRightSources = false; // optional: set this based on specific connection types
+
   return (
     <Card className="w-[200px] border-2 shadow-lg">
-      <Handle type="target" position={Position.Top} />
-      <Handle type="source" position={Position.Bottom} />
+      {hasTopTargets && <Handle type="target" position={Position.Top} />}
+      {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
+      {hasRightSources && <Handle type="source" position={Position.Right} />}
 
       <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-primary p-4 text-center text-primary-foreground">
         <Icons.Sprout size={24} />
