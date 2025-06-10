@@ -27,6 +27,18 @@ const Footer = () => (
       >
         Privacy
       </Link>
+
+      {/* TODO enable */}
+      {/* <div className="inline-block min-h-[1em] w-[1.5px] bg-muted-foreground/60" /> */}
+
+      {/* <Link
+        className="text-muted-foreground text-xs transition-colors hover:text-primary"
+        href="https://backfeed.omni.dev/organizations/omni/projects/garden"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Provide Feedback →
+      </Link> */}
     </nav>
   </footer>
 );
