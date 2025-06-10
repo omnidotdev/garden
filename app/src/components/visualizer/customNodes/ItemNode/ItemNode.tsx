@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
+import { ExternalLink, Git } from "lucide-react";
 
-import { Icons } from "components/core";
 import { Button, Card } from "components/ui";
 
 import type { NodeData } from "components/visualizer/customNodes";
@@ -42,7 +42,7 @@ const ItemNode = ({ data }: Props) => {
             className="w-full"
             onClick={() => window.open(data.cta?.primary.url, "_blank")}
           >
-            <Icons.ExternalLink size={14} className="mr-1" />
+            <ExternalLink size={14} className="mr-1" />
 
             {data.cta?.primary.label}
           </Button>
@@ -53,7 +53,7 @@ const ItemNode = ({ data }: Props) => {
               size="sm"
               onClick={() => window.open(data.cta?.secondary?.url, "_blank")}
             >
-              <Icons.Git className="h-4 w-4" />
+              <Git className="h-4 w-4" />
             </Button>
           )}
         </div>

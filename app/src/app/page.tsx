@@ -1,23 +1,23 @@
 import Link from "next/link";
+import { Code, Share2, Zap, Sparkles, ArrowRight } from "lucide-react";
 
-import { Icons } from "components/core";
 import { Button } from "components/ui";
 import cn from "lib/util/cn";
 
 const features = [
   {
-    icon: <Icons.Code className="h-6 w-6" />,
+    icon: <Code className="h-6 w-6" />,
     title: "Easy Modeling",
     description:
       "Define your ecosystem structure using an intuitive JSON schema",
   },
   {
-    icon: <Icons.Share2 className="h-6 w-6" />,
+    icon: <Share2 className="h-6 w-6" />,
     title: "Interactive Maps",
     description: "Transform complex relationships into clear, visual insights",
   },
   {
-    icon: <Icons.Zap className="h-6 w-6" />,
+    icon: <Zap className="h-6 w-6" />,
     title: "Dynamic Updates",
     description:
       "Watch your ecosystem map evolve in real-time as you make changes",
@@ -74,7 +74,7 @@ const HomePage = () => (
                 Visualize Your Ecosystem{" "}
               </h1>
 
-              <Icons.Sparkles className="hidden h-10 w-10 md:flex" />
+              <Sparkles className="hidden h-10 w-10 md:flex" />
             </div>
 
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
@@ -89,7 +89,7 @@ const HomePage = () => (
                 className="gap-2 bg-primary hover:bg-primary/90"
               >
                 Start Modeling
-                <Icons.ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>
@@ -105,7 +105,7 @@ const HomePage = () => (
               key={feature.title}
               className={cn(
                 "group relative flex flex-col items-center space-y-4 text-center",
-                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl",
+                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl"
               )}
             >
               <div className="rounded-full bg-primary/10 p-4 text-primary">
@@ -126,7 +126,7 @@ const HomePage = () => (
         <Link href="/visualizer">
           <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90">
             Start Modeling
-            <Icons.ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
       </div>

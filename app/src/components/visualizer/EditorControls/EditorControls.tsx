@@ -1,4 +1,4 @@
-import { Icons } from "components/core";
+import { Minus, Plus, Minimize2, Expand } from "lucide-react";
 import { Button } from "components/ui";
 import { useSearchParams } from "lib/hooks";
 
@@ -15,7 +15,7 @@ const EditorControls = () => {
         size="icon"
         onClick={() => setSearchParams({ fontSize: fontSize - 1 })}
       >
-        <Icons.Minus size={16} />
+        <Minus size={16} />
       </Button>
 
       <div className="flex h-auto items-center px-1">{fontSize}</div>
@@ -25,7 +25,7 @@ const EditorControls = () => {
         size="icon"
         onClick={() => setSearchParams({ fontSize: fontSize + 1 })}
       >
-        <Icons.Plus size={16} />
+        <Plus size={16} />
       </Button>
 
       {/* TODO: some theme provider rendering issues on close */}
@@ -34,11 +34,7 @@ const EditorControls = () => {
         size="icon"
         onClick={() => setSearchParams({ editorExpanded: !editorExpanded })}
       >
-        {editorExpanded ? (
-          <Icons.Minimize2 size={16} />
-        ) : (
-          <Icons.Expand size={16} />
-        )}
+        {editorExpanded ? <Minimize2 size={16} /> : <Expand size={16} />}
       </Button>
     </div>
   );

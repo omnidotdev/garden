@@ -1,7 +1,6 @@
 import type { GardenTypes } from "generated/garden.types";
 
-// Omni Ecosystem - Root garden
-export const omniEcosystem: GardenTypes = {
+const omniEcosystemGarden: GardenTypes = {
   name: "Omni Ecosystem",
   description: "Complete Omni product and tooling ecosystem",
   icon: "🌱",
@@ -80,8 +79,7 @@ export const omniEcosystem: GardenTypes = {
   ],
 };
 
-// Omni Products Garden
-export const productsGarden: GardenTypes = {
+const productsGarden: GardenTypes = {
   name: "Omni Products",
   description: "Core products in the Omni ecosystem",
   icon: "📦",
@@ -165,8 +163,7 @@ export const productsGarden: GardenTypes = {
   ],
 };
 
-// Omni Dev Tools Garden
-export const devToolsGarden: GardenTypes = {
+const devToolsGarden: GardenTypes = {
   name: "Omni Dev Tools",
   description: "Development tools and utilities for Omni ecosystem",
   icon: "🛠️",
@@ -256,8 +253,7 @@ export const devToolsGarden: GardenTypes = {
   ],
 };
 
-// Omni Specifications Garden
-export const specificationsGarden: GardenTypes = {
+const specificationsGarden: GardenTypes = {
   name: "Omni Specifications",
   description: "Specifications and standards for Omni ecosystem",
   icon: "📋",
@@ -347,9 +343,8 @@ export const specificationsGarden: GardenTypes = {
   ],
 };
 
-// Make all gardens available for easy access
 export const gardens = {
-  "Omni Ecosystem": omniEcosystem,
+  "Omni Ecosystem": omniEcosystemGarden,
   "Omni Products": productsGarden,
   "Omni Dev Tools": devToolsGarden,
   "Omni Specifications": specificationsGarden,

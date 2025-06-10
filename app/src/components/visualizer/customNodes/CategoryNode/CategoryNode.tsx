@@ -1,6 +1,17 @@
 import { Handle, Position } from "@xyflow/react";
+import {
+  Folder,
+  Code,
+  Zap,
+  MessageSquare,
+  Palette,
+  CheckSquare,
+  FileText,
+  Git,
+  Video,
+  Image,
+} from "lucide-react";
 
-import { Icons } from "components/core";
 import { Card } from "components/ui";
 
 import type { NodeData } from "components/visualizer/customNodes";
@@ -10,7 +21,35 @@ interface Props {
 }
 
 const CategoryNode = ({ data }: Props) => {
-  const Icon = Icons[data.icon];
+  // Map icon name to imported icon component
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case "Folder":
+        return Folder;
+      case "Code":
+        return Code;
+      case "Zap":
+        return Zap;
+      case "MessageSquare":
+        return MessageSquare;
+      case "Palette":
+        return Palette;
+      case "CheckSquare":
+        return CheckSquare;
+      case "FileText":
+        return FileText;
+      case "Git":
+        return Git;
+      case "Video":
+        return Video;
+      case "Image":
+        return Image;
+      default:
+        return Folder;
+    }
+  };
+
+  const IconComponent = getIconComponent(data.icon);
 
   // check if there are any connections
   const hasTopTargets = data.targetConnections?.length > 0;
@@ -26,7 +65,7 @@ const CategoryNode = ({ data }: Props) => {
           className="flex items-center gap-3"
           style={{ color: data.icon_color }}
         >
-          {Icon && <Icon className="h-5 w-5" />}
+          <IconComponent className="h-5 w-5" />
 
           <h3 className="font-medium">{data.label}</h3>
         </div>

@@ -1,4 +1,4 @@
-import { Icons } from "components/core";
+import { Download, RotateCcw } from "lucide-react";
 import { Button } from "components/ui";
 
 import { LOCAL_STORAGE_KEY } from "lib/constants";
@@ -32,7 +32,7 @@ const EditorActions = ({ schemaText, setSchemaText, setError }: Props) => {
         !Array.isArray(parsedJson.categories)
       ) {
         throw new Error(
-          "Invalid schema: missing required fields (name, version, or categories)",
+          "Invalid schema: missing required fields (name, version, or categories)"
         );
       }
 
@@ -73,13 +73,13 @@ const EditorActions = ({ schemaText, setSchemaText, setError }: Props) => {
         </Button>
 
         <Button onClick={resetToSample} variant="outline">
-          <Icons.RotateCcw size={16} />
+          <RotateCcw size={16} />
           <p className="ml-2 hidden md:flex">Reset to Sample</p>
         </Button>
       </div>
 
       <Button onClick={downloadSchema} variant="outline">
-        <Icons.Download size={16} />
+        <Download size={16} />
 
         <p className="ml-2 hidden md:flex">Download Schema</p>
       </Button>

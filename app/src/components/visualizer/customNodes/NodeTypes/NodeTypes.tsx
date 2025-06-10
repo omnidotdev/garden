@@ -1,4 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
+import { LucideIcon } from "lucide-react";
 
 import {
   CategoryNode,
@@ -9,12 +10,10 @@ import {
   SupergardenNode,
 } from "components/visualizer/customNodes";
 
-import type { Icons } from "components/core";
-
 export interface NodeData {
   label: string;
   description?: string;
-  icon: keyof typeof Icons;
+  icon: string;
   icon_color?: string;
   image?: string;
   expandable?: boolean;

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { LightbulbOff, Lightbulb, Layers, Globe } from "lucide-react";
 
-import { Icons } from "components/core";
 import {
   Button,
   Collapsible,
@@ -21,11 +21,7 @@ const GardenFlowHints = () => {
     >
       <CollapsibleTrigger asChild className="z-10 ml-auto w-fit gap-2 px-4">
         <Button variant="outline" size="icon">
-          {isOpen ? (
-            <Icons.LightbulbOff size={16} />
-          ) : (
-            <Icons.Lightbulb size={16} />
-          )}
+          {isOpen ? <LightbulbOff size={16} /> : <Lightbulb size={16} />}
           <span className="sr-only">Toggle</span>
 
           <p>Help</p>
@@ -44,18 +40,18 @@ const GardenFlowHints = () => {
 
           <div className="flex items-center gap-2">
             <div className="flex h-3 w-3 items-center justify-center">
-              <Icons.Layers className="h-3 w-3 text-primary" />
+              <Layers className="h-3 w-3 text-primary" />
             </div>
 
             <p className="text-muted-foreground">
-              Use the <Icons.Layers className="mx-1 inline h-3 w-3" /> toggle to
+              Use the <Layers className="mx-1 inline h-3 w-3" /> toggle to
               expand or condense subgardens
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             <div className="flex h-3 w-3 items-center justify-center">
-              <Icons.Globe className="h-3 w-3 text-primary" />
+              <Globe className="h-3 w-3 text-primary" />
             </div>
 
             <p className="text-muted-foreground">

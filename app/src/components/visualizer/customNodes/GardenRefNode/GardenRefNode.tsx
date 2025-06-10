@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
+import { ExternalLink, Link as LinkIcon } from "lucide-react";
 
-import { Icons } from "components/core";
 import { Button, Card } from "components/ui";
 
 import type { NodeData } from "components/visualizer/customNodes";
@@ -25,10 +25,7 @@ const GardenRefNode = ({ data }: Props) => {
         <div className="absolute top-1 right-1 rounded bg-primary/20 px-1 py-0.5 font-semibold text-primary text-xs">
           Navigate
         </div>
-        <Icons.Link
-          className="mb-2 h-6 w-6"
-          style={{ color: data.icon_color }}
-        />
+        <Link className="mb-2 h-6 w-6" style={{ color: data.icon_color }} />
         <h3 className="font-medium">{data.label}</h3>
         {data.description && (
           <p className="mt-1 line-clamp-2 text-muted-foreground text-sm">
@@ -49,7 +46,7 @@ const GardenRefNode = ({ data }: Props) => {
               window.open(data.url, "_blank");
             }}
           >
-            <Icons.ExternalLink className="mr-1 h-3 w-3" />
+            <ExternalLink className="mr-1 h-3 w-3" />
             View
           </Button>
         </div>
