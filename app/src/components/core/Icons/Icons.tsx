@@ -48,6 +48,7 @@ import {
 } from "lucide-react";
 
 export type { LucideIcon as Icon };
+
 /**
  * Application Icons.
  */

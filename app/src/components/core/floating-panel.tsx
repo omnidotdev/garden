@@ -187,6 +187,8 @@ const FloatingPanel = ({
           className="text-muted-foreground group-hover:text-secondary-foreground"
         />
 
+        <p className="text-sm">Options</p>
+
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -198,9 +200,9 @@ const FloatingPanel = ({
             className="h-8 w-8"
           >
             {minimized ? (
-              <Icons.Minus size={14} />
-            ) : (
               <Icons.Maximize2 size={14} />
+            ) : (
+              <Icons.Minus size={14} />
             )}
           </Button>
         </div>
