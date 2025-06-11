@@ -75,7 +75,9 @@ const HomePage = () => (
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="inline-flex items-center rounded-full bg-muted px-3 py-1 font-medium text-sm">
-            <p>🌱 Interconnected Ecosystem Visualization 🌱</p>
+            <p>
+              🌱 See the forest <i>and</i> the trees 🌱
+            </p>
           </div>
 
           <div className="space-y-4">
