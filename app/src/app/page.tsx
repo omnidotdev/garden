@@ -34,7 +34,7 @@ const features = [
  * Home page.
  */
 const HomePage = () => (
-  <div className="flex flex-col bg-gradient-to-b from-background via-background/90 to-background/80">
+  <div className="flex flex-col bg-gradient-to-b from-background via-background/90 to-background/80 overflow-x-hidden">
     <section className="relative flex w-full flex-1 justify-center py-12 md:py-24 lg:py-32 xl:py-48">
       <div className="-z-10 absolute inset-0 mx-0 max-w-none overflow-hidden">
         <div className="absolute top-0 left-1/2 ml-[-38rem] h-[25rem] w-[81.25rem] dark:[mask-image:linear-gradient(white,transparent)]">
@@ -132,14 +132,51 @@ const HomePage = () => (
           ))}
         </div>
       </div>
+    </section>
 
-      <div className="mt-12 space-x-4">
-        <Link href="/visualizer">
-          <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90">
-            Start Modeling
-            <ArrowRightIcon className="h-4 w-4" />
-          </Button>
-        </Link>
+    <section className="flex w-full flex-col items-center justify-center py-16 bg-background">
+      <div className="container max-w-full px-4 md:px-6">
+        <div className="flex flex-col items-center space-y-4 text-center mb-10">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            Why Garden?
+          </h2>
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+            Garden helps simplify complexity and gain clarity on your business
+            ecosystem.
+          </p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="flex flex-col space-y-3 rounded-lg border bg-card p-6">
+            <div className="flex items-center space-x-3 flex-wrap">
+              <SparklesIcon className="h-10 w-10 text-primary" />
+              <h3 className="text-xl font-bold">User Awareness</h3>
+            </div>
+            <p className="text-muted-foreground">
+              Visually model your product, service, and other offerings as
+              interactive visualizations that everyone can understand.
+            </p>
+          </div>
+          <div className="flex flex-col space-y-3 rounded-lg border bg-card p-6">
+            <div className="flex items-center space-x-3 flex-wrap">
+              <Share2Icon className="h-10 w-10 text-primary" />
+              <h3 className="text-xl font-bold">Collaborate Effectively</h3>
+            </div>
+            <p className="text-muted-foreground">
+              Share your ecosystem maps with stakeholders to align understanding
+              and drive better decision making across your organization.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 flex justify-center">
+          <Link href="/visualizer">
+            <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90">
+              Start Modeling
+              <ArrowRightIcon className="h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
       </div>
     </section>
   </div>
