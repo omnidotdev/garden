@@ -55,12 +55,11 @@ export const RotatingText = ({
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <h1 className="py-2 font-bold text-3xl tracking-tighter sm:text-4xl md:text-5xl flex flex-wrap items-center">
+      <h1 className="py-2 font-bold text-4xl tracking-tighter md:text-5xl flex flex-wrap items-center justify-center flex-col md:flex-row">
         <span
-          className="transition-all duration-300 ease-in-out"
-          style={{
-            transform: isChanging ? "translateX(8px)" : "translateX(0)",
-          }}
+          className={`transition-all duration-300 ease-in-out ${
+            isChanging && `md:translate-x-[8px]`
+          }`}
         >
           {prefix}
         </span>
@@ -81,10 +80,10 @@ export const RotatingText = ({
         </div>
 
         <span
-          className="transition-all duration-300 ease-in-out"
-          style={{
-            transform: isChanging ? "translateX(-8px)" : "translateX(0)",
-          }}
+          // className="transition-all duration-300 ease-in-out"
+          className={`transition-all duration-300 ease-in-out ${
+            isChanging && `md:translate-x-[-8px]`
+          }`}
         >
           {suffix}
         </span>
