@@ -12,7 +12,7 @@ const assistant = Assistant({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Garden",
-  description: "Visualize and edit Garden schemas.",
+  description: "Visualize your product, service, and other ecosystems.",
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => (
