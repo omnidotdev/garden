@@ -17,7 +17,7 @@ const ItemNode = ({ data }: Props) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   return (
-    <Card className="w-[200px] border-2 shadow-lg hover:shadow-xl hover:border-primary/60 hover:scale-105 transition-all cursor-pointer">
+    <Card className="w-[200px] border-2 border-accent/40 shadow-lg hover:shadow-xl hover:border-garden/60 hover:scale-105 transition-all cursor-pointer">
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
       {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
 
@@ -32,7 +32,7 @@ const ItemNode = ({ data }: Props) => {
         <div className="px-4">
           <h3 className="font-medium">{data.label}</h3>
           {data.description && (
-            <p className="mt-1 line-clamp-2 text-muted-foreground text-sm">
+            <p className="mt-1 line-clamp-2 text-foreground/70 text-sm">
               {data.description}
             </p>
           )}
@@ -41,7 +41,7 @@ const ItemNode = ({ data }: Props) => {
           <Button
             variant="default"
             size="sm"
-            className="w-full"
+            className="w-full bg-garden hover:bg-garden/90 text-background"
             onClick={() => window.open(data.cta?.primary.url, "_blank")}
           >
             <ExternalLinkIcon size={14} className="mr-1" />

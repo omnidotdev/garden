@@ -299,7 +299,7 @@ const GardenFlowInner = ({
     style: {
       ...edge.style,
       strokeWidth: 2,
-      stroke: "gray",
+      stroke: "hsl(var(--muted-foreground))",
     },
   }));
 
@@ -324,7 +324,7 @@ const GardenFlowInner = ({
             node.type === "subgarden" ||
             node.type === "garden_ref" ||
             node.data?.isExpandedSubgardenLabel
-              ? "2px dashed rgba(75, 135, 71, 0.7)"
+              ? "2px dashed hsl(var(--garden) / 0.7)"
               : undefined,
         },
       }))}
@@ -365,6 +365,7 @@ const GardenFlowInner = ({
           nodeStrokeWidth={3}
           zoomable
           pannable
+          className="!bg-background"
         />
       )}
 

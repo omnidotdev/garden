@@ -18,23 +18,26 @@ const GardenRefNode = ({ data }: Props) => {
     data.targetConnections.some((id) => id.includes("category"));
 
   return (
-    <Card className="w-[200px] border-2 shadow-lg">
+    <Card className="w-[200px] border-2 border-garden/40 shadow-lg hover:border-garden/70">
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
       {hasLeftTargets && <Handle type="target" position={Position.Left} />}
 
-      <div className="relative flex cursor-pointer flex-col items-center rounded-md border-2 border-primary/50 border-dashed p-4 text-center transition-colors hover:bg-primary-foreground/10">
-        <div className="absolute top-1 right-1 rounded bg-primary/20 px-1 py-0.5 font-semibold text-primary text-xs">
+      <div className="relative flex cursor-pointer flex-col items-center rounded-md border-2 border-garden/50 border-dashed p-4 text-center transition-colors hover:bg-accent/50">
+        <div className="absolute top-1 right-1 rounded bg-garden/20 px-1 py-0.5 font-semibold text-garden text-xs">
           Navigate
         </div>
-        <LinkIcon className="mb-2 h-6 w-6" style={{ color: data.icon_color }} />
+        <LinkIcon
+          className="mb-2 h-6 w-6 text-garden"
+          style={{ color: data.icon_color || "hsl(var(--garden))" }}
+        />
         <h3 className="font-medium">{data.label}</h3>
         {data.description && (
-          <p className="mt-1 line-clamp-2 text-muted-foreground text-sm">
+          <p className="mt-1 line-clamp-2 text-foreground/70 text-sm">
             {data.description}
           </p>
         )}
         {data.version && (
-          <span className="mt-1 text-muted-foreground text-xs">
+          <span className="mt-1 text-foreground/60 text-xs">
             v{data.version}
           </span>
         )}
@@ -42,6 +45,7 @@ const GardenRefNode = ({ data }: Props) => {
           <Button
             variant="outline"
             size="sm"
+            className="border-garden/50 hover:border-garden/90 hover:bg-garden/10"
             onClick={(e) => {
               e.stopPropagation();
               window.open(data.url, "_blank");

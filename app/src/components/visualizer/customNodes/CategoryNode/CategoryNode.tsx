@@ -58,14 +58,14 @@ const CategoryNode = ({ data }: Props) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   return (
-    <Card className="w-[200px] border-2 shadow-lg">
+    <Card className="w-[200px] border-2 border-accent/60 shadow-lg">
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
       {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
 
       <div className="p-4">
         <div
           className="flex items-center gap-3"
-          style={{ color: data.icon_color }}
+          style={{ color: data.icon_color || "hsl(var(--foreground))" }}
         >
           <IconComponent className="h-5 w-5" />
 
@@ -73,9 +73,7 @@ const CategoryNode = ({ data }: Props) => {
         </div>
 
         {data.description && (
-          <p className="mt-1 text-muted-foreground text-sm">
-            {data.description}
-          </p>
+          <p className="mt-1 text-foreground/70 text-sm">{data.description}</p>
         )}
       </div>
     </Card>

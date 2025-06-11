@@ -15,20 +15,20 @@ import { gardens as defaultGardens } from "lib/schema/garden";
 const DemoPage = () => {
   return (
     <div className="h-screen w-full flex flex-col">
-      <div className="bg-white p-3 shadow-sm border-b">
+      <div className="bg-card p-3 shadow-sm border-b">
         <div className="mx-auto flex justify-between items-center">
           <div>
             <h1 className="text-xl font-semibold">Garden Demo</h1>
             <h4 className="text-sm text-foreground/80">
               This demo represents what is rendered when using the{" "}
-              <code className="mx-1">{`<Garden />`}</code>
+              <code className="mx-1 px-1 bg-muted rounded">{`<Garden />`}</code>
               component.
             </h4>
           </div>
 
           <Link
             href="/visualizer"
-            className="text-sm text-indigo-600 hover:text-indigo-800 px-3 py-1 rounded border border-indigo-200 hover:border-indigo-400"
+            className="text-sm text-primary hover:text-primary/80 px-3 py-1 rounded border border-primary/20 hover:border-primary/40"
           >
             Go to Full Visualizer →
           </Link>

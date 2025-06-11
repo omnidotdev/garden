@@ -15,23 +15,28 @@ const SupergardenNode = ({ data }: Props) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   return (
-    <Card className="w-[200px] border-2 shadow-lg transition-transform hover:scale-105">
+    <Card className="w-[200px] border-2 border-garden/40 shadow-lg transition-transform hover:scale-105 hover:border-garden/70">
       {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
 
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
         <div className="flex w-full justify-center">
-          <Badge variant="secondary" className="text-garden hover:bg-secondary">
+          <Badge
+            variant="secondary"
+            className="text-garden font-medium hover:bg-secondary/80"
+          >
             Supergarden
           </Badge>
         </div>
 
         <div className="flex flex-col items-center gap-2 p-2">
-          <GlobeIcon size={24} className="animate-pulse" />
+          <GlobeIcon size={24} className="animate-pulse text-garden" />
 
           <h3 className="font-bold">{data.label}</h3>
 
           {data.description && (
-            <h4 className="line-clamp-2 text-sm">{data.description}</h4>
+            <h4 className="line-clamp-2 text-sm text-foreground/80">
+              {data.description}
+            </h4>
           )}
         </div>
       </div>

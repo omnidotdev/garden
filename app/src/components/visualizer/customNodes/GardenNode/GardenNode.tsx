@@ -19,12 +19,12 @@ const GardenNode = ({ data }: Props) => {
   const hasRightSources = false;
 
   return (
-    <Card className="w-[200px] border-2 shadow-lg">
+    <Card className="w-[200px] border-2 border-garden/40 shadow-lg">
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
       {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
       {hasRightSources && <Handle type="source" position={Position.Right} />}
 
-      <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-primary p-4 text-center text-primary-foreground">
+      <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-garden p-4 text-center text-[hsl(var(--background))]">
         <SproutIcon size={24} />
 
         <h3 className="font-bold">{data.label}</h3>
