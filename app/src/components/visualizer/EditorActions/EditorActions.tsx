@@ -32,7 +32,7 @@ const EditorActions = ({ schemaText, setSchemaText, setError }: Props) => {
         !Array.isArray(parsedJson.categories)
       ) {
         throw new Error(
-          "Invalid schema: missing required fields (name, version, or categories)"
+          "Invalid schema: missing required fields (name, version, or categories)",
         );
       }
 

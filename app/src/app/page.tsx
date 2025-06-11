@@ -111,7 +111,7 @@ const HomePage = () => (
               key={feature.title}
               className={cn(
                 "group relative flex flex-col items-center space-y-4 text-center",
-                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl"
+                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl",
               )}
             >
               <div className="rounded-full bg-primary/10 p-4 text-primary">

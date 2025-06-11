@@ -30,6 +30,13 @@ interface Props {
 const Visualizer = ({ gardens }: Props) => {
   const { setActiveGarden } = useGardenStore();
 
+  // Make garden data available globally for subgarden expansion
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.gardenData = gardens;
+    }
+  }, [gardens]);
+
   // load garden from local storage on initial render
   useEffect(() => {
     if (typeof window !== "undefined") {

@@ -91,7 +91,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
         activeGarden,
         containerWidth,
-        { expandSubgardens }
+        { expandSubgardens },
       );
 
       if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
@@ -182,7 +182,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
     if (clickedNode.data?.isExpandedSubgardenLabel) {
       gardenName = (clickedNode.data?.label as string).replace(
         " (Expanded)",
-        ""
+        "",
       );
     }
 

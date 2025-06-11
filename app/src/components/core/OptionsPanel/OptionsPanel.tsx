@@ -41,7 +41,8 @@ const OptionsPanel = ({
   expandSubgardens,
   setExpandSubgardens,
 }: Props) => {
-  const [minimized, setMinimized] = useState(true);
+  // TODO local storage
+  const [minimized, setMinimized] = useState(false);
   const [moving, setMoving] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -54,7 +55,7 @@ const OptionsPanel = ({
   const store = useStoreApi();
   const { isInteractive, minZoomReached, maxZoomReached } = useStore(
     selector,
-    shallow
+    shallow,
   );
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
@@ -104,9 +105,10 @@ const OptionsPanel = ({
     () => [
       {
         id: "expand-subgardens",
-        label: expandSubgardens ? "Expand subgardens" : "Condense subgardens",
+        label: expandSubgardens ? "Condense subgardens" : "Expand subgardens",
         onClick: () => {
           setExpandSubgardens(!expandSubgardens);
+
           // force re-layout
           setInitialized(false);
         },
@@ -164,14 +166,14 @@ const OptionsPanel = ({
       expandSubgardens,
       setExpandSubgardens,
       setInitialized,
-    ]
+    ],
   );
 
   return (
     <div
       ref={panelRef}
       className={cn(
-        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all"
+        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all",
       )}
       style={{
         width: 200,
@@ -182,7 +184,7 @@ const OptionsPanel = ({
       <div
         className={cn(
           "group z-50 flex items-center justify-between border-b px-4 py-2",
-          moving ? "cursor-move" : "cursor-grab"
+          moving ? "cursor-move" : "cursor-grab",
         )}
         onMouseDown={(e) => {
           e.preventDefault();
