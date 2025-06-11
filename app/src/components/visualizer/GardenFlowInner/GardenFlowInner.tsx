@@ -14,7 +14,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 import { ControlsPanel } from "components/core";
-import { ItemDetailDialog } from "components/visualizer";
+import { GardenFlowHints, ItemDetailDialog } from "components/visualizer";
 import { NodeTypes } from "components/visualizer/customNodes";
 import { LOCAL_STORAGE_KEY } from "lib/constants";
 import { useGardenStore } from "lib/hooks/store";
@@ -352,6 +352,11 @@ const GardenFlowInner = ({
           className="!bg-background"
         />
       )}
+
+      {/* TODO: update hints */}
+      <Panel position="top-right">
+        <GardenFlowHints />
+      </Panel>
 
       {showControls && (
         <ControlsPanel
