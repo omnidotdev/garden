@@ -324,7 +324,7 @@ const GardenFlowInner = ({
             node.type === "subgarden" ||
             node.type === "garden_ref" ||
             node.data?.isExpandedSubgardenLabel
-              ? "2px dashed rgba(99, 102, 241, 0.7)"
+              ? "2px dashed rgba(75, 135, 71, 0.7)"
               : undefined,
         },
       }))}

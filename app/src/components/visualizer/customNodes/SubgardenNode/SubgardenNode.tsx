@@ -20,7 +20,7 @@ const SubgardenNode = ({ data }: Props) => {
 
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
         <div className="flex w-full justify-center">
-          <Badge variant="secondary" className="text-garden hover:bg-secondary">
+          <Badge variant="secondary" className="text-garden">
             Subgarden
           </Badge>
         </div>
