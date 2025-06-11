@@ -1,6 +1,6 @@
 "use client";
 
-import { useReactFlow, useStore, useStoreApi } from "@xyflow/react";
+import { useReactFlow, useStore } from "@xyflow/react";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { shallow } from "zustand/shallow";
 import {
@@ -10,8 +10,6 @@ import {
   MinusIcon,
   RefreshCwIcon,
   MaximizeIcon,
-  LockIcon,
-  LockOpenIcon,
   GripVerticalIcon,
   Maximize2Icon,
 } from "lucide-react";
@@ -51,21 +49,11 @@ const OptionsPanel = ({
   const startMouse = useRef({ x: 0, y: 0 });
   const startPos = useRef({ x: 0, y: 0 });
 
-  // xyflow controls
-  const store = useStoreApi();
   const { isInteractive, minZoomReached, maxZoomReached } = useStore(
     selector,
-    shallow,
+    shallow
   );
   const { zoomIn, zoomOut, fitView } = useReactFlow();
-
-  const onToggleInteractivity = () => {
-    store.setState({
-      nodesDraggable: !isInteractive,
-      nodesConnectable: !isInteractive,
-      elementsSelectable: !isInteractive,
-    });
-  };
 
   // drag logic
   useEffect(() => {
@@ -144,16 +132,6 @@ const OptionsPanel = ({
         onClick: () => fitView({ padding: 0.2 }),
         icon: <MaximizeIcon size={14} />,
       },
-      {
-        id: "toggle-interactivity",
-        label: isInteractive ? "Lock layout" : "Move layout",
-        onClick: () => onToggleInteractivity(),
-        icon: isInteractive ? (
-          <LockIcon size={14} />
-        ) : (
-          <LockOpenIcon size={14} />
-        ),
-      },
     ],
     [
       isInteractive,
@@ -166,25 +144,25 @@ const OptionsPanel = ({
       expandSubgardens,
       setExpandSubgardens,
       setInitialized,
-    ],
+    ]
   );
 
   return (
     <div
       ref={panelRef}
       className={cn(
-        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all",
+        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all"
       )}
       style={{
         width: 200,
-        height: minimized ? 48 : 320,
+        height: minimized ? 48 : 270,
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     >
       <div
         className={cn(
-          "group z-50 flex items-center justify-between border-b px-4 py-2",
-          moving ? "cursor-move" : "cursor-grab",
+          "group z-50 flex items-center justify-between border-b p-2",
+          moving ? "cursor-move" : "cursor-grab"
         )}
         onMouseDown={(e) => {
           e.preventDefault();
