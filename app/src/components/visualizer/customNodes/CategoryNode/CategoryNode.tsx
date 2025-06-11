@@ -66,7 +66,7 @@ const CategoryNode = ({ data }: Props) => {
     typeof window !== "undefined" &&
     document.documentElement.classList.contains("dark");
 
-  const textColor = data.theme?.text_color || "hsl(var(--foreground))";
+  const textColor = "hsl(var(--foreground))";
   const iconColor =
     data.icon_color || data.theme?.primary_color || "hsl(var(--foreground))";
   const textShadow = isDarkTheme ? "0px 1px 1px rgba(0,0,0,0.3)" : "none";

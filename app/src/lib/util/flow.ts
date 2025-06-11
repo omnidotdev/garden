@@ -8,17 +8,12 @@ import type { ElkNode } from "elkjs";
 
 const elk = new ELK();
 
-/**
- * Calculate node height based on content.
- */
 const calculateNodeHeight = (node: Node): number => {
-  if (node.type === NODE_TYPES.ITEM) {
-    return 180; // Items have fixed height
-  }
-  if (node.data?.description) {
-    return 120; // Nodes with description are taller
-  }
-  return 80; // Default height
+  const { width = 0, height = 0 } = node.style || {};
+  if (height) return Number(height);
+  if (node.type === "garden") return 100;
+  if (node.type === "category") return 80;
+  return 60;
 };
 
 const NODE_TYPES = {
@@ -28,12 +23,10 @@ const NODE_TYPES = {
   GARDEN_REF: "garden_ref",
   SUPERGARDEN: "supergarden",
   SUBGARDEN: "subgarden",
-  EXPANDED_SUBGARDEN_LABEL: "expanded_subgarden_label",
 };
 
-const generateId = (type: string, name: string): string => {
-  return `${type}-${name.toLowerCase().replace(/\s+/g, "-")}`;
-};
+const generateId = (type: string, name: string) =>
+  `${type}-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
 const getNodePositions = (
   type: string
@@ -156,6 +149,9 @@ export const gardenToFlow = (
     });
   }
 
+  // First, if we're expanding subgardens, add a section title
+  let expandedSectionAdded = false;
+
   // Process subgardens if any
   if (garden.subgardens && Array.isArray(garden.subgardens)) {
     garden.subgardens.forEach((subgarden, index) => {
@@ -173,7 +169,7 @@ export const gardenToFlow = (
           window.gardenData[subgarden.name].theme || garden.theme;
       }
 
-      // If expandSubgardens is true, try to incorporate the subgarden's nodes directly
+      // If expandSubgardens is true, integrate the subgarden categories directly
       if (
         options.expandSubgardens &&
         typeof window !== "undefined" &&
@@ -183,72 +179,55 @@ export const gardenToFlow = (
           // Get the actual garden data from the global store
           const subgardenData = window.gardenData[subgarden.name];
 
-          if (subgardenData) {
-            // Generate a flow for the subgarden with expansion disabled (to prevent infinite recursion)
-            const subFlow = gardenToFlow(subgardenData, width, {
-              expandSubgardens: false,
-            });
+          if (
+            subgardenData &&
+            Array.isArray(subgardenData.categories) &&
+            subgardenData.categories.length > 0
+          ) {
+            // calculate horizontal position to prevent overlapping
+            const horizontalSpacing = Math.min(
+              600,
+              width / (garden.subgardens?.length || 1)
+            );
+            const xPos =
+              centerX -
+              ((garden.subgardens?.length || 1) * horizontalSpacing) / 2 +
+              index * horizontalSpacing;
 
-            // Ensure theme data is propagated to all nodes
-            subFlow.nodes.forEach((node) => {
-              if (!node.data.theme) {
-                node.data.theme = subgardenData.theme || currentGardenTheme;
-              }
-            });
-
-            // Add a label node to indicate this is an expanded subgarden
+            // Add the subgarden node that will contain categories
+            const subgardenNodeId = `expanded-${subgardenId}`;
             nodes.push({
-              id: `${subgardenId}-label`,
-              type: "default",
+              id: subgardenNodeId,
+              type: NODE_TYPES.GARDEN,
               data: {
-                label: `${subgarden.name} (Expanded)`,
-                isExpandedSubgardenLabel: true,
-                theme: subgardenData.theme || currentGardenTheme,
+                label: subgarden.name,
+                description: subgarden.description,
+                version: subgarden.version,
+                theme: subgardenTheme,
+                icon_color: "hsl(var(--chart-8))",
+                icon: "SproutIcon",
+                isExpandedSubgarden: true,
               },
               position: {
-                x: centerX + xOffset,
-                y: 300 + index * 100,
+                x: xPos,
+                y: 500,
               },
               style: {
-                background: "hsl(var(--chart-8))",
-                color: "hsl(var(--chart-8-foreground))",
-                padding: "8px 12px",
+                background: "hsla(var(--chart-8), 0.1)",
+                color: "hsl(var(--foreground))",
                 borderRadius: "var(--radius)",
+                border: "2px dashed hsl(var(--chart-8))",
+                padding: "10px",
                 fontSize: "14px",
                 fontWeight: "bold",
-                border: "2px dashed hsl(var(--chart-8))",
-                boxShadow: "0 0 15px rgba(0, 0, 0, 0.1)",
-                zIndex: 1000,
               },
             });
 
-            // Add a background node to visually group the expanded subgarden
-            nodes.push({
-              id: `${subgardenId}-background`,
-              type: "default",
-              data: {
-                label: "",
-              },
-              position: {
-                x: centerX + xOffset - 200,
-                y: 350 + index * 100,
-              },
-              style: {
-                width: 600,
-                height: 600,
-                background: "hsla(var(--chart-8), 0.05)",
-                border: "2px dashed hsla(var(--chart-8), 0.3)",
-                borderRadius: "16px",
-                zIndex: 1,
-                pointerEvents: "none",
-              },
-            });
-
-            // Connect main garden to expanded subgarden label
+            // Connect main garden to subgarden node
             edges.push({
-              id: `${gardenId}-to-${subgardenId}-label`,
+              id: `${gardenId}-to-${subgardenNodeId}`,
               source: gardenId,
-              target: `${subgardenId}-label`,
+              target: subgardenNodeId,
               type: "smoothstep",
               animated: true,
               style: {
@@ -259,55 +238,200 @@ export const gardenToFlow = (
               markerEnd: { type: MarkerType.ArrowClosed },
             });
 
-            // Process all nodes from the subgarden
-            const processedNodes = subFlow.nodes.map((node) => ({
-              ...node,
-              // Add the subgarden name as a prefix to the ID to avoid collisions
-              id: `${subgardenId}-${node.id}`,
-              data: {
-                ...node.data,
-                // Add a reference to the supergarden
-                supergarden: gardenCopy.name,
-                // Add a flag to identify this as an expanded subgarden node
-                isExpandedSubgarden: true,
-                // Add the subgarden name for reference
-                subgardenName: subgarden.name,
-              },
-              // Adjust position to place the expanded subgarden in the appropriate area
-              position: {
-                x: node.position.x + xOffset,
-                // Place them below the main garden, with extra spacing
-                y: node.position.y + 400 + index * 200,
-              },
-              // Add a special style to indicate these are part of a subgarden
-              style: {
-                ...node.style,
-                opacity: 0.95,
-                border:
-                  node.type === NODE_TYPES.GARDEN
-                    ? "2px solid hsl(var(--chart-8))"
-                    : "1px dashed hsl(var(--chart-8))",
-                zIndex: 10, // Ensure nodes are above the background
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-              },
-            }));
+            // Process each category in the subgarden and add it to the flow
+            if (Array.isArray(subgardenData.categories)) {
+              subgardenData.categories.forEach((category, catIndex) => {
+                // Use the category's name directly if possible to prevent duplicate IDs
+                const categoryId = generateId(
+                  NODE_TYPES.CATEGORY,
+                  `${subgardenNodeId}-${category.name}`
+                );
 
-            // Process the edges to connect to the new node IDs
-            const processedEdges = subFlow.edges.map((edge) => ({
-              ...edge,
-              id: `${subgardenId}-${edge.id}`,
-              source: `${subgardenId}-${edge.source}`,
-              target: `${subgardenId}-${edge.target}`,
-              style: {
-                ...edge.style,
-                stroke: edge.style?.stroke || "hsl(var(--chart-8))",
-                opacity: 0.8,
-              },
-            }));
+                // Calculate vertical position
+                const yPosition = 600 + catIndex * 150;
 
-            // Add all the processed nodes and edges
-            nodes.push(...processedNodes);
-            edges.push(...processedEdges);
+                // Get appropriate icon based on category name
+                const lowerName = category.name.toLowerCase();
+                let iconName = "FolderIcon";
+                if (lowerName.includes("productivity")) iconName = "ZapIcon";
+                if (
+                  lowerName.includes("development") ||
+                  lowerName.includes("code")
+                )
+                  iconName = "CodeIcon";
+                if (
+                  lowerName.includes("communication") ||
+                  lowerName.includes("message")
+                )
+                  iconName = "MessageSquareIcon";
+                if (lowerName.includes("design") || lowerName.includes("ui"))
+                  iconName = "PaletteIcon";
+                if (lowerName.includes("task")) iconName = "CheckSquareIcon";
+                if (lowerName.includes("note")) iconName = "FileTextIcon";
+                if (lowerName.includes("version")) iconName = "GitIcon";
+                if (lowerName.includes("video")) iconName = "VideoIcon";
+                if (
+                  lowerName.includes("graphics") ||
+                  lowerName.includes("image")
+                )
+                  iconName = "ImageIcon";
+
+                nodes.push({
+                  id: categoryId,
+                  type: NODE_TYPES.CATEGORY,
+                  data: {
+                    label: category.name,
+                    description: category.description,
+                    icon_color: category.icon_color,
+                    icon: iconName,
+                    theme: subgardenTheme,
+                  },
+                  position: { x: xPos, y: yPosition },
+                  ...getNodePositions(NODE_TYPES.CATEGORY),
+                  style: {
+                    background: "transparent",
+                    color: "hsl(var(--foreground))",
+                    borderRadius: "var(--radius)",
+                  },
+                });
+
+                // Connect subgarden to this category
+                edges.push({
+                  id: `${subgardenNodeId}-to-${categoryId}`,
+                  source: subgardenNodeId,
+                  target: categoryId,
+                  type: "smoothstep",
+                  animated: true,
+                  style: {
+                    stroke: "hsl(var(--muted-foreground))",
+                    strokeWidth: 2,
+                  },
+                  markerEnd: { type: MarkerType.ArrowClosed },
+                  interactionWidth: 1,
+                });
+
+                // Process items in this category
+                if (category.items && Array.isArray(category.items)) {
+                  category.items.forEach((item, itemIndex) => {
+                    if (!item || !item.name) return;
+
+                    const itemId = generateId(
+                      NODE_TYPES.ITEM,
+                      `${categoryId}-${item.name}`
+                    );
+                    const itemYPosition = yPosition + (itemIndex + 1) * 80;
+
+                    nodes.push({
+                      id: itemId,
+                      type: NODE_TYPES.ITEM,
+                      data: {
+                        label: item.name,
+                        homepage_url: item.homepage_url || "",
+                        logo: item.logo || "",
+                        image:
+                          item.logo ||
+                          "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
+                        repo_url: item.repo_url || "",
+                        description: item.description || "",
+                        theme: subgardenTheme,
+                        cta: {
+                          primary: {
+                            label: "Visit Website",
+                            url: item.homepage_url || "",
+                          },
+                          secondary: item.repo_url
+                            ? {
+                                label: "View Code",
+                                url: item.repo_url,
+                              }
+                            : undefined,
+                        },
+                      },
+                      position: {
+                        x: xPos,
+                        y: itemYPosition,
+                      },
+                      ...getNodePositions(NODE_TYPES.ITEM),
+                    });
+
+                    edges.push({
+                      id: `${categoryId}-to-${itemId}`,
+                      source: categoryId,
+                      target: itemId,
+                      type: "smoothstep",
+                      animated: true,
+                      style: {
+                        stroke: "hsl(var(--muted-foreground))",
+                        strokeWidth: 1.5,
+                      },
+                      markerEnd: { type: MarkerType.ArrowClosed },
+                      interactionWidth: 1,
+                    });
+                  });
+                }
+
+                // Process garden references
+                if (
+                  category.garden_refs &&
+                  Array.isArray(category.garden_refs)
+                ) {
+                  category.garden_refs.forEach((gardenRef, refIndex) => {
+                    if (!gardenRef || !gardenRef.name) return;
+
+                    const refId = generateId(
+                      NODE_TYPES.GARDEN_REF,
+                      `${categoryId}-${gardenRef.name}`
+                    );
+                    // Position garden refs to the right of the category
+                    const refXPosition = xPos + 250;
+                    const refYPosition = yPosition + (refIndex + 1) * 100;
+
+                    nodes.push({
+                      id: refId,
+                      type: NODE_TYPES.GARDEN_REF,
+                      data: {
+                        theme: subgardenTheme,
+                        label: gardenRef.name,
+                        description: gardenRef.description || "",
+                        url: gardenRef.url,
+                        version: gardenRef.version,
+                        logo: gardenRef.logo || "",
+                        icon_color: "hsl(var(--chart-10))",
+                      },
+                      position: { x: refXPosition, y: refYPosition },
+                      ...getNodePositions(NODE_TYPES.GARDEN_REF),
+                    });
+
+                    edges.push({
+                      id: `${categoryId}-to-${refId}`,
+                      source: categoryId,
+                      target: refId,
+                      type: "smoothstep",
+                      animated: true,
+                      style: {
+                        stroke: "hsl(var(--muted-foreground))",
+                        strokeWidth: 1.5,
+                      },
+                      markerEnd: { type: MarkerType.ArrowClosed },
+                      interactionWidth: 1,
+                    });
+                  });
+                }
+
+                // Process subcategories recursively
+                if (category.categories && Array.isArray(category.categories)) {
+                  processNestedCategories(
+                    category.categories,
+                    categoryId,
+                    1,
+                    xPos,
+                    subgardenTheme,
+                    nodes,
+                    edges
+                  );
+                }
+              });
+            }
           } else {
             // Fallback to a condensed node if data isn't available
             addCondensedSubgardenNode();
@@ -315,14 +439,15 @@ export const gardenToFlow = (
         } catch (error) {
           console.error(`Error expanding subgarden ${subgarden.name}:`, error);
           // Fallback to a condensed node if there's an error
-          addCondensedSubgardenNode(subgardenTheme);
+          addCondensedSubgardenNode();
         }
       } else {
         // Add a condensed subgarden node when not expanding
-        addCondensedSubgardenNode(subgardenTheme);
+        addCondensedSubgardenNode();
       }
 
-      function addCondensedSubgardenNode(subgardenTheme?: Theme | null) {
+      function addCondensedSubgardenNode() {
+        // Add the condensed node if we're not in expanded mode
         nodes.push({
           id: subgardenId,
           type: NODE_TYPES.SUBGARDEN,
@@ -334,15 +459,16 @@ export const gardenToFlow = (
             logo: subgarden.logo,
             icon: "GitBranchIcon",
             icon_color: "hsl(var(--chart-8))",
-            theme: subgardenTheme,
+            theme: subgardenTheme || null,
             expandable: true, // Flag to indicate this can be expanded
           },
           position: { x: centerX + xOffset, y: -200 },
           ...getNodePositions(NODE_TYPES.SUBGARDEN),
           style: {
-            background: "hsl(var(--chart-8))",
-            color: "hsl(var(--chart-8-foreground))",
+            background: "transparent",
+            color: "hsl(var(--foreground))",
             borderRadius: "var(--radius)",
+            border: "2px solid hsl(var(--chart-8))",
             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           },
         });
@@ -366,217 +492,368 @@ export const gardenToFlow = (
     });
   }
 
-  /**
-   * Recursively process categories.
-   */
-  const processCategory = (
-    category: any,
-    supergardenId: string,
-    depth = 0,
-    indexInSupergarden = 0,
-    xPosition: number = centerX,
-    gardenTheme: Theme | null = null
-  ) => {
-    if (!category || !category.name) return;
-
-    const categoryId = generateId(
-      NODE_TYPES.CATEGORY,
-      `${supergardenId}-${category.name}`
-    );
-
-    const yPosition = 200 + depth * 200 + indexInSupergarden * 150;
-
-    // get appropriate icon based on category name
-    const getCategoryIcon = (name: string) => {
-      const lowerName = name.toLowerCase();
-      if (lowerName.includes("productivity")) return "ZapIcon";
-      if (lowerName.includes("development") || lowerName.includes("code"))
-        return "CodeIcon";
-      if (lowerName.includes("communication") || lowerName.includes("message"))
-        return "MessageSquareIcon";
-      if (lowerName.includes("design") || lowerName.includes("ui"))
-        return "PaletteIcon";
-      if (lowerName.includes("task")) return "CheckSquareIcon";
-      if (lowerName.includes("note")) return "FileTextIcon";
-      if (lowerName.includes("version")) return "GitIcon";
-      if (lowerName.includes("video")) return "VideoIcon";
-      if (lowerName.includes("graphics") || lowerName.includes("image"))
-        return "ImageIcon";
-      return "FolderIcon";
-    };
-
-    nodes.push({
-      id: categoryId,
-      type: NODE_TYPES.CATEGORY,
-      data: {
-        label: category.name,
-        description: category.description,
-        icon_color: category.icon_color,
-        icon: getCategoryIcon(category.name),
-        theme: gardenTheme,
-      },
-      position: { x: xPosition, y: yPosition },
-      ...getNodePositions(NODE_TYPES.CATEGORY),
-    });
-
-    // Create edge from supergarden to this category
-    edges.push({
-      id: `${supergardenId}-to-${categoryId}`,
-      source: supergardenId,
-      target: categoryId,
-      type: "smoothstep",
-      animated: true,
-      style: {
-        stroke: "hsl(var(--muted-foreground))",
-        strokeWidth: depth === 0 ? 2 : 1.5,
-      },
-      markerEnd: { type: MarkerType.ArrowClosed },
-      interactionWidth: 1,
-    });
-
-    // Process items in this category
-    if (category.items && Array.isArray(category.items)) {
-      category.items.forEach((item: any, itemIndex: number) => {
-        if (!item || !item.name) return;
-
-        const itemId = generateId(
-          NODE_TYPES.ITEM,
-          `${categoryId}-${item.name}`
-        );
-        const itemYPosition = yPosition + (itemIndex + 1) * 100;
-
-        nodes.push({
-          id: itemId,
-          type: NODE_TYPES.ITEM,
-          data: {
-            label: item.name,
-            homepage_url: item.homepage_url || "",
-            logo: item.logo || "",
-            image:
-              item.logo ||
-              "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
-            repo_url: item.repo_url || "",
-            description: item.description || "",
-            theme: gardenTheme,
-            cta: {
-              primary: {
-                label: "Visit Website",
-                url: item.homepage_url || "",
-              },
-              secondary: item.repo_url
-                ? {
-                    label: "View Code",
-                    url: item.repo_url,
-                  }
-                : undefined,
-            },
-          },
-          position: {
-            x: xPosition,
-            y: itemYPosition,
-          },
-          ...getNodePositions(NODE_TYPES.ITEM),
-        });
-
-        edges.push({
-          id: `${categoryId}-to-${itemId}`,
-          source: categoryId,
-          target: itemId,
-          type: "smoothstep",
-          animated: true,
-          style: {
-            stroke: "hsl(var(--muted-foreground))",
-            strokeWidth: 1.5,
-          },
-          markerEnd: { type: MarkerType.ArrowClosed },
-          interactionWidth: 1,
-        });
-      });
-    }
-
-    // Process garden references in this category
-    if (category.garden_refs && Array.isArray(category.garden_refs)) {
-      category.garden_refs.forEach((gardenRef: any, refIndex: number) => {
-        if (!gardenRef || !gardenRef.name) return;
-
-        const refId = generateId(
-          NODE_TYPES.GARDEN_REF,
-          `${categoryId}-${gardenRef.name}`
-        );
-        // Position garden refs to the right of the category
-        const refXPosition = xPosition + 250;
-        const refYPosition = yPosition + (refIndex + 1) * 100;
-
-        nodes.push({
-          id: refId,
-          type: NODE_TYPES.GARDEN_REF,
-          data: {
-            theme: gardenTheme,
-            label: gardenRef.name,
-            description: gardenRef.description || "",
-            url: gardenRef.url,
-            logo: gardenRef.logo || "",
-            version: gardenRef.version || "",
-            icon: "Link",
-            icon_color: "hsl(var(--chart-7))",
-            cta: {
-              primary: {
-                label: "Visit Garden",
-                url: gardenRef.url || "",
-              },
-            },
-          },
-          position: {
-            x: refXPosition,
-            y: refYPosition,
-          },
-          ...getNodePositions(NODE_TYPES.GARDEN_REF),
-          style: {
-            background: "hsl(var(--chart-7))",
-            color: "hsl(var(--chart-7-foreground))",
-            borderRadius: "var(--radius)",
-          },
-        });
-
-        edges.push({
-          id: `${categoryId}-to-${refId}`,
-          source: categoryId,
-          target: refId,
-          type: "smoothstep",
-          animated: true,
-          style: {
-            stroke: "hsl(var(--chart-7))",
-            strokeWidth: 1.5,
-            strokeDasharray: "5,5",
-          },
-          markerEnd: { type: MarkerType.ArrowClosed },
-          interactionWidth: 1,
-        });
-      });
-    }
-
-    // Recursively process nested categories
-    if (category.categories && Array.isArray(category.categories)) {
-      // Process subcategories recursively
-      category.categories.forEach(
-        (subcategory: any, subcategoryIndex: number) => {
-          processCategory(
-            subcategory,
-            categoryId,
-            depth + 1,
-            subcategoryIndex,
-            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150), // Alternately offset to avoid overlap
-            gardenTheme
-          );
-        }
-      );
-    }
-  };
-
-  // Start processing top-level categories
+  // Process all main garden categories
   garden.categories.forEach((category, index) => {
-    processCategory(category, gardenId, 0, index, centerX, currentGardenTheme);
+    if (category && category.name) {
+      const categoryId = generateId(
+        NODE_TYPES.CATEGORY,
+        `${gardenId}-${category.name}`
+      );
+
+      const yPosition = 200 + index * 150;
+
+      // get appropriate icon based on category name
+      const lowerName = category.name.toLowerCase();
+      let iconName = "FolderIcon";
+      if (lowerName.includes("productivity")) iconName = "ZapIcon";
+      if (lowerName.includes("development") || lowerName.includes("code"))
+        iconName = "CodeIcon";
+      if (lowerName.includes("communication") || lowerName.includes("message"))
+        iconName = "MessageSquareIcon";
+      if (lowerName.includes("design") || lowerName.includes("ui"))
+        iconName = "PaletteIcon";
+      if (lowerName.includes("task")) iconName = "CheckSquareIcon";
+      if (lowerName.includes("note")) iconName = "FileTextIcon";
+      if (lowerName.includes("version")) iconName = "GitIcon";
+      if (lowerName.includes("video")) iconName = "VideoIcon";
+      if (lowerName.includes("graphics") || lowerName.includes("image"))
+        iconName = "ImageIcon";
+
+      nodes.push({
+        id: categoryId,
+        type: NODE_TYPES.CATEGORY,
+        data: {
+          label: category.name,
+          description: category.description,
+          icon_color: category.icon_color,
+          icon: iconName,
+          theme: currentGardenTheme,
+        },
+        position: { x: centerX, y: yPosition },
+        ...getNodePositions(NODE_TYPES.CATEGORY),
+      });
+
+      // Create edge from garden to this category
+      edges.push({
+        id: `${gardenId}-to-${categoryId}`,
+        source: gardenId,
+        target: categoryId,
+        type: "smoothstep",
+        animated: true,
+        style: {
+          stroke: "hsl(var(--muted-foreground))",
+          strokeWidth: 2,
+        },
+        markerEnd: { type: MarkerType.ArrowClosed },
+        interactionWidth: 1,
+      });
+
+      // Process items in this category
+      if (category.items && Array.isArray(category.items)) {
+        category.items.forEach((item, itemIndex) => {
+          if (!item || !item.name) return;
+
+          const itemId = generateId(
+            NODE_TYPES.ITEM,
+            `${categoryId}-${item.name}`
+          );
+          const itemYPosition = yPosition + (itemIndex + 1) * 100;
+
+          nodes.push({
+            id: itemId,
+            type: NODE_TYPES.ITEM,
+            data: {
+              label: item.name,
+              homepage_url: item.homepage_url || "",
+              logo: item.logo || "",
+              image:
+                item.logo ||
+                "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
+              repo_url: item.repo_url || "",
+              description: item.description || "",
+              theme: currentGardenTheme,
+              cta: {
+                primary: {
+                  label: "Visit Website",
+                  url: item.homepage_url || "",
+                },
+                secondary: item.repo_url
+                  ? {
+                      label: "View Code",
+                      url: item.repo_url,
+                    }
+                  : undefined,
+              },
+            },
+            position: {
+              x: centerX,
+              y: itemYPosition,
+            },
+            ...getNodePositions(NODE_TYPES.ITEM),
+          });
+
+          edges.push({
+            id: `${categoryId}-to-${itemId}`,
+            source: categoryId,
+            target: itemId,
+            type: "smoothstep",
+            animated: true,
+            style: {
+              stroke: "hsl(var(--muted-foreground))",
+              strokeWidth: 1.5,
+            },
+            markerEnd: { type: MarkerType.ArrowClosed },
+            interactionWidth: 1,
+          });
+        });
+      }
+
+      // Process garden references in this category
+      if (category.garden_refs && Array.isArray(category.garden_refs)) {
+        category.garden_refs.forEach((gardenRef, refIndex) => {
+          if (!gardenRef || !gardenRef.name) return;
+
+          const refId = generateId(
+            NODE_TYPES.GARDEN_REF,
+            `${categoryId}-${gardenRef.name}`
+          );
+          // Position garden refs to the right of the category
+          const refXPosition = centerX + 250;
+          const refYPosition = yPosition + (refIndex + 1) * 100;
+
+          nodes.push({
+            id: refId,
+            type: NODE_TYPES.GARDEN_REF,
+            data: {
+              theme: currentGardenTheme,
+              label: gardenRef.name,
+              description: gardenRef.description || "",
+              url: gardenRef.url,
+              version: gardenRef.version,
+              logo: gardenRef.logo || "",
+              icon_color: "hsl(var(--chart-10))",
+            },
+            position: { x: refXPosition, y: refYPosition },
+            ...getNodePositions(NODE_TYPES.GARDEN_REF),
+          });
+
+          edges.push({
+            id: `${categoryId}-to-${refId}`,
+            source: categoryId,
+            target: refId,
+            type: "smoothstep",
+            animated: true,
+            style: {
+              stroke: "hsl(var(--muted-foreground))",
+              strokeWidth: 1.5,
+            },
+            markerEnd: { type: MarkerType.ArrowClosed },
+            interactionWidth: 1,
+          });
+        });
+      }
+
+      // Process nested categories recursively
+      if (category.categories && Array.isArray(category.categories)) {
+        processNestedCategories(
+          category.categories,
+          categoryId,
+          1,
+          centerX,
+          currentGardenTheme,
+          nodes,
+          edges
+        );
+      }
+    }
   });
+
+  // Function to process nested categories recursively
+  function processNestedCategories(
+    categories: any[],
+    parentId: string,
+    depth: number,
+    baseX: number,
+    gardenTheme: Theme | null | undefined,
+    nodes: Node[],
+    edges: Edge[]
+  ) {
+    categories.forEach((subcategory, subcategoryIndex) => {
+      if (!subcategory || !subcategory.name) return;
+
+      const categoryId = generateId(
+        NODE_TYPES.CATEGORY,
+        `${parentId}-${subcategory.name}`
+      );
+
+      const xOffset = subcategoryIndex % 2 === 0 ? -150 : 150;
+      const yPosition = 200 + depth * 200 + subcategoryIndex * 100;
+
+      // get appropriate icon based on category name
+      const lowerName = subcategory.name.toLowerCase();
+      let iconName = "FolderIcon";
+      if (lowerName.includes("productivity")) iconName = "ZapIcon";
+      if (lowerName.includes("development") || lowerName.includes("code"))
+        iconName = "CodeIcon";
+      if (lowerName.includes("communication") || lowerName.includes("message"))
+        iconName = "MessageSquareIcon";
+      if (lowerName.includes("design") || lowerName.includes("ui"))
+        iconName = "PaletteIcon";
+      if (lowerName.includes("task")) iconName = "CheckSquareIcon";
+      if (lowerName.includes("note")) iconName = "FileTextIcon";
+      if (lowerName.includes("version")) iconName = "GitIcon";
+      if (lowerName.includes("video")) iconName = "VideoIcon";
+      if (lowerName.includes("graphics") || lowerName.includes("image"))
+        iconName = "ImageIcon";
+
+      nodes.push({
+        id: categoryId,
+        type: NODE_TYPES.CATEGORY,
+        data: {
+          label: subcategory.name,
+          description: subcategory.description,
+          icon_color: subcategory.icon_color,
+          icon: iconName,
+          theme: gardenTheme,
+        },
+        position: { x: baseX + xOffset, y: yPosition },
+        ...getNodePositions(NODE_TYPES.CATEGORY),
+      });
+
+      // Create edge from parent to this category
+      edges.push({
+        id: `${parentId}-to-${categoryId}`,
+        source: parentId,
+        target: categoryId,
+        type: "smoothstep",
+        animated: true,
+        style: {
+          stroke: "hsl(var(--muted-foreground))",
+          strokeWidth: 1.5,
+        },
+        markerEnd: { type: MarkerType.ArrowClosed },
+        interactionWidth: 1,
+      });
+
+      // Process items in this subcategory
+      if (subcategory.items && Array.isArray(subcategory.items)) {
+        subcategory.items.forEach((item: any, itemIndex: number) => {
+          if (!item || !item.name) return;
+
+          const itemId = generateId(
+            NODE_TYPES.ITEM,
+            `${categoryId}-${item.name}`
+          );
+          const itemYPosition = yPosition + (itemIndex + 1) * 100;
+
+          nodes.push({
+            id: itemId,
+            type: NODE_TYPES.ITEM,
+            data: {
+              label: item.name,
+              homepage_url: item.homepage_url || "",
+              logo: item.logo || "",
+              image:
+                item.logo ||
+                "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
+              repo_url: item.repo_url || "",
+              description: item.description || "",
+              theme: gardenTheme,
+              cta: {
+                primary: {
+                  label: "Visit Website",
+                  url: item.homepage_url || "",
+                },
+                secondary: item.repo_url
+                  ? {
+                      label: "View Code",
+                      url: item.repo_url,
+                    }
+                  : undefined,
+              },
+            },
+            position: {
+              x: baseX + xOffset,
+              y: itemYPosition,
+            },
+            ...getNodePositions(NODE_TYPES.ITEM),
+          });
+
+          edges.push({
+            id: `${categoryId}-to-${itemId}`,
+            source: categoryId,
+            target: itemId,
+            type: "smoothstep",
+            animated: true,
+            style: {
+              stroke: "hsl(var(--muted-foreground))",
+              strokeWidth: 1.5,
+            },
+            markerEnd: { type: MarkerType.ArrowClosed },
+            interactionWidth: 1,
+          });
+        });
+      }
+
+      // Process garden references in this subcategory
+      if (subcategory.garden_refs && Array.isArray(subcategory.garden_refs)) {
+        subcategory.garden_refs.forEach((gardenRef: any, refIndex: number) => {
+          if (!gardenRef || !gardenRef.name) return;
+
+          const refId = generateId(
+            NODE_TYPES.GARDEN_REF,
+            `${categoryId}-${gardenRef.name}`
+          );
+          // Position garden refs to the right of the category
+          const refXPosition = baseX + xOffset + 250;
+          const refYPosition = yPosition + (refIndex + 1) * 100;
+
+          nodes.push({
+            id: refId,
+            type: NODE_TYPES.GARDEN_REF,
+            data: {
+              theme: gardenTheme,
+              label: gardenRef.name,
+              description: gardenRef.description || "",
+              url: gardenRef.url,
+              version: gardenRef.version,
+              logo: gardenRef.logo || "",
+              icon_color: "hsl(var(--chart-10))",
+            },
+            position: { x: refXPosition, y: refYPosition },
+            ...getNodePositions(NODE_TYPES.GARDEN_REF),
+          });
+
+          edges.push({
+            id: `${categoryId}-to-${refId}`,
+            source: categoryId,
+            target: refId,
+            type: "smoothstep",
+            animated: true,
+            style: {
+              stroke: "hsl(var(--muted-foreground))",
+              strokeWidth: 1.5,
+            },
+            markerEnd: { type: MarkerType.ArrowClosed },
+            interactionWidth: 1,
+          });
+        });
+      }
+
+      // Recursively process nested categories
+      if (subcategory.categories && Array.isArray(subcategory.categories)) {
+        processNestedCategories(
+          subcategory.categories,
+          categoryId,
+          depth + 1,
+          baseX + xOffset,
+          gardenTheme,
+          nodes,
+          edges
+        );
+      }
+    });
+  }
 
   // track connections for each node to control handle visibility
   const nodeConnections = new Map();

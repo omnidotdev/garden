@@ -232,21 +232,13 @@ const GardenFlowInner = ({
     // determine the garden name to navigate to
     let gardenName = clickedNode.data?.label as string;
 
-    // check if this is an expanded subgarden label
-    if (clickedNode.data?.isExpandedSubgardenLabel) {
-      gardenName = (clickedNode.data?.label as string).replace(
-        " (Expanded)",
-        ""
-      );
-    }
-
     // for all navigable node types, navigate to the garden by name
     if (
       gardenName &&
       (clickedNode.type === "supergarden" ||
         clickedNode.type === "subgarden" ||
         clickedNode.type === "garden_ref" ||
-        clickedNode.data?.isExpandedSubgardenLabel)
+        clickedNode.data?.isExpandedSubgarden)
     ) {
       // debounce navigation to prevent multiple rapid calls
       if (
@@ -281,7 +273,7 @@ const GardenFlowInner = ({
       node.type === "subgarden" ||
       node.type === "garden_ref" ||
       node.type === "item" ||
-      node.data?.isExpandedSubgardenLabel
+      node.data?.isExpandedSubgarden
     ) {
       document.body.style.cursor = "pointer";
     }
@@ -315,7 +307,7 @@ const GardenFlowInner = ({
             node.type === "subgarden" ||
             node.type === "garden_ref" ||
             node.type === "item" ||
-            node.data?.isExpandedSubgardenLabel
+            node.data?.isExpandedSubgarden
               ? "pointer"
               : "grab",
         },

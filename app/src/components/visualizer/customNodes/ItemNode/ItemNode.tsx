@@ -1,10 +1,12 @@
 import { Handle, Position } from "@xyflow/react";
 import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
-import { Button, Card } from "components/ui";
+import { Button, Card, buttonVariants } from "components/ui";
+import cn from "lib/util/cn";
 
 import type { Theme } from "generated/garden.types";
 import type { NodeData } from "components/visualizer/customNodes";
+import type { ComponentProps } from "react";
 
 interface Props {
   data: NodeData;
@@ -29,7 +31,7 @@ const ItemNode = ({ data }: Props) => {
 
   return (
     <Card
-      className="w-[200px] border-2 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer hover:border-garden/60"
+      className="w-[200px] border-2 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
       style={{
         borderColor: secondaryColor,
       }}
