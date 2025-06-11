@@ -19,11 +19,7 @@ const SubgardenNode = ({ data }: Props) => {
       <Handle type="target" position={Position.Top} />
 
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
-        <div className="flex w-full justify-between">
-          <Badge variant="outline" className="text-muted-foreground">
-            v{data.version}
-          </Badge>
-
+        <div className="flex w-full justify-center">
           <Badge variant="secondary" className="text-garden hover:bg-secondary">
             Subgarden
           </Badge>

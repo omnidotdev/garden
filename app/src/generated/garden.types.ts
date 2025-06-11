@@ -17,7 +17,7 @@ export interface GardenTypes {
     supergardens?: GardenReference[] | null;
     theme?:        null | Theme;
     updated_at?:   null | string;
-    version:       string;
+    version?:      null | string;
     [property: string]: any;
 }
 
@@ -241,7 +241,7 @@ const typeMap: any = {
         { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
         { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
         { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
-        { json: "version", js: "version", typ: "" },
+        { json: "version", js: "version", typ: u(undefined, u(null, "")) },
     ], "any"),
     "Category": o([
         { json: "categories", js: "categories", typ: u(undefined, u(a(r("Category")), null)) },
