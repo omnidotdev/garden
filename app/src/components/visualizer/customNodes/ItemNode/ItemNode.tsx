@@ -25,8 +25,7 @@ const ItemNode = ({ data }: Props) => {
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
   const secondaryColor = data.theme?.secondary_color || "hsl(var(--accent)/40)";
-  const textColor = data.theme?.text_color || "hsl(var(--foreground))";
-  const textShadow = isDarkTheme ? "0px 1px 1px rgba(0,0,0,0.3)" : "none";
+  const textColor = "hsl(var(--foreground))";
 
   return (
     <Card
@@ -47,13 +46,13 @@ const ItemNode = ({ data }: Props) => {
           />
         </div>
         <div className="px-4">
-          <h3 className="font-medium" style={{ color: textColor, textShadow }}>
+          <h3 className="font-medium" style={{ color: textColor }}>
             {data.label}
           </h3>
           {data.description && (
             <p
               className="mt-1 line-clamp-2 text-sm"
-              style={{ color: textColor, textShadow }}
+              style={{ color: textColor }}
             >
               {data.description}
             </p>
@@ -63,25 +62,14 @@ const ItemNode = ({ data }: Props) => {
           <Button
             variant="default"
             size="sm"
-            className="w-full hover:bg-opacity-90"
+            className="w-full hover:opacity-90"
             style={{
               backgroundColor: primaryColor,
-              color: isDarkTheme
-                ? "hsl(var(--background))"
-                : "hsl(var(--background))",
-              textShadow,
+              color: "hsl(var(--background))",
             }}
             onClick={() => window.open(data.cta?.primary.url, "_blank")}
           >
-            <ExternalLinkIcon
-              size={14}
-              className="mr-1"
-              style={{
-                filter: isDarkTheme
-                  ? "drop-shadow(0px 1px 1px rgba(0,0,0,0.3))"
-                  : "none",
-              }}
-            />
+            <ExternalLinkIcon size={14} className="mr-1" />
 
             {data.cta?.primary.label}
           </Button>
@@ -90,14 +78,16 @@ const ItemNode = ({ data }: Props) => {
             <Button
               variant="outline"
               size="sm"
+              style={{
+                borderColor: primaryColor,
+                color: primaryColor,
+              }}
               onClick={() => window.open(data.cta?.secondary?.url, "_blank")}
             >
               <GitBranchIcon
                 className="h-4 w-4"
                 style={{
-                  filter: isDarkTheme
-                    ? "drop-shadow(0px 1px 1px rgba(0,0,0,0.3))"
-                    : "none",
+                  color: primaryColor,
                 }}
               />
             </Button>

@@ -78,6 +78,9 @@ export const gardenToFlow = (
     return { nodes: [], edges: [] };
   }
 
+  // Store the garden theme for propagation to all nodes
+  const currentGardenTheme = garden.theme || null;
+
   const nodes: Node[] = [];
   const edges: Edge[] = [];
 
@@ -91,7 +94,7 @@ export const gardenToFlow = (
       label: garden.name,
       description: garden.description,
       version: garden.version,
-      theme: garden.theme,
+      theme: currentGardenTheme,
       icon_color: "hsl(var(--primary))",
       icon: "SproutIcon",
     },
@@ -186,6 +189,13 @@ export const gardenToFlow = (
               expandSubgardens: false,
             });
 
+            // Ensure theme data is propagated to all nodes
+            subFlow.nodes.forEach((node) => {
+              if (!node.data.theme) {
+                node.data.theme = subgardenData.theme || currentGardenTheme;
+              }
+            });
+
             // Add a label node to indicate this is an expanded subgarden
             nodes.push({
               id: `${subgardenId}-label`,
@@ -193,7 +203,7 @@ export const gardenToFlow = (
               data: {
                 label: `${subgarden.name} (Expanded)`,
                 isExpandedSubgardenLabel: true,
-                theme: subgardenData.theme || garden.theme,
+                theme: subgardenData.theme || currentGardenTheme,
               },
               position: {
                 x: centerX + xOffset,
@@ -364,7 +374,8 @@ export const gardenToFlow = (
     supergardenId: string,
     depth = 0,
     indexInSupergarden = 0,
-    xPosition: number = centerX
+    xPosition: number = centerX,
+    gardenTheme: Theme | null = null
   ) => {
     if (!category || !category.name) return;
 
@@ -402,6 +413,7 @@ export const gardenToFlow = (
         description: category.description,
         icon_color: category.icon_color,
         icon: getCategoryIcon(category.name),
+        theme: gardenTheme,
       },
       position: { x: xPosition, y: yPosition },
       ...getNodePositions(NODE_TYPES.CATEGORY),
@@ -445,6 +457,7 @@ export const gardenToFlow = (
               "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
             repo_url: item.repo_url || "",
             description: item.description || "",
+            theme: gardenTheme,
             cta: {
               primary: {
                 label: "Visit Website",
@@ -498,6 +511,7 @@ export const gardenToFlow = (
           id: refId,
           type: NODE_TYPES.GARDEN_REF,
           data: {
+            theme: gardenTheme,
             label: gardenRef.name,
             description: gardenRef.description || "",
             url: gardenRef.url,
@@ -543,6 +557,7 @@ export const gardenToFlow = (
 
     // Recursively process nested categories
     if (category.categories && Array.isArray(category.categories)) {
+      // Process subcategories recursively
       category.categories.forEach(
         (subcategory: any, subcategoryIndex: number) => {
           processCategory(
@@ -550,16 +565,17 @@ export const gardenToFlow = (
             categoryId,
             depth + 1,
             subcategoryIndex,
-            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150) // Alternately offset to avoid overlap
+            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150), // Alternately offset to avoid overlap
+            gardenTheme
           );
         }
       );
     }
   };
 
-  // Start processing the top-level categories
-  garden.categories.forEach((category, categoryIndex) => {
-    processCategory(category, gardenId, 0, categoryIndex);
+  // Start processing top-level categories
+  garden.categories.forEach((category, index) => {
+    processCategory(category, gardenId, 0, index, centerX, currentGardenTheme);
   });
 
   // track connections for each node to control handle visibility
