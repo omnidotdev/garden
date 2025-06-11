@@ -2,7 +2,7 @@ import { MarkerType, Position } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { match } from "ts-pattern";
 
-import type { GardenTypes } from "generated/garden.types";
+import type { GardenTypes, Theme } from "generated/garden.types";
 import type { Edge, Node } from "@xyflow/react";
 import type { ElkNode } from "elkjs";
 
@@ -36,7 +36,7 @@ const generateId = (type: string, name: string): string => {
 };
 
 const getNodePositions = (
-  type: string,
+  type: string
 ): { sourcePosition?: Position; targetPosition?: Position } => {
   return match(type)
     .with(NODE_TYPES.GARDEN, () => ({
@@ -69,7 +69,7 @@ interface FlowOptions {
 export const gardenToFlow = (
   garden: GardenTypes,
   width = 1600,
-  options: FlowOptions = {},
+  options: FlowOptions = {}
 ): { nodes: Node[]; edges: Edge[] } => {
   // create a shallow copy to prevent reference issues
   const gardenCopy = { ...garden };
@@ -109,7 +109,7 @@ export const gardenToFlow = (
     gardenCopy.supergardens.forEach((supergarden: any, index: number) => {
       const supergardenId = generateId(
         NODE_TYPES.SUPERGARDEN,
-        supergarden.name,
+        supergarden.name
       );
       const xOffset = -400 + index * 150; // Position supergardens to the left and above
 
@@ -124,6 +124,7 @@ export const gardenToFlow = (
           version: supergarden.version,
           icon: "GlobeIcon",
           icon_color: "hsl(var(--chart-9))",
+          theme: supergarden.theme || garden.theme,
         },
         position: { x: centerX + xOffset, y: -200 },
         ...getNodePositions(NODE_TYPES.SUPERGARDEN),
@@ -158,6 +159,17 @@ export const gardenToFlow = (
       const subgardenId = generateId(NODE_TYPES.SUBGARDEN, subgarden.name);
       const xOffset = 400 - index * 150; // Position subgardens to the right and above
 
+      // Try to fetch theme from actual subgarden if available
+      let subgardenTheme = garden.theme;
+      if (
+        typeof window !== "undefined" &&
+        window.gardenData &&
+        window.gardenData[subgarden.name]
+      ) {
+        subgardenTheme =
+          window.gardenData[subgarden.name].theme || garden.theme;
+      }
+
       // If expandSubgardens is true, try to incorporate the subgarden's nodes directly
       if (
         options.expandSubgardens &&
@@ -181,6 +193,7 @@ export const gardenToFlow = (
               data: {
                 label: `${subgarden.name} (Expanded)`,
                 isExpandedSubgardenLabel: true,
+                theme: subgardenData.theme || garden.theme,
               },
               position: {
                 x: centerX + xOffset,
@@ -292,14 +305,14 @@ export const gardenToFlow = (
         } catch (error) {
           console.error(`Error expanding subgarden ${subgarden.name}:`, error);
           // Fallback to a condensed node if there's an error
-          addCondensedSubgardenNode();
+          addCondensedSubgardenNode(subgardenTheme);
         }
       } else {
         // Add a condensed subgarden node when not expanding
-        addCondensedSubgardenNode();
+        addCondensedSubgardenNode(subgardenTheme);
       }
 
-      function addCondensedSubgardenNode() {
+      function addCondensedSubgardenNode(subgardenTheme?: Theme | null) {
         nodes.push({
           id: subgardenId,
           type: NODE_TYPES.SUBGARDEN,
@@ -307,10 +320,11 @@ export const gardenToFlow = (
             label: subgarden.name,
             description: subgarden.description,
             url: subgarden.url,
-            logo: subgarden.logo,
             version: subgarden.version,
-            icon: "GitIcon",
+            logo: subgarden.logo,
+            icon: "GitBranchIcon",
             icon_color: "hsl(var(--chart-8))",
+            theme: subgardenTheme,
             expandable: true, // Flag to indicate this can be expanded
           },
           position: { x: centerX + xOffset, y: -200 },
@@ -350,13 +364,13 @@ export const gardenToFlow = (
     supergardenId: string,
     depth = 0,
     indexInSupergarden = 0,
-    xPosition: number = centerX,
+    xPosition: number = centerX
   ) => {
     if (!category || !category.name) return;
 
     const categoryId = generateId(
       NODE_TYPES.CATEGORY,
-      `${supergardenId}-${category.name}`,
+      `${supergardenId}-${category.name}`
     );
 
     const yPosition = 200 + depth * 200 + indexInSupergarden * 150;
@@ -415,7 +429,7 @@ export const gardenToFlow = (
 
         const itemId = generateId(
           NODE_TYPES.ITEM,
-          `${categoryId}-${item.name}`,
+          `${categoryId}-${item.name}`
         );
         const itemYPosition = yPosition + (itemIndex + 1) * 100;
 
@@ -474,7 +488,7 @@ export const gardenToFlow = (
 
         const refId = generateId(
           NODE_TYPES.GARDEN_REF,
-          `${categoryId}-${gardenRef.name}`,
+          `${categoryId}-${gardenRef.name}`
         );
         // Position garden refs to the right of the category
         const refXPosition = xPosition + 250;
@@ -536,9 +550,9 @@ export const gardenToFlow = (
             categoryId,
             depth + 1,
             subcategoryIndex,
-            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150), // Alternately offset to avoid overlap
+            xPosition + (subcategoryIndex % 2 === 0 ? -150 : 150) // Alternately offset to avoid overlap
           );
-        },
+        }
       );
     }
   };
@@ -590,7 +604,7 @@ export const gardenToFlow = (
 
 export const autoLayout = async (
   nodes: Node[],
-  edges: Edge[],
+  edges: Edge[]
 ): Promise<{ nodes: Node[]; edges: Edge[] }> => {
   if (!nodes?.length || !edges?.length) {
     return { nodes: nodes || [], edges: edges || [] };

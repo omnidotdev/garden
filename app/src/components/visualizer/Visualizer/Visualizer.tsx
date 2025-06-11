@@ -12,6 +12,8 @@ import type { GardenTypes } from "generated/garden.types";
 import type { Gardens } from "store";
 import { Button } from "components/ui";
 
+const INSTRUCTIONS_STORAGE_KEY = "garden_instructions_visible";
+
 // make garden data globally available for subgarden expansion
 declare global {
   interface Window {
@@ -31,7 +33,14 @@ interface Props {
  * Visualizer.
  */
 const Visualizer = ({ gardens }: Props) => {
-  const [showInstructions, setShowInstructions] = useState(true);
+  const [showInstructions, setShowInstructions] = useState(() => {
+    // Initialize from localStorage if available, default to true
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(INSTRUCTIONS_STORAGE_KEY);
+      return stored !== null ? stored === "true" : true;
+    }
+    return true;
+  });
 
   // Make garden data available globally for subgarden expansion
   useEffect(() => {
@@ -57,7 +66,16 @@ const Visualizer = ({ gardens }: Props) => {
               <Button
                 variant="ghost"
                 className="ml-2 rounded-full px-2 gap-2"
-                onClick={() => setShowInstructions(!showInstructions)}
+                onClick={() => {
+                  const newValue = !showInstructions;
+                  setShowInstructions(newValue);
+                  if (typeof window !== "undefined") {
+                    localStorage.setItem(
+                      INSTRUCTIONS_STORAGE_KEY,
+                      newValue.toString()
+                    );
+                  }
+                }}
                 title="Toggle instructions"
               >
                 <InfoIcon className="h-5 w-5" /> Instructions
@@ -100,8 +118,13 @@ const Visualizer = ({ gardens }: Props) => {
                 </div>
               </div>
               <button
-                className="text-primary hover:text-primary/80"
-                onClick={() => setShowInstructions(false)}
+                className="text-blue-500 hover:text-blue-700"
+                onClick={() => {
+                  setShowInstructions(false);
+                  if (typeof window !== "undefined") {
+                    localStorage.setItem(INSTRUCTIONS_STORAGE_KEY, "false");
+                  }
+                }}
               >
                 Dismiss
               </button>

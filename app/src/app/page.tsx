@@ -28,12 +28,6 @@ const features = [
     description:
       "Watch your ecosystem map evolve in real-time as you make changes",
   },
-  {
-    icon: <ArrowRightIcon className="h-6 w-6" />,
-    title: "Composable Gardens",
-    description:
-      "Build interconnected ecosystems with powerful garden relationship models",
-  },
 ];
 
 /**
@@ -177,8 +171,8 @@ const HomePage = () => (
         </div>
 
         <div className="mt-12 mb-8">
-          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-8">
-            Composable Architecture
+          <h2 className="text-2xl font-bold tracking-tighter sm:text-2xl text-center mb-8">
+            Garden is a Composable Architecture.
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             <div className="flex flex-col space-y-3 rounded-lg border bg-card p-6">

@@ -318,14 +318,6 @@ const GardenFlowInner = ({
             node.data?.isExpandedSubgardenLabel
               ? "pointer"
               : "grab",
-          // add visual hint for navigable nodes
-          border:
-            node.type === "supergarden" ||
-            node.type === "subgarden" ||
-            node.type === "garden_ref" ||
-            node.data?.isExpandedSubgardenLabel
-              ? "2px dashed hsl(var(--garden) / 0.7)"
-              : undefined,
         },
       }))}
       edges={renderedEdges}

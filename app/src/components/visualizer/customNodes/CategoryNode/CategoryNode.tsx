@@ -14,6 +14,7 @@ import {
 
 import { Card } from "components/ui";
 
+import type { Theme } from "generated/garden.types";
 import type { NodeData } from "components/visualizer/customNodes";
 
 interface Props {
@@ -57,23 +58,47 @@ const CategoryNode = ({ data }: Props) => {
   const hasBottomSources =
     data.sourceConnections && data.sourceConnections.length > 0;
 
+  // Use theme colors from garden data if available
+  const secondaryColor = data.theme?.secondary_color || "hsl(var(--accent)/60)";
+
+  // Ensure text is readable in both light and dark themes
+  const isDarkTheme =
+    typeof window !== "undefined" &&
+    document.documentElement.classList.contains("dark");
+
+  const textColor = data.theme?.text_color || "hsl(var(--foreground))";
+  const iconColor =
+    data.icon_color || data.theme?.primary_color || "hsl(var(--foreground))";
+  const textShadow = isDarkTheme ? "0px 1px 1px rgba(0,0,0,0.3)" : "none";
+
   return (
-    <Card className="w-[200px] border-2 border-accent/60 shadow-lg">
+    <Card
+      className="w-[200px] border-2 shadow-lg"
+      style={{ borderColor: secondaryColor }}
+    >
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
       {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
 
-      <div className="p-4">
-        <div
-          className="flex items-center gap-3"
-          style={{ color: data.icon_color || "hsl(var(--foreground))" }}
-        >
-          <IconComponent className="h-5 w-5" />
+      <div className="p-4" style={{ color: textColor }}>
+        <div className="flex items-center gap-3" style={{ color: iconColor }}>
+          <IconComponent
+            className="h-5 w-5"
+            style={{
+              filter: isDarkTheme
+                ? "drop-shadow(0px 1px 1px rgba(0,0,0,0.3))"
+                : "none",
+            }}
+          />
 
-          <h3 className="font-medium">{data.label}</h3>
+          <h3 className="font-medium" style={{ textShadow }}>
+            {data.label}
+          </h3>
         </div>
 
         {data.description && (
-          <p className="mt-1 text-foreground/70 text-sm">{data.description}</p>
+          <p className="mt-1 text-sm" style={{ color: textColor, textShadow }}>
+            {data.description}
+          </p>
         )}
       </div>
     </Card>
