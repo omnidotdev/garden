@@ -1,7 +1,6 @@
 export { default as EditorActions } from "./EditorActions/EditorActions";
 export { default as EditorControls } from "./EditorControls/EditorControls";
 export { default as GardenFlow } from "./GardenFlow/GardenFlow";
-export { default as GardenFlowHints } from "./GardenFlowHints/GardenFlowHints";
 export { default as GardenFlowInner } from "./GardenFlowInner/GardenFlowInner";
 export { default as GardenTabs } from "./GardenTabs/GardenTabs";
 export { ItemDetailDialog } from "./ItemDetailDialog";
