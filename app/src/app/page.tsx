@@ -154,7 +154,7 @@ const HomePage = () => (
             </div>
             <p className="text-muted-foreground">
               Visually model your product, service, and other offerings as
-              interactive visualizations that everyone can understand.
+              interactive visualizations that everyone can understand
             </p>
           </div>
           <div className="flex flex-col space-y-3 rounded-lg border bg-card p-6">
@@ -164,7 +164,7 @@ const HomePage = () => (
             </div>
             <p className="text-muted-foreground">
               Share your ecosystem maps with stakeholders to align understanding
-              and drive better decision making across your organization.
+              and drive better decision making across your organization
             </p>
           </div>
         </div>
