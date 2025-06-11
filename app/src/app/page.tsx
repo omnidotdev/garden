@@ -28,6 +28,12 @@ const features = [
     description:
       "Watch your ecosystem map evolve in real-time as you make changes",
   },
+  {
+    icon: <ArrowRightIcon className="h-6 w-6" />,
+    title: "Composable Gardens",
+    description:
+      "Build interconnected ecosystems with powerful garden relationship models",
+  },
 ];
 
 /**
@@ -69,9 +75,7 @@ const HomePage = () => (
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="inline-flex items-center rounded-full bg-muted px-3 py-1 font-medium text-sm">
-            <p>
-              🌱 See the Forest <i>and</i> the Trees 🌱
-            </p>
+            <p>🌱 Interconnected Ecosystem Visualization 🌱</p>
           </div>
 
           <div className="space-y-4">
@@ -89,7 +93,8 @@ const HomePage = () => (
 
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
               Transform complex business ecosystem relationships into clear,
-              interactive visualizations.
+              interactive, and interconnected visualizations that evolve with
+              your organization.
             </p>
           </div>
 
@@ -166,6 +171,58 @@ const HomePage = () => (
               Share your ecosystem maps with stakeholders to align understanding
               and drive better decision making across your organization
             </p>
+          </div>
+        </div>
+
+        <div className="mt-12 mb-8">
+          <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-8">
+            Composable Architecture
+          </h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="flex flex-col space-y-3 rounded-lg border bg-card p-6">
+              <div className="flex items-center space-x-3 flex-wrap">
+                <ArrowRightIcon className="h-10 w-10 text-primary rotate-90" />
+                <h3 className="text-xl font-bold">Supergardens</h3>
+              </div>
+              <p className="text-muted-foreground">
+                Link gardens upward to their parent ecosystems, creating
+                hierarchical relationships that provide context and big-picture
+                visibility. Supergardens enable organization-wide mapping of
+                complex systems with multiple levels of abstraction.
+              </p>
+            </div>
+            <div className="flex flex-col space-y-3 rounded-lg border bg-card p-6">
+              <div className="flex items-center space-x-3 flex-wrap">
+                <ArrowRightIcon className="h-10 w-10 text-primary -rotate-90" />
+                <h3 className="text-xl font-bold">Subgardens</h3>
+              </div>
+              <p className="text-muted-foreground">
+                Connect gardens to their components and subsystems, allowing you
+                to drill down into specific areas while maintaining overall
+                structure. Expand subgardens directly in your visualization or
+                navigate between gardens with a single click.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-8">
+            <div className="flex flex-col space-y-3 rounded-lg border bg-card p-6">
+              <div className="flex items-center space-x-3 flex-wrap">
+                <Share2Icon className="h-10 w-10 text-primary" />
+                <h3 className="text-xl font-bold">
+                  Interconnected Garden Network
+                </h3>
+              </div>
+              <p className="text-muted-foreground">
+                Create a network of connected gardens that accurately represents
+                your ecosystem's complexity. Each garden can be both a
+                supergarden and a subgarden, enabling multi-dimensional
+                relationships that match real-world structures. Visualize
+                relationships between products, services, teams, and
+                infrastructure with ease, all while maintaining the ability to
+                navigate through your ecosystem at any level of detail.
+              </p>
+            </div>
           </div>
         </div>
 

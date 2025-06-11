@@ -7,7 +7,9 @@ import {
   LayersIcon,
   GlobeIcon,
   Layers2Icon,
+  FlowerIcon,
 } from "lucide-react";
+import { useGardenStore } from "lib/hooks/store";
 
 import {
   Button,
@@ -18,6 +20,7 @@ import {
 
 const GardenFlowHints = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { activeGarden } = useGardenStore();
 
   return (
     <Collapsible
@@ -25,18 +28,29 @@ const GardenFlowHints = () => {
       onOpenChange={setIsOpen}
       className="flex w-[350px] flex-col gap-2"
     >
-      <CollapsibleTrigger asChild className="z-10 ml-auto w-fit gap-2 px-4">
-        <Button variant="outline" size="icon">
-          {isOpen ? (
-            <LightbulbOffIcon size={16} />
-          ) : (
-            <LightbulbIcon size={16} />
-          )}
-          <span className="sr-only">Toggle</span>
+      <div className="flex flex-col items-end gap-2">
+        <div className="rounded-md bg-green-50 px-3 py-1.5 text-sm font-medium text-primary shadow-sm backdrop-blur-sm border border-primary/20 flex items-center gap-2">
+          <FlowerIcon className="h-4 w-4" />
+          {activeGarden?.name || "Garden"}
 
-          <p>Help</p>
-        </Button>
-      </CollapsibleTrigger>
+          {activeGarden?.icon && (
+            <span className="ml-1">{activeGarden.icon}</span>
+          )}
+        </div>
+
+        <CollapsibleTrigger asChild className="z-10 ml-auto w-fit gap-2 px-4">
+          <Button variant="outline" size="icon">
+            {isOpen ? (
+              <LightbulbOffIcon size={16} />
+            ) : (
+              <LightbulbIcon size={16} />
+            )}
+            <span className="sr-only">Toggle</span>
+
+            <p>Help</p>
+          </Button>
+        </CollapsibleTrigger>
+      </div>
 
       <CollapsibleContent className="flex flex-col gap-2">
         <div className="z-10 flex flex-col gap-2 rounded-md bg-background/80 p-3 text-xs shadow-md backdrop-blur-sm">

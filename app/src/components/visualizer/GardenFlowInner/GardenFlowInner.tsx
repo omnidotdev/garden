@@ -3,7 +3,6 @@
 import {
   Background,
   ConnectionLineType,
-  MarkerType,
   MiniMap,
   Panel,
   ReactFlow,
@@ -14,7 +13,7 @@ import {
 } from "@xyflow/react";
 import { useCallback, useEffect, useState } from "react";
 
-import { OptionsPanel } from "components/core";
+import { ControlsPanel } from "components/core";
 import { GardenFlowHints, ItemDetailDialog } from "components/visualizer";
 import { NodeTypes } from "components/visualizer/customNodes";
 import { LOCAL_STORAGE_KEY } from "lib/constants";
@@ -29,19 +28,37 @@ import "@xyflow/react/dist/style.css";
 interface Props {
   /** All available gardens */
   gardens: Gardens;
+  /** Optional flag to show controls */
+  showControls?: boolean;
+  /** Optional flag to show minimap */
+  showMinimap?: boolean;
+  /** Optional flag to enable or disable auto layout on load */
+  enableAutoLayout?: boolean;
+  /** Optional flag to expand subgardens in the visualization */
+  expandSubgardens?: boolean;
+  /** Optional padding for fit view */
+  fitViewPadding?: number;
 }
 
 /**
  * Garden Flow Inner.
  */
-const GardenFlowInner = ({ gardens }: Props) => {
+const GardenFlowInner = ({
+  gardens,
+  showControls = true,
+  showMinimap = true,
+  enableAutoLayout = true,
+  expandSubgardens: initialExpandSubgardens = false,
+  fitViewPadding = 0.2,
+}: Props) => {
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
   const [initialized, setInitialized] = useState(false);
   const [layouting, setLayouting] = useState(false);
   const [containerWidth, setContainerWidth] = useState(1600);
-  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
-  const [expandSubgardens, setExpandSubgardens] = useState(false);
+  const [expandSubgardens, setExpandSubgardens] = useState(
+    initialExpandSubgardens
+  );
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -85,41 +102,70 @@ const GardenFlowInner = ({ gardens }: Props) => {
     setEdges([]);
   }, [activeGarden.name, expandSubgardens, setNodes, setEdges]); // Reset when garden name or expand setting changes
 
+  // Update expandSubgardens when prop changes
+  useEffect(() => {
+    if (initialExpandSubgardens !== expandSubgardens) {
+      setExpandSubgardens(initialExpandSubgardens);
+      // Force reset when expand setting changes from props
+      setInitialized(false);
+      setNodes([]);
+      setEdges([]);
+    }
+  }, [initialExpandSubgardens, setNodes, setEdges]);
+
   // initialize flow when garden data and container width are available
   useEffect(() => {
     if (activeGarden && containerWidth) {
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
         activeGarden,
         containerWidth,
-        { expandSubgardens },
+        { expandSubgardens }
       );
 
       if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
-        // apply auto layout and get optimized edges
-        autoLayout(initialNodes, initialEdges)
-          .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
-            setNodes(layoutedNodes);
-            // set edges without overriding handles
-            setEdges(layoutedEdges);
+        if (enableAutoLayout) {
+          // apply auto layout and get optimized edges
+          autoLayout(initialNodes, initialEdges)
+            .then(
+              ({
+                nodes: layoutedNodes,
+                edges: layoutedEdges,
+              }: {
+                nodes: Node[];
+                edges: Edge[];
+              }) => {
+                setNodes(layoutedNodes);
+                // set edges without overriding handles
+                setEdges(layoutedEdges);
 
-            // update node internals after layout
-            for (const node of layoutedNodes) {
-              updateNodeInternals(node.id);
-            }
+                // update node internals after layout
+                for (const node of layoutedNodes) {
+                  updateNodeInternals(node.id);
+                }
 
-            // fit view after nodes are positioned
-            setTimeout(() => {
-              fitView({ padding: 0.2 });
+                // fit view after nodes are positioned
+                setTimeout(() => {
+                  fitView({ padding: fitViewPadding });
+                  setInitialized(true);
+                }, 100);
+              }
+            )
+            .catch((error: unknown) => {
+              console.error("Layout error:", error);
+              // fallback to initial layout if auto-layout fails
+              setNodes(initialNodes);
+              setEdges(initialEdges);
               setInitialized(true);
-            }, 100);
-          })
-          .catch((error) => {
-            console.error("Layout error:", error);
-            // fallback to initial layout if auto-layout fails
-            setNodes(initialNodes);
-            setEdges(initialEdges);
+            });
+        } else {
+          // Skip auto layout if disabled
+          setNodes(initialNodes);
+          setEdges(initialEdges);
+          setTimeout(() => {
+            fitView({ padding: fitViewPadding });
             setInitialized(true);
-          });
+          }, 100);
+        }
       }
     }
   }, [
@@ -140,22 +186,30 @@ const GardenFlowInner = ({ gardens }: Props) => {
     setLayouting(true);
 
     await autoLayout(nodes, edges)
-      .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
-        setNodes([...layoutedNodes]);
-        // set edges without overriding handles
-        setEdges(layoutedEdges);
+      .then(
+        ({
+          nodes: layoutedNodes,
+          edges: layoutedEdges,
+        }: {
+          nodes: Node[];
+          edges: Edge[];
+        }) => {
+          setNodes([...layoutedNodes]);
+          // set edges without overriding handles
+          setEdges(layoutedEdges);
 
-        // update node internals after layout refresh
-        for (const node of layoutedNodes) {
-          updateNodeInternals(node.id);
+          // update node internals after layout refresh
+          for (const node of layoutedNodes) {
+            updateNodeInternals(node.id);
+          }
+
+          setTimeout(() => {
+            fitView({ padding: fitViewPadding });
+            setLayouting(false);
+          }, 100);
         }
-
-        setTimeout(() => {
-          fitView({ padding: 0.2 });
-          setLayouting(false);
-        }, 100);
-      })
-      .catch((error) => {
+      )
+      .catch((error: unknown) => {
         console.error("Layout refresh error:", error);
         setLayouting(false);
       });
@@ -182,7 +236,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
     if (clickedNode.data?.isExpandedSubgardenLabel) {
       gardenName = (clickedNode.data?.label as string).replace(
         " (Expanded)",
-        "",
+        ""
       );
     }
 
@@ -229,13 +283,11 @@ const GardenFlowInner = ({ gardens }: Props) => {
       node.type === "item" ||
       node.data?.isExpandedSubgardenLabel
     ) {
-      setHoveredNode(node.id);
       document.body.style.cursor = "pointer";
     }
   }, []);
 
   const onNodeMouseLeave: NodeMouseHandler = useCallback(() => {
-    setHoveredNode(null);
     document.body.style.cursor = "default";
   }, []);
 
@@ -292,7 +344,7 @@ const GardenFlowInner = ({ gardens }: Props) => {
       nodesDraggable={false}
       nodesConnectable={false}
       elementsSelectable={!layouting}
-      fitViewOptions={{ padding: 0.2 }}
+      fitViewOptions={{ padding: fitViewPadding }}
       proOptions={{ hideAttribution: true }}
       zoomOnScroll={true}
       panOnScroll={false}
@@ -307,24 +359,34 @@ const GardenFlowInner = ({ gardens }: Props) => {
     >
       <Background />
 
-      <MiniMap
-        nodeColor="hsl(var(--foreground))"
-        nodeStrokeWidth={3}
-        zoomable
-        pannable
-      />
+      {showMinimap && (
+        <MiniMap
+          nodeColor="hsl(var(--foreground))"
+          nodeStrokeWidth={3}
+          zoomable
+          pannable
+        />
+      )}
 
       {/* TODO: update hints */}
       <Panel position="top-right">
         <GardenFlowHints />
       </Panel>
 
-      <OptionsPanel
-        setInitialized={setInitialized}
-        onLayout={onLayout}
-        expandSubgardens={expandSubgardens}
-        setExpandSubgardens={setExpandSubgardens}
-      />
+      {showControls && (
+        <ControlsPanel
+          setInitialized={setInitialized}
+          onLayout={onLayout}
+          expandSubgardens={expandSubgardens}
+          setExpandSubgardens={(value) => {
+            setExpandSubgardens(value);
+            // Force reset when expand setting changes from UI
+            setInitialized(false);
+            setNodes([]);
+            setEdges([]);
+          }}
+        />
+      )}
 
       <ItemDetailDialog
         isOpen={isDialogOpen}

@@ -33,7 +33,7 @@ interface Props {
   setExpandSubgardens: (expand: boolean) => void;
 }
 
-const OptionsPanel = ({
+const ControlsPanel = ({
   setInitialized,
   onLayout,
   expandSubgardens,
@@ -178,7 +178,7 @@ const OptionsPanel = ({
           className="text-muted-foreground group-hover:text-secondary-foreground"
         />
 
-        <p className="text-sm">Options</p>
+        <p className="text-sm">Controls</p>
 
         <div className="flex items-center gap-2">
           <Button
@@ -218,4 +218,4 @@ const OptionsPanel = ({
   );
 };
 
-export default OptionsPanel;
+export default ControlsPanel;

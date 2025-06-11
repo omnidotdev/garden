@@ -1,6 +1,7 @@
 "use client";
 
-import { GardenFlow, SchemaEditor } from "components/visualizer";
+import { Garden } from "components";
+import { SchemaEditor } from "components/visualizer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "components/ui";
 import { BarChartIcon, CodeIcon } from "lucide-react";
 
@@ -11,12 +12,14 @@ import type { Gardens } from "store";
 interface Props {
   /** All available gardens */
   gardens: Gardens;
+  /** Optional flag to expand subgardens in the visualization */
+  expandSubgardens?: boolean;
 }
 
 /**
  * Garden Tabs.
  */
-const GardenTabs = ({ gardens }: Props) => {
+const GardenTabs = ({ gardens, expandSubgardens = false }: Props) => {
   const [{ activeTab }, setSearchParams] = useSearchParams();
 
   return (
@@ -27,7 +30,7 @@ const GardenTabs = ({ gardens }: Props) => {
           activeTab: activeTab === "visualize" ? "edit" : "visualize",
         })
       }
-      className="mt-6 space-y-6"
+      className="h-full flex flex-col"
     >
       <TabsList className="grid w-full grid-cols-2 md:max-w-md">
         <TabsTrigger value="visualize" className="flex items-center gap-2">
@@ -41,11 +44,17 @@ const GardenTabs = ({ gardens }: Props) => {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="visualize">
-        <GardenFlow gardens={gardens} />
+      <TabsContent value="visualize" className="flex-1 mt-6 overflow-hidden">
+        <div className="h-full w-full">
+          <Garden
+            schema={gardens}
+            expandSubgardens={expandSubgardens}
+            className="h-full w-full"
+          />
+        </div>
       </TabsContent>
 
-      <TabsContent value="edit">
+      <TabsContent value="edit" className="mt-6">
         <SchemaEditor />
       </TabsContent>
     </Tabs>

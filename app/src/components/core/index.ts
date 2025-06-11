@@ -1,1 +1,1 @@
-export { default as OptionsPanel } from "./OptionsPanel/OptionsPanel";
+export { default as ControlsPanel } from "./ControlsPanel/ControlsPanel";
