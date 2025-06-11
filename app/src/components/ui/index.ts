@@ -17,7 +17,11 @@ export {
   ChartLegendContent,
   ChartStyle,
 } from "./chart";
-export { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible";
+export {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "./collapsible";
 export {
   Dialog,
   DialogPortal,
@@ -31,6 +35,7 @@ export {
   DialogDescription,
 } from "./dialog";
 export { Label } from "./label";
+export { RotatingText } from "./rotating-text";
 export {
   Sheet,
   SheetPortal,

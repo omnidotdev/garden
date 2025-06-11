@@ -7,7 +7,7 @@ import {
   ArrowRightIcon,
 } from "lucide-react";
 
-import { Button } from "components/ui";
+import { Button, RotatingText } from "components/ui";
 import cn from "lib/util/cn";
 
 const features = [
@@ -75,16 +75,21 @@ const HomePage = () => (
           </div>
 
           <div className="space-y-4">
-            <div className="flex h-full items-center justify-center gap-4">
-              <h1 className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text py-2 font-bold text-3xl text-transparent tracking-tighter sm:text-4xl md:text-5xl">
-                Visualize Your Ecosystem{" "}
-              </h1>
+            <RotatingText
+              words={[
+                "Product",
+                "Service",
+                "Team",
+                "Organization",
+                "Project",
+                "Platform",
+              ]}
+              className="py-2"
+            />
 
-              <SparklesIcon className="hidden h-10 w-10 md:flex" />
-            </div>
-
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Transform complex relationships into clear, interactive maps.
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
+              Transform complex business ecosystem relationships into clear,
+              interactive visualizations.
             </p>
           </div>
 
@@ -92,7 +97,7 @@ const HomePage = () => (
             <Link href="/visualizer">
               <Button
                 size="lg"
-                className="gap-2 bg-primary hover:bg-primary/90"
+                className="gap-2 bg-primary hover:bg-primary/90 mt-4"
               >
                 Start Modeling
                 <ArrowRightIcon className="h-4 w-4" />
@@ -111,7 +116,7 @@ const HomePage = () => (
               key={feature.title}
               className={cn(
                 "group relative flex flex-col items-center space-y-4 text-center",
-                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl",
+                "rounded-lg border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl"
               )}
             >
               <div className="rounded-full bg-primary/10 p-4 text-primary">
