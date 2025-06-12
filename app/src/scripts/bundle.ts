@@ -18,7 +18,10 @@ const bundle = async () => {
 
   try {
     await bunBuild({
-      entrypoints: [path.join("src/components/index.ts")],
+      entrypoints: [
+        path.join("src/components/index.ts"),
+        path.join("src/components/NodeTypes.tsx"),
+      ],
       outdir: buildDir,
       splitting: false,
       external: [
@@ -41,7 +44,7 @@ const bundle = async () => {
       ],
       minify: true,
       naming: {
-        entry: "index.js",
+        entry: "[dir]/[name].js",
       },
     });
 
@@ -58,12 +61,31 @@ const bundle = async () => {
 const postflight = async () => {
   console.log("📘 Generating type declarations...");
   // TODO remove `tsup` dependency, should be able to use a Bun plugin or `tsc` directly (https://linear.app/omnidev/issue/OMNI-242/use-isolated-declarations-for-type-output-and-remove-tsup)
-  await $`bun tsup src/components/index.ts --dts-only --tsconfig tsconfig.build.json --format esm --out-dir build`;
+  await $`bun tsup src/components/index.ts src/components/NodeTypes.tsx --dts-only --tsconfig tsconfig.build.json --format esm --out-dir build/components`;
   console.log("📘 Type declarations generated.\n");
+
+  createDownstreamExports(path.join(process.cwd(), "build"));
 
   console.log("🧶 Publishing local package...");
   await $`bun knit push`;
   console.log("🧶 Publishing local package complete.");
+};
+
+const createDownstreamExports = (buildDir: string) => {
+  console.log("Creating downstream exports file...");
+
+  const content = `// generated exports file for downstream usage
+import { Garden } from './index.js';
+import { NodeTypes, nodeTypes, GardenNode, ItemNode, SubgardenNode, SupergardenNode } from './NodeTypes.js';
+
+export { Garden, NodeTypes, nodeTypes, GardenNode, ItemNode, SubgardenNode, SupergardenNode };
+export * from './index.js';
+
+// default export
+export default Garden;
+`;
+
+  fs.writeFileSync(path.join(buildDir, "garden.js"), content);
 };
 
 /**

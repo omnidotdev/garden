@@ -9,6 +9,8 @@ import type { Gardens } from "store";
 import type { GardenTypes } from "generated/garden.types";
 import cn from "lib/util/cn";
 
+import "@xyflow/react/dist/style.css";
+
 export interface GardenProps {
   /** Garden schema to visualize */
   schema: Gardens;

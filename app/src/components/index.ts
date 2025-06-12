@@ -11,6 +11,18 @@ export type {
   Theme,
 } from "../generated/garden.types";
 
+// Export node components directly
+export {
+  NodeTypes,
+  nodeTypes,
+  GardenNode,
+  ItemNode,
+  SubgardenNode,
+  SupergardenNode,
+  DefaultNode,
+  type NodeData,
+} from "./NodeTypes";
+
 // Re-export other components as needed
 // This allows for a cleaner import experience
 export * from "./visualizer";

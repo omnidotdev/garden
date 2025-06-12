@@ -12,13 +12,16 @@
     "generate": "bunx quicktype@23.2.4 -s schema ../garden.schema.json -o src/generated/garden.types.ts",
     "bundle": "bun src/scripts/bundle.ts"
   },
-  "main": "build/index.js",
-  "module": "build/index.js",
-  "types": "build/index.d.mts",
+  "main": "build/garden.js",
+  "module": "build/garden.js",
+  "types": "build/components/index.d.mts",
   "exports": {
     ".": {
-      "import": "./build/index.js",
-      "types": "./build/index.d.mts"
+      "import": "./build/garden.js",
+      "types": "./build/components/index.d.mts"
+    },
+    "./styles": {
+      "import": "./build/styles/flow.css"
     }
   },
   "files": [
@@ -27,8 +30,12 @@
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
-    "@xyflow/react": ">=12.0.0"
+    "@xyflow/react": ">=12.0.0",
+    "lucide-react": ">=0.500.0"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@omnidev/knit": "^0.1.2",

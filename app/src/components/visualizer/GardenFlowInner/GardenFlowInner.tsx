@@ -16,7 +16,7 @@ import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 
 import { ControlsPanel } from "components/core";
 import { ActiveGardenIndicator, ItemDetailDialog } from "components/visualizer";
-import { NodeTypes } from "components/visualizer/customNodes";
+import { NodeTypes } from "components/NodeTypes";
 import { LOCAL_STORAGE_KEY } from "lib/constants";
 import { useGardenStore } from "lib/hooks/store";
 import { autoLayout, gardenToFlow } from "lib/util/flow";
@@ -28,8 +28,6 @@ import type {
   NodeMouseHandler,
 } from "@xyflow/react";
 import type { Gardens } from "store";
-
-import "@xyflow/react/dist/style.css";
 
 const nodeTypes = NodeTypes();
 
@@ -95,7 +93,6 @@ const GardenFlowInner = ({
     // initial update
     updateWidth();
 
-    // add resize listener
     window.addEventListener("resize", updateWidth);
 
     return () => {
@@ -201,7 +198,7 @@ const GardenFlowInner = ({
 
     setLayouting(true);
 
-    // Ensure window.gardenData is populated for expanded subgardens
+    // ensure window.gardenData is populated for expanded subgardens
     if (typeof window !== "undefined") {
       (window as any).gardenData = gardens;
     }
