@@ -30,7 +30,7 @@
         "tailwindcss-animate": "^1.0.7",
         "ts-pattern": "^5.7.1",
         "typescript": "5.8.3",
-        "zustand": "^5.0.5",
+        "zustand": "^5.0.5"
       },
       "devDependencies": {
         "@biomejs/biome": "1.9.4",
@@ -41,14 +41,14 @@
         "@types/react-dom": "19.1.6",
         "bun-types": "latest",
         "knip": "^5.60.2",
-        "tsup": "^8.5.0",
+        "tsup": "^8.5.0"
       },
       "peerDependencies": {
         "@xyflow/react": ">=12.0.0",
         "react": ">=18.0.0",
-        "react-dom": ">=18.0.0",
-      },
-    },
+        "react-dom": ">=18.0.0"
+      }
+    }
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
@@ -1239,6 +1239,6 @@
 
     "node-gyp/make-fetch-happen/cacache/glob/minimatch": ["minimatch@5.1.6", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, "sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g=="],
 
-    "node-gyp/make-fetch-happen/cacache/unique-filename/unique-slug": ["unique-slug@3.0.0", "", { "dependencies": { "imurmurhash": "^0.1.4" } }, "sha512-8EyMynh679x/0gqE9fT9oilG+qEt+ibFyqjuVTsZn1+CMxH+XLlpvr2UZx4nVcCwTpx81nICr2JQFkM+HPLq4w=="],
+    "node-gyp/make-fetch-happen/cacache/unique-filename/unique-slug": ["unique-slug@3.0.0", "", { "dependencies": { "imurmurhash": "^0.1.4" } }, "sha512-8EyMynh679x/0gqE9fT9oilG+qEt+ibFyqjuVTsZn1+CMxH+XLlpvr2UZx4nVcCwTpx81nICr2JQFkM+HPLq4w=="]
   }
 }

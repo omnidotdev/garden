@@ -26,13 +26,9 @@ const EditorActions = ({ schemaText, setSchemaText, setError }: Props) => {
       const parsedJson = JSON.parse(schemaText);
       // Instead of using parse directly, we'll do a simple validation
       // by checking required fields
-      if (
-        !parsedJson.name ||
-        !parsedJson.version ||
-        !Array.isArray(parsedJson.categories)
-      ) {
+      if (!parsedJson.name || !Array.isArray(parsedJson.subgardens)) {
         throw new Error(
-          "Invalid schema: missing required fields (name, version, or categories)",
+          "Invalid schema: missing required fields (name or subgardens)"
         );
       }
 

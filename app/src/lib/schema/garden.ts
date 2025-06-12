@@ -20,6 +20,26 @@ const omniEcosystemGarden: GardenTypes = {
       url: "https://core.omni.example",
     },
   ],
+  items: [
+    {
+      name: "Omni Auth",
+      homepage_url: "https://auth.omni.example",
+      description: "Authentication and authorization service",
+      logo: "https://placehold.co/150?text=Auth",
+    },
+    {
+      name: "Omni Data",
+      homepage_url: "https://data.omni.example",
+      description: "Data management platform",
+      logo: "https://placehold.co/150?text=Data",
+    },
+    {
+      name: "Omni Docs",
+      homepage_url: "https://docs.omni.dev/",
+      description: "Documentation portal",
+      logo: "https://placehold.co/150?text=Docs",
+    },
+  ],
   subgardens: [
     {
       name: "Omni Products",
@@ -41,40 +61,6 @@ const omniEcosystemGarden: GardenTypes = {
       description: "Specifications and standards for Omni ecosystem",
       logo: "https://placehold.co/150?text=Specs",
       version: "1.3.1",
-    },
-  ],
-  categories: [
-    {
-      name: "Core Services",
-      description: "Core infrastructure services",
-      icon_color: "hsl(var(--chart-1))",
-      items: [
-        {
-          name: "Omni Auth",
-          homepage_url: "https://auth.omni.example",
-          description: "Authentication and authorization service",
-          logo: "https://placehold.co/150?text=Auth",
-        },
-        {
-          name: "Omni Data",
-          homepage_url: "https://data.omni.example",
-          description: "Data management platform",
-          logo: "https://placehold.co/150?text=Data",
-        },
-      ],
-    },
-    {
-      name: "Documentation",
-      description: "Product documentation and guides",
-      icon_color: "hsl(var(--chart-3))",
-      items: [
-        {
-          name: "Omni Docs",
-          homepage_url: "https://docs.omni.dev/",
-          description: "Documentation portal",
-          logo: "https://placehold.co/150?text=Docs",
-        },
-      ],
     },
   ],
 };
@@ -108,57 +94,56 @@ const productsGarden: GardenTypes = {
       version: "2.0.0",
     },
   ],
-  categories: [
+  items: [
+    {
+      name: "Omni Feedback",
+      homepage_url: "https://feedback.omni.example",
+      description: "User feedback collection and management",
+      logo: "https://placehold.co/150?text=Feedback",
+    },
+    {
+      name: "Omni Portal",
+      homepage_url: "https://portal.omni.example",
+      description: "Customer portal and dashboard",
+      logo: "https://placehold.co/150?text=Portal",
+    },
+    {
+      name: "Omni Insights",
+      homepage_url: "https://insights.omni.example",
+      description: "Business intelligence and analytics",
+      logo: "https://placehold.co/150?text=Insights",
+    },
+    {
+      name: "Omni Metrics",
+      homepage_url: "https://metrics.omni.example",
+      description: "Performance metrics and monitoring",
+      logo: "https://placehold.co/150?text=Metrics",
+    },
+    {
+      name: "Omni CMS",
+      homepage_url: "https://cms.omni.example",
+      description: "Content management system",
+      logo: "https://placehold.co/150?text=CMS",
+    },
+  ],
+  subgardens: [
     {
       name: "Customer Engagement",
+      url: "https://engagement.omni.example",
       description: "Tools for engaging with customers",
-      icon_color: "hsl(var(--chart-2))",
-      items: [
-        {
-          name: "Omni Feedback",
-          homepage_url: "https://feedback.omni.example",
-          description: "User feedback collection and management",
-          logo: "https://placehold.co/150?text=Feedback",
-        },
-        {
-          name: "Omni Portal",
-          homepage_url: "https://portal.omni.example",
-          description: "Customer portal and dashboard",
-          logo: "https://placehold.co/150?text=Portal",
-        },
-      ],
+      logo: "https://placehold.co/150?text=Engagement",
     },
     {
       name: "Analytics",
+      url: "https://analytics.omni.example",
       description: "Analytics and reporting tools",
-      icon_color: "hsl(var(--chart-4))",
-      items: [
-        {
-          name: "Omni Insights",
-          homepage_url: "https://insights.omni.example",
-          description: "Business intelligence and analytics",
-          logo: "https://placehold.co/150?text=Insights",
-        },
-        {
-          name: "Omni Metrics",
-          homepage_url: "https://metrics.omni.example",
-          description: "Performance metrics and monitoring",
-          logo: "https://placehold.co/150?text=Metrics",
-        },
-      ],
+      logo: "https://placehold.co/150?text=Analytics",
     },
     {
       name: "Content Management",
+      url: "https://content.omni.example",
       description: "Content authoring and distribution",
-      icon_color: "hsl(var(--chart-5))",
-      items: [
-        {
-          name: "Omni CMS",
-          homepage_url: "https://cms.omni.example",
-          description: "Content management system",
-          logo: "https://placehold.co/150?text=CMS",
-        },
-      ],
+      logo: "https://placehold.co/150?text=Content",
     },
   ],
 };
@@ -192,63 +177,62 @@ const devToolsGarden: GardenTypes = {
       version: "2.0.0",
     },
   ],
-  categories: [
+  items: [
+    {
+      name: "Omni Lint",
+      homepage_url: "https://lint.omni.example",
+      description: "Code linting and formatting tools",
+      logo: "https://placehold.co/150?text=Lint",
+    },
+    {
+      name: "Omni Test",
+      homepage_url: "https://test.omni.example",
+      description: "Testing frameworks and tools",
+      logo: "https://placehold.co/150?text=Test",
+    },
+    {
+      name: "Omni IDE",
+      homepage_url: "https://ide.omni.example",
+      description: "Integrated development environment",
+      logo: "https://placehold.co/150?text=IDE",
+    },
+    {
+      name: "Omni CLI",
+      homepage_url: "https://cli.omni.example",
+      description: "Command line interface tools",
+      logo: "https://placehold.co/150?text=CLI",
+    },
+    {
+      name: "Omni CI/CD",
+      homepage_url: "https://cicd.omni.example",
+      description: "Continuous integration and deployment",
+      logo: "https://placehold.co/150?text=CICD",
+    },
+    {
+      name: "Omni Monitor",
+      homepage_url: "https://monitor.omni.example",
+      description: "System monitoring and alerts",
+      logo: "https://placehold.co/150?text=Monitor",
+    },
+  ],
+  subgardens: [
     {
       name: "Code Quality",
+      url: "https://quality.omni.example",
       description: "Tools for maintaining code quality",
-      icon_color: "hsl(var(--chart-6))",
-      items: [
-        {
-          name: "Omni Lint",
-          homepage_url: "https://lint.omni.example",
-          description: "Code linting and formatting tools",
-          logo: "https://placehold.co/150?text=Lint",
-        },
-        {
-          name: "Omni Test",
-          homepage_url: "https://test.omni.example",
-          description: "Testing frameworks and tools",
-          logo: "https://placehold.co/150?text=Test",
-        },
-      ],
+      logo: "https://placehold.co/150?text=Quality",
     },
     {
       name: "Development",
+      url: "https://development.omni.example",
       description: "Development environments and tools",
-      icon_color: "hsl(var(--chart-7))",
-      items: [
-        {
-          name: "Omni IDE",
-          homepage_url: "https://ide.omni.example",
-          description: "Integrated development environment",
-          logo: "https://placehold.co/150?text=IDE",
-        },
-        {
-          name: "Omni CLI",
-          homepage_url: "https://cli.omni.example",
-          description: "Command line interface tools",
-          logo: "https://placehold.co/150?text=CLI",
-        },
-      ],
+      logo: "https://placehold.co/150?text=Dev",
     },
     {
       name: "DevOps",
+      url: "https://devops.omni.example",
       description: "Deployment and operations tools",
-      icon_color: "hsl(var(--chart-8))",
-      items: [
-        {
-          name: "Omni CI/CD",
-          homepage_url: "https://cicd.omni.example",
-          description: "Continuous integration and deployment",
-          logo: "https://placehold.co/150?text=CICD",
-        },
-        {
-          name: "Omni Monitor",
-          homepage_url: "https://monitor.omni.example",
-          description: "System monitoring and alerts",
-          logo: "https://placehold.co/150?text=Monitor",
-        },
-      ],
+      logo: "https://placehold.co/150?text=DevOps",
     },
   ],
 };
@@ -282,63 +266,62 @@ const specificationsGarden: GardenTypes = {
       version: "2.0.0",
     },
   ],
-  categories: [
+  items: [
+    {
+      name: "Omni REST",
+      homepage_url: "https://rest.omni.example",
+      description: "REST API design guidelines",
+      logo: "https://placehold.co/150?text=REST",
+    },
+    {
+      name: "Omni GraphQL",
+      homepage_url: "https://graphql.omni.example",
+      description: "GraphQL schema design standards",
+      logo: "https://placehold.co/150?text=GraphQL",
+    },
+    {
+      name: "Omni Schema",
+      homepage_url: "https://schema.omni.example",
+      description: "Data schema definitions and standards",
+      logo: "https://placehold.co/150?text=Schema",
+    },
+    {
+      name: "Omni Taxonomy",
+      homepage_url: "https://taxonomy.omni.example",
+      description: "Taxonomy and classification standards",
+      logo: "https://placehold.co/150?text=Taxonomy",
+    },
+    {
+      name: "Omni Design System",
+      homepage_url: "https://design.omni.example",
+      description: "Design system guidelines",
+      logo: "https://placehold.co/150?text=Design",
+    },
+    {
+      name: "Omni Accessibility",
+      homepage_url: "https://a11y.omni.example",
+      description: "Accessibility standards and guidelines",
+      logo: "https://placehold.co/150?text=A11Y",
+    },
+  ],
+  subgardens: [
     {
       name: "API Standards",
+      url: "https://api-standards.omni.example",
       description: "API design and implementation standards",
-      icon_color: "hsl(var(--chart-9))",
-      items: [
-        {
-          name: "Omni REST",
-          homepage_url: "https://rest.omni.example",
-          description: "REST API design guidelines",
-          logo: "https://placehold.co/150?text=REST",
-        },
-        {
-          name: "Omni GraphQL",
-          homepage_url: "https://graphql.omni.example",
-          description: "GraphQL schema design standards",
-          logo: "https://placehold.co/150?text=GraphQL",
-        },
-      ],
+      logo: "https://placehold.co/150?text=API",
     },
     {
       name: "Data Models",
+      url: "https://data-models.omni.example",
       description: "Data modeling and schema standards",
-      icon_color: "hsl(var(--chart-10))",
-      items: [
-        {
-          name: "Omni Schema",
-          homepage_url: "https://schema.omni.example",
-          description: "Data schema definitions and standards",
-          logo: "https://placehold.co/150?text=Schema",
-        },
-        {
-          name: "Omni Taxonomy",
-          homepage_url: "https://taxonomy.omni.example",
-          description: "Taxonomy and classification standards",
-          logo: "https://placehold.co/150?text=Taxonomy",
-        },
-      ],
+      logo: "https://placehold.co/150?text=DataModels",
     },
     {
       name: "UX Standards",
+      url: "https://ux-standards.omni.example",
       description: "User experience design standards",
-      icon_color: "hsl(var(--chart-11))",
-      items: [
-        {
-          name: "Omni Design System",
-          homepage_url: "https://design.omni.example",
-          description: "Design system guidelines",
-          logo: "https://placehold.co/150?text=Design",
-        },
-        {
-          name: "Omni Accessibility",
-          homepage_url: "https://a11y.omni.example",
-          description: "Accessibility standards and guidelines",
-          logo: "https://placehold.co/150?text=A11Y",
-        },
-      ],
+      logo: "https://placehold.co/150?text=UX",
     },
   ],
 };

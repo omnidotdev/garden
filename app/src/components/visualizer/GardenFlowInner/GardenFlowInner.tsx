@@ -3,6 +3,7 @@
 import {
   Background,
   ConnectionLineType,
+  MarkerType,
   MiniMap,
   Panel,
   ReactFlow,
@@ -116,13 +117,18 @@ const GardenFlowInner = ({
   // initialize flow when garden data and container width are available
   useEffect(() => {
     if (activeGarden && containerWidth) {
+      // Initialize window.gardenData to ensure subgardens can access it
+      if (typeof window !== "undefined") {
+        (window as any).gardenData = gardens;
+      }
+
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
         activeGarden,
         containerWidth,
         { expandSubgardens }
       );
 
-      if (!initialized && initialNodes.length > 0 && initialEdges.length > 0) {
+      if (!initialized && initialNodes.length > 0) {
         if (enableAutoLayout) {
           // apply auto layout and get optimized edges
           autoLayout(initialNodes, initialEdges)
@@ -177,13 +183,19 @@ const GardenFlowInner = ({
     setEdges,
     fitView,
     updateNodeInternals,
+    gardens,
   ]);
 
   // handle layout refresh
   const onLayout = useCallback(async () => {
-    if (nodes.length === 0 || edges.length === 0) return;
+    if (nodes.length === 0) return;
 
     setLayouting(true);
+
+    // Ensure window.gardenData is populated for expanded subgardens
+    if (typeof window !== "undefined") {
+      (window as any).gardenData = gardens;
+    }
 
     await autoLayout(nodes, edges)
       .then(
@@ -213,7 +225,7 @@ const GardenFlowInner = ({
         console.error("Layout refresh error:", error);
         setLayouting(false);
       });
-  }, [nodes, edges, setNodes, setEdges, fitView, updateNodeInternals]);
+  }, [nodes, edges, setNodes, setEdges, fitView, updateNodeInternals, gardens]);
 
   // handle node click for garden navigation and item details
   const onNodeClick: NodeMouseHandler = (event, clickedNode) => {
@@ -286,13 +298,15 @@ const GardenFlowInner = ({
   const renderedEdges = edges.map((edge) => ({
     ...edge,
     // TODO toggle this via settings
-    // type: "default",
+    type: edge.type || "smoothstep",
     animated: true,
     style: {
       ...edge.style,
       strokeWidth: 2,
-      stroke: "hsl(var(--muted-foreground))",
+      stroke: edge.style?.stroke || "hsl(var(--muted-foreground))",
     },
+    markerEnd: edge.markerEnd || { type: MarkerType.ArrowClosed },
+    zIndex: 0,
   }));
 
   return (
@@ -320,6 +334,7 @@ const GardenFlowInner = ({
       onNodeMouseLeave={onNodeMouseLeave}
       // TODO: check on this implementation
       nodeTypes={NodeTypes()}
+      edgeTypes={{ default: "smoothstep", smoothstep: "smoothstep" }}
       fitView
       minZoom={0.1}
       maxZoom={1.5}
@@ -338,6 +353,7 @@ const GardenFlowInner = ({
       defaultEdgeOptions={{
         type: "smoothstep",
         animated: true,
+        markerEnd: { type: MarkerType.ArrowClosed },
       }}
       connectionLineType={ConnectionLineType.SmoothStep}
     >

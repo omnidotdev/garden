@@ -8,274 +8,345 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface GardenTypes {
-    categories:    Category[];
-    created_at?:   null | string;
-    description?:  null | string;
-    maintainers?:  Maintainer[] | null;
-    name:          string;
-    subgardens?:   GardenReference[] | null;
-    supergardens?: GardenReference[] | null;
-    theme?:        null | Theme;
-    updated_at?:   null | string;
-    version?:      null | string;
-    [property: string]: any;
-}
-
-export interface Category {
-    categories?:  Category[] | null;
-    description?: null | string;
-    garden_refs?: GardenReference[] | null;
-    icon_color?:  null | string;
-    items?:       GardenItem[] | null;
-    name:         string;
-    [property: string]: any;
-}
-
-export interface GardenReference {
-    description?: null | string;
-    logo?:        null | string;
-    name:         string;
-    url:          string;
-    version?:     null | string;
-    [property: string]: any;
+  created_at?: null | string;
+  description?: null | string;
+  items?: GardenItem[] | null;
+  maintainers?: Maintainer[] | null;
+  name: string;
+  subgardens?: GardenReference[] | null;
+  supergardens?: GardenReference[] | null;
+  theme?: null | Theme;
+  updated_at?: null | string;
+  version: string;
+  [property: string]: any;
 }
 
 export interface GardenItem {
-    description?: null | string;
-    homepage_url: string;
-    logo?:        null | string;
-    name:         string;
-    project_url?: null | string;
-    repo_url?:    null | string;
-    twitter?:     null | string;
-    [property: string]: any;
+  description?: null | string;
+  homepage_url: string;
+  logo?: null | string;
+  name: string;
+  project_url?: null | string;
+  repo_url?: null | string;
+  twitter?: null | string;
+  [property: string]: any;
 }
 
 export interface Maintainer {
-    email?: null | string;
-    name:   string;
-    url?:   null | string;
-    [property: string]: any;
+  email?: null | string;
+  name: string;
+  url?: null | string;
+  [property: string]: any;
+}
+
+export interface GardenReference {
+  description?: null | string;
+  logo?: null | string;
+  name: string;
+  url: string;
+  version?: null | string;
+  [property: string]: any;
 }
 
 export interface Theme {
-    background_color?: null | string;
-    primary_color?:    null | string;
-    secondary_color?:  null | string;
-    text_color?:       null | string;
-    [property: string]: any;
+  background_color?: null | string;
+  primary_color?: null | string;
+  secondary_color?: null | string;
+  text_color?: null | string;
+  [property: string]: any;
 }
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
-    public static toGardenTypes(json: string): GardenTypes {
-        return cast(JSON.parse(json), r("GardenTypes"));
-    }
+  public static toGardenTypes(json: string): GardenTypes {
+    return cast(JSON.parse(json), r("GardenTypes"));
+  }
 
-    public static gardenTypesToJson(value: GardenTypes): string {
-        return JSON.stringify(uncast(value, r("GardenTypes")), null, 2);
-    }
+  public static gardenTypesToJson(value: GardenTypes): string {
+    return JSON.stringify(uncast(value, r("GardenTypes")), null, 2);
+  }
 }
 
-function invalidValue(typ: any, val: any, key: any, parent: any = ''): never {
-    const prettyTyp = prettyTypeName(typ);
-    const parentText = parent ? ` on ${parent}` : '';
-    const keyText = key ? ` for key "${key}"` : '';
-    throw Error(`Invalid value${keyText}${parentText}. Expected ${prettyTyp} but got ${JSON.stringify(val)}`);
+function invalidValue(typ: any, val: any, key: any, parent: any = ""): never {
+  const prettyTyp = prettyTypeName(typ);
+  const parentText = parent ? ` on ${parent}` : "";
+  const keyText = key ? ` for key "${key}"` : "";
+  throw Error(
+    `Invalid value${keyText}${parentText}. Expected ${prettyTyp} but got ${JSON.stringify(
+      val
+    )}`
+  );
 }
 
 function prettyTypeName(typ: any): string {
-    if (Array.isArray(typ)) {
-        if (typ.length === 2 && typ[0] === undefined) {
-            return `an optional ${prettyTypeName(typ[1])}`;
-        } else {
-            return `one of [${typ.map(a => { return prettyTypeName(a); }).join(", ")}]`;
-        }
-    } else if (typeof typ === "object" && typ.literal !== undefined) {
-        return typ.literal;
+  if (Array.isArray(typ)) {
+    if (typ.length === 2 && typ[0] === undefined) {
+      return `an optional ${prettyTypeName(typ[1])}`;
     } else {
-        return typeof typ;
+      return `one of [${typ
+        .map((a) => {
+          return prettyTypeName(a);
+        })
+        .join(", ")}]`;
     }
+  } else if (typeof typ === "object" && typ.literal !== undefined) {
+    return typ.literal;
+  } else {
+    return typeof typ;
+  }
 }
 
 function jsonToJSProps(typ: any): any {
-    if (typ.jsonToJS === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.json] = { key: p.js, typ: p.typ });
-        typ.jsonToJS = map;
-    }
-    return typ.jsonToJS;
+  if (typ.jsonToJS === undefined) {
+    const map: any = {};
+    typ.props.forEach((p: any) => (map[p.json] = { key: p.js, typ: p.typ }));
+    typ.jsonToJS = map;
+  }
+  return typ.jsonToJS;
 }
 
 function jsToJSONProps(typ: any): any {
-    if (typ.jsToJSON === undefined) {
-        const map: any = {};
-        typ.props.forEach((p: any) => map[p.js] = { key: p.json, typ: p.typ });
-        typ.jsToJSON = map;
-    }
-    return typ.jsToJSON;
+  if (typ.jsToJSON === undefined) {
+    const map: any = {};
+    typ.props.forEach((p: any) => (map[p.js] = { key: p.json, typ: p.typ }));
+    typ.jsToJSON = map;
+  }
+  return typ.jsToJSON;
 }
 
-function transform(val: any, typ: any, getProps: any, key: any = '', parent: any = ''): any {
-    function transformPrimitive(typ: string, val: any): any {
-        if (typeof typ === typeof val) return val;
-        return invalidValue(typ, val, key, parent);
-    }
+function transform(
+  val: any,
+  typ: any,
+  getProps: any,
+  key: any = "",
+  parent: any = ""
+): any {
+  function transformPrimitive(typ: string, val: any): any {
+    if (typeof typ === typeof val) return val;
+    return invalidValue(typ, val, key, parent);
+  }
 
-    function transformUnion(typs: any[], val: any): any {
-        // val must validate against one typ in typs
-        const l = typs.length;
-        for (let i = 0; i < l; i++) {
-            const typ = typs[i];
-            try {
-                return transform(val, typ, getProps);
-            } catch (_) {}
-        }
-        return invalidValue(typs, val, key, parent);
+  function transformUnion(typs: any[], val: any): any {
+    // val must validate against one typ in typs
+    const l = typs.length;
+    for (let i = 0; i < l; i++) {
+      const typ = typs[i];
+      try {
+        return transform(val, typ, getProps);
+      } catch (_) {}
     }
+    return invalidValue(typs, val, key, parent);
+  }
 
-    function transformEnum(cases: string[], val: any): any {
-        if (cases.indexOf(val) !== -1) return val;
-        return invalidValue(cases.map(a => { return l(a); }), val, key, parent);
-    }
+  function transformEnum(cases: string[], val: any): any {
+    if (cases.indexOf(val) !== -1) return val;
+    return invalidValue(
+      cases.map((a) => {
+        return l(a);
+      }),
+      val,
+      key,
+      parent
+    );
+  }
 
-    function transformArray(typ: any, val: any): any {
-        // val must be an array with no invalid elements
-        if (!Array.isArray(val)) return invalidValue(l("array"), val, key, parent);
-        return val.map(el => transform(el, typ, getProps));
-    }
+  function transformArray(typ: any, val: any): any {
+    // val must be an array with no invalid elements
+    if (!Array.isArray(val)) return invalidValue(l("array"), val, key, parent);
+    return val.map((el) => transform(el, typ, getProps));
+  }
 
-    function transformDate(val: any): any {
-        if (val === null) {
-            return null;
-        }
-        const d = new Date(val);
-        if (isNaN(d.valueOf())) {
-            return invalidValue(l("Date"), val, key, parent);
-        }
-        return d;
+  function transformDate(val: any): any {
+    if (val === null) {
+      return null;
     }
+    const d = new Date(val);
+    if (isNaN(d.valueOf())) {
+      return invalidValue(l("Date"), val, key, parent);
+    }
+    return d;
+  }
 
-    function transformObject(props: { [k: string]: any }, additional: any, val: any): any {
-        if (val === null || typeof val !== "object" || Array.isArray(val)) {
-            return invalidValue(l(ref || "object"), val, key, parent);
-        }
-        const result: any = {};
-        Object.getOwnPropertyNames(props).forEach(key => {
-            const prop = props[key];
-            const v = Object.prototype.hasOwnProperty.call(val, key) ? val[key] : undefined;
-            result[prop.key] = transform(v, prop.typ, getProps, key, ref);
-        });
-        Object.getOwnPropertyNames(val).forEach(key => {
-            if (!Object.prototype.hasOwnProperty.call(props, key)) {
-                result[key] = transform(val[key], additional, getProps, key, ref);
-            }
-        });
-        return result;
+  function transformObject(
+    props: { [k: string]: any },
+    additional: any,
+    val: any
+  ): any {
+    if (val === null || typeof val !== "object" || Array.isArray(val)) {
+      return invalidValue(l(ref || "object"), val, key, parent);
     }
+    const result: any = {};
+    Object.getOwnPropertyNames(props).forEach((key) => {
+      const prop = props[key];
+      const v = Object.prototype.hasOwnProperty.call(val, key)
+        ? val[key]
+        : undefined;
+      result[prop.key] = transform(v, prop.typ, getProps, key, ref);
+    });
+    Object.getOwnPropertyNames(val).forEach((key) => {
+      if (!Object.prototype.hasOwnProperty.call(props, key)) {
+        result[key] = transform(val[key], additional, getProps, key, ref);
+      }
+    });
+    return result;
+  }
 
-    if (typ === "any") return val;
-    if (typ === null) {
-        if (val === null) return val;
-        return invalidValue(typ, val, key, parent);
-    }
-    if (typ === false) return invalidValue(typ, val, key, parent);
-    let ref: any = undefined;
-    while (typeof typ === "object" && typ.ref !== undefined) {
-        ref = typ.ref;
-        typ = typeMap[typ.ref];
-    }
-    if (Array.isArray(typ)) return transformEnum(typ, val);
-    if (typeof typ === "object") {
-        return typ.hasOwnProperty("unionMembers") ? transformUnion(typ.unionMembers, val)
-            : typ.hasOwnProperty("arrayItems")    ? transformArray(typ.arrayItems, val)
-            : typ.hasOwnProperty("props")         ? transformObject(getProps(typ), typ.additional, val)
-            : invalidValue(typ, val, key, parent);
-    }
-    // Numbers can be parsed by Date but shouldn't be.
-    if (typ === Date && typeof val !== "number") return transformDate(val);
-    return transformPrimitive(typ, val);
+  if (typ === "any") return val;
+  if (typ === null) {
+    if (val === null) return val;
+    return invalidValue(typ, val, key, parent);
+  }
+  if (typ === false) return invalidValue(typ, val, key, parent);
+  let ref: any = undefined;
+  while (typeof typ === "object" && typ.ref !== undefined) {
+    ref = typ.ref;
+    typ = typeMap[typ.ref];
+  }
+  if (Array.isArray(typ)) return transformEnum(typ, val);
+  if (typeof typ === "object") {
+    return typ.hasOwnProperty("unionMembers")
+      ? transformUnion(typ.unionMembers, val)
+      : typ.hasOwnProperty("arrayItems")
+      ? transformArray(typ.arrayItems, val)
+      : typ.hasOwnProperty("props")
+      ? transformObject(getProps(typ), typ.additional, val)
+      : invalidValue(typ, val, key, parent);
+  }
+  // Numbers can be parsed by Date but shouldn't be.
+  if (typ === Date && typeof val !== "number") return transformDate(val);
+  return transformPrimitive(typ, val);
 }
 
 function cast<T>(val: any, typ: any): T {
-    return transform(val, typ, jsonToJSProps);
+  return transform(val, typ, jsonToJSProps);
 }
 
 function uncast<T>(val: T, typ: any): any {
-    return transform(val, typ, jsToJSONProps);
+  return transform(val, typ, jsToJSONProps);
 }
 
 function l(typ: any) {
-    return { literal: typ };
+  return { literal: typ };
 }
 
 function a(typ: any) {
-    return { arrayItems: typ };
+  return { arrayItems: typ };
 }
 
 function u(...typs: any[]) {
-    return { unionMembers: typs };
+  return { unionMembers: typs };
 }
 
 function o(props: any[], additional: any) {
-    return { props, additional };
+  return { props, additional };
 }
 
 function m(additional: any) {
-    return { props: [], additional };
+  return { props: [], additional };
 }
 
 function r(name: string) {
-    return { ref: name };
+  return { ref: name };
 }
 
 const typeMap: any = {
-    "GardenTypes": o([
-        { json: "categories", js: "categories", typ: a(r("Category")) },
-        { json: "created_at", js: "created_at", typ: u(undefined, u(null, "")) },
-        { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "maintainers", js: "maintainers", typ: u(undefined, u(a(r("Maintainer")), null)) },
-        { json: "name", js: "name", typ: "" },
-        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
-        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
-        { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
-        { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
-        { json: "version", js: "version", typ: u(undefined, u(null, "")) },
-    ], "any"),
-    "Category": o([
-        { json: "categories", js: "categories", typ: u(undefined, u(a(r("Category")), null)) },
-        { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "garden_refs", js: "garden_refs", typ: u(undefined, u(a(r("GardenReference")), null)) },
-        { json: "icon_color", js: "icon_color", typ: u(undefined, u(null, "")) },
-        { json: "items", js: "items", typ: u(undefined, u(a(r("GardenItem")), null)) },
-        { json: "name", js: "name", typ: "" },
-    ], "any"),
-    "GardenReference": o([
-        { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "logo", js: "logo", typ: u(undefined, u(null, "")) },
-        { json: "name", js: "name", typ: "" },
-        { json: "url", js: "url", typ: "" },
-        { json: "version", js: "version", typ: u(undefined, u(null, "")) },
-    ], "any"),
-    "GardenItem": o([
-        { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "homepage_url", js: "homepage_url", typ: "" },
-        { json: "logo", js: "logo", typ: u(undefined, u(null, "")) },
-        { json: "name", js: "name", typ: "" },
-        { json: "project_url", js: "project_url", typ: u(undefined, u(null, "")) },
-        { json: "repo_url", js: "repo_url", typ: u(undefined, u(null, "")) },
-        { json: "twitter", js: "twitter", typ: u(undefined, u(null, "")) },
-    ], "any"),
-    "Maintainer": o([
-        { json: "email", js: "email", typ: u(undefined, u(null, "")) },
-        { json: "name", js: "name", typ: "" },
-        { json: "url", js: "url", typ: u(undefined, u(null, "")) },
-    ], "any"),
-    "Theme": o([
-        { json: "background_color", js: "background_color", typ: u(undefined, u(null, "")) },
-        { json: "primary_color", js: "primary_color", typ: u(undefined, u(null, "")) },
-        { json: "secondary_color", js: "secondary_color", typ: u(undefined, u(null, "")) },
-        { json: "text_color", js: "text_color", typ: u(undefined, u(null, "")) },
-    ], "any"),
+  GardenTypes: o(
+    [
+      { json: "created_at", js: "created_at", typ: u(undefined, u(null, "")) },
+      {
+        json: "description",
+        js: "description",
+        typ: u(undefined, u(null, "")),
+      },
+      {
+        json: "items",
+        js: "items",
+        typ: u(undefined, u(a(r("GardenItem")), null)),
+      },
+      {
+        json: "maintainers",
+        js: "maintainers",
+        typ: u(undefined, u(a(r("Maintainer")), null)),
+      },
+      { json: "name", js: "name", typ: "" },
+      {
+        json: "subgardens",
+        js: "subgardens",
+        typ: u(undefined, u(a(r("GardenReference")), null)),
+      },
+      {
+        json: "supergardens",
+        js: "supergardens",
+        typ: u(undefined, u(a(r("GardenReference")), null)),
+      },
+      { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
+      { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
+      { json: "version", js: "version", typ: "" },
+    ],
+    "any"
+  ),
+  GardenItem: o(
+    [
+      {
+        json: "description",
+        js: "description",
+        typ: u(undefined, u(null, "")),
+      },
+      { json: "homepage_url", js: "homepage_url", typ: "" },
+      { json: "logo", js: "logo", typ: u(undefined, u(null, "")) },
+      { json: "name", js: "name", typ: "" },
+      {
+        json: "project_url",
+        js: "project_url",
+        typ: u(undefined, u(null, "")),
+      },
+      { json: "repo_url", js: "repo_url", typ: u(undefined, u(null, "")) },
+      { json: "twitter", js: "twitter", typ: u(undefined, u(null, "")) },
+    ],
+    "any"
+  ),
+  Maintainer: o(
+    [
+      { json: "email", js: "email", typ: u(undefined, u(null, "")) },
+      { json: "name", js: "name", typ: "" },
+      { json: "url", js: "url", typ: u(undefined, u(null, "")) },
+    ],
+    "any"
+  ),
+  GardenReference: o(
+    [
+      {
+        json: "description",
+        js: "description",
+        typ: u(undefined, u(null, "")),
+      },
+      { json: "logo", js: "logo", typ: u(undefined, u(null, "")) },
+      { json: "name", js: "name", typ: "" },
+      { json: "url", js: "url", typ: "" },
+      { json: "version", js: "version", typ: u(undefined, u(null, "")) },
+    ],
+    "any"
+  ),
+  Theme: o(
+    [
+      {
+        json: "background_color",
+        js: "background_color",
+        typ: u(undefined, u(null, "")),
+      },
+      {
+        json: "primary_color",
+        js: "primary_color",
+        typ: u(undefined, u(null, "")),
+      },
+      {
+        json: "secondary_color",
+        js: "secondary_color",
+        typ: u(undefined, u(null, "")),
+      },
+      { json: "text_color", js: "text_color", typ: u(undefined, u(null, "")) },
+    ],
+    "any"
+  ),
 };

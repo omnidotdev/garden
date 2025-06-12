@@ -68,13 +68,11 @@ interface GardenProps {
  *     "Custom Garden": {
  *       name: "Custom Garden",
  *       version: "1.0.0",
- *       categories: [
- *         {
- *           name: "My Category",
- *           items: [
- *             { name: "Item 1", homepage_url: "https://example.com" }
- *           ]
- *         }
+ *       items: [
+ *         { name: "Item 1", homepage_url: "https://example.com" }
+ *       ],
+ *       subgardens: [
+ *         { name: "My Subgarden", url: "https://example.com/subgarden" }
  *       ]
  *     }
  *   }}

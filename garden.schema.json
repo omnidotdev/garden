@@ -2,19 +2,19 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Garden",
   "type": "object",
-  "required": ["categories", "name"],
+  "required": ["name", "version"],
   "properties": {
-    "categories": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Category"
-      }
-    },
     "created_at": {
       "type": ["string", "null"]
     },
     "description": {
       "type": ["string", "null"]
+    },
+    "items": {
+      "type": ["array", "null"],
+      "items": {
+        "$ref": "#/definitions/GardenItem"
+      }
     },
     "maintainers": {
       "type": ["array", "null"],
@@ -51,43 +51,10 @@
       "type": ["string", "null"]
     },
     "version": {
-      "type": ["string", "null"]
+      "type": "string"
     }
   },
   "definitions": {
-    "Category": {
-      "type": "object",
-      "required": ["name"],
-      "properties": {
-        "categories": {
-          "type": ["array", "null"],
-          "items": {
-            "$ref": "#/definitions/Category"
-          }
-        },
-        "description": {
-          "type": ["string", "null"]
-        },
-        "garden_refs": {
-          "type": ["array", "null"],
-          "items": {
-            "$ref": "#/definitions/GardenReference"
-          }
-        },
-        "icon_color": {
-          "type": ["string", "null"]
-        },
-        "items": {
-          "type": ["array", "null"],
-          "items": {
-            "$ref": "#/definitions/GardenItem"
-          }
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
     "GardenItem": {
       "type": "object",
       "required": ["homepage_url", "name"],

@@ -31,22 +31,6 @@ pub struct GardenReference {
     pub version: Option<String>,
 }
 
-// Category struct (recursively defined)
-#[derive(JsonSchema, Serialize, Deserialize, Debug)]
-pub struct Category {
-    pub name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub icon_color: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub items: Option<Vec<GardenItem>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub categories: Option<Vec<Category>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub garden_refs: Option<Vec<GardenReference>>,
-}
-
 // Maintainer struct
 #[derive(JsonSchema, Serialize, Deserialize, Debug)]
 pub struct Maintainer {
@@ -77,7 +61,8 @@ pub struct Garden {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     pub version: String,
-    pub categories: Vec<Category>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub items: Option<Vec<GardenItem>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub maintainers: Option<Vec<Maintainer>>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -88,8 +73,7 @@ pub struct Garden {
     pub theme: Option<Theme>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub supergardens: Option<Vec<GardenReference>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub subgardens: Option<Vec<GardenReference>>,
+    pub subgardens: Vec<GardenReference>,
 }
 
 // Function to generate JSON schema for Garden
@@ -119,17 +103,17 @@ mod tests {
             "name": "Test Garden",
             "description": "A test garden",
             "version": "1.0.0",
-            "categories": [
+            "items": [
                 {
-                    "name": "Test Category",
-                    "description": "A test category",
-                    "items": [
-                        {
-                            "name": "Test Item",
-                            "homepage_url": "https://example.com",
-                            "description": "A test item"
-                        }
-                    ]
+                    "name": "Test Item",
+                    "homepage_url": "https://example.com",
+                    "description": "A test item"
+                }
+            ],
+            "subgardens": [
+                {
+                    "name": "Subgarden",
+                    "url": "https://example.com/subgarden"
                 }
             ]
         });
@@ -165,10 +149,10 @@ mod tests {
             .compile(&schema_value)
             .expect("Failed to compile schema");
 
-        // Invalid JSON (missing required 'version' field)
+        // Invalid JSON (missing required 'subgardens' field)
         let invalid_input = serde_json::json!({
             "name": "Invalid Garden",
-            "categories": []
+            "version": "1.0.0"
         });
 
         // Validate (should fail)

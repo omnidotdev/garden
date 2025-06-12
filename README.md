@@ -2,7 +2,7 @@
 
 [TODO LOGO + DEMO IMAGE]
 
-Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed acyclic graph with unlimited category recursion. This repository holds a CLI for generating the JSON schema in `cli`, and visualizer web app in `app`, powered by Next.js.
+Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed acyclic graph with unlimited recursion and composability. This repository holds a CLI for generating the JSON schema in `cli`, and visualizer web app in `app`, powered by Next.js.
 
 For a reference implementation, check out the [Omniverse](https://verse.omni.dev) (coming soon).
 

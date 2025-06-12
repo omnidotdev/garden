@@ -15,8 +15,7 @@ const GardenRefNode = ({ data }: Props) => {
   const hasTopTargets =
     data.targetConnections && data.targetConnections.length > 0;
   const hasLeftTargets =
-    data.targetConnections &&
-    data.targetConnections.some((id) => id.includes("category"));
+    data.targetConnections && data.targetConnections.length > 0;
 
   // Ensure text is readable in both light and dark themes
   const isDarkTheme =

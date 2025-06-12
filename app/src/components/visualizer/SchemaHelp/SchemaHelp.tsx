@@ -14,12 +14,8 @@ const SchemaHelp = () => (
           your Garden
         </li>
         <li>
-          <code className="rounded bg-muted px-1 text-sm">version</code>:
-          Version of the schema
-        </li>
-        <li>
-          <code className="rounded bg-muted px-1 text-sm">categories</code>:
-          Array of categories
+          <code className="rounded bg-muted px-1 text-sm">subgardens</code>:
+          Array of garden reference objects that belong to this garden
         </li>
       </ul>
     </div>
@@ -30,6 +26,10 @@ const SchemaHelp = () => (
         <li>
           <code className="rounded bg-muted px-1 text-sm">description</code>:
           Description of your Garden
+        </li>
+        <li>
+          <code className="rounded bg-muted px-1 text-sm">items</code>: Array of
+          item objects directly in the garden
         </li>
         <li>
           <code className="rounded bg-muted px-1 text-sm">maintainers</code>:
@@ -59,37 +59,11 @@ const SchemaHelp = () => (
     </div>
 
     <div className="space-y-2">
-      <h4 className="font-medium">Category Structure:</h4>
-      <ul className="list-disc space-y-1 pl-6">
-        <li>
-          <code className="rounded bg-muted px-1 text-sm">name</code>: Category
-          name
-        </li>
-        <li>
-          <code className="rounded bg-muted px-1 text-sm">description</code>:
-          (Optional) Category description
-        </li>
-        <li>
-          <code className="rounded bg-muted px-1 text-sm">items</code>:
-          (Optional) Array of item objects
-        </li>
-        <li>
-          <code className="rounded bg-muted px-1 text-sm">categories</code>:
-          (Optional) Array of category objects (recursive)
-        </li>
-        <li>
-          <code className="rounded bg-muted px-1 text-sm">garden_refs</code>:
-          (Optional) Array of garden reference objects related to this category
-        </li>
-      </ul>
-    </div>
-
-    <div className="space-y-2">
-      <h4 className="font-medium">Recursive Structure:</h4>
+      <h4 className="font-medium">Organizational Structure:</h4>
       <p>
-        Categories can contain nested categories which are themselves
-        categories, allowing for infinite nesting. Each category can contain
-        both items and further categories.
+        Gardens can contain items directly and can have subgardens, which can
+        themselves have items and further subgardens, allowing for hierarchical
+        organization of resources.
       </p>
     </div>
 
