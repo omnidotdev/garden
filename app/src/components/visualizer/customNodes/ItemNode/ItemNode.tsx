@@ -1,12 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
 import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
-import { Button, Card, buttonVariants } from "components/ui";
-import cn from "lib/util/cn";
+import { Button, Card } from "components/ui";
 
-import type { Theme } from "generated/garden.types";
 import type { NodeData } from "components/visualizer/customNodes";
-import type { ComponentProps } from "react";
 
 export interface Props {
   data: NodeData;

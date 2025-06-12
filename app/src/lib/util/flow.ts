@@ -18,7 +18,6 @@ const calculateNodeHeight = (node: Node): number => {
 const NODE_TYPES = {
   GARDEN: "garden",
   ITEM: "item",
-  GARDEN_REF: "garden_ref",
   SUPERGARDEN: "supergarden",
   SUBGARDEN: "subgarden",
 };
@@ -36,9 +35,6 @@ const getNodePositions = (
     }))
     .with(NODE_TYPES.ITEM, () => ({
       targetPosition: Position.Top,
-    }))
-    .with(NODE_TYPES.GARDEN_REF, () => ({
-      targetPosition: Position.Left,
     }))
     .with(NODE_TYPES.SUPERGARDEN, () => ({
       sourcePosition: Position.Bottom,

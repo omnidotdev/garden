@@ -249,7 +249,6 @@ const GardenFlowInner = ({
       gardenName &&
       (clickedNode.type === "supergarden" ||
         clickedNode.type === "subgarden" ||
-        clickedNode.type === "garden_ref" ||
         clickedNode.data?.isExpandedSubgarden)
     ) {
       // debounce navigation to prevent multiple rapid calls
@@ -283,7 +282,6 @@ const GardenFlowInner = ({
     if (
       node.type === "supergarden" ||
       node.type === "subgarden" ||
-      node.type === "garden_ref" ||
       node.type === "item" ||
       node.data?.isExpandedSubgarden
     ) {
@@ -319,7 +317,6 @@ const GardenFlowInner = ({
           cursor:
             node.type === "supergarden" ||
             node.type === "subgarden" ||
-            node.type === "garden_ref" ||
             node.type === "item" ||
             node.data?.isExpandedSubgarden
               ? "pointer"

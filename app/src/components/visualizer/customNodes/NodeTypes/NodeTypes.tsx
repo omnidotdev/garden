@@ -1,7 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 
 import {
-  GardenRefNode,
   GardenNode,
   ItemNode,
   SubgardenNode,
@@ -31,7 +30,6 @@ export interface NodeData {
 const NodeTypes = () => ({
   garden: GardenNode,
   item: ItemNode,
-  garden_ref: GardenRefNode,
   supergarden: SupergardenNode,
   subgarden: SubgardenNode,
   default: ({ data }: { data: NodeData }) => {
