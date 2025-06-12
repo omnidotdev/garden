@@ -9,7 +9,7 @@ import type { Gardens } from "store";
 import type { GardenTypes } from "generated/garden.types";
 import cn from "lib/util/cn";
 
-interface GardenProps {
+export interface GardenProps {
   /** Garden schema to visualize */
   schema: Gardens;
   /** Optional initial garden name to display. Defaults to first available garden. */
@@ -28,6 +28,10 @@ interface GardenProps {
   expandSubgardens?: boolean;
   /** Optional padding for fit view. Default is 0.2. */
   fitViewPadding?: number;
+  /** Optional edge type for connections. Options: 'default', 'straight', 'step', 'smoothstep', 'simplebezier'. Default is 'smoothstep'. */
+  edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
+  /** Optional flag to enable or disable edge animations. Default is true. */
+  animateEdges?: boolean;
 }
 
 /**
@@ -60,6 +64,8 @@ interface GardenProps {
  *   expandSubgardens={true}
  *   enableAutoLayout={true}
  *   fitViewPadding={0.4}
+ *   edgeType="straight"
+ *   animateEdges={false}
  * />
  *
  * // With custom schema
@@ -95,6 +101,8 @@ export const Garden = ({
   enableAutoLayout = true,
   expandSubgardens = false,
   fitViewPadding = 0.2,
+  edgeType = "smoothstep",
+  animateEdges = true,
   schema,
 }: GardenProps) => {
   const [isReady, setIsReady] = useState(false);
@@ -164,6 +172,8 @@ export const Garden = ({
           enableAutoLayout={enableAutoLayout}
           expandSubgardens={expandSubgardens}
           fitViewPadding={fitViewPadding}
+          edgeType={edgeType}
+          animateEdges={animateEdges}
         />
       </div>
     </ReactFlowProvider>

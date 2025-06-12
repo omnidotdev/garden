@@ -18,9 +18,9 @@ const bundle = async () => {
 
   try {
     await bunBuild({
-      entrypoints: [path.join("src/components/Garden.tsx")],
+      entrypoints: [path.join("src/components/index.ts")],
       outdir: buildDir,
-      splitting: true,
+      splitting: false,
       external: [
         "react",
         "react-dom",
@@ -41,8 +41,7 @@ const bundle = async () => {
       ],
       minify: true,
       naming: {
-        entry: "garden.js",
-        chunk: "garden-chunk.[hash].js",
+        entry: "index.js",
       },
     });
 
@@ -59,7 +58,7 @@ const bundle = async () => {
 const postflight = async () => {
   console.log("📘 Generating type declarations...");
   // TODO remove `tsup` dependency, should be able to use a Bun plugin or `tsc` directly (https://linear.app/omnidev/issue/OMNI-242/use-isolated-declarations-for-type-output-and-remove-tsup)
-  await $`bun tsup src/components/Garden.tsx --dts-only --tsconfig tsconfig.build.json --format esm --out-dir build`;
+  await $`bun tsup src/components/index.ts --dts-only --tsconfig tsconfig.build.json --format esm --out-dir build`;
   console.log("📘 Type declarations generated.\n");
 
   console.log("🧶 Publishing local package...");

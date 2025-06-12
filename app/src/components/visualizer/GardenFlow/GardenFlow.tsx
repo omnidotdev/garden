@@ -17,6 +17,10 @@ interface Props {
   expandSubgardens?: boolean;
   /** Optional padding for fit view. Default is 0.2. */
   fitViewPadding?: number;
+  /** Optional edge type for connections. Options: 'default', 'straight', 'step', 'smoothstep', 'simplebezier'. Default is 'smoothstep'. */
+  edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
+  /** Optional flag to enable or disable edge animations. Default is true. */
+  animateEdges?: boolean;
 }
 
 /**
@@ -29,6 +33,8 @@ const GardenFlow = ({
   enableAutoLayout = true,
   expandSubgardens = false,
   fitViewPadding = 0.2,
+  edgeType = "smoothstep",
+  animateEdges = true,
 }: Props) => {
   return (
     <ReactFlowProvider>
@@ -40,6 +46,8 @@ const GardenFlow = ({
           enableAutoLayout={enableAutoLayout}
           expandSubgardens={expandSubgardens}
           fitViewPadding={fitViewPadding}
+          edgeType={edgeType}
+          animateEdges={animateEdges}
         />
       </div>
     </ReactFlowProvider>

@@ -21,7 +21,12 @@ import { LOCAL_STORAGE_KEY } from "lib/constants";
 import { useGardenStore } from "lib/hooks/store";
 import { autoLayout, gardenToFlow } from "lib/util/flow";
 
-import type { Edge, Node, NodeMouseHandler } from "@xyflow/react";
+import type {
+  DefaultEdgeOptions,
+  Edge,
+  Node,
+  NodeMouseHandler,
+} from "@xyflow/react";
 import type { Gardens } from "store";
 
 import "@xyflow/react/dist/style.css";
@@ -39,6 +44,10 @@ interface Props {
   expandSubgardens?: boolean;
   /** Optional padding for fit view */
   fitViewPadding?: number;
+  /** Optional edge type for connections */
+  edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
+  /** Optional flag to enable or disable edge animations */
+  animateEdges?: boolean;
 }
 
 /**
@@ -51,6 +60,8 @@ const GardenFlowInner = ({
   enableAutoLayout = true,
   expandSubgardens: initialExpandSubgardens = false,
   fitViewPadding = 0.2,
+  edgeType = "smoothstep",
+  animateEdges = true,
 }: Props) => {
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
@@ -121,7 +132,7 @@ const GardenFlowInner = ({
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
         activeGarden,
         containerWidth,
-        { expandSubgardens }
+        { expandSubgardens, edgeType, animateEdges }
       );
 
       if (!initialized && initialNodes.length > 0) {
@@ -305,19 +316,19 @@ const GardenFlowInner = ({
 
   // Memoize default edge options
   const defaultEdgeOptions = useMemo(
-    () => ({
-      type: "smoothstep",
-      animated: true,
+    (): DefaultEdgeOptions => ({
+      type: edgeType,
+      animated: animateEdges,
     }),
-    []
+    [edgeType, animateEdges]
   );
 
   // Create a safe version of edges with valid props
   const renderedEdges = edges.map((edge) => ({
     ...edge,
-    // TODO toggle this via settings
-    // type: "default",
-    animated: true,
+    // Apply customized edge type and animation
+    type: edgeType,
+    animated: animateEdges,
     style: {
       ...edge.style,
       strokeWidth: 2,
@@ -371,7 +382,7 @@ const GardenFlowInner = ({
       snapToGrid
       snapGrid={[10, 10]}
       defaultEdgeOptions={defaultEdgeOptions}
-      connectionLineType={ConnectionLineType.SmoothStep}
+      connectionLineType={edgeType as ConnectionLineType}
     >
       <Background />
 

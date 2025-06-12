@@ -93,6 +93,8 @@ const trackNodeConnections = (nodes: Node[], edges: Edge[]): Node[] => {
 
 interface FlowOptions {
   expandSubgardens?: boolean;
+  edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
+  animateEdges?: boolean;
 }
 
 export const gardenToFlow = (
@@ -194,8 +196,8 @@ export const gardenToFlow = (
         target: itemId,
         sourceHandle: "bottom",
         targetHandle: "top",
-        type: "default",
-        animated: true,
+        type: options.edgeType || "default",
+        animated: options.animateEdges !== false,
         style: {
           stroke: "hsl(var(--muted-foreground))",
           strokeWidth: 2,
@@ -244,8 +246,8 @@ export const gardenToFlow = (
         target: gardenId,
         sourceHandle: "bottom",
         targetHandle: "top",
-        type: "default",
-        animated: true,
+        type: options.edgeType || "default",
+        animated: options.animateEdges !== false,
         style: {
           stroke: "hsl(var(--chart-9))",
           strokeWidth: 2,
@@ -362,8 +364,8 @@ export const gardenToFlow = (
         target: subgardenNodeId,
         sourceHandle: "bottom",
         targetHandle: "top",
-        type: "default",
-        animated: true,
+        type: options.edgeType || "default",
+        animated: options.animateEdges !== false,
         style: {
           stroke: `hsl(var(--chart-${colorIndex}))`,
           strokeWidth: Math.max(1, 2 - (level - 1) * 0.2),
@@ -428,8 +430,8 @@ export const gardenToFlow = (
             target: itemId,
             sourceHandle: "bottom",
             targetHandle: "top",
-            type: "default",
-            animated: true,
+            type: options.edgeType || "default",
+            animated: options.animateEdges !== false,
             style: {
               stroke: "hsl(var(--muted-foreground))",
               strokeWidth: 2,
@@ -537,8 +539,8 @@ export const gardenToFlow = (
           target: subgardenId,
           sourceHandle: "bottom",
           targetHandle: "top",
-          type: "default",
-          animated: true,
+          type: options.edgeType || "default",
+          animated: options.animateEdges !== false,
           style: {
             stroke: "hsl(var(--chart-8))",
             strokeWidth: 2,
@@ -634,12 +636,12 @@ export const autoLayout = async (
       };
     });
 
-    // Make sure edges have correct settings
+    // make sure edges have correct settings
     const nextEdges = edges.map((edge) => {
-      // Preserve original edge properties (especially type, source, target)
+      // preserve original edge properties
       return {
         ...edge,
-        type: edge.type || "smoothstep", // Ensure we have a type
+        type: edge.type || "step", // Ensure we have a type
         animated: edge.animated !== false, // Default to animated
         markerEnd: edge.markerEnd || { type: MarkerType.ArrowClosed },
         zIndex: 0, // Ensure edges are behind nodes
