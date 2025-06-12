@@ -15,11 +15,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: Install dependencies
         run: bun i
+        working-directory: app
       - name: Create release PR or publish package
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bun release
+          publish: bun --cwd app release
           title: "feature(release): version packages"
           commit: "ci(changesets): version packages"
         env:
