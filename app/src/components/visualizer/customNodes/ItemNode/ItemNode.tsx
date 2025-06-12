@@ -8,7 +8,7 @@ import type { Theme } from "generated/garden.types";
 import type { NodeData } from "components/visualizer/customNodes";
 import type { ComponentProps } from "react";
 
-interface Props {
+export interface Props {
   data: NodeData;
 }
 

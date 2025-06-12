@@ -6,7 +6,7 @@ import { Card } from "components/ui";
 import type { Theme } from "generated/garden.types";
 import type { NodeData } from "components/visualizer/customNodes";
 
-interface Props {
+export interface Props {
   data: NodeData;
 }
 

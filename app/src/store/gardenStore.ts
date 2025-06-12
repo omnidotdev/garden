@@ -21,7 +21,7 @@ type BreadcrumbsUpdater = string | ((prev: string[]) => string[]);
 /**
  * Garden state.
  */
-interface GardenState {
+export interface GardenState {
   /** The currently active garden. */
   activeGarden: GardenTypes;
   /** The history of gardens selected */
@@ -33,7 +33,7 @@ interface GardenState {
 /**
  * Garden actions.
  */
-interface GardenActions {
+export interface GardenActions {
   /** Set the active garden. */
   setActiveGarden: (garden: GardenTypes) => void;
   /** Update the navigation history. */
@@ -62,7 +62,7 @@ const createGardenStore = () =>
       set((state) => ({
         navigationHistory: updateNavigationHistory(
           state.navigationHistory,
-          updater,
+          updater
         ),
       })),
     setBreadcrumbs: (updater) =>
@@ -70,7 +70,7 @@ const createGardenStore = () =>
         breadcrumbs: updateBreadcrumbs(
           state.breadcrumbs,
           state.activeGarden,
-          updater,
+          updater
         ),
       })),
   }));
