@@ -73,7 +73,8 @@ pub struct Garden {
     pub theme: Option<Theme>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub supergardens: Option<Vec<GardenReference>>,
-    pub subgardens: Vec<GardenReference>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub subgardens: Option<Vec<GardenReference>>,
 }
 
 // Function to generate JSON schema for Garden

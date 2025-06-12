@@ -2,7 +2,7 @@ import { MarkerType, Position } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { match } from "ts-pattern";
 
-import type { GardenTypes } from "@/generated/garden.types";
+import type { GardenTypes } from "generated/garden.types";
 import type { Edge, Node } from "@xyflow/react";
 import type { ElkNode } from "elkjs";
 
@@ -313,8 +313,8 @@ export const gardenToFlow = (
       }
 
       // Calculate positions to create a tree-like structure
-      const numSubgardens = parentGarden.subgardens.length;
-      const xSpread = horizontalSpacing * numSubgardens;
+      const numSubgardens = parentGarden.subgardens?.length;
+      const xSpread = numSubgardens ? horizontalSpacing * numSubgardens : 0;
       const xPos =
         parentX -
         xSpread / 2 +
