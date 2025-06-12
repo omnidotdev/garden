@@ -37,7 +37,6 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const panelRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
   const startMouse = useRef({ x: 0, y: 0 });
   const startPos = useRef({ x: 0, y: 0 });
 
@@ -52,7 +51,7 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
     let animationFrameId: number;
 
     const onMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current) return;
+      if (!moving) return;
 
       const dx = e.clientX - startMouse.current.x;
       const dy = e.clientY - startMouse.current.y;
@@ -66,7 +65,6 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
     };
 
     const onMouseUp = () => {
-      isDragging.current = false;
       cancelAnimationFrame(animationFrameId);
     };
 
@@ -78,7 +76,7 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
       window.removeEventListener("mouseup", onMouseUp);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [moving]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: don't use onToggleInteractivity as a dependency.
   const controls = useMemo(
@@ -132,11 +130,9 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
     <div
       ref={panelRef}
       className={cn(
-        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all",
+        "absolute top-0 left-0 z-50 m-4 flex w-48 flex-col rounded-lg border border-border bg-card shadow-xl",
       )}
       style={{
-        width: 200,
-        height: minimized ? 48 : 235,
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     >
@@ -148,7 +144,6 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
         onMouseDown={(e) => {
           e.preventDefault();
           setMoving(true);
-          isDragging.current = true;
           startMouse.current = { x: e.clientX, y: e.clientY };
           startPos.current = { ...position };
         }}

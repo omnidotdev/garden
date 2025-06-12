@@ -173,12 +173,7 @@ const GardenFlow = ({
     const gardenName = clickedNode.data?.label as string;
 
     // for all navigable node types, navigate to the garden by name
-    if (
-      gardenName &&
-      (clickedNode.type === "supergarden" ||
-        clickedNode.type === "subgarden" ||
-        clickedNode.data?.isExpandedSubgarden)
-    ) {
+    if (gardenName && clickedNode?.type !== "garden") {
       // Find the garden in the available gardens
       const garden = Object.values(gardens).find((g) => g.name === gardenName);
 
@@ -265,7 +260,6 @@ const GardenFlow = ({
           nodeStrokeWidth={3}
           zoomable
           pannable
-          className="!bg-background"
         />
       )}
 
