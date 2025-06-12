@@ -13,10 +13,10 @@ import {
 } from "@xyflow/react";
 import { useEffect, useMemo, useState } from "react";
 
-import { ControlsPanel } from "@/components/core";
 import { NodeTypes } from "@/components/NodeTypes";
 import {
   ActiveGardenIndicator,
+  ControlsPanel,
   ItemDetailDialog,
 } from "@/components/visualizer";
 import { LOCAL_STORAGE_KEY } from "@/lib/constants";

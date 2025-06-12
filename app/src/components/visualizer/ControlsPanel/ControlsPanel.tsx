@@ -10,7 +10,7 @@ import {
   MinusIcon,
   PlusIcon,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { shallow } from "zustand/shallow";
 
 import { Button } from "@/components/ui";
@@ -40,10 +40,7 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
   const startMouse = useRef({ x: 0, y: 0 });
   const startPos = useRef({ x: 0, y: 0 });
 
-  const { isInteractive, minZoomReached, maxZoomReached } = useStore(
-    selector,
-    shallow,
-  );
+  const { minZoomReached, maxZoomReached } = useStore(selector, shallow);
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
   // drag logic
@@ -78,53 +75,40 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
     };
   }, [moving]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: don't use onToggleInteractivity as a dependency.
-  const controls = useMemo(
-    () => [
-      {
-        id: "expand-subgardens",
-        label: expandSubgardens ? "Condense subgardens" : "Expand subgardens",
-        onClick: () => {
-          setExpandSubgardens(!expandSubgardens);
-        },
-        icon: expandSubgardens ? (
-          <LayersIcon size={14} />
-        ) : (
-          <Layers2Icon size={14} />
-        ),
+  const controls = [
+    {
+      id: "expand-subgardens",
+      label: expandSubgardens ? "Condense subgardens" : "Expand subgardens",
+      onClick: () => {
+        setExpandSubgardens(!expandSubgardens);
       },
-      {
-        id: "zoom-in",
-        label: "Zoom in",
-        onClick: () => zoomIn(),
-        icon: <PlusIcon size={14} />,
-        disabled: maxZoomReached,
-      },
-      {
-        id: "zoom-out",
-        label: "Zoom out",
-        onClick: () => zoomOut(),
-        icon: <MinusIcon size={14} />,
-        disabled: minZoomReached,
-      },
-      {
-        id: "fit-view",
-        label: "Fit view",
-        onClick: () => fitView({ padding: 0.2 }),
-        icon: <MaximizeIcon size={14} />,
-      },
-    ],
-    [
-      isInteractive,
-      minZoomReached,
-      maxZoomReached,
-      zoomIn,
-      zoomOut,
-      fitView,
-      expandSubgardens,
-      setExpandSubgardens,
-    ],
-  );
+      icon: expandSubgardens ? (
+        <LayersIcon size={14} />
+      ) : (
+        <Layers2Icon size={14} />
+      ),
+    },
+    {
+      id: "zoom-in",
+      label: "Zoom in",
+      onClick: () => zoomIn(),
+      icon: <PlusIcon size={14} />,
+      disabled: maxZoomReached,
+    },
+    {
+      id: "zoom-out",
+      label: "Zoom out",
+      onClick: () => zoomOut(),
+      icon: <MinusIcon size={14} />,
+      disabled: minZoomReached,
+    },
+    {
+      id: "fit-view",
+      label: "Fit view",
+      onClick: () => fitView({ padding: 0.2 }),
+      icon: <MaximizeIcon size={14} />,
+    },
+  ];
 
   return (
     <div
