@@ -276,6 +276,7 @@ const GardenFlow = ({
             setNodes([]);
             setEdges([]);
           }}
+          fitViewPadding={fitViewPadding}
         />
       )}
 

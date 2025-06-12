@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { shallow } from "zustand/shallow";
 
 import { Button } from "@/components/ui";
+import { useGardenStore } from "@/lib/hooks/store";
 import cn from "@/lib/util/cn";
 
 import type { ReactFlowState } from "@xyflow/react";
@@ -28,9 +29,16 @@ const selector = (s: ReactFlowState) => ({
 interface Props {
   expandSubgardens: boolean;
   setExpandSubgardens: (expand: boolean) => void;
+  fitViewPadding?: number;
 }
 
-const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
+const ControlsPanel = ({
+  expandSubgardens,
+  setExpandSubgardens,
+  fitViewPadding = 0.2,
+}: Props) => {
+  const { activeGarden } = useGardenStore();
+
   // TODO local storage
   const [minimized, setMinimized] = useState(false);
   const [moving, setMoving] = useState(false);
@@ -79,6 +87,7 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
     {
       id: "expand-subgardens",
       label: expandSubgardens ? "Condense subgardens" : "Expand subgardens",
+      className: !activeGarden?.subgardens?.length && "hidden",
       onClick: () => {
         setExpandSubgardens(!expandSubgardens);
       },
@@ -105,7 +114,7 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
     {
       id: "fit-view",
       label: "Fit view",
-      onClick: () => fitView({ padding: 0.2 }),
+      onClick: () => fitView({ padding: fitViewPadding }),
       icon: <MaximizeIcon size={14} />,
     },
   ];
@@ -158,7 +167,10 @@ const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
       {!minimized && (
         <div className="grid gap-2 p-4">
           {controls.map((control) => (
-            <div key={control.id} className="flex items-center gap-3">
+            <div
+              key={control.id}
+              className={cn("flex items-center gap-3", control.className)}
+            >
               <Button
                 variant="outline"
                 size="icon"
