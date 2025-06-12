@@ -214,13 +214,7 @@ const GardenFlow = ({
         ...node,
         style: {
           ...node.style,
-          cursor:
-            node.type === "supergarden" ||
-            node.type === "subgarden" ||
-            node.type === "item" ||
-            node.data?.isExpandedSubgarden
-              ? "pointer"
-              : "grab",
+          cursor: node.type === "garden" ? "grab" : "pointer",
         },
       }))}
       edges={edges.map((edge) => ({
@@ -244,19 +238,6 @@ const GardenFlow = ({
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onNodeClick={onNodeClick}
-      onNodeMouseEnter={(_event, node) => {
-        if (
-          node.type === "supergarden" ||
-          node.type === "subgarden" ||
-          node.type === "item" ||
-          node.data?.isExpandedSubgarden
-        ) {
-          document.body.style.cursor = "pointer";
-        }
-      }}
-      onNodeMouseLeave={() => {
-        document.body.style.cursor = "default";
-      }}
       nodeTypes={nodeTypes}
       fitView
       minZoom={0.1}
