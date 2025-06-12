@@ -98,12 +98,8 @@ export const Garden = ({
   schema,
 }: GardenProps) => {
   const [isReady, setIsReady] = useState(false);
-  const {
-    activeGarden,
-    setActiveGarden,
-    setBreadcrumbs,
-    setNavigationHistory,
-  } = useGardenStore();
+  const { activeGarden, setActiveGarden, setNavigationHistory } =
+    useGardenStore();
 
   // Use the provided schema
   const gardensData = schema;
@@ -124,17 +120,10 @@ export const Garden = ({
 
     if (initialGarden) {
       setActiveGarden(initialGarden);
-      setBreadcrumbs(initialGarden.name);
       setNavigationHistory(initialGarden);
       setIsReady(true);
     }
-  }, [
-    initialGardenName,
-    gardensData,
-    setActiveGarden,
-    setBreadcrumbs,
-    setNavigationHistory,
-  ]);
+  }, [initialGardenName, gardensData, setActiveGarden, setNavigationHistory]);
 
   // Force re-initialization when expandSubgardens changes
   useEffect(() => {

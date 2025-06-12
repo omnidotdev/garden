@@ -1,6 +1,6 @@
 import { createStore } from "zustand";
 import { gardens } from "lib/schema/garden";
-import { updateBreadcrumbs, updateNavigationHistory } from "lib/util";
+import { updateNavigationHistory } from "lib/util";
 
 import type { GardenTypes } from "generated/garden.types";
 
@@ -16,8 +16,6 @@ type NavigationHistoryUpdater =
   | GardenTypes
   | ((prev: NavigationEntry[]) => NavigationEntry[]);
 
-type BreadcrumbsUpdater = string | ((prev: string[]) => string[]);
-
 /**
  * Garden state.
  */
@@ -26,8 +24,6 @@ export interface GardenState {
   activeGarden: GardenTypes;
   /** The history of gardens selected */
   navigationHistory: NavigationEntry[];
-  /** the breadcrumbs based on garden hierarchy */
-  breadcrumbs: string[];
 }
 
 /**
@@ -38,8 +34,6 @@ export interface GardenActions {
   setActiveGarden: (garden: GardenTypes) => void;
   /** Update the navigation history. */
   setNavigationHistory: (updater: NavigationHistoryUpdater) => void;
-  /** Update breadcrumbs based on garden hierarchy */
-  setBreadcrumbs: (update: BreadcrumbsUpdater) => void;
 }
 
 const initialGarden = Object.values(gardens)[0];
@@ -56,20 +50,12 @@ const createGardenStore = () =>
         timestamp: Date.now(),
       },
     ],
-    breadcrumbs: [],
+
     setActiveGarden: (garden) => set({ activeGarden: garden }),
     setNavigationHistory: (updater) =>
       set((state) => ({
         navigationHistory: updateNavigationHistory(
           state.navigationHistory,
-          updater
-        ),
-      })),
-    setBreadcrumbs: (updater) =>
-      set((state) => ({
-        breadcrumbs: updateBreadcrumbs(
-          state.breadcrumbs,
-          state.activeGarden,
           updater
         ),
       })),

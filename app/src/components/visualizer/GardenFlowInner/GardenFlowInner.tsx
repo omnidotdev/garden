@@ -67,12 +67,8 @@ const GardenFlowInner = ({
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
-  const {
-    activeGarden,
-    setActiveGarden,
-    setBreadcrumbs,
-    setNavigationHistory,
-  } = useGardenStore();
+  const { activeGarden, setActiveGarden, setNavigationHistory } =
+    useGardenStore();
 
   // update container width on mount and resize
   useEffect(() => {
@@ -260,14 +256,25 @@ const GardenFlowInner = ({
       }
 
       (window as any).lastNavigationTime = Date.now();
-      // onNavigateToGarden(gardenName);
 
+      // Find the garden in the available gardens
       const garden = Object.values(gardens).find((g) => g.name === gardenName);
 
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
-      setActiveGarden(garden!);
-      setNavigationHistory(garden!);
-      setBreadcrumbs(gardenName);
+      // Only proceed if we found a valid garden
+      if (garden) {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+
+        // Update the active garden
+        setActiveGarden(garden);
+
+        // Update navigation history
+        setNavigationHistory(garden);
+      } else {
+        console.warn(
+          `Garden "${gardenName}" not found in available gardens. This subgarden is referenced but not yet implemented.`
+        );
+        // Optionally show a notification to the user that this garden isn't available
+      }
     }
   };
 
