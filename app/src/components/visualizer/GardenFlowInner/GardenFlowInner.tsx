@@ -12,7 +12,7 @@ import {
   useReactFlow,
   useUpdateNodeInternals,
 } from "@xyflow/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 
 import { ControlsPanel } from "components/core";
 import { ActiveGardenIndicator, ItemDetailDialog } from "components/visualizer";
@@ -293,18 +293,36 @@ const GardenFlowInner = ({
     document.body.style.cursor = "default";
   }, []);
 
+  // Memoize nodeTypes to prevent recreation on each render
+  const memoizedNodeTypes = useMemo(() => NodeTypes(), []);
+
+  // Memoize default edge options
+  const defaultEdgeOptions = useMemo(
+    () => ({
+      type: "smoothstep",
+      animated: true,
+    }),
+    []
+  );
+
+  // Create a safe version of edges with valid props
   const renderedEdges = edges.map((edge) => ({
     ...edge,
     // TODO toggle this via settings
-    type: edge.type || "smoothstep",
+    // type: "default",
     animated: true,
     style: {
       ...edge.style,
       strokeWidth: 2,
-      stroke: edge.style?.stroke || "hsl(var(--muted-foreground))",
+      stroke: "hsl(var(--muted-foreground))",
     },
     markerEnd: edge.markerEnd || { type: MarkerType.ArrowClosed },
+    // Remove any props that React Flow doesn't expect on edges
     zIndex: 0,
+    labelStyle: undefined,
+    labelBgStyle: undefined,
+    labelBgPadding: undefined,
+    labelShowBg: undefined,
   }));
 
   return (
@@ -329,9 +347,7 @@ const GardenFlowInner = ({
       onNodeClick={onNodeClick}
       onNodeMouseEnter={onNodeMouseEnter}
       onNodeMouseLeave={onNodeMouseLeave}
-      // TODO: check on this implementation
-      nodeTypes={NodeTypes()}
-      edgeTypes={{ default: "smoothstep", smoothstep: "smoothstep" }}
+      nodeTypes={memoizedNodeTypes}
       fitView
       minZoom={0.1}
       maxZoom={1.5}
@@ -342,16 +358,12 @@ const GardenFlowInner = ({
       elementsSelectable={!layouting}
       fitViewOptions={{ padding: fitViewPadding }}
       proOptions={{ hideAttribution: true }}
-      zoomOnScroll={true}
+      zoomOnScroll
       panOnScroll={false}
-      panOnDrag={true}
-      snapToGrid={true}
+      panOnDrag
+      snapToGrid
       snapGrid={[10, 10]}
-      defaultEdgeOptions={{
-        type: "smoothstep",
-        animated: true,
-        markerEnd: { type: MarkerType.ArrowClosed },
-      }}
+      defaultEdgeOptions={defaultEdgeOptions}
       connectionLineType={ConnectionLineType.SmoothStep}
     >
       <Background />

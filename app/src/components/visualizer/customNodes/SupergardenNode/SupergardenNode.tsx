@@ -34,7 +34,14 @@ const SupergardenNode = ({ data }: Props) => {
         borderColor: secondaryColor,
       }}
     >
-      {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
+      {hasBottomSources && (
+        <Handle
+          id="bottom"
+          type="source"
+          position={Position.Bottom}
+          isConnectable={false}
+        />
+      )}
 
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
         <div className="flex w-full justify-center">

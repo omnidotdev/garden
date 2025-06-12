@@ -34,9 +34,30 @@ const GardenNode = ({ data }: Props) => {
       className="w-[200px] border-2 shadow-lg"
       style={{ borderColor: borderColor }}
     >
-      {hasTopTargets && <Handle type="target" position={Position.Top} />}
-      {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
-      {hasRightSources && <Handle type="source" position={Position.Right} />}
+      {hasTopTargets && (
+        <Handle
+          id="top"
+          type="target"
+          position={Position.Top}
+          isConnectable={false}
+        />
+      )}
+      {hasBottomSources && (
+        <Handle
+          id="bottom"
+          type="source"
+          position={Position.Bottom}
+          isConnectable={false}
+        />
+      )}
+      {hasRightSources && (
+        <Handle
+          id="right"
+          type="source"
+          position={Position.Right}
+          isConnectable={false}
+        />
+      )}
 
       <div
         className="flex flex-col items-center justify-center gap-2 rounded-md border-2 p-4 text-center"

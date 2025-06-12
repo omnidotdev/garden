@@ -40,9 +40,49 @@ const getNodePositions = (
       sourcePosition: Position.Bottom,
     }))
     .with(NODE_TYPES.SUBGARDEN, () => ({
-      targetPosition: Position.Bottom,
+      sourcePosition: Position.Bottom,
+      targetPosition: Position.Top,
     }))
     .otherwise(() => ({}));
+};
+
+// Track connections between nodes
+const trackNodeConnections = (nodes: Node[], edges: Edge[]): Node[] => {
+  // Initialize connection tracking objects for each node
+  const nodesWithConnections = nodes.map((node) => ({
+    ...node,
+    data: {
+      ...node.data,
+      sourceConnections: [],
+      targetConnections: [],
+    },
+  }));
+
+  // Map nodes by ID for quick lookup
+  const nodeMap = new Map<string, Node>();
+  nodesWithConnections.forEach((node) => nodeMap.set(node.id, node));
+
+  // Track all connections from edges
+  edges.forEach((edge) => {
+    const sourceNode = nodeMap.get(edge.source);
+    const targetNode = nodeMap.get(edge.target);
+
+    if (sourceNode) {
+      sourceNode.data.sourceConnections = [
+        ...(sourceNode.data.sourceConnections || []),
+        edge.target,
+      ];
+    }
+
+    if (targetNode) {
+      targetNode.data.targetConnections = [
+        ...(targetNode.data.targetConnections || []),
+        edge.source,
+      ];
+    }
+  });
+
+  return nodesWithConnections;
 };
 
 interface FlowOptions {
@@ -146,7 +186,9 @@ export const gardenToFlow = (
         id: `${gardenId}-to-${itemId}`,
         source: gardenId,
         target: itemId,
-        type: "smoothstep",
+        sourceHandle: "bottom",
+        targetHandle: "top",
+        type: "default",
         animated: true,
         style: {
           stroke: "hsl(var(--muted-foreground))",
@@ -194,7 +236,9 @@ export const gardenToFlow = (
         id: `${supergardenId}-to-${gardenId}`,
         source: supergardenId,
         target: gardenId,
-        type: "smoothstep",
+        sourceHandle: "bottom",
+        targetHandle: "top",
+        type: "default",
         animated: true,
         style: {
           stroke: "hsl(var(--chart-9))",
@@ -292,7 +336,9 @@ export const gardenToFlow = (
             id: `${gardenId}-to-${subgardenNodeId}`,
             source: gardenId,
             target: subgardenNodeId,
-            type: "smoothstep",
+            sourceHandle: "bottom",
+            targetHandle: "top",
+            type: "default",
             animated: true,
             style: {
               stroke: "hsl(var(--chart-8))",
@@ -351,7 +397,9 @@ export const gardenToFlow = (
                 id: `${subgardenNodeId}-to-${itemId}`,
                 source: subgardenNodeId,
                 target: itemId,
-                type: "smoothstep",
+                sourceHandle: "bottom",
+                targetHandle: "top",
+                type: "default",
                 animated: true,
                 style: {
                   stroke: "hsl(var(--muted-foreground))",
@@ -394,7 +442,9 @@ export const gardenToFlow = (
           id: `${gardenId}-to-${subgardenId}`,
           source: gardenId,
           target: subgardenId,
-          type: "smoothstep",
+          sourceHandle: "bottom",
+          targetHandle: "top",
+          type: "default",
           animated: true,
           style: {
             stroke: "hsl(var(--chart-8))",
@@ -408,9 +458,10 @@ export const gardenToFlow = (
     });
   }
 
-  // No additional processing needed
+  // Process connections to ensure nodes know about their connections
+  const nodesWithConnections = trackNodeConnections(nodes, edges);
 
-  return { nodes, edges };
+  return { nodes: nodesWithConnections, edges };
 };
 
 /**

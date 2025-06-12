@@ -13,6 +13,8 @@ const SubgardenNode = ({ data }: Props) => {
   // check if there are any connections
   const hasTargets =
     data.targetConnections && data.targetConnections.length > 0;
+  const hasSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
@@ -33,7 +35,20 @@ const SubgardenNode = ({ data }: Props) => {
         borderColor: secondaryColor,
       }}
     >
-      <Handle type="target" position={Position.Top} />
+      <Handle
+        id="top"
+        type="target"
+        position={Position.Top}
+        isConnectable={false}
+      />
+      {hasSources && (
+        <Handle
+          id="bottom"
+          type="source"
+          position={Position.Bottom}
+          isConnectable={false}
+        />
+      )}
 
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
         <div className="flex w-full justify-center">

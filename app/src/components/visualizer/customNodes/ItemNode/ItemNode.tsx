@@ -33,8 +33,22 @@ const ItemNode = ({ data }: Props) => {
         borderColor: secondaryColor,
       }}
     >
-      {hasTopTargets && <Handle type="target" position={Position.Top} />}
-      {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
+      {hasTopTargets && (
+        <Handle
+          id="top"
+          type="target"
+          position={Position.Top}
+          isConnectable={false}
+        />
+      )}
+      {hasBottomSources && (
+        <Handle
+          id="bottom"
+          type="source"
+          position={Position.Bottom}
+          isConnectable={false}
+        />
+      )}
 
       <div className="space-y-3 relative">
         <div className="aspect-video w-full overflow-hidden rounded-t-md">
