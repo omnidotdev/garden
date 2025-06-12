@@ -31,6 +31,8 @@ import type { Gardens } from "store";
 
 import "@xyflow/react/dist/style.css";
 
+const nodeTypes = NodeTypes();
+
 interface Props {
   /** All available gardens */
   gardens: Gardens;
@@ -311,10 +313,7 @@ const GardenFlowInner = ({
     document.body.style.cursor = "default";
   }, []);
 
-  // Memoize nodeTypes to prevent recreation on each render
-  const memoizedNodeTypes = useMemo(() => NodeTypes(), []);
-
-  // Memoize default edge options
+  // memoize default edge options
   const defaultEdgeOptions = useMemo(
     (): DefaultEdgeOptions => ({
       type: edgeType,
@@ -365,7 +364,7 @@ const GardenFlowInner = ({
       onNodeClick={onNodeClick}
       onNodeMouseEnter={onNodeMouseEnter}
       onNodeMouseLeave={onNodeMouseLeave}
-      nodeTypes={memoizedNodeTypes}
+      nodeTypes={nodeTypes}
       fitView
       minZoom={0.1}
       maxZoom={1.5}
