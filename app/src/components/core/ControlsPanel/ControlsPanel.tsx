@@ -9,7 +9,6 @@ import {
   MaximizeIcon,
   MinusIcon,
   PlusIcon,
-  RefreshCwIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { shallow } from "zustand/shallow";
@@ -28,14 +27,12 @@ const selector = (s: ReactFlowState) => ({
 
 interface Props {
   setInitialized: (initialized: boolean) => void;
-  onLayout: () => void;
   expandSubgardens: boolean;
   setExpandSubgardens: (expand: boolean) => void;
 }
 
 const ControlsPanel = ({
   setInitialized,
-  onLayout,
   expandSubgardens,
   setExpandSubgardens,
 }: Props) => {
@@ -121,12 +118,6 @@ const ControlsPanel = ({
         disabled: minZoomReached,
       },
       {
-        id: "layout",
-        label: "Refresh layout",
-        onClick: onLayout,
-        icon: <RefreshCwIcon size={14} />,
-      },
-      {
         id: "fit-view",
         label: "Fit view",
         onClick: () => fitView({ padding: 0.2 }),
@@ -140,7 +131,6 @@ const ControlsPanel = ({
       zoomIn,
       zoomOut,
       fitView,
-      onLayout,
       expandSubgardens,
       setExpandSubgardens,
       setInitialized,
@@ -155,7 +145,7 @@ const ControlsPanel = ({
       )}
       style={{
         width: 200,
-        height: minimized ? 48 : 270,
+        height: minimized ? 48 : 235,
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     >

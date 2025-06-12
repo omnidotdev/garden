@@ -11,7 +11,7 @@ import {
   useReactFlow,
   useUpdateNodeInternals,
 } from "@xyflow/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ControlsPanel } from "@/components/core";
 import { NodeTypes } from "@/components/NodeTypes";
@@ -72,7 +72,6 @@ const GardenFlow = ({
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
   const [initialized, setInitialized] = useState(false);
-  const [layouting, setLayouting] = useState(false);
   const [expandSubgardens, setExpandSubgardens] = useState(
     initialExpandSubgardens,
   );
@@ -82,10 +81,18 @@ const GardenFlow = ({
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
+  const defaultEdgeOptions = useMemo(
+    () => ({
+      type: edgeType,
+      animated: animateEdges,
+    }),
+    [edgeType, animateEdges],
+  );
+
   const { activeGarden, setActiveGarden, setNavigationHistory } =
     useGardenStore();
 
-  // initialize flow when garden data and container width are available
+  // initialize flow when garden data is available
   useEffect(() => {
     if (activeGarden) {
       // Initialize window.gardenData to ensure subgardens can access it
@@ -158,62 +165,8 @@ const GardenFlow = ({
     animateEdges,
   ]);
 
-  // handle layout refresh
-  const onLayout = useCallback(async () => {
-    if (nodes.length === 0) return;
-
-    setLayouting(true);
-
-    // ensure window.gardenData is populated for expanded subgardens
-    if (typeof window !== "undefined") {
-      window.gardenData = gardens;
-    }
-
-    await autoLayout(nodes, edges)
-      .then(
-        ({
-          nodes: layoutedNodes,
-          edges: layoutedEdges,
-        }: {
-          nodes: Node[];
-          edges: Edge[];
-        }) => {
-          setNodes([...layoutedNodes]);
-          // set edges without overriding handles
-          setEdges(layoutedEdges);
-
-          // update node internals after layout refresh
-          for (const node of layoutedNodes) {
-            updateNodeInternals(node.id);
-          }
-
-          setTimeout(() => {
-            fitView({ padding: fitViewPadding });
-            setLayouting(false);
-          }, 100);
-        },
-      )
-      .catch((error: unknown) => {
-        console.error("Layout refresh error:", error);
-        setLayouting(false);
-      });
-  }, [
-    nodes,
-    edges,
-    setNodes,
-    setEdges,
-    fitView,
-    updateNodeInternals,
-    gardens,
-    fitViewPadding,
-  ]);
-
   // handle node click for garden navigation and item details
-  const onNodeClick: NodeMouseHandler = (event, clickedNode) => {
-    // prevent rapid multiple clicks
-    event.preventDefault();
-    event.stopPropagation();
-
+  const onNodeClick: NodeMouseHandler = (_event, clickedNode) => {
     // Show item details dialog for item nodes
     if (clickedNode.type === "item") {
       setSelectedItem(clickedNode.data as unknown as NodeData);
@@ -318,7 +271,7 @@ const GardenFlow = ({
       attributionPosition="bottom-right"
       nodesDraggable={false}
       nodesConnectable={false}
-      elementsSelectable={!layouting}
+      elementsSelectable
       fitViewOptions={{ padding: fitViewPadding }}
       proOptions={{ hideAttribution: true }}
       zoomOnScroll
@@ -326,10 +279,7 @@ const GardenFlow = ({
       panOnDrag
       snapToGrid
       snapGrid={[10, 10]}
-      defaultEdgeOptions={{
-        type: edgeType,
-        animated: animateEdges,
-      }}
+      defaultEdgeOptions={defaultEdgeOptions}
       connectionLineType={edgeType as ConnectionLineType}
     >
       <Background />
@@ -351,7 +301,6 @@ const GardenFlow = ({
       {showControls && (
         <ControlsPanel
           setInitialized={setInitialized}
-          onLayout={onLayout}
           expandSubgardens={expandSubgardens}
           setExpandSubgardens={(value) => {
             setExpandSubgardens(value);
