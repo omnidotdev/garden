@@ -1,9 +1,9 @@
 "use client";
 
+import { SproutIcon } from "lucide-react";
 import Link from "next/link";
 
-import { SproutIcon } from "lucide-react";
-import { ThemeToggle } from "components/layout";
+import { ThemeToggle } from "@/components/layout";
 
 /**
  * Layout header.

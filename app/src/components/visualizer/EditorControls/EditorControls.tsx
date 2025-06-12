@@ -1,6 +1,7 @@
-import { MinusIcon, PlusIcon, Minimize2Icon, ExpandIcon } from "lucide-react";
-import { Button } from "components/ui";
-import { useSearchParams } from "lib/hooks";
+import { ExpandIcon, Minimize2Icon, MinusIcon, PlusIcon } from "lucide-react";
+
+import { Button } from "@/components/ui";
+import { useSearchParams } from "@/lib/hooks";
 
 /**
  * Editor Controls.

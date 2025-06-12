@@ -1,9 +1,9 @@
 "use client";
 
+import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { SunIcon, MoonIcon } from "lucide-react";
 
-import { Button } from "components/ui";
+import { Button } from "@/components/ui";
 
 /**
  * Layout theme toggle.

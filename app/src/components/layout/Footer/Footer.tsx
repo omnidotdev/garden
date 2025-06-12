@@ -4,7 +4,7 @@ import Link from "next/link";
  * Layout footer.
  */
 const Footer = () => (
-  <footer className="flex w-full shrink-0 flex-col items-center gap-1 border-t p-4 sm:flex-row md:px-6 mt-auto">
+  <footer className="mt-auto flex w-full shrink-0 flex-col items-center gap-1 border-t p-4 sm:flex-row md:px-6">
     <p className="text-muted-foreground text-xs">
       © {new Date().getFullYear()} Omni
     </p>

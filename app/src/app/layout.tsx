@@ -1,7 +1,7 @@
 import { Assistant } from "next/font/google";
 
-import { Footer, Header } from "components/layout";
-import { NuqsProvider, ThemeProvider } from "providers";
+import { Footer, Header } from "@/components/layout";
+import { NuqsProvider, ThemeProvider } from "@/providers";
 
 import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
@@ -36,7 +36,7 @@ const RootLayout = ({ children }: PropsWithChildren) => (
       <ThemeProvider>
         <NuqsProvider>
           <main className="grid h-dvh w-full grid-rows-layout">
-            <div className="flex h-screen w-full flex-col overflow-x-hidden">
+            <div className="flex h-screen w-full flex-col">
               <Header />
 
               <div className="flex-1">{children}</div>

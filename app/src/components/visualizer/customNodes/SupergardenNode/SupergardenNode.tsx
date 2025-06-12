@@ -1,10 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
-import { ExternalLinkIcon, GlobeIcon } from "lucide-react";
+import { GlobeIcon } from "lucide-react";
 
-import { Badge, Button, Card } from "components/ui";
+import { Badge, Card } from "@/components/ui";
 
-import type { Theme } from "generated/garden.types";
-import type { NodeData } from "components/visualizer/customNodes";
+import type { NodeData } from "@/components/visualizer/customNodes";
 
 export interface Props {
   data: NodeData;
@@ -18,11 +17,6 @@ const SupergardenNode = ({ data }: Props) => {
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
   const secondaryColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
-
-  // Ensure text is readable in both light and dark themes
-  const isDarkTheme =
-    typeof window !== "undefined" &&
-    document.documentElement.classList.contains("dark");
 
   // Always use foreground text color for better readability
   const textColor = "hsl(var(--foreground))";

@@ -1,5 +1,5 @@
-import type { GardenTypes } from "generated/garden.types";
-import type { NavigationEntry } from "store";
+import type { GardenTypes } from "@/generated/garden.types";
+import type { NavigationEntry } from "@/store";
 
 /**
  * Handles updates to navigation history.

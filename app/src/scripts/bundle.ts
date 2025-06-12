@@ -1,6 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
 import { $, build as bunBuild } from "bun";
-import path from "path";
-import fs from "fs";
 
 const clean = (buildPath: string) => {
   if (fs.existsSync(buildPath)) {

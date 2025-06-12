@@ -5,11 +5,13 @@
  * needed for the garden visualization to work correctly when bundled.
  */
 
-// Export node types and the NodeData interface
-export { default as NodeTypes, type NodeData } from "./visualizer/customNodes/NodeTypes/NodeTypes";
-
 // Export all individual node components
 export { default as GardenNode } from "./visualizer/customNodes/GardenNode/GardenNode";
 export { default as ItemNode } from "./visualizer/customNodes/ItemNode/ItemNode";
+// Export node types and the NodeData interface
+export {
+  default as NodeTypes,
+  type NodeData,
+} from "./visualizer/customNodes/NodeTypes/NodeTypes";
 export { default as SubgardenNode } from "./visualizer/customNodes/SubgardenNode/SubgardenNode";
 export { default as SupergardenNode } from "./visualizer/customNodes/SupergardenNode/SupergardenNode";

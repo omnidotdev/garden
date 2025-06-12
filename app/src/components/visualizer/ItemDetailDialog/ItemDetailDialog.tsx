@@ -1,21 +1,22 @@
 "use client";
 
+import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
+
 import {
+  Button,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "components/ui";
-import { Button } from "components/ui";
-import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
+} from "@/components/ui";
 
-import type { NodeData } from "components/visualizer/customNodes";
+import type { DialogProps } from "@radix-ui/react-dialog";
+import type { NodeData } from "@/components/visualizer/customNodes";
 
-interface ItemDetailDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface ItemDetailDialogProps extends DialogProps {
   item: NodeData | null;
 }
 
@@ -23,11 +24,11 @@ interface ItemDetailDialogProps {
  * Item Detail Dialog component.
  * Displays details about a garden item when clicked.
  */
-const ItemDetailDialog = ({ isOpen, onClose, item }: ItemDetailDialogProps) => {
+const ItemDetailDialog = ({ item, ...rest }: ItemDetailDialogProps) => {
   if (!item) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog defaultOpen {...rest}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-xl">{item.label}</DialogTitle>
@@ -40,6 +41,7 @@ const ItemDetailDialog = ({ isOpen, onClose, item }: ItemDetailDialogProps) => {
 
         {item.image && (
           <div className="mt-2 aspect-video w-full overflow-hidden rounded-md">
+            {/* biome-ignore lint/performance/noImgElement: TODO discuss. Might be needed because of bundled component? */}
             <img
               src={item.image}
               alt={item.label}
@@ -49,7 +51,7 @@ const ItemDetailDialog = ({ isOpen, onClose, item }: ItemDetailDialogProps) => {
         )}
 
         {item.version && (
-          <div className="mt-2 text-sm text-muted-foreground">
+          <div className="mt-2 text-muted-foreground text-sm">
             Version: {item.version}
           </div>
         )}
@@ -77,9 +79,9 @@ const ItemDetailDialog = ({ isOpen, onClose, item }: ItemDetailDialogProps) => {
             )}
           </div>
 
-          <Button variant="secondary" onClick={onClose}>
-            Close
-          </Button>
+          <DialogClose asChild>
+            <Button variant="secondary">Close</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

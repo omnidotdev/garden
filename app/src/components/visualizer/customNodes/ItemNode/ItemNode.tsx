@@ -1,9 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
 import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
-import { Button, Card } from "components/ui";
+import { Button, Card } from "@/components/ui";
 
-import type { NodeData } from "components/visualizer/customNodes";
+import type { NodeData } from "@/components/visualizer/customNodes";
 
 export interface Props {
   data: NodeData;
@@ -16,11 +16,6 @@ const ItemNode = ({ data }: Props) => {
   const hasBottomSources =
     data.sourceConnections && data.sourceConnections.length > 0;
 
-  // Ensure text is readable in both light and dark themes
-  const isDarkTheme =
-    typeof window !== "undefined" &&
-    document.documentElement.classList.contains("dark");
-
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
   const secondaryColor = data.theme?.secondary_color || "hsl(var(--accent)/40)";
@@ -28,7 +23,7 @@ const ItemNode = ({ data }: Props) => {
 
   return (
     <Card
-      className="w-[200px] border-2 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+      className="w-[200px] cursor-pointer border-2 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
       style={{
         borderColor: secondaryColor,
       }}
@@ -50,8 +45,9 @@ const ItemNode = ({ data }: Props) => {
         />
       )}
 
-      <div className="space-y-3 relative">
+      <div className="relative space-y-3">
         <div className="aspect-video w-full overflow-hidden rounded-t-md">
+          {/* biome-ignore lint/performance/noImgElement: TODO discuss. Might be needed because of bundled component? */}
           <img
             src={data.image}
             alt={data.label}

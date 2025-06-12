@@ -35,7 +35,6 @@ export {
   DialogDescription,
 } from "./dialog";
 export { Label } from "./label";
-export { RotatingText } from "./rotating-text";
 export {
   Sheet,
   SheetPortal,

@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { ReactFlowProvider } from "@xyflow/react";
+import { useEffect, useState } from "react";
 
-import { useGardenStore } from "lib/hooks/store";
-import { GardenFlow } from "components/visualizer";
-import type { Gardens } from "store";
-import type { GardenTypes } from "generated/garden.types";
-import cn from "lib/util/cn";
+import { GardenFlow } from "@/components/visualizer";
+import { useGardenStore } from "@/lib/hooks/store";
+import cn from "@/lib/util/cn";
+
+import type { GardenTypes } from "@/generated/garden.types";
+import type { Gardens } from "@/store";
 
 import "@xyflow/react/dist/style.css";
 
@@ -108,8 +109,7 @@ export const Garden = ({
   schema,
 }: GardenProps) => {
   const [isReady, setIsReady] = useState(false);
-  const { activeGarden, setActiveGarden, setNavigationHistory } =
-    useGardenStore();
+  const { setActiveGarden, setNavigationHistory } = useGardenStore();
 
   // Use the provided schema
   const gardensData = schema;
@@ -135,29 +135,23 @@ export const Garden = ({
     }
   }, [initialGardenName, gardensData, setActiveGarden, setNavigationHistory]);
 
+  // TODO: is this needed? Seems to work fine without
   // Force re-initialization when expandSubgardens changes
-  useEffect(() => {
-    if (isReady && activeGarden) {
-      // Re-initialize with the same garden to trigger re-rendering with expanded subgardens
-      setIsReady(false);
-      setTimeout(() => {
-        setActiveGarden({ ...activeGarden });
-        setIsReady(true);
-      }, 0);
-    }
-  }, [expandSubgardens]);
-
-  // Call the onGardenChange callback whenever the active garden changes
-  useEffect(() => {
-    if (isReady && activeGarden && onGardenChange) {
-      onGardenChange(activeGarden.name);
-    }
-  }, [isReady, activeGarden, onGardenChange]);
+  // useEffect(() => {
+  //   if (isReady && activeGarden) {
+  //     // Re-initialize with the same garden to trigger re-rendering with expanded subgardens
+  //     setIsReady(false);
+  //     setTimeout(() => {
+  //       setActiveGarden({ ...activeGarden });
+  //       setIsReady(true);
+  //     }, 0);
+  //   }
+  // }, [expandSubgardens]);
 
   if (!isReady) {
     return (
-      <div className="flex h-full w-full items-center justify-center overflow-hidden">
-        <div className="text-lg font-medium">
+      <div className="flex h-full w-full items-center justify-center">
+        <div className="font-medium text-lg">
           Loading garden visualization...
         </div>
       </div>
@@ -166,17 +160,20 @@ export const Garden = ({
 
   return (
     <ReactFlowProvider>
-      <div className={cn("h-full w-full overflow-hidden", className)}>
-        <GardenFlow
-          gardens={gardensData}
-          showControls={showControls}
-          showMinimap={showMinimap}
-          enableAutoLayout={enableAutoLayout}
-          expandSubgardens={expandSubgardens}
-          fitViewPadding={fitViewPadding}
-          edgeType={edgeType}
-          animateEdges={animateEdges}
-        />
+      <div className={cn("h-full w-full", className)}>
+        <div className="h-full w-full rounded-lg border">
+          <GardenFlow
+            gardens={gardensData}
+            showControls={showControls}
+            showMinimap={showMinimap}
+            enableAutoLayout={enableAutoLayout}
+            expandSubgardens={expandSubgardens}
+            fitViewPadding={fitViewPadding}
+            edgeType={edgeType}
+            animateEdges={animateEdges}
+            onGardenChange={onGardenChange}
+          />
+        </div>
       </div>
     </ReactFlowProvider>
   );

@@ -18,16 +18,16 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "components/ui";
+} from "@/components/ui";
 import {
   EditorActions,
   EditorControls,
   SchemaHelp,
   TextEditor,
-} from "components/visualizer";
-import { LOCAL_STORAGE_KEY } from "lib/constants";
-import { useSearchParams } from "lib/hooks";
-import { useGardenStore } from "lib/hooks/store";
+} from "@/components/visualizer";
+import { LOCAL_STORAGE_KEY } from "@/lib/constants";
+import { useSearchParams } from "@/lib/hooks";
+import { useGardenStore } from "@/lib/hooks/store";
 
 /**
  * Schema Editor.
@@ -99,7 +99,7 @@ const SchemaEditor = () => {
               onOpenChange={(open) => setSearchParams({ editorExpanded: open })}
             >
               <SheetContent
-                className="grid h-[96vh] w-full grid-rows-layout rounded-2xl"
+                className="grid w-full grid-rows-layout rounded-2xl"
                 side="bottom"
               >
                 <SheetHeader className="flex flex-col items-start">

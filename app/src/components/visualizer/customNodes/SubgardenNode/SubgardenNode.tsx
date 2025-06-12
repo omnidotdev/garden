@@ -1,9 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
 import { GitBranchIcon } from "lucide-react";
 
-import { Badge, Card } from "components/ui";
+import { Badge, Card } from "@/components/ui";
 
-import type { NodeData } from "components/visualizer/customNodes";
+import type { NodeData } from "@/components/visualizer/customNodes";
 
 export interface Props {
   data: NodeData;
@@ -11,19 +11,12 @@ export interface Props {
 
 const SubgardenNode = ({ data }: Props) => {
   // check if there are any connections
-  const hasTargets =
-    data.targetConnections && data.targetConnections.length > 0;
   const hasSources =
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
   const secondaryColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
-
-  // Ensure text is readable in both light and dark themes
-  const isDarkTheme =
-    typeof window !== "undefined" &&
-    document.documentElement.classList.contains("dark");
 
   // Always use foreground text color for better readability
   const textColor = "hsl(var(--foreground))";

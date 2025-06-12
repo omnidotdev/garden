@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0-beta.6/schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["src/generated/**", "src/components/ui/**"]
+    "includes": ["**", "!**/src/generated/**", "!**/src/components/ui/**"]
   },
   "formatter": {
     "enabled": true,
@@ -15,8 +15,28 @@
     "lineWidth": 80,
     "indentWidth": 2
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              { "type": false, "source": [":BUN:", ":NODE:"] },
+              ":BLANK_LINE:",
+              {
+                "type": false,
+                "source": [":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:"]
+              },
+              ":BLANK_LINE:",
+              { "type": false, "source": ["**"] },
+              ":BLANK_LINE:",
+              { "type": true }
+            ]
+          }
+        }
+      }
+    }
   },
   "linter": {
     "enabled": true,
@@ -24,7 +44,8 @@
       "recommended": true,
       "a11y": {
         // NB: turned off to use `role` attribute to extend conditions such as `groupHover`
-        "useSemanticElements": "off"
+        "useSemanticElements": "off",
+        "noStaticElementInteractions": "off"
       },
       "correctness": {
         "noUnusedImports": "error"
@@ -37,16 +58,33 @@
             "attributes": ["className"],
             "functions": ["cn"]
           }
-        }
+        },
+        "useUniqueElementIds": "off"
       },
       "style": {
         "noNonNullAssertion": "off",
-        "useSingleVarDeclarator": "off"
+        "useSingleVarDeclarator": "off",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error",
+        "useImportType": {
+          "level": "error",
+          "options": { "style": "separatedType" }
+        }
       },
       "suspicious": {
-        "noConsoleLog": "error",
         // TODO: remove this, and make sure it is indeed an error. For scaffolding purposes, it is easier to just have this be a warning for now
-        "noExplicitAny": "warn"
+        "noExplicitAny": "warn",
+        "noConsole": {
+          "level": "error",
+          "options": { "allow": ["error", "log", "warn"] }
+        }
       }
     }
   }

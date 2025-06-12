@@ -1,31 +1,30 @@
 // Export main components
+
+export * from "./core";
 export { default as Garden } from "./Garden";
-export type { GardenProps } from "./Garden";
-
-// Re-export garden types
-export type {
-  GardenTypes,
-  GardenItem,
-  GardenReference,
-  Maintainer,
-  Theme,
-} from "../generated/garden.types";
-
+export * from "./layout";
 // Export node components directly
 export {
-  NodeTypes,
-  nodeTypes,
+  DefaultNode,
   GardenNode,
   ItemNode,
+  type NodeData,
+  NodeTypes,
+  nodeTypes,
   SubgardenNode,
   SupergardenNode,
-  DefaultNode,
-  type NodeData,
 } from "./NodeTypes";
-
+export * from "./ui";
 // Re-export other components as needed
 // This allows for a cleaner import experience
 export * from "./visualizer";
-export * from "./core";
-export * from "./layout";
-export * from "./ui";
+
+// Re-export garden types
+export type {
+  GardenItem,
+  GardenReference,
+  GardenTypes,
+  Maintainer,
+  Theme,
+} from "@/generated/garden.types";
+export type { GardenProps } from "./Garden";
