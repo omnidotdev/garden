@@ -10,7 +10,9 @@
     "format": "biome format --write src",
     "lint": "biome lint src",
     "generate": "bunx quicktype@23.2.4 -s schema ../garden.schema.json -o src/generated/garden.types.ts",
-    "bundle": "bun src/scripts/bundle.ts"
+    "bundle": "bun src/scripts/bundle.ts",
+    "changeset": "changeset",
+    "release": "bun bundle && changeset publish"
   },
   "main": "build/garden.js",
   "module": "build/garden.js",
@@ -38,6 +40,8 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.29.2",
     "@omnidev/knit": "^0.1.2",
     "@types/bun": "^1.2.15",
     "@types/node": "24.0.0",
@@ -45,6 +49,7 @@
     "@types/react-dom": "19.1.6",
     "bun-types": "latest",
     "knip": "^5.60.2",
+    "pkg-pr-new": "^0.0.51",
     "tsup": "^8.5.0"
   },
   "dependencies": {
