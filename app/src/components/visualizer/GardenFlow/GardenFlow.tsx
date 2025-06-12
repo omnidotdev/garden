@@ -71,7 +71,6 @@ const GardenFlow = ({
 }: Props) => {
   const { fitView } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
-  const [initialized, setInitialized] = useState(false);
   const [expandSubgardens, setExpandSubgardens] = useState(
     initialExpandSubgardens,
   );
@@ -104,7 +103,7 @@ const GardenFlow = ({
         { expandSubgardens, edgeType, animateEdges },
       );
 
-      if (!initialized && initialNodes.length > 0) {
+      if (initialNodes.length > 0) {
         if (enableAutoLayout) {
           // apply auto layout and get optimized edges
           autoLayout(initialNodes, initialEdges)
@@ -128,7 +127,6 @@ const GardenFlow = ({
                 // fit view after nodes are positioned
                 setTimeout(() => {
                   fitView({ padding: fitViewPadding });
-                  setInitialized(true);
                 }, 100);
               },
             )
@@ -137,7 +135,6 @@ const GardenFlow = ({
               // fallback to initial layout if auto-layout fails
               setNodes(initialNodes);
               setEdges(initialEdges);
-              setInitialized(true);
             });
         } else {
           // Skip auto layout if disabled
@@ -145,14 +142,12 @@ const GardenFlow = ({
           setEdges(initialEdges);
           setTimeout(() => {
             fitView({ padding: fitViewPadding });
-            setInitialized(true);
           }, 100);
         }
       }
     }
   }, [
     activeGarden,
-    initialized,
     expandSubgardens,
     setNodes,
     setEdges,
@@ -194,7 +189,6 @@ const GardenFlow = ({
         // Update the active garden
         setActiveGarden(garden);
 
-        setInitialized(false);
         // reset positions to trigger new layout when toggling expand mode
         setNodes([]);
         setEdges([]);
@@ -300,12 +294,10 @@ const GardenFlow = ({
 
       {showControls && (
         <ControlsPanel
-          setInitialized={setInitialized}
           expandSubgardens={expandSubgardens}
           setExpandSubgardens={(value) => {
             setExpandSubgardens(value);
             // Force reset when expand setting changes from UI
-            setInitialized(false);
             setNodes([]);
             setEdges([]);
           }}

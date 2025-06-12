@@ -26,16 +26,11 @@ const selector = (s: ReactFlowState) => ({
 });
 
 interface Props {
-  setInitialized: (initialized: boolean) => void;
   expandSubgardens: boolean;
   setExpandSubgardens: (expand: boolean) => void;
 }
 
-const ControlsPanel = ({
-  setInitialized,
-  expandSubgardens,
-  setExpandSubgardens,
-}: Props) => {
+const ControlsPanel = ({ expandSubgardens, setExpandSubgardens }: Props) => {
   // TODO local storage
   const [minimized, setMinimized] = useState(false);
   const [moving, setMoving] = useState(false);
@@ -93,9 +88,6 @@ const ControlsPanel = ({
         label: expandSubgardens ? "Condense subgardens" : "Expand subgardens",
         onClick: () => {
           setExpandSubgardens(!expandSubgardens);
-
-          // force re-layout
-          setInitialized(false);
         },
         icon: expandSubgardens ? (
           <LayersIcon size={14} />
@@ -133,7 +125,6 @@ const ControlsPanel = ({
       fitView,
       expandSubgardens,
       setExpandSubgardens,
-      setInitialized,
     ],
   );
 
