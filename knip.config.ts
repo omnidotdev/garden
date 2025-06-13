@@ -18,6 +18,7 @@ const knipConfig: KnipConfig = {
         config: ["package.json", "src/lib/graphql/codegen.config.ts"],
       },
       ignore: ["panda.config.ts", "src/__mocks__/**", "src/generated/**"],
+      // TODO: re-enabled. Broken currently with biome v2 and updated extends pattern
       biome: false,
     }
   }

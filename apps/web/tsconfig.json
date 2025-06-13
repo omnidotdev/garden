@@ -9,6 +9,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "globals.d.ts",
     "next.config.ts",
     "**/*.ts",
     "**/*.tsx",

@@ -23,9 +23,9 @@ const ItemNode = ({ data }: Props) => {
     document.documentElement.classList.contains("dark");
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
-  const secondaryColor = data.theme?.secondary_color || "hsl(var(--accent)/40)";
-  const textColor = "hsl(var(--foreground))";
+  const primaryColor = data.theme?.primary_color || "var(--garden)";
+  const secondaryColor = data.theme?.secondary_color || "var(--accent)/40";
+  const textColor = "var(--foreground)";
 
   return (
     <Card
@@ -79,7 +79,7 @@ const ItemNode = ({ data }: Props) => {
             className="w-full hover:opacity-90"
             style={{
               backgroundColor: primaryColor,
-              color: "hsl(var(--background))",
+              color: "var(--background)",
             }}
             onClick={() => window.open(data.cta?.primary.url, "_blank")}
           >

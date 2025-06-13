@@ -19,13 +19,13 @@ const GardenNode = ({ data }: Props) => {
   const hasRightSources = false;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
+  const primaryColor = data.theme?.primary_color || "var(--garden)";
   const isDarkTheme =
     typeof window !== "undefined" &&
     document.documentElement.classList.contains("dark");
   // Always use foreground text color for better readability
-  const textColor = "hsl(var(--foreground))";
-  const borderColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
+  const textColor = "var(--foreground)";
+  const borderColor = data.theme?.secondary_color || "var(--garden)/40";
   const textShadow = "none";
 
   return (

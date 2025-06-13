@@ -103,7 +103,7 @@ const SchemaEditor = () => {
               onOpenChange={(open) => setSearchParams({ editorExpanded: open })}
             >
               <SheetContent
-                className="grid h-[96vh] w-full grid-rows-layout rounded-2xl"
+                className="grid w-full grid-rows-layout rounded-2xl"
                 side="bottom"
               >
                 <SheetHeader className="flex flex-col items-start">

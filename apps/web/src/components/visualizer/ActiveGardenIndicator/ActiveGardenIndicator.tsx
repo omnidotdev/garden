@@ -10,9 +10,9 @@ const ActiveGardenIndicator = () => {
   const { activeGarden } = useGardenStore();
 
   const theme: Theme | null = activeGarden?.theme || null;
-  const primaryColor = theme?.primary_color || "hsl(var(--garden))";
-  const secondaryColor = theme?.secondary_color || "hsl(var(--garden)/30)";
-  const textColor = theme?.text_color || "hsl(var(--foreground))";
+  const primaryColor = theme?.primary_color || "var(--garden)";
+  const secondaryColor = theme?.secondary_color || "var(--garden)/30";
+  const textColor = theme?.text_color || "var(--foreground)";
 
   return (
     <div

@@ -109,8 +109,7 @@ const Garden = ({
   schema,
 }: GardenProps) => {
   const [isReady, setIsReady] = useState(false);
-  const { activeGarden, setActiveGarden, setNavigationHistory } =
-    useGardenStore();
+  const { setActiveGarden, setNavigationHistory } = useGardenStore();
 
   // Use the provided schema
   const gardensData = schema;
@@ -136,25 +135,6 @@ const Garden = ({
     }
   }, [initialGardenName, gardensData, setActiveGarden, setNavigationHistory]);
 
-  // Force re-initialization when expandSubgardens changes
-  useEffect(() => {
-    if (isReady && activeGarden) {
-      // Re-initialize with the same garden to trigger re-rendering with expanded subgardens
-      setIsReady(false);
-      setTimeout(() => {
-        setActiveGarden({ ...activeGarden });
-        setIsReady(true);
-      }, 0);
-    }
-  }, [expandSubgardens]);
-
-  // Call the onGardenChange callback whenever the active garden changes
-  useEffect(() => {
-    if (isReady && activeGarden && onGardenChange) {
-      onGardenChange(activeGarden.name);
-    }
-  }, [isReady, activeGarden, onGardenChange]);
-
   if (!isReady) {
     return (
       <div className="flex h-full w-full items-center justify-center overflow-hidden">
@@ -167,7 +147,7 @@ const Garden = ({
 
   return (
     <ReactFlowProvider>
-      <div className={cn("h-full w-full overflow-hidden", className)}>
+      <div className={cn("h-full w-full rounded-lg border", className)}>
         <GardenFlow
           gardens={gardensData}
           showControls={showControls}
@@ -177,6 +157,7 @@ const Garden = ({
           fitViewPadding={fitViewPadding}
           edgeType={edgeType}
           animateEdges={animateEdges}
+          onGardenChange={onGardenChange}
         />
       </div>
     </ReactFlowProvider>

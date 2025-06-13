@@ -2,9 +2,9 @@ import { MarkerType, Position } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
 import { match } from "ts-pattern";
 
-import type { GardenTypes } from "generated/garden.types";
 import type { Edge, Node } from "@xyflow/react";
 import type { ElkNode } from "elkjs";
+import type { GardenTypes } from "generated/garden.types";
 
 const elk = new ELK();
 
@@ -26,7 +26,7 @@ const generateId = (type: string, name: string) =>
   `${type}-${name.replace(/\s+/g, "-").toLowerCase()}`;
 
 const getNodePositions = (
-  type: string
+  type: string,
 ): { sourcePosition?: Position; targetPosition?: Position } => {
   return match(type)
     .with(NODE_TYPES.GARDEN, () => ({
@@ -100,7 +100,7 @@ interface FlowOptions {
 export const gardenToFlow = (
   garden: GardenTypes,
   width = 1600,
-  options: FlowOptions = {}
+  options: FlowOptions = {},
 ): { nodes: Node[]; edges: Edge[] } => {
   // create a shallow copy to prevent reference issues
   const gardenCopy = { ...garden };
@@ -112,8 +112,8 @@ export const gardenToFlow = (
 
   // Ensure window.gardenData exists for subgarden expansion
   if (typeof window !== "undefined" && options.expandSubgardens) {
-    (window as any).gardenData = (window as any).gardenData || {};
-    (window as any).gardenData[garden.name] = garden;
+    window.gardenData = window.gardenData || {};
+    window.gardenData[garden.name] = garden;
   }
 
   // Store the garden theme for propagation to all nodes
@@ -133,26 +133,26 @@ export const gardenToFlow = (
       description: garden.description,
       version: garden.version,
       theme: currentGardenTheme,
-      icon_color: "hsl(var(--primary))",
+      icon_color: "var(--primary)",
       icon: "SproutIcon",
     },
     position: { x: centerX, y: 0 },
     ...getNodePositions(NODE_TYPES.GARDEN),
     style: {
-      background: "hsl(var(--primary))",
-      color: "hsl(var(--primary-foreground))",
+      background: "var(--primary)",
+      color: "var(--primary-foreground)",
       borderRadius: "var(--radius)",
     },
   });
 
   // Process items directly on the garden if any
   if (garden.items && Array.isArray(garden.items)) {
-    garden.items.forEach((item: any, index: number) => {
+    garden.items.forEach((item, index) => {
       if (!item || !item.name) return;
 
       const itemId = generateId(
         NODE_TYPES.ITEM,
-        `${gardenId}-direct-${item.name}`
+        `${gardenId}-direct-${item.name}`,
       );
       const itemYPosition = 150 + index * 80;
 
@@ -199,7 +199,7 @@ export const gardenToFlow = (
         type: options.edgeType || "default",
         animated: options.animateEdges !== false,
         style: {
-          stroke: "hsl(var(--muted-foreground))",
+          stroke: "var(--muted-foreground)",
           strokeWidth: 2,
         },
         markerEnd: { type: MarkerType.ArrowClosed },
@@ -210,10 +210,10 @@ export const gardenToFlow = (
 
   // Process supergardens if any
   if (gardenCopy.supergardens && Array.isArray(gardenCopy.supergardens)) {
-    gardenCopy.supergardens.forEach((supergarden: any, index: number) => {
+    gardenCopy.supergardens.forEach((supergarden, index) => {
       const supergardenId = generateId(
         NODE_TYPES.SUPERGARDEN,
-        supergarden.name
+        supergarden.name,
       );
       const xOffset = -400 + index * 150; // Position supergardens to the left and above
 
@@ -227,14 +227,14 @@ export const gardenToFlow = (
           logo: supergarden.logo,
           version: supergarden.version,
           icon: "GlobeIcon",
-          icon_color: "hsl(var(--chart-9))",
+          icon_color: "var(--chart-9)",
           theme: supergarden.theme || garden.theme,
         },
         position: { x: centerX + xOffset, y: -200 },
         ...getNodePositions(NODE_TYPES.SUPERGARDEN),
         style: {
-          background: "hsl(var(--chart-9))",
-          color: "hsl(var(--chart-9-foreground))",
+          background: "var(--chart-9)",
+          color: "var(--chart-9-foreground)",
           borderRadius: "var(--radius)",
         },
       });
@@ -249,7 +249,7 @@ export const gardenToFlow = (
         type: options.edgeType || "default",
         animated: options.animateEdges !== false,
         style: {
-          stroke: "hsl(var(--chart-9))",
+          stroke: "var(--chart-9)",
           strokeWidth: 2,
           strokeDasharray: "5,5",
         },
@@ -270,7 +270,7 @@ export const gardenToFlow = (
     level: number = 1,
     indexInParent: number = 0,
     nodesArray: Node[],
-    edgesArray: Edge[]
+    edgesArray: Edge[],
   ): void => {
     // Early exit if no subgardens to process
     if (
@@ -289,7 +289,7 @@ export const gardenToFlow = (
     // Calculate spacing based on the number of items at this level
     const horizontalSpacing = Math.min(
       600,
-      width / Math.max(1, parentGarden.subgardens.length)
+      width / Math.max(1, parentGarden.subgardens.length),
     );
     const verticalOffset = 200; // Fixed vertical distance between levels
     const baseYPos = parentY + verticalOffset; // Start at a fixed offset from parent
@@ -299,11 +299,11 @@ export const gardenToFlow = (
 
       const subgardenId = generateId(
         NODE_TYPES.SUBGARDEN,
-        `level-${level}-${subgarden.name}`
+        `level-${level}-${subgarden.name}`,
       );
 
       // Try to get the actual garden data
-      let subgardenData = (window as any).gardenData[subgarden.name];
+      let subgardenData = window.gardenData?.[subgarden.name];
       if (!subgardenData) {
         subgardenData = {
           name: subgarden.name,
@@ -337,7 +337,7 @@ export const gardenToFlow = (
           description: subgarden.description || "",
           version: subgarden.version || "",
           theme: subgardenData.theme || parentGarden.theme,
-          icon_color: `hsl(var(--chart-${colorIndex}))`,
+          icon_color: `var(--chart-${colorIndex})`,
           icon: "SproutIcon",
           isExpandedSubgarden: true,
           level,
@@ -349,7 +349,7 @@ export const gardenToFlow = (
           y: yPos,
         },
         style: {
-          color: "hsl(var(--foreground))",
+          color: "var(--foreground)",
           borderRadius: "var(--radius)",
           fontSize: `${Math.max(12, 16 - level)}px`,
           fontWeight: "bold",
@@ -367,7 +367,7 @@ export const gardenToFlow = (
         type: options.edgeType || "default",
         animated: options.animateEdges !== false,
         style: {
-          stroke: `hsl(var(--chart-${colorIndex}))`,
+          stroke: `var(--chart-${colorIndex})`,
           strokeWidth: Math.max(1, 2 - (level - 1) * 0.2),
           strokeDasharray: "5,5",
           opacity: Math.max(0.7, 1 - (level - 1) * 0.05),
@@ -377,12 +377,12 @@ export const gardenToFlow = (
 
       // Process items in this subgarden
       if (subgardenData.items && Array.isArray(subgardenData.items)) {
-        subgardenData.items.forEach((item: any, itemIndex: number) => {
+        subgardenData.items.forEach((item, itemIndex) => {
           if (!item || !item.name) return;
 
           const itemId = generateId(
             NODE_TYPES.ITEM,
-            `${subgardenNodeId}-direct-${item.name}`
+            `${subgardenNodeId}-direct-${item.name}`,
           );
           // Distribute items with reasonable spacing
           const itemSpacing = Math.max(60, 80 - level * 5);
@@ -433,7 +433,7 @@ export const gardenToFlow = (
             type: options.edgeType || "default",
             animated: options.animateEdges !== false,
             style: {
-              stroke: "hsl(var(--muted-foreground))",
+              stroke: "var(--muted-foreground)",
               strokeWidth: 2,
             },
             markerEnd: { type: MarkerType.ArrowClosed },
@@ -456,7 +456,7 @@ export const gardenToFlow = (
           level + 1,
           index,
           nodesArray,
-          edgesArray
+          edgesArray,
         );
       }
     });
@@ -467,13 +467,13 @@ export const gardenToFlow = (
     if (options.expandSubgardens && typeof window !== "undefined") {
       try {
         // Initialize window.gardenData if it doesn't exist
-        if (!(window as any).gardenData) {
-          (window as any).gardenData = {};
+        if (!window.gardenData) {
+          window.gardenData = {};
         }
 
         // Make sure all available gardens are in window.gardenData
         // This ensures we can find all subgarden data during recursive expansion
-        if (typeof window !== "undefined" && (window as any).gardenData) {
+        if (typeof window !== "undefined" && window.gardenData) {
           // We already have the garden data from the props
           // No need to do anything else here
         }
@@ -487,7 +487,7 @@ export const gardenToFlow = (
           1, // Level 1 is the first level of subgardens
           0,
           nodes,
-          edges
+          edges,
         );
       } catch (error) {
         console.error("Error in recursive subgarden processing:", error);
@@ -502,11 +502,11 @@ export const gardenToFlow = (
         let subgardenTheme = garden.theme;
         if (
           typeof window !== "undefined" &&
-          (window as any).gardenData &&
-          (window as any).gardenData[subgarden.name]
+          window.gardenData &&
+          window.gardenData[subgarden.name]
         ) {
           subgardenTheme =
-            (window as any).gardenData[subgarden.name].theme || garden.theme;
+            window.gardenData[subgarden.name].theme || garden.theme;
         }
 
         // Non-expanded mode, just add the subgarden node
@@ -520,14 +520,14 @@ export const gardenToFlow = (
             logo: subgarden.logo,
             version: subgarden.version,
             icon: "SproutIcon",
-            icon_color: "hsl(var(--chart-8))",
+            icon_color: "var(--chart-8)",
             theme: subgardenTheme,
           },
           position: { x: centerX + xOffset, y: 200 },
           ...getNodePositions(NODE_TYPES.SUBGARDEN),
           style: {
-            background: "hsl(var(--chart-8))",
-            color: "hsl(var(--chart-8-foreground))",
+            background: "var(--chart-8)",
+            color: "var(--chart-8-foreground)",
             borderRadius: "var(--radius)",
           },
         });
@@ -542,7 +542,7 @@ export const gardenToFlow = (
           type: options.edgeType || "default",
           animated: options.animateEdges !== false,
           style: {
-            stroke: "hsl(var(--chart-8))",
+            stroke: "var(--chart-8)",
             strokeWidth: 2,
             strokeDasharray: "5,5",
           },
@@ -564,7 +564,7 @@ export const gardenToFlow = (
  */
 export const autoLayout = async (
   nodes: Node[],
-  edges: Edge[]
+  edges: Edge[],
 ): Promise<{ nodes: Node[]; edges: Edge[] }> => {
   if (!nodes?.length) {
     return { nodes: nodes || [], edges: edges || [] };
@@ -647,7 +647,7 @@ export const autoLayout = async (
         zIndex: 0, // Ensure edges are behind nodes
         style: {
           ...(edge.style || {}),
-          stroke: edge.style?.stroke || "hsl(var(--muted-foreground))",
+          stroke: edge.style?.stroke || "var(--muted-foreground)",
           strokeWidth: edge.style?.strokeWidth || 2,
           transition: "stroke 0.3s, stroke-width 0.3s",
         },

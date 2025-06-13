@@ -18,8 +18,8 @@ const SubgardenNode = ({ data }: Props) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
-  const secondaryColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
+  const primaryColor = data.theme?.primary_color || "var(--garden)";
+  const secondaryColor = data.theme?.secondary_color || "var(--garden)/40";
 
   // Ensure text is readable in both light and dark themes
   const isDarkTheme =
@@ -27,7 +27,7 @@ const SubgardenNode = ({ data }: Props) => {
     document.documentElement.classList.contains("dark");
 
   // Always use foreground text color for better readability
-  const textColor = "hsl(var(--foreground))";
+  const textColor = "var(--foreground)";
 
   return (
     <Card
@@ -57,7 +57,7 @@ const SubgardenNode = ({ data }: Props) => {
             variant="secondary"
             className="font-medium"
             style={{
-              color: "hsl(var(--background))",
+              color: "var(--background)",
               backgroundColor: primaryColor,
             }}
           >

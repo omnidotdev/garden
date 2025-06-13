@@ -58,9 +58,9 @@ export const GardenNode: React.FC<NodeProps> = ({ data }) => {
   const hasRightSources = false;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
+  const primaryColor = data.theme?.primary_color || "var(--garden)";
   // Always use foreground text color for better readability
-  const textColor = "hsl(var(--foreground))";
+  const textColor = "var(--foreground)";
   const textShadow = "none";
 
   return (
@@ -124,8 +124,8 @@ export const ItemNode: FC<NodeProps> = ({ data }) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
-  const textColor = "hsl(var(--foreground))";
+  const primaryColor = data.theme?.primary_color || "var(--garden)";
+  const textColor = "var(--foreground)";
 
   return (
     <div className="w-[200px] cursor-pointer rounded-md border-2 bg-card shadow-lg transition-all hover:scale-105 hover:shadow-xl">
@@ -173,7 +173,7 @@ export const ItemNode: FC<NodeProps> = ({ data }) => {
               className="w-full rounded-md px-3 py-1 font-medium text-sm hover:opacity-90"
               style={{
                 backgroundColor: primaryColor,
-                color: "hsl(var(--background))",
+                color: "var(--background)",
               }}
               onClick={() => window.open(data.cta?.primary.url, "_blank")}
             >
@@ -212,11 +212,11 @@ export const SubgardenNode: FC<NodeProps> = ({ data }) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
-  const secondaryColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
+  const primaryColor = data.theme?.primary_color || "var(--garden)";
+  const secondaryColor = data.theme?.secondary_color || "var(--garden)/40";
 
   // Always use foreground text color for better readability
-  const textColor = "hsl(var(--foreground))";
+  const textColor = "var(--foreground)";
 
   return (
     <div
@@ -245,7 +245,7 @@ export const SubgardenNode: FC<NodeProps> = ({ data }) => {
           <div
             className="rounded-md px-2 py-1 font-medium text-sm"
             style={{
-              color: "hsl(var(--background))",
+              color: "var(--background)",
               backgroundColor: primaryColor,
             }}
           >
@@ -293,11 +293,11 @@ export const SupergardenNode: FC<NodeProps> = ({ data }) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
-  const secondaryColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
+  const primaryColor = data.theme?.primary_color || "var(--garden)";
+  const secondaryColor = data.theme?.secondary_color || "var(--garden)/40";
 
   // Always use foreground text color for better readability
-  const textColor = "hsl(var(--foreground))";
+  const textColor = "var(--foreground)";
 
   return (
     <div
@@ -320,7 +320,7 @@ export const SupergardenNode: FC<NodeProps> = ({ data }) => {
           <div
             className="rounded-md px-2 py-1 font-medium text-sm hover:bg-secondary/80"
             style={{
-              color: "hsl(var(--background))",
+              color: "var(--background)",
               backgroundColor: primaryColor,
             }}
           >

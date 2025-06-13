@@ -19,6 +19,10 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": {
+        "useSemanticElements": "off",
+        "noStaticElementInteractions": "off"
+      },
       "correctness": {
         "noUnusedImports": "error"
       },

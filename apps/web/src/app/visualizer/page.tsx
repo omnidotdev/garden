@@ -14,7 +14,7 @@ import { gardens } from "@/lib/schema/garden";
  */
 const VisualizerPage = () => {
   return (
-    <div className="flex h-[100dvh] w-full overflow-hidden">
+    <div className="flex h-full w-full">
       <Suspense
         fallback={
           <div className="flex h-full w-full items-center justify-center">
@@ -22,7 +22,7 @@ const VisualizerPage = () => {
           </div>
         }
       >
-        <div className="h-full w-full overflow-hidden">
+        <div className="h-full w-full">
           <Visualizer gardens={gardens} />
         </div>
       </Suspense>

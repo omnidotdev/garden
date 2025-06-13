@@ -5,6 +5,7 @@ import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -12,11 +13,10 @@ import {
   DialogTitle,
 } from "@workspace/ui/components/dialog";
 
+import type { DialogProps } from "@radix-ui/react-dialog";
 import type { NodeData } from "components/visualizer/customNodes";
 
-interface ItemDetailDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface ItemDetailDialogProps extends DialogProps {
   item: NodeData | null;
 }
 
@@ -24,11 +24,11 @@ interface ItemDetailDialogProps {
  * Item Detail Dialog component.
  * Displays details about a garden item when clicked.
  */
-const ItemDetailDialog = ({ isOpen, onClose, item }: ItemDetailDialogProps) => {
+const ItemDetailDialog = ({ item, ...rest }: ItemDetailDialogProps) => {
   if (!item) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog defaultOpen {...rest}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="text-xl">{item.label}</DialogTitle>
@@ -78,9 +78,9 @@ const ItemDetailDialog = ({ isOpen, onClose, item }: ItemDetailDialogProps) => {
             )}
           </div>
 
-          <Button variant="secondary" onClick={onClose}>
-            Close
-          </Button>
+          <DialogClose asChild>
+            <Button variant="secondary">Close</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -7,9 +7,6 @@
   },
   "linter": {
     "rules": {
-      "a11y": {
-        "useSemanticElements": "off"
-      },
       "style": {
         "noNonNullAssertion": "off",
         "useSingleVarDeclarator": "off"

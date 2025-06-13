@@ -4,6 +4,7 @@ import { GardenTabs } from "components/visualizer";
 import { InfoIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useIsClient } from "usehooks-ts";
 
 import { Button } from "@workspace/ui/components/button";
 
@@ -11,13 +12,6 @@ import type { GardenTypes } from "generated/garden.types";
 import type { Gardens } from "store";
 
 const INSTRUCTIONS_STORAGE_KEY = "garden_instructions_visible";
-
-// make garden data globally available for subgarden expansion
-declare global {
-  interface Window {
-    gardenData?: Gardens;
-  }
-}
 
 interface Props {
   /** All available gardens */
@@ -31,6 +25,8 @@ interface Props {
  * Visualizer.
  */
 const Visualizer = ({ gardens }: Props) => {
+  const isClient = useIsClient();
+
   const [showInstructions, setShowInstructions] = useState(() => {
     // Initialize from localStorage if available, default to true
     if (typeof window !== "undefined") {
@@ -42,9 +38,7 @@ const Visualizer = ({ gardens }: Props) => {
 
   // Make garden data available globally for subgarden expansion
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.gardenData = gardens;
-    }
+    window.gardenData = gardens;
   }, [gardens]);
 
   const allGardens = useMemo(
@@ -53,7 +47,7 @@ const Visualizer = ({ gardens }: Props) => {
   );
 
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden">
+    <div className="flex h-full w-full flex-col">
       {/* Header with garden selector */}
       <div className="border-b bg-card p-4 shadow-sm">
         <div className="container mx-auto flex items-center justify-between">
@@ -91,7 +85,7 @@ const Visualizer = ({ gardens }: Props) => {
       </div>
 
       {/* Instructions panel (conditionally displayed) */}
-      {showInstructions && (
+      {showInstructions && isClient && (
         <div className="border-b bg-accent/50 p-4">
           <div className="container mx-auto">
             <div className="flex items-start justify-between">
@@ -116,6 +110,7 @@ const Visualizer = ({ gardens }: Props) => {
                 </div>
               </div>
               <button
+                type="button"
                 className="text-blue-500 hover:text-blue-700"
                 onClick={() => {
                   setShowInstructions(false);

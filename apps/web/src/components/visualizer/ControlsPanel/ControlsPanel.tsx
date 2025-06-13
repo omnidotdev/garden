@@ -9,13 +9,13 @@ import {
   MaximizeIcon,
   MinusIcon,
   PlusIcon,
-  RefreshCwIcon,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { shallow } from "zustand/shallow";
 
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
+import { useGardenStore } from "@/lib/hooks/store";
 
 import type { ReactFlowState } from "@xyflow/react";
 
@@ -27,32 +27,28 @@ const selector = (s: ReactFlowState) => ({
 });
 
 interface Props {
-  setInitialized: (initialized: boolean) => void;
-  onLayout: () => void;
   expandSubgardens: boolean;
   setExpandSubgardens: (expand: boolean) => void;
+  fitViewPadding?: number;
 }
 
 const ControlsPanel = ({
-  setInitialized,
-  onLayout,
   expandSubgardens,
   setExpandSubgardens,
+  fitViewPadding,
 }: Props) => {
+  const { activeGarden } = useGardenStore();
+
   // TODO local storage
   const [minimized, setMinimized] = useState(false);
   const [moving, setMoving] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const panelRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
   const startMouse = useRef({ x: 0, y: 0 });
   const startPos = useRef({ x: 0, y: 0 });
 
-  const { isInteractive, minZoomReached, maxZoomReached } = useStore(
-    selector,
-    shallow,
-  );
+  const { minZoomReached, maxZoomReached } = useStore(selector, shallow);
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
   // drag logic
@@ -60,7 +56,7 @@ const ControlsPanel = ({
     let animationFrameId: number;
 
     const onMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current) return;
+      if (!moving) return;
 
       const dx = e.clientX - startMouse.current.x;
       const dy = e.clientY - startMouse.current.y;
@@ -74,7 +70,6 @@ const ControlsPanel = ({
     };
 
     const onMouseUp = () => {
-      isDragging.current = false;
       cancelAnimationFrame(animationFrameId);
     };
 
@@ -86,75 +81,51 @@ const ControlsPanel = ({
       window.removeEventListener("mouseup", onMouseUp);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [moving]);
 
-  const controls = useMemo(
-    () => [
-      {
-        id: "expand-subgardens",
-        label: expandSubgardens ? "Condense subgardens" : "Expand subgardens",
-        onClick: () => {
-          setExpandSubgardens(!expandSubgardens);
-
-          // force re-layout
-          setInitialized(false);
-        },
-        icon: expandSubgardens ? (
-          <LayersIcon size={14} />
-        ) : (
-          <Layers2Icon size={14} />
-        ),
+  const controls = [
+    {
+      id: "expand-subgardens",
+      label: expandSubgardens ? "Condense subgardens" : "Expand subgardens",
+      className: !activeGarden?.subgardens?.length && "hidden",
+      onClick: () => {
+        setExpandSubgardens(!expandSubgardens);
       },
-      {
-        id: "zoom-in",
-        label: "Zoom in",
-        onClick: () => zoomIn(),
-        icon: <PlusIcon size={14} />,
-        disabled: maxZoomReached,
-      },
-      {
-        id: "zoom-out",
-        label: "Zoom out",
-        onClick: () => zoomOut(),
-        icon: <MinusIcon size={14} />,
-        disabled: minZoomReached,
-      },
-      {
-        id: "layout",
-        label: "Refresh layout",
-        onClick: onLayout,
-        icon: <RefreshCwIcon size={14} />,
-      },
-      {
-        id: "fit-view",
-        label: "Fit view",
-        onClick: () => fitView({ padding: 0.2 }),
-        icon: <MaximizeIcon size={14} />,
-      },
-    ],
-    [
-      isInteractive,
-      minZoomReached,
-      maxZoomReached,
-      zoomIn,
-      zoomOut,
-      fitView,
-      onLayout,
-      expandSubgardens,
-      setExpandSubgardens,
-      setInitialized,
-    ],
-  );
+      icon: expandSubgardens ? (
+        <LayersIcon size={14} />
+      ) : (
+        <Layers2Icon size={14} />
+      ),
+    },
+    {
+      id: "zoom-in",
+      label: "Zoom in",
+      onClick: () => zoomIn(),
+      icon: <PlusIcon size={14} />,
+      disabled: maxZoomReached,
+    },
+    {
+      id: "zoom-out",
+      label: "Zoom out",
+      onClick: () => zoomOut(),
+      icon: <MinusIcon size={14} />,
+      disabled: minZoomReached,
+    },
+    {
+      id: "fit-view",
+      label: "Fit view",
+      onClick: () => fitView({ padding: fitViewPadding }),
+      icon: <MaximizeIcon size={14} />,
+    },
+  ];
 
   return (
     <div
       ref={panelRef}
       className={cn(
-        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all",
+        "absolute top-0 left-0 z-50 m-4 flex w-48 flex-col rounded-lg border border-border bg-card shadow-xl",
       )}
       style={{
-        width: 200,
-        height: minimized ? 48 : 270,
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     >
@@ -166,7 +137,6 @@ const ControlsPanel = ({
         onMouseDown={(e) => {
           e.preventDefault();
           setMoving(true);
-          isDragging.current = true;
           startMouse.current = { x: e.clientX, y: e.clientY };
           startPos.current = { ...position };
         }}
@@ -197,7 +167,10 @@ const ControlsPanel = ({
       {!minimized && (
         <div className="grid gap-2 p-4">
           {controls.map((control) => (
-            <div key={control.id} className="flex items-center gap-3">
+            <div
+              key={control.id}
+              className={cn("flex items-center gap-3", control.className)}
+            >
               <Button
                 variant="outline"
                 size="icon"

@@ -49,7 +49,7 @@ const GardenTabs = ({ gardens, expandSubgardens = false }: Props) => {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="visualize" className="mt-6 flex-1 overflow-hidden">
+      <TabsContent value="visualize" className="mt-6 flex-1">
         <div className="h-full w-full">
           <Garden
             schema={gardens}
