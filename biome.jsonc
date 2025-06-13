@@ -11,7 +11,8 @@
       "apps/**",
       "packages/**",
       "!packages/ui/src/**",
-      "!**/generated/**"
+      "!**/generated/**",
+      "!**/build/**"
     ]
   },
   "formatter": {
@@ -64,6 +65,7 @@
                 "source": [
                   ":PACKAGE:",
                   ":PACKAGE_WITH_PROTOCOL:",
+                  "!@omnidotdev/**",
                   "!@workspace/ui/**"
                 ]
               },

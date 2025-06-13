@@ -1,5 +1,5 @@
 {
-  "name": "@omnidotdev/garden",
+  "name": "@omnidotdev/garden-app",
   "version": "0.0.0",
   "license": "MIT",
   "type": "module",
@@ -23,6 +23,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "@workspace/ui": "workspace:*",
+    "@omnidotdev/garden": "workspace:*",
     "@xyflow/react": "^12.6.4",
     "elkjs": "^0.10.0",
     "lucide-react": "^0.514.0",

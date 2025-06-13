@@ -1,0 +1,45 @@
+{
+  "name": "@omnidotdev/garden",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "module": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "check": "biome check --diagnostic-level=error src",
+    "format": "biome format --write src",
+    "lint": "biome lint --diagnostic-level=error src"
+  },
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": {
+        "types": "./build/index.d.ts",
+        "default": "./build/index.js"
+      }
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@tailwindcss/vite": "^4.1.10",
+    "@workspace/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.1",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "@workspace/typescript-config": "workspace:*",
+    "globby": "^14.1.0",
+    "typescript": "5.8.3",
+    "vite": "^6.3.5",
+    "vite-plugin-bundle-css": "^0.1.1",
+    "vite-plugin-dts": "^4.5.4"
+  }
+}
