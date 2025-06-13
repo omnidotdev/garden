@@ -170,6 +170,7 @@ export const ItemNode: FC<NodeProps> = ({ data }) => {
         <div className="flex gap-2 p-4 pt-0">
           {data.cta?.primary && (
             <button
+              type="button"
               className="w-full rounded-md px-3 py-1 font-medium text-sm hover:opacity-90"
               style={{
                 backgroundColor: primaryColor,
@@ -184,6 +185,7 @@ export const ItemNode: FC<NodeProps> = ({ data }) => {
 
           {data.cta?.secondary && (
             <button
+              type="button"
               className="rounded-md border px-2 py-1 font-medium text-sm"
               style={{
                 borderColor: primaryColor,

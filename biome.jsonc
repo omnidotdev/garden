@@ -7,7 +7,12 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["apps/**", "packages/**", "!packages/ui/src/**"]
+    "includes": [
+      "apps/**",
+      "packages/**",
+      "!packages/ui/src/**",
+      "!**/generated/**"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -27,6 +32,7 @@
         "noUnusedImports": "error"
       },
       "nursery": {
+        "useUniqueElementIds": "off",
         "useSortedClasses": {
           "level": "warn",
           "fix": "safe",
