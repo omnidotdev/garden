@@ -41,6 +41,7 @@ export interface NodeData {
   targetConnections?: string[];
   isExpandedSubgarden?: boolean;
   // Any other properties
+  // biome-ignore lint/suspicious/noExplicitAny: allow `any` for this use case
   [key: string]: any;
 }
 
