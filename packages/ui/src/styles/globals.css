@@ -37,7 +37,7 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -126,6 +126,28 @@
 }
 
 @layer base {
+    /* xyflow/react style overrides */
+    .react-flow {
+      --xy-controls-button-background-color-default: var(--background);
+      --xy-controls-button-background-color-hover-default: var(--accent);
+      --xy-controls-button-color-default: var(--foreground);
+      --xy-controls-button-color-hover-default: var(--foreground);
+      --xy-controls-button-border-color-default: var(--border);
+      --xy-controls-box-shadow-default: 0 0 2px 1px rgba(0, 0, 0, 0.08);
+      --xy-minimap-background-color-default: var(--background);
+    }
+
+    .dark .react-flow {
+      --xy-controls-button-background-color-default: var(--background);
+      --xy-controls-button-background-color-hover-default: var(--accent);
+      --xy-controls-button-color-default: var(--foreground);
+      --xy-controls-button-color-hover-default: var(--foreground);
+      --xy-controls-button-border-color-default: var(--border);
+      --xy-controls-box-shadow-default: 0 0 2px 1px rgba(255, 255, 255, 0.18);
+      --xy-minimap-background-color-default: var(--background);
+    }
+
+
   * {
     @apply border-border outline-ring/50;
   }

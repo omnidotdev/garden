@@ -126,12 +126,10 @@ const Visualizer = ({ gardens }: Props) => {
         </div>
       )}
 
-      <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1 overflow-hidden">
-          <div className="container mx-auto h-full p-4">
-            <div className="h-full">
-              <GardenTabs gardens={allGardens} />
-            </div>
+      <div className="flex flex-1">
+        <div className="container mx-auto h-full p-4">
+          <div className="h-full">
+            <GardenTabs gardens={allGardens} />
           </div>
         </div>
       </div>
