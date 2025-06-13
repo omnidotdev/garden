@@ -23,20 +23,15 @@
       "import": "./build/styles/flow.css"
     }
   },
-  "files": [
-    "build/"
-  ],
+  "files": ["build/"],
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "@xyflow/react": ">=12.0.0",
     "lucide-react": ">=0.500.0"
   },
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "sideEffects": ["**/*.css"],
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@omnidev/knit": "^0.1.2",
     "@types/bun": "^1.2.15",
     "@types/node": "24.0.0",

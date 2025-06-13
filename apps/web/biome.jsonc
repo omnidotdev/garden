@@ -1,0 +1,25 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.0.0-beta.6/schema.json",
+  "extends": "//",
+  "linter": {
+    "rules": {
+      "a11y": {
+        "useSemanticElements": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "useSingleVarDeclarator": "off"
+      },
+      "suspicious": {
+        "noConsole": {
+          "level": "error",
+          "options": {
+            "allow": ["error", "warn"]
+          }
+        },
+        // TODO: remove this, and make sure it is indeed an error. For scaffolding purposes, it is easier to just have this be a warning for now
+        "noExplicitAny": "warn"
+      }
+    }
+  }
+}
