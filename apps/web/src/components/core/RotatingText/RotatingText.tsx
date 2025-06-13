@@ -23,7 +23,7 @@ const colors = [
   "from-pink-500 to-purple-500",
 ];
 
-export const RotatingText = ({
+const RotatingText = ({
   prefix = "Visualize your",
   suffix = "Ecosystem",
   interval = 3000,

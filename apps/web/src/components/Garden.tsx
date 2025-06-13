@@ -95,7 +95,7 @@ export interface GardenProps {
  * - Responsive design that fills the container
  * - Customizable appearance and controls
  */
-export const Garden = ({
+const Garden = ({
   initialGardenName,
   className = "h-full w-full",
   onGardenChange,

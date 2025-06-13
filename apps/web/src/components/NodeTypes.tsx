@@ -4,16 +4,22 @@
  * This file defines all the custom node components for the Garden visualization.
  * It contains inline definitions for all node types to ensure they're properly bundled.
  */
-import React from "react";
+/**
+ * NodeTypes.tsx
+ *
+ * This file defines all the custom node components for the Garden visualization.
+ * It contains inline definitions for all node types to ensure they're properly bundled.
+ */
 import { Handle, Position } from "@xyflow/react";
 import {
-  SproutIcon,
+  ExternalLinkIcon,
   GitBranchIcon,
   GlobeIcon,
-  ExternalLinkIcon,
+  SproutIcon,
 } from "lucide-react";
 
-import type { Theme } from "../generated/garden.types";
+import type { FC } from "react";
+import type { Theme } from "@/generated/garden.types";
 
 // Define NodeData interface for all node types
 export interface NodeData {
@@ -45,28 +51,43 @@ interface NodeProps {
 // Garden Node Component
 export const GardenNode: React.FC<NodeProps> = ({ data }) => {
   // check if there are any connections
-  const hasTopTargets = data.targetConnections && data.targetConnections.length > 0;
-  const hasBottomSources = data.sourceConnections && data.sourceConnections.length > 0;
+  const hasTopTargets =
+    data.targetConnections && data.targetConnections.length > 0;
+  const hasBottomSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
   const hasRightSources = false;
 
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
-  const isDarkTheme = typeof window !== "undefined" && document.documentElement.classList.contains("dark");
   // Always use foreground text color for better readability
   const textColor = "hsl(var(--foreground))";
-  const borderColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
   const textShadow = "none";
 
   return (
-    <div className="w-[200px] border-2 shadow-lg rounded-md bg-card">
+    <div className="w-[200px] rounded-md border-2 bg-card shadow-lg">
       {hasTopTargets && (
-        <Handle id="top" type="target" position={Position.Top} isConnectable={false} />
+        <Handle
+          id="top"
+          type="target"
+          position={Position.Top}
+          isConnectable={false}
+        />
       )}
       {hasBottomSources && (
-        <Handle id="bottom" type="source" position={Position.Bottom} isConnectable={false} />
+        <Handle
+          id="bottom"
+          type="source"
+          position={Position.Bottom}
+          isConnectable={false}
+        />
       )}
       {hasRightSources && (
-        <Handle id="right" type="source" position={Position.Right} isConnectable={false} />
+        <Handle
+          id="right"
+          type="source"
+          position={Position.Right}
+          isConnectable={false}
+        />
       )}
 
       <div
@@ -95,29 +116,37 @@ export const GardenNode: React.FC<NodeProps> = ({ data }) => {
 };
 
 // Item Node Component
-export const ItemNode: React.FC<NodeProps> = ({ data }) => {
+export const ItemNode: FC<NodeProps> = ({ data }) => {
   // check if there are any connections
-  const hasTopTargets = data.targetConnections && data.targetConnections.length > 0;
-  const hasBottomSources = data.sourceConnections && data.sourceConnections.length > 0;
-
-  // Ensure text is readable in both light and dark themes
-  const isDarkTheme = typeof window !== "undefined" && document.documentElement.classList.contains("dark");
+  const hasTopTargets =
+    data.targetConnections && data.targetConnections.length > 0;
+  const hasBottomSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
-  const secondaryColor = data.theme?.secondary_color || "hsl(var(--accent)/40)";
   const textColor = "hsl(var(--foreground))";
 
   return (
-    <div className="w-[200px] border-2 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer rounded-md bg-card">
+    <div className="w-[200px] cursor-pointer rounded-md border-2 bg-card shadow-lg transition-all hover:scale-105 hover:shadow-xl">
       {hasTopTargets && (
-        <Handle id="top" type="target" position={Position.Top} isConnectable={false} />
+        <Handle
+          id="top"
+          type="target"
+          position={Position.Top}
+          isConnectable={false}
+        />
       )}
       {hasBottomSources && (
-        <Handle id="bottom" type="source" position={Position.Bottom} isConnectable={false} />
+        <Handle
+          id="bottom"
+          type="source"
+          position={Position.Bottom}
+          isConnectable={false}
+        />
       )}
 
-      <div className="space-y-3 relative">
+      <div className="relative space-y-3">
         <div className="aspect-video w-full overflow-hidden rounded-t-md">
           <img
             src={data.image}
@@ -141,21 +170,21 @@ export const ItemNode: React.FC<NodeProps> = ({ data }) => {
         <div className="flex gap-2 p-4 pt-0">
           {data.cta?.primary && (
             <button
-              className="w-full px-3 py-1 text-sm font-medium rounded-md hover:opacity-90"
+              className="w-full rounded-md px-3 py-1 font-medium text-sm hover:opacity-90"
               style={{
                 backgroundColor: primaryColor,
                 color: "hsl(var(--background))",
               }}
               onClick={() => window.open(data.cta?.primary.url, "_blank")}
             >
-              <ExternalLinkIcon size={14} className="inline-block mr-1" />
+              <ExternalLinkIcon size={14} className="mr-1 inline-block" />
               {data.cta?.primary.label}
             </button>
           )}
 
           {data.cta?.secondary && (
             <button
-              className="px-2 py-1 text-sm font-medium rounded-md border"
+              className="rounded-md border px-2 py-1 font-medium text-sm"
               style={{
                 borderColor: primaryColor,
                 color: primaryColor,
@@ -177,24 +206,21 @@ export const ItemNode: React.FC<NodeProps> = ({ data }) => {
 };
 
 // Subgarden Node Component
-export const SubgardenNode: React.FC<NodeProps> = ({ data }) => {
+export const SubgardenNode: FC<NodeProps> = ({ data }) => {
   // check if there are any connections
-  const hasTargets = data.targetConnections && data.targetConnections.length > 0;
-  const hasSources = data.sourceConnections && data.sourceConnections.length > 0;
+  const hasSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
   const secondaryColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
-
-  // Ensure text is readable in both light and dark themes
-  const isDarkTheme = typeof window !== "undefined" && document.documentElement.classList.contains("dark");
 
   // Always use foreground text color for better readability
   const textColor = "hsl(var(--foreground))";
 
   return (
     <div
-      className="w-[200px] border-2 shadow-lg transition-transform hover:scale-105 hover:border-garden/70 rounded-md bg-card"
+      className="w-[200px] rounded-md border-2 bg-card shadow-lg transition-transform hover:scale-105 hover:border-garden/70"
       style={{
         borderColor: secondaryColor,
       }}
@@ -217,7 +243,7 @@ export const SubgardenNode: React.FC<NodeProps> = ({ data }) => {
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
         <div className="flex w-full justify-center">
           <div
-            className="px-2 py-1 rounded-md font-medium text-sm"
+            className="rounded-md px-2 py-1 font-medium text-sm"
             style={{
               color: "hsl(var(--background))",
               backgroundColor: primaryColor,
@@ -261,23 +287,21 @@ export const SubgardenNode: React.FC<NodeProps> = ({ data }) => {
 };
 
 // Supergarden Node Component
-export const SupergardenNode: React.FC<NodeProps> = ({ data }) => {
+export const SupergardenNode: FC<NodeProps> = ({ data }) => {
   // check if there are any connections
-  const hasBottomSources = data.sourceConnections && data.sourceConnections.length > 0;
+  const hasBottomSources =
+    data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
   const primaryColor = data.theme?.primary_color || "hsl(var(--garden))";
   const secondaryColor = data.theme?.secondary_color || "hsl(var(--garden)/40)";
-
-  // Ensure text is readable in both light and dark themes
-  const isDarkTheme = typeof window !== "undefined" && document.documentElement.classList.contains("dark");
 
   // Always use foreground text color for better readability
   const textColor = "hsl(var(--foreground))";
 
   return (
     <div
-      className="w-[200px] border-2 shadow-lg transition-transform hover:scale-105 hover:border-garden/70 rounded-md bg-card"
+      className="w-[200px] rounded-md border-2 bg-card shadow-lg transition-transform hover:scale-105 hover:border-garden/70"
       style={{
         borderColor: secondaryColor,
       }}
@@ -294,7 +318,7 @@ export const SupergardenNode: React.FC<NodeProps> = ({ data }) => {
       <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
         <div className="flex w-full justify-center">
           <div
-            className="px-2 py-1 rounded-md font-medium text-sm hover:bg-secondary/80"
+            className="rounded-md px-2 py-1 font-medium text-sm hover:bg-secondary/80"
             style={{
               color: "hsl(var(--background))",
               backgroundColor: primaryColor,
@@ -338,34 +362,30 @@ export const SupergardenNode: React.FC<NodeProps> = ({ data }) => {
 };
 
 // Default Node Component (fallback for unknown node types)
-export const DefaultNode: React.FC<NodeProps> = ({ data }) => {
+export const DefaultNode: FC<NodeProps> = ({ data }) => {
   // check if there are any connections
   const hasTopTargets = data.targetConnections?.some(
-    (id) => id.includes("top") || !id.includes("position")
+    (id) => id.includes("top") || !id.includes("position"),
   );
   const hasBottomTargets = data.targetConnections?.some((id) =>
-    id.includes("bottom")
+    id.includes("bottom"),
   );
   const hasLeftTargets = data.targetConnections?.some((id) =>
-    id.includes("left")
+    id.includes("left"),
   );
   const hasTopSources = data.sourceConnections?.some((id) =>
-    id.includes("top")
+    id.includes("top"),
   );
   const hasBottomSources = data.sourceConnections?.some(
-    (id) => id.includes("bottom") || !id.includes("position")
+    (id) => id.includes("bottom") || !id.includes("position"),
   );
 
   return (
-    <div className="p-2 border border-muted rounded-md bg-card">
+    <div className="rounded-md border border-muted bg-card p-2">
       {hasTopSources && <Handle type="source" position={Position.Top} />}
-      {hasBottomSources && (
-        <Handle type="source" position={Position.Bottom} />
-      )}
+      {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
-      {hasBottomTargets && (
-        <Handle type="target" position={Position.Bottom} />
-      )}
+      {hasBottomTargets && <Handle type="target" position={Position.Bottom} />}
       {hasLeftTargets && <Handle type="target" position={Position.Left} />}
       <div className="p-2">{data.label}</div>
     </div>
@@ -373,7 +393,7 @@ export const DefaultNode: React.FC<NodeProps> = ({ data }) => {
 };
 
 // Node Types function that returns a mapping of node types to components
-export function NodeTypes() {
+function NodeTypes() {
   return {
     garden: GardenNode,
     item: ItemNode,

@@ -18,12 +18,10 @@
     "@types/react": "19.1.7",
     "@types/react-dom": "19.1.6",
     "@workspace/typescript-config": "workspace:*",
-    "knip": "^5.60.2",
     "typescript": "5.8.3"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
-    "@radix-ui/react-slot": "^1.2.3",
     "@workspace/ui": "workspace:*",
     "@xyflow/react": "^12.6.4",
     "autoprefixer": "10.4.21",

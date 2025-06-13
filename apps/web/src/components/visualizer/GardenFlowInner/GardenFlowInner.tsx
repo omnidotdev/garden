@@ -14,7 +14,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { ControlsPanel } from "@/components/core";
-import { NodeTypes } from "@/components/NodeTypes";
+import { nodeTypes } from "@/components/NodeTypes";
 import {
   ActiveGardenIndicator,
   ItemDetailDialog,
@@ -31,8 +31,6 @@ import type {
   NodeMouseHandler,
 } from "@xyflow/react";
 import type { Gardens } from "store";
-
-const nodeTypes = NodeTypes();
 
 interface Props {
   /** All available gardens */
