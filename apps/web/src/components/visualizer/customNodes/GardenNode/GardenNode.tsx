@@ -1,9 +1,8 @@
 import { Handle, Position } from "@xyflow/react";
 import { SproutIcon } from "lucide-react";
 
-import { Card } from "components/ui";
+import { Card } from "@workspace/ui/components/card";
 
-import type { Theme } from "generated/garden.types";
 import type { NodeData } from "components/visualizer/customNodes";
 
 export interface Props {

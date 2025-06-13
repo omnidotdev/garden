@@ -1,12 +1,17 @@
 "use client";
 
 import Editor from "@monaco-editor/react";
+import { AlertCircleIcon, CheckIcon, CopyIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-import { CheckIcon, CopyIcon, AlertCircleIcon } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle, Button } from "components/ui";
-import { useSearchParams } from "lib/hooks";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
+import { Button } from "@workspace/ui/components/button";
+import { useSearchParams } from "@/lib/hooks";
 
 interface Props {
   /** The current JSON schema text being edited. */

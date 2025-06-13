@@ -2,8 +2,8 @@
 
 import { Suspense } from "react";
 
-import { Visualizer } from "components/visualizer";
-import { gardens } from "lib/schema/garden";
+import { Visualizer } from "@/components/visualizer";
+import { gardens } from "@/lib/schema/garden";
 
 /**
  * Garden visualizer page.

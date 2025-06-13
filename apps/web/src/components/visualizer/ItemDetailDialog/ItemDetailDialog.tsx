@@ -1,5 +1,8 @@
 "use client";
 
+import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
+
+import { Button } from "@workspace/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -7,9 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "components/ui";
-import { Button } from "components/ui";
-import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
+} from "@workspace/ui/components/dialog";
 
 import type { NodeData } from "components/visualizer/customNodes";
 
@@ -49,7 +50,7 @@ const ItemDetailDialog = ({ isOpen, onClose, item }: ItemDetailDialogProps) => {
         )}
 
         {item.version && (
-          <div className="mt-2 text-sm text-muted-foreground">
+          <div className="mt-2 text-muted-foreground text-sm">
             Version: {item.version}
           </div>
         )}

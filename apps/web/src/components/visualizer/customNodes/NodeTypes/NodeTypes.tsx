@@ -5,7 +5,8 @@ import {
   ItemNode,
   SubgardenNode,
   SupergardenNode,
-} from "components/visualizer/customNodes";
+} from "@/components/visualizer/customNodes";
+
 import type { Theme } from "generated/garden.types";
 
 export interface NodeData {
@@ -35,19 +36,19 @@ const NodeTypes = () => ({
   default: ({ data }: { data: NodeData }) => {
     // check if there are any connections
     const hasTopTargets = data.targetConnections?.some(
-      (id) => id.includes("top") || !id.includes("position")
+      (id) => id.includes("top") || !id.includes("position"),
     );
     const hasBottomTargets = data.targetConnections?.some((id) =>
-      id.includes("bottom")
+      id.includes("bottom"),
     );
     const hasLeftTargets = data.targetConnections?.some((id) =>
-      id.includes("left")
+      id.includes("left"),
     );
     const hasTopSources = data.sourceConnections?.some((id) =>
-      id.includes("top")
+      id.includes("top"),
     );
     const hasBottomSources = data.sourceConnections?.some(
-      (id) => id.includes("bottom") || !id.includes("position")
+      (id) => id.includes("bottom") || !id.includes("position"),
     );
 
     return (

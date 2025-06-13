@@ -1,7 +1,8 @@
 import { Handle, Position } from "@xyflow/react";
 import { GitBranchIcon } from "lucide-react";
 
-import { Badge, Card } from "components/ui";
+import { Badge } from "@workspace/ui/components/badge";
+import { Card } from "@workspace/ui/components/card";
 
 import type { NodeData } from "components/visualizer/customNodes";
 

@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { ReactFlowProvider } from "@xyflow/react";
+import { useEffect, useState } from "react";
 
-import { useGardenStore } from "lib/hooks/store";
-import { GardenFlow } from "components/visualizer";
-import type { Gardens } from "store";
+import { cn } from "@workspace/ui/lib/utils";
+import { GardenFlow } from "@/components/visualizer";
+import { useGardenStore } from "@/lib/hooks/store";
+
 import type { GardenTypes } from "generated/garden.types";
-import cn from "lib/util/cn";
+import type { Gardens } from "store";
 
 import "@xyflow/react/dist/style.css";
 
@@ -157,7 +158,7 @@ export const Garden = ({
   if (!isReady) {
     return (
       <div className="flex h-full w-full items-center justify-center overflow-hidden">
-        <div className="text-lg font-medium">
+        <div className="font-medium text-lg">
           Loading garden visualization...
         </div>
       </div>

@@ -9,25 +9,29 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+} from "@workspace/ui/components/card";
+import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
+} from "@workspace/ui/components/sheet";
+import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "components/ui";
+} from "@workspace/ui/components/tabs";
 import {
   EditorActions,
   EditorControls,
   SchemaHelp,
   TextEditor,
-} from "components/visualizer";
-import { LOCAL_STORAGE_KEY } from "lib/constants";
-import { useSearchParams } from "lib/hooks";
-import { useGardenStore } from "lib/hooks/store";
+} from "@/components/visualizer";
+import { LOCAL_STORAGE_KEY } from "@/lib/constants";
+import { useSearchParams } from "@/lib/hooks";
+import { useGardenStore } from "@/lib/hooks/store";
 
 /**
  * Schema Editor.

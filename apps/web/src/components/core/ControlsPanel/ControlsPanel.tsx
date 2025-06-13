@@ -1,21 +1,21 @@
 "use client";
 
 import { useReactFlow, useStore } from "@xyflow/react";
-import { useState, useRef, useEffect, useMemo } from "react";
-import { shallow } from "zustand/shallow";
 import {
-  LayersIcon,
-  Layers2Icon,
-  PlusIcon,
-  MinusIcon,
-  RefreshCwIcon,
-  MaximizeIcon,
   GripVerticalIcon,
+  Layers2Icon,
+  LayersIcon,
   Maximize2Icon,
+  MaximizeIcon,
+  MinusIcon,
+  PlusIcon,
+  RefreshCwIcon,
 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { shallow } from "zustand/shallow";
 
-import { Button } from "components/ui";
-import cn from "lib/util/cn";
+import { Button } from "@workspace/ui/components/button";
+import { cn } from "@workspace/ui/lib/utils";
 
 import type { ReactFlowState } from "@xyflow/react";
 
@@ -51,7 +51,7 @@ const ControlsPanel = ({
 
   const { isInteractive, minZoomReached, maxZoomReached } = useStore(
     selector,
-    shallow
+    shallow,
   );
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
@@ -88,7 +88,6 @@ const ControlsPanel = ({
     };
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: don't use onToggleInteractivity as a dependency.
   const controls = useMemo(
     () => [
       {
@@ -144,14 +143,14 @@ const ControlsPanel = ({
       expandSubgardens,
       setExpandSubgardens,
       setInitialized,
-    ]
+    ],
   );
 
   return (
     <div
       ref={panelRef}
       className={cn(
-        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all"
+        "absolute top-0 left-0 z-50 m-4 flex flex-col overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all",
       )}
       style={{
         width: 200,
@@ -162,7 +161,7 @@ const ControlsPanel = ({
       <div
         className={cn(
           "group z-50 flex items-center justify-between border-b p-2",
-          moving ? "cursor-move" : "cursor-grab"
+          moving ? "cursor-move" : "cursor-grab",
         )}
         onMouseDown={(e) => {
           e.preventDefault();

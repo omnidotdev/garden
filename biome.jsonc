@@ -5,6 +5,10 @@
     "clientKind": "git",
     "useIgnoreFile": false
   },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["apps/**", "packages/**", "!packages/ui/src/**"]
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -27,8 +31,40 @@
             "functions": ["cn, cva"]
           }
         }
+      },
+      "style": {
+        "useImportType": {
+          "level": "error",
+          "options": { "style": "separatedType" }
+        }
       }
     }
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } }
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              { "type": false, "source": [":BUN:", ":NODE:"] },
+              ":BLANK_LINE:",
+              {
+                "type": false,
+                "source": [
+                  ":PACKAGE:",
+                  ":PACKAGE_WITH_PROTOCOL:",
+                  "!@workspace/ui/**"
+                ]
+              },
+              ":BLANK_LINE:",
+              { "type": false, "source": ["**"] },
+              ":BLANK_LINE:",
+              { "type": true }
+            ]
+          }
+        }
+      }
+    }
+  }
 }

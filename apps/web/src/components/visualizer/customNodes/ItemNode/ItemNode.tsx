@@ -1,7 +1,8 @@
 import { Handle, Position } from "@xyflow/react";
 import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
-import { Button, Card } from "components/ui";
+import { Button } from "@workspace/ui/components/button";
+import { Card } from "@workspace/ui/components/card";
 
 import type { NodeData } from "components/visualizer/customNodes";
 
@@ -28,7 +29,7 @@ const ItemNode = ({ data }: Props) => {
 
   return (
     <Card
-      className="w-[200px] border-2 shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+      className="w-[200px] cursor-pointer border-2 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
       style={{
         borderColor: secondaryColor,
       }}
@@ -50,7 +51,7 @@ const ItemNode = ({ data }: Props) => {
         />
       )}
 
-      <div className="space-y-3 relative">
+      <div className="relative space-y-3">
         <div className="aspect-video w-full overflow-hidden rounded-t-md">
           <img
             src={data.image}

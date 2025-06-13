@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { GardenTabs } from "components/visualizer";
 import { InfoIcon } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
-import { GardenTabs } from "components/visualizer";
-import { LOCAL_STORAGE_KEY } from "lib/constants";
-import { useGardenStore } from "lib/hooks/store";
+import { Button } from "@workspace/ui/components/button";
 
 import type { GardenTypes } from "generated/garden.types";
 import type { Gardens } from "store";
-import { Button } from "components/ui";
 
 const INSTRUCTIONS_STORAGE_KEY = "garden_instructions_visible";
 
@@ -51,7 +49,7 @@ const Visualizer = ({ gardens }: Props) => {
 
   const allGardens = useMemo(
     () => gardens as Record<string, GardenTypes>,
-    [gardens]
+    [gardens],
   );
 
   return (
@@ -59,20 +57,20 @@ const Visualizer = ({ gardens }: Props) => {
       {/* Header with garden selector */}
       <div className="border-b bg-card p-4 shadow-sm">
         <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 w-full justify-between">
-            <div className="flex gap-1 items-center">
-              <h1 className="text-2xl font-bold">Garden Visualizer</h1>
+          <div className="flex w-full items-center justify-between gap-2">
+            <div className="flex items-center gap-1">
+              <h1 className="font-bold text-2xl">Garden Visualizer</h1>
 
               <Button
                 variant="ghost"
-                className="ml-2 rounded-full px-2 gap-2"
+                className="ml-2 gap-2 rounded-full px-2"
                 onClick={() => {
                   const newValue = !showInstructions;
                   setShowInstructions(newValue);
                   if (typeof window !== "undefined") {
                     localStorage.setItem(
                       INSTRUCTIONS_STORAGE_KEY,
-                      newValue.toString()
+                      newValue.toString(),
                     );
                   }
                 }}
@@ -84,7 +82,7 @@ const Visualizer = ({ gardens }: Props) => {
 
             <Link
               href="/demo"
-              className="ml-3 text-sm text-primary hover:text-primary/80 px-3 py-1 rounded border border-primary/20 hover:border-primary/40"
+              className="ml-3 rounded border border-primary/20 px-3 py-1 text-primary text-sm hover:border-primary/40 hover:text-primary/80"
             >
               View Demo →
             </Link>
@@ -98,10 +96,10 @@ const Visualizer = ({ gardens }: Props) => {
           <div className="container mx-auto">
             <div className="flex items-start justify-between">
               <div>
-                <h2 className="text-lg font-semibold text-primary">
+                <h2 className="font-semibold text-lg text-primary">
                   Garden Visualization Instructions
                 </h2>
-                <div className="mt-2 space-y-2 text-sm text-foreground">
+                <div className="mt-2 space-y-2 text-foreground text-sm">
                   <p>
                     <strong>Navigation:</strong> Click on any garden, subgarden,
                     or item to navigate or view details.
@@ -135,7 +133,7 @@ const Visualizer = ({ gardens }: Props) => {
 
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 overflow-hidden">
-          <div className="container h-full mx-auto p-4">
+          <div className="container mx-auto h-full p-4">
             <div className="h-full">
               <GardenTabs gardens={allGardens} />
             </div>

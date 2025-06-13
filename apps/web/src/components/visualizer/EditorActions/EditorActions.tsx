@@ -1,8 +1,8 @@
-import { DownloadIcon, RotateCcwIcon } from "lucide-react";
-import { Button } from "components/ui";
-
 import { LOCAL_STORAGE_KEY } from "lib/constants";
 import { useGardenStore } from "lib/hooks/store";
+import { DownloadIcon, RotateCcwIcon } from "lucide-react";
+
+import { Button } from "@workspace/ui/components/button";
 
 import type { GardenTypes } from "generated/garden.types";
 
@@ -28,7 +28,7 @@ const EditorActions = ({ schemaText, setSchemaText, setError }: Props) => {
       // by checking required fields
       if (!parsedJson.name || !Array.isArray(parsedJson.subgardens)) {
         throw new Error(
-          "Invalid schema: missing required fields (name or subgardens)"
+          "Invalid schema: missing required fields (name or subgardens)",
         );
       }
 

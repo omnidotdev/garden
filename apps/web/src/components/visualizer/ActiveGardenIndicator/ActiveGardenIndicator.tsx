@@ -1,7 +1,8 @@
 "use client";
 
 import { FlowerIcon } from "lucide-react";
-import { useGardenStore } from "lib/hooks/store";
+
+import { useGardenStore } from "@/lib/hooks/store";
 
 import type { Theme } from "generated/garden.types";
 
@@ -15,7 +16,7 @@ const ActiveGardenIndicator = () => {
 
   return (
     <div
-      className="rounded-md px-3 py-1.5 text-sm font-medium shadow-sm backdrop-blur-sm border flex items-center gap-2"
+      className="flex items-center gap-2 rounded-md border px-3 py-1.5 font-medium text-sm shadow-sm backdrop-blur-sm"
       style={{
         backgroundColor: `${primaryColor}10`,
         color: primaryColor,

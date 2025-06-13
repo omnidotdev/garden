@@ -2,13 +2,18 @@
   "name": "@omnidotdev/garden-root",
   "private": true,
   "version": "0.0.0",
-  "workspaces": ["apps/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "changeset": "changeset",
     "bundle": "bun --cwd app src/scripts/bundle.ts",
     "release": "bun bundle && changeset publish"
   },
-  "trustedDependencies": ["@biomejs/biome"],
+  "trustedDependencies": [
+    "@biomejs/biome"
+  ],
   "devDependencies": {
     "@biomejs/biome": "2.0.0-beta.6",
     "@changesets/changelog-github": "^0.5.1",

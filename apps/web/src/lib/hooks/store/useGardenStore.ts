@@ -2,7 +2,8 @@
 
 import { shallow } from "zustand/shallow";
 import { useStoreWithEqualityFn } from "zustand/traditional";
-import { getGardenStore } from "store";
+
+import { getGardenStore } from "@/store";
 
 /**
  * Hook for accessing and updating the active garden.

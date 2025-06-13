@@ -1,6 +1,6 @@
 import { ReactFlowProvider } from "@xyflow/react";
 
-import { GardenFlowInner } from "components/visualizer";
+import { GardenFlowInner } from "@/components/visualizer";
 
 import type { Gardens } from "store";
 

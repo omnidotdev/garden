@@ -1,12 +1,12 @@
 import { Assistant } from "next/font/google";
 
-import { Footer, Header } from "components/layout";
-import { NuqsProvider, ThemeProvider } from "providers";
+import { Footer, Header } from "@/components/layout";
+import { NuqsProvider, ThemeProvider } from "@/providers";
 
 import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
 
-import "./globals.css";
+import "@workspace/ui/globals.css";
 
 const assistant = Assistant({ subsets: ["latin"] });
 

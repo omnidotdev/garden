@@ -1,9 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
-import { ExternalLinkIcon, GlobeIcon } from "lucide-react";
+import { GlobeIcon } from "lucide-react";
 
-import { Badge, Button, Card } from "components/ui";
+import { Badge } from "@workspace/ui/components/badge";
+import { Card } from "@workspace/ui/components/card";
 
-import type { Theme } from "generated/garden.types";
 import type { NodeData } from "components/visualizer/customNodes";
 
 export interface Props {

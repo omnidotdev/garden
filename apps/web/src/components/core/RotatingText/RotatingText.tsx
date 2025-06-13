@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import cn from "lib/util/cn";
+import { useEffect, useRef, useState } from "react";
+
+import { cn } from "@workspace/ui/lib/utils";
 
 interface RotatingTextProps {
   prefix?: string;
@@ -55,7 +56,7 @@ export const RotatingText = ({
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <h1 className="py-2 font-bold text-4xl tracking-tighter md:text-5xl flex flex-wrap items-center justify-center flex-col md:flex-row">
+      <h1 className="flex flex-col flex-wrap items-center justify-center py-2 font-bold text-4xl tracking-tighter md:flex-row md:text-5xl">
         <span
           className={`transition-all duration-300 ease-in-out ${
             isChanging && `md:translate-x-[8px]`
@@ -66,13 +67,13 @@ export const RotatingText = ({
 
         <div
           ref={containerRef}
-          className="inline-block mx-3 text-center relative"
+          className="relative mx-3 inline-block text-center"
         >
           <span
             ref={wordRef}
             className={cn(
-              `inline-block bg-gradient-to-r ${colors[currentColor]} bg-clip-text text-transparent transition-all duration-300 py-1`,
-              isChanging ? "opacity-0 scale-95" : "opacity-100 scale-100"
+              `inline-block bg-gradient-to-r ${colors[currentColor]} bg-clip-text py-1 text-transparent transition-all duration-300`,
+              isChanging ? "scale-95 opacity-0" : "scale-100 opacity-100",
             )}
           >
             {words[currentIndex]}

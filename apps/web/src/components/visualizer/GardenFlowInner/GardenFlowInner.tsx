@@ -2,7 +2,6 @@
 
 import {
   Background,
-  ConnectionLineType,
   MarkerType,
   MiniMap,
   Panel,
@@ -12,16 +11,20 @@ import {
   useReactFlow,
   useUpdateNodeInternals,
 } from "@xyflow/react";
-import { useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { ControlsPanel } from "components/core";
-import { ActiveGardenIndicator, ItemDetailDialog } from "components/visualizer";
-import { NodeTypes } from "components/NodeTypes";
-import { LOCAL_STORAGE_KEY } from "lib/constants";
-import { useGardenStore } from "lib/hooks/store";
-import { autoLayout, gardenToFlow } from "lib/util/flow";
+import { ControlsPanel } from "@/components/core";
+import { NodeTypes } from "@/components/NodeTypes";
+import {
+  ActiveGardenIndicator,
+  ItemDetailDialog,
+} from "@/components/visualizer";
+import { LOCAL_STORAGE_KEY } from "@/lib/constants";
+import { useGardenStore } from "@/lib/hooks/store";
+import { autoLayout, gardenToFlow } from "@/lib/util/flow";
 
 import type {
+  ConnectionLineType,
   DefaultEdgeOptions,
   Edge,
   Node,
@@ -69,7 +72,7 @@ const GardenFlowInner = ({
   const [layouting, setLayouting] = useState(false);
   const [containerWidth, setContainerWidth] = useState(1600);
   const [expandSubgardens, setExpandSubgardens] = useState(
-    initialExpandSubgardens
+    initialExpandSubgardens,
   );
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -131,7 +134,7 @@ const GardenFlowInner = ({
       const { nodes: initialNodes, edges: initialEdges } = gardenToFlow(
         activeGarden,
         containerWidth,
-        { expandSubgardens, edgeType, animateEdges }
+        { expandSubgardens, edgeType, animateEdges },
       );
 
       if (!initialized && initialNodes.length > 0) {
@@ -160,7 +163,7 @@ const GardenFlowInner = ({
                   fitView({ padding: fitViewPadding });
                   setInitialized(true);
                 }, 100);
-              }
+              },
             )
             .catch((error: unknown) => {
               console.error("Layout error:", error);
@@ -225,7 +228,7 @@ const GardenFlowInner = ({
             fitView({ padding: fitViewPadding });
             setLayouting(false);
           }, 100);
-        }
+        },
       )
       .catch((error: unknown) => {
         console.error("Layout refresh error:", error);
@@ -248,7 +251,7 @@ const GardenFlowInner = ({
 
     // For navigable nodes, handle garden navigation
     // determine the garden name to navigate to
-    let gardenName = clickedNode.data?.label as string;
+    const gardenName = clickedNode.data?.label as string;
 
     // for all navigable node types, navigate to the garden by name
     if (
@@ -281,7 +284,7 @@ const GardenFlowInner = ({
         setNavigationHistory(garden);
       } else {
         console.warn(
-          `Garden "${gardenName}" not found in available gardens. This subgarden is referenced but not yet implemented.`
+          `Garden "${gardenName}" not found in available gardens. This subgarden is referenced but not yet implemented.`,
         );
         // Optionally show a notification to the user that this garden isn't available
       }
@@ -316,7 +319,7 @@ const GardenFlowInner = ({
       type: edgeType,
       animated: animateEdges,
     }),
-    [edgeType, animateEdges]
+    [edgeType, animateEdges],
   );
 
   // Create a safe version of edges with valid props

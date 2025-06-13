@@ -1,6 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.0-beta.6/schema.json",
   "extends": "//",
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["src/**", "!src/generated/**"]
+  },
   "linter": {
     "rules": {
       "a11y": {
