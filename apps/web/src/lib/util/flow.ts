@@ -520,14 +520,14 @@ export const gardenToFlow = (
             logo: subgarden.logo,
             version: subgarden.version,
             icon: "SproutIcon",
-            icon_color: "var(--chart-8)",
+            icon_color: "var(--chart-5)",
             theme: subgardenTheme,
           },
           position: { x: centerX + xOffset, y: 200 },
           ...getNodePositions(NODE_TYPES.SUBGARDEN),
           style: {
-            background: "var(--chart-8)",
-            color: "var(--chart-8-foreground)",
+            background: "var(--chart-5)",
+            color: "var(--chart-5-foreground)",
             borderRadius: "var(--radius)",
           },
         });
@@ -542,7 +542,7 @@ export const gardenToFlow = (
           type: options.edgeType || "default",
           animated: options.animateEdges !== false,
           style: {
-            stroke: "var(--chart-8)",
+            stroke: "var(--chart-5)",
             strokeWidth: 2,
             strokeDasharray: "5,5",
           },

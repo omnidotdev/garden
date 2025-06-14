@@ -12,7 +12,8 @@
     "build": "tsc -b && vite build",
     "check": "biome check --diagnostic-level=error src",
     "format": "biome format --write src",
-    "lint": "biome lint --diagnostic-level=error src"
+    "lint": "biome lint --diagnostic-level=error src",
+    "generate:types": "bunx quicktype@23.2.4 -s schema ../../garden.schema.json -o src/generated/garden.types.ts"
   },
   "exports": {
     ".": {
@@ -22,13 +23,14 @@
         "default": "./build/index.js"
       }
     },
-    "./styles.css": "./src/styles.css"
+    "./styles.css": "./build/garden.css"
   },
   "dependencies": {
+    "@workspace/ui": "workspace:*",
+    "@xyflow/react": "^12.7.0",
+    "elkjs": "^0.10.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "@tailwindcss/vite": "^4.1.10",
-    "@workspace/ui": "workspace:*"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.1",

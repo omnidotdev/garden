@@ -1,6 +1,7 @@
 import { createStore } from "zustand";
-import { gardens } from "lib/schema/garden";
-import { updateNavigationHistory } from "lib/util";
+
+import { gardens } from "@/lib/schema/garden";
+import { updateNavigationHistory } from "@/lib/util";
 
 import type { GardenTypes } from "generated/garden.types";
 
@@ -56,7 +57,7 @@ const createGardenStore = () =>
       set((state) => ({
         navigationHistory: updateNavigationHistory(
           state.navigationHistory,
-          updater
+          updater,
         ),
       })),
   }));

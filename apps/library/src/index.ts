@@ -1,1 +1,1 @@
-export { default as Garden } from "./components/Garden";
+export { Garden, type GardenProps } from "./components/Garden";

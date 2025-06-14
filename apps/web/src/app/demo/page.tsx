@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 
-import { Garden } from "@/components";
+// TODO: use bundled component. Simply using this for quick testing iteration
+// import { Garden } from "@omnidotdev/garden";
 import { gardens as defaultGardens } from "@/lib/schema/garden";
+import { Garden } from "../../../../library/src/components/Garden";
+
+import "@omnidotdev/garden/styles.css";
 
 /**
  * Demo Page
@@ -13,7 +17,7 @@ import { gardens as defaultGardens } from "@/lib/schema/garden";
  * visit the Visualizer page.
  */
 const DemoPage = () => (
-  <div className="flex h-screen w-full flex-col">
+  <div className="flex h-full w-full flex-col">
     <div className="border-b bg-card p-3 shadow-sm">
       <div className="mx-auto flex items-center justify-between">
         <div>
@@ -34,13 +38,8 @@ const DemoPage = () => (
       </div>
     </div>
 
-    <div className="flex-1">
-      <Garden
-        showMinimap={false}
-        showControls={false}
-        schema={defaultGardens}
-        initialGardenName="Omni Products"
-      />
+    <div className="m-12 flex-1">
+      <Garden schema={defaultGardens} />
     </div>
   </div>
 );

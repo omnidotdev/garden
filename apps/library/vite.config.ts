@@ -1,5 +1,3 @@
-import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
 import { globbySync } from "globby";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
@@ -16,7 +14,6 @@ export default defineConfig({
       formats: ["es"],
     },
     rollupOptions: {
-      // TODO: configure properly. Maybe use peer dependencies?
       external: [
         "react",
         "react-dom",
@@ -33,13 +30,10 @@ export default defineConfig({
         preserveModules: true,
         preserveModulesRoot: "src",
         exports: "named",
-        banner: `'use client';`,
       },
     },
   },
   plugins: [
-    react(),
-    tailwindcss(),
     dts({
       entryRoot: "src",
       staticImport: true,

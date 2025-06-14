@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import { Garden } from "@omnidotdev/garden";
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { RotatingText } from "@/components/core";
@@ -106,8 +105,6 @@ const HomePage = () => (
                 <ArrowRightIcon className="h-4 w-4" />
               </Button>
             </Link>
-
-            <Garden />
           </div>
         </div>
       </div>
