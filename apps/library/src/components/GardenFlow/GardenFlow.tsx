@@ -157,8 +157,8 @@ const GardenFlow = ({
   );
 
   const onLayout = useCallback(
-    async (nodes: Node[], edges: Edge[]) => {
-      await autoLayoutElements(nodes, edges, expandSubgardens).then(
+    async (nodes: Node[], edges: Edge[], isSubgardensExpanded: boolean) => {
+      await autoLayoutElements(nodes, edges, isSubgardensExpanded).then(
         ({ nodes: layoutedNodes, edges: layoutedEdges }) => {
           setNodes(layoutedNodes as Node[]);
           setEdges(layoutedEdges as Edge[]);
@@ -176,11 +176,12 @@ const GardenFlow = ({
     } else {
       if (node?.type === "garden") return;
 
+      setIsSubgardensExpanded(expandSubgardens);
+
       const garden = Object.values(schema).find(
         (g) => g.name === node.data?.label,
       );
 
-      // TODO: discuss if we need to handle the case where `garden` is undefined. Not positive on case where that would happen when full schema is provided
       if (garden) {
         const { nodes: updatedNodes, edges: updatedEdges } = gardenToFlow({
           schema,
@@ -192,7 +193,7 @@ const GardenFlow = ({
           },
         });
 
-        onLayout(updatedNodes, updatedEdges);
+        onLayout(updatedNodes, updatedEdges, isSubgardensExpanded);
       }
     }
   }, []);
@@ -216,12 +217,11 @@ const GardenFlow = ({
       },
     });
 
-    onLayout(updatedNodes, updatedEdges);
+    onLayout(updatedNodes, updatedEdges, expand);
   };
 
-  // Calculate the initial layout on mount.
   useLayoutEffect(() => {
-    onLayout(initialNodes, initialEdges);
+    onLayout(initialNodes, initialEdges, expandSubgardens);
   }, []);
 
   return (

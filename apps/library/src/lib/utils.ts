@@ -160,6 +160,9 @@ const processSubgarensRecursively = ({
         x: xPos,
         y: yPos,
       },
+      style: {
+        background: gardenTheme?.primary_color ?? undefined,
+      },
     });
 
     // Connect parent garden to this subgarden node
