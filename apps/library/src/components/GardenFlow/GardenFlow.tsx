@@ -257,11 +257,6 @@ const GardenFlow = ({
             pannable
             {...miniMapOptions}
             className={cn("!bg-background", miniMapOptions?.className ?? "")}
-            nodeColor={
-              miniMapOptions?.nodeColor
-                ? miniMapOptions?.nodeColor
-                : "var(--foreground)"
-            }
           />
         )}
 
@@ -295,10 +290,7 @@ const GardenFlow = ({
           <Controls
             showInteractive={false}
             {...controlOptions}
-            className={cn(
-              "*:!bg-background [&_svg]:!fill-foreground *:!border-muted border",
-              controlOptions?.className ?? "",
-            )}
+            className={cn("border", controlOptions?.className ?? "")}
           />
         )}
       </ReactFlow>

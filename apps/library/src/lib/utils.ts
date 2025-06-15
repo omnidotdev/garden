@@ -291,7 +291,7 @@ export const gardenToFlow = ({
     position: { x: centerX, y: 0 },
     ...getNodePositions(NODE_TYPES.GARDEN),
     style: {
-      background: "var(--primary)",
+      background: currentGardenTheme?.primary_color ?? undefined,
       color: "var(--primary-foreground)",
       borderRadius: "var(--radius)",
     },
@@ -390,7 +390,7 @@ export const gardenToFlow = ({
         position: { x: centerX + xOffset, y: -200 },
         ...getNodePositions(NODE_TYPES.SUPERGARDEN),
         style: {
-          background: "var(--chart-9)",
+          background: gardenTheme?.primary_color ?? undefined,
           color: "var(--chart-9-foreground)",
           borderRadius: "var(--radius)",
         },
@@ -459,7 +459,7 @@ export const gardenToFlow = ({
           position: { x: centerX + xOffset, y: 200 },
           ...getNodePositions(NODE_TYPES.SUBGARDEN),
           style: {
-            background: "var(--chart-5)",
+            background: gardenTheme?.primary_color ?? undefined,
             color: "var(--chart-5-foreground)",
             borderRadius: "var(--radius)",
           },

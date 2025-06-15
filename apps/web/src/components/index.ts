@@ -9,7 +9,6 @@ export {
   GardenNode,
   ItemNode,
   type NodeData,
-  NodeTypes,
   nodeTypes,
   SubgardenNode,
   SupergardenNode,
