@@ -41,13 +41,11 @@ import type { GardenTypes, Theme } from "../../generated/garden.types";
 const elk = new ELK();
 
 const calculateNodeHeight = (node: Node): number => {
-  const { height = 0 } = node.style || {};
-
-  if (height) return Number(height);
+  if (node.type === "supergarden") return 175;
 
   if (node.type === "garden") return 100;
 
-  return 60;
+  return 200;
 };
 
 const autoLayoutElements = async (
