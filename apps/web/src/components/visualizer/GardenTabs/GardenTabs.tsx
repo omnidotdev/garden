@@ -2,21 +2,24 @@
 
 import { BarChartIcon, CodeIcon } from "lucide-react";
 
+import { Garden } from "@omnidotdev/garden";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@workspace/ui/components/tabs";
-import { Garden } from "@/components";
 import { SchemaEditor } from "@/components/visualizer";
 import { useSearchParams } from "@/lib/hooks";
 
-import type { Gardens } from "store";
+import type { GardenTypes } from "@omnidotdev/garden";
+
+// TODO: extract to common layer in globals.css
+import "@omnidotdev/garden/styles.css";
 
 interface Props {
   /** All available gardens */
-  gardens: Gardens;
+  gardens: Record<string, GardenTypes>;
   /** Optional flag to expand subgardens in the visualization */
   expandSubgardens?: boolean;
 }
@@ -51,11 +54,7 @@ const GardenTabs = ({ gardens, expandSubgardens = false }: Props) => {
 
       <TabsContent value="visualize" className="mt-6 flex-1">
         <div className="h-full w-full">
-          <Garden
-            schema={gardens}
-            expandSubgardens={expandSubgardens}
-            className="h-full w-full"
-          />
+          <Garden schema={gardens} expandSubgardens={expandSubgardens} />
         </div>
       </TabsContent>
 

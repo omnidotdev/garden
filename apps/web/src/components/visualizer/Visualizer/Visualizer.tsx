@@ -3,19 +3,18 @@
 import { GardenTabs } from "components/visualizer";
 import { InfoIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useIsClient } from "usehooks-ts";
 
 import { Button } from "@workspace/ui/components/button";
 
-import type { GardenTypes } from "generated/garden.types";
-import type { Gardens } from "store";
+import type { GardenTypes } from "@omnidotdev/garden";
 
 const INSTRUCTIONS_STORAGE_KEY = "garden_instructions_visible";
 
 interface Props {
   /** All available gardens */
-  gardens: Gardens;
+  gardens: Record<string, GardenTypes>;
 }
 
 // TODO: Get rid of client-side code and move to server-side page. "visualizer/page.tsx"
@@ -35,11 +34,6 @@ const Visualizer = ({ gardens }: Props) => {
     }
     return true;
   });
-
-  // Make garden data available globally for subgarden expansion
-  useEffect(() => {
-    window.gardenData = gardens;
-  }, [gardens]);
 
   const allGardens = useMemo(
     () => gardens as Record<string, GardenTypes>,

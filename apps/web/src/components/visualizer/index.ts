@@ -1,10 +1,6 @@
-export { default as ActiveGardenIndicator } from "./ActiveGardenIndicator/ActiveGardenIndicator";
-export { default as ControlsPanel } from "./ControlsPanel/ControlsPanel";
 export { default as EditorActions } from "./EditorActions/EditorActions";
 export { default as EditorControls } from "./EditorControls/EditorControls";
-export { default as GardenFlow } from "./GardenFlow/GardenFlow";
 export { default as GardenTabs } from "./GardenTabs/GardenTabs";
-export { default as ItemDetailDialog } from "./ItemDetailDialog/ItemDetailDialog";
 export { default as SchemaEditor } from "./SchemaEditor/SchemaEditor";
 export { default as SchemaHelp } from "./SchemaHelp/SchemaHelp";
 export { default as TextEditor } from "./TextEditor/TextEditor";

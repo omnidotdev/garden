@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 
-// TODO: use bundled component. Simply using this for quick testing iteration
-// import { Garden } from "@omnidotdev/garden";
+import { Garden } from "@omnidotdev/garden";
 import { gardens as defaultGardens } from "@/lib/schema/garden";
-import { Garden } from "../../../../library/src/components/Garden";
 
+// TODO: extract to common layer in globals.css
 import "@omnidotdev/garden/styles.css";
 
 /**

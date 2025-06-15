@@ -9,8 +9,7 @@
     "start": "next start",
     "check": "biome check --diagnostic-level=error src",
     "format": "biome format --write src",
-    "lint": "biome lint --diagnostic-level=error src",
-    "generate": "bunx quicktype@23.2.4 -s schema ../garden.schema.json -o src/generated/garden.types.ts"
+    "lint": "biome lint --diagnostic-level=error src"
   },
   "devDependencies": {
     "@types/bun": "^1.2.15",
@@ -24,8 +23,6 @@
     "@monaco-editor/react": "^4.7.0",
     "@workspace/ui": "workspace:*",
     "@omnidotdev/garden": "workspace:*",
-    "@xyflow/react": "^12.6.4",
-    "elkjs": "^0.10.0",
     "lucide-react": "^0.514.0",
     "next": "15.3.3",
     "next-themes": "^0.4.6",

@@ -4,7 +4,7 @@ import { DownloadIcon, RotateCcwIcon } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
 
-import type { GardenTypes } from "generated/garden.types";
+import type { GardenTypes } from "@omnidotdev/garden";
 
 interface Props {
   /** The current JSON schema text being edited. */

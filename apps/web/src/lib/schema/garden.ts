@@ -1,4 +1,4 @@
-import type { GardenTypes } from "generated/garden.types";
+import type { GardenTypes } from "@omnidotdev/garden";
 
 const omniEcosystemGarden: GardenTypes = {
   name: "Omni Ecosystem",

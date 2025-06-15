@@ -2,7 +2,7 @@ import { MarkerType, Position } from "@xyflow/react";
 import { match } from "ts-pattern";
 
 import type { Edge, Node } from "@xyflow/react";
-import type { GardenTypes } from "@/generated/garden.types";
+import type { GardenTypes } from "../generated/garden.types";
 
 interface FlowOptions {
   expandSubgardens?: boolean;

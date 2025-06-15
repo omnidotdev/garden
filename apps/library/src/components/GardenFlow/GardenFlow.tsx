@@ -36,8 +36,8 @@ import type {
   Node,
 } from "@xyflow/react";
 import type { MouseEvent, ReactNode } from "react";
-import type { NodeData } from "../../../../web/src/components/NodeTypes";
 import type { GardenTypes, Theme } from "../../generated/garden.types";
+import type { NodeData } from "../CustomNodes/CustomNodes";
 
 const elk = new ELK();
 
