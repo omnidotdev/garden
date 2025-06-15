@@ -128,8 +128,7 @@
 @layer base {
     /* xyflow/react style overrides */
     .react-flow {
-      --xy-controls-button-background-color-default: var(--background);
-      --xy-controls-button-background-color-hover-default: var(--accent);
+      --xy-controls-button-background-color-hover: var(--background);
       --xy-controls-button-color-default: var(--foreground);
       --xy-controls-button-color-hover-default: var(--foreground);
       --xy-controls-button-border-color-default: var(--border);
@@ -142,8 +141,7 @@
     }
 
     .dark .react-flow {
-      --xy-controls-button-background-color-default: var(--background);
-      --xy-controls-button-background-color-hover-default: var(--accent);
+      --xy-controls-button-background-color-hover: var(--background);
       --xy-controls-button-color-default: var(--foreground);
       --xy-controls-button-color-hover-default: var(--foreground);
       --xy-controls-button-border-color-default: var(--border);

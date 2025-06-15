@@ -1,5 +1,6 @@
 import {
   Background,
+  ControlButton,
   Controls,
   MarkerType,
   MiniMap,
@@ -10,7 +11,7 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
-import { FlowerIcon } from "lucide-react";
+import { FlowerIcon, Layers2Icon, LayersIcon } from "lucide-react";
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 import { Button } from "@workspace/ui/components/button";
@@ -141,6 +142,8 @@ const GardenFlow = ({
   miniMapOptions,
   controlOptions,
 }: GardenFlowProps) => {
+  const [isSubgardensExpanded, setIsSubgardensExpanded] =
+    useState(expandSubgardens);
   const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<NodeData | null>(null);
 
@@ -183,7 +186,7 @@ const GardenFlow = ({
           schema,
           garden,
           options: {
-            expandSubgardens,
+            expandSubgardens: isSubgardensExpanded,
             edgeType,
             animateEdges,
           },
@@ -193,6 +196,28 @@ const GardenFlow = ({
       }
     }
   }, []);
+
+  const handleToggleExpandedSubgardens = (expand: boolean) => {
+    setIsSubgardensExpanded(expand);
+
+    const garden = Object.values(schema).find(
+      (garden) => garden.name === currentGarden?.data?.label,
+    );
+
+    if (!garden) return;
+
+    const { nodes: updatedNodes, edges: updatedEdges } = gardenToFlow({
+      schema,
+      garden,
+      options: {
+        expandSubgardens: expand,
+        edgeType,
+        animateEdges,
+      },
+    });
+
+    onLayout(updatedNodes, updatedEdges);
+  };
 
   // Calculate the initial layout on mount.
   useLayoutEffect(() => {
@@ -219,7 +244,7 @@ const GardenFlow = ({
           animated: animateEdges,
           style: {
             strokeWidth: 2,
-            stroke: "var(--muted-foreground)",
+            stroke: "var(--ring)",
           },
           markerEnd: edge.markerEnd || { type: MarkerType.ArrowClosed },
         }))}
@@ -289,7 +314,27 @@ const GardenFlow = ({
             showInteractive={false}
             {...controlOptions}
             className={cn("border", controlOptions?.className ?? "")}
-          />
+          >
+            <ControlButton
+              title={
+                isSubgardensExpanded
+                  ? "Collapse Subgardens"
+                  : "Expand Subgardens"
+              }
+              aria-label={
+                isSubgardensExpanded
+                  ? "Collapse Subgardens"
+                  : "Expand Subgardens"
+              }
+              onClick={() =>
+                isSubgardensExpanded
+                  ? handleToggleExpandedSubgardens(false)
+                  : handleToggleExpandedSubgardens(true)
+              }
+            >
+              {isSubgardensExpanded ? <LayersIcon /> : <Layers2Icon />}
+            </ControlButton>
+          </Controls>
         )}
       </ReactFlow>
 
