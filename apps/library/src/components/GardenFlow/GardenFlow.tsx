@@ -291,7 +291,6 @@ const GardenFlow = ({
           </Panel>
         )}
 
-        {/* TODO: custom control panel */}
         {showControls && (
           <Controls
             showInteractive={false}

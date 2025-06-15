@@ -11,6 +11,8 @@ import "@xyflow/react/dist/style.css";
 export interface GardenProps {
   /** Garden schema to visualize */
   schema: Record<string, GardenTypes>;
+  /** Optional initial garden name to display. Defaults to first available garden. */
+  initialGardenName?: string;
   /** Optional class name for the container */
   className?: string;
   /** Optional flag to expand all subgardens for the current garden. Default is false. */
@@ -33,6 +35,7 @@ export interface GardenProps {
 
 const Garden = ({
   schema,
+  initialGardenName,
   expandSubgardens = false,
   showControls = true,
   showMinimap = true,
@@ -41,10 +44,13 @@ const Garden = ({
   animateEdges = true,
   ...rest
 }: GardenProps) => {
+  const initialGarden =
+    Object.values(schema).find((garden) => garden.name === initialGardenName) ??
+    Object.values(schema)[0];
+
   const { nodes: initialNodes, edges: initialEdges } = gardenToFlow({
     schema,
-    // TODO: make dynamic
-    garden: Object.values(schema)[0],
+    garden: initialGarden,
     options: {
       expandSubgardens,
       edgeType,
