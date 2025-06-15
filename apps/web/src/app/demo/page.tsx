@@ -38,7 +38,12 @@ const DemoPage = () => (
     </div>
 
     <div className="m-12 flex-1">
-      <Garden schema={defaultGardens} />
+      <Garden
+        schema={defaultGardens}
+        initialGardenName="Omni Products"
+        showMinimap={false}
+        showControls={false}
+      />
     </div>
   </div>
 );
