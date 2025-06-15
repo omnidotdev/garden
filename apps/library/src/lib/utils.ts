@@ -86,7 +86,176 @@ const trackNodeConnections = (nodes: Node[], edges: Edge[]): Node[] => {
   return nodesWithConnections;
 };
 
-interface Options {
+interface RecursiveSubgardenOptions {
+  schema: Record<string, GardenTypes>;
+  parent: GardenTypes;
+  parentId: string;
+  parentX: number;
+  parentY: number;
+  width: number;
+  nodes: Node[];
+  edges: Edge[];
+  options?: FlowOptions;
+  level?: number;
+}
+
+const processSubgarensRecursively = ({
+  schema,
+  parent,
+  parentId,
+  parentX,
+  parentY,
+  width,
+  nodes,
+  edges,
+  options = {},
+  level = 1,
+}: RecursiveSubgardenOptions) => {
+  if (!parent.subgardens?.length) return;
+
+  // Calculate spacing based on the number of items at this level
+  const horizontalSpacing = Math.min(
+    600,
+    width / Math.max(1, parent.subgardens.length),
+  );
+  const verticalOffset = 200; // Fixed vertical distance between levels
+  const baseYPos = parentY + verticalOffset; // Start at a fixed offset from parent
+
+  for (const subgarden of parent.subgardens) {
+    const subgardenId = generateId(
+      NODE_TYPES.SUBGARDEN,
+      `level-${level}-${subgarden.name}`,
+    );
+
+    const currentGarden = Object.values(schema).find(
+      (g) => g.name === subgarden.name,
+    );
+
+    // If the subgarden has a defined theme, use it. Otherwise, fallback to current parent theme
+    const gardenTheme = currentGarden?.theme ?? parent.theme;
+
+    // Calculate positions to create a tree-like structure
+    const numSubgardens = parent.subgardens.length;
+    const xSpread = numSubgardens ? horizontalSpacing * numSubgardens : 0;
+    const xPos =
+      parentX -
+      xSpread / 2 +
+      horizontalSpacing / 2 +
+      parent.subgardens.indexOf(subgarden) * horizontalSpacing;
+    const yPos = baseYPos;
+
+    nodes.push({
+      id: subgardenId,
+      type: NODE_TYPES.SUBGARDEN,
+      data: {
+        label: subgarden.name,
+        description: subgarden.description,
+        version: subgarden.version,
+        theme: gardenTheme,
+        level,
+        sourceConnections: [],
+        targetConnections: [],
+      },
+      position: {
+        x: xPos,
+        y: yPos,
+      },
+    });
+
+    // Connect parent garden to this subgarden node
+    edges.push({
+      id: `${parentId}-to-${subgardenId}`,
+      source: parentId,
+      target: subgardenId,
+      sourceHandle: "bottom",
+      targetHandle: "top",
+      type: options.edgeType || "default",
+      animated: options.animateEdges !== false,
+      markerEnd: { type: MarkerType.ArrowClosed },
+    });
+
+    if (currentGarden?.items?.length) {
+      for (const item of currentGarden.items) {
+        const itemId = generateId(
+          NODE_TYPES.ITEM,
+          `${subgardenId}-direct-${item.name}`,
+        );
+
+        // Distribute items with reasonable spacing
+        const itemSpacing = Math.max(60, 80 - level * 5);
+        const itemYPosition =
+          yPos + 100 + currentGarden.items.indexOf(item) * itemSpacing;
+
+        nodes.push({
+          id: itemId,
+          type: NODE_TYPES.ITEM,
+          data: {
+            label: item.name,
+            homepage_url: item.homepage_url,
+            logo: item.logo,
+            image: item.logo,
+            repo_url: item.repo_url,
+            description: item.description,
+            theme: gardenTheme,
+            level: level, // Track the nesting level for styling
+            sourceConnections: [],
+            targetConnections: [],
+            cta: {
+              primary: {
+                label: "Visit Website",
+                url: item.homepage_url,
+              },
+              secondary: item.repo_url
+                ? {
+                    label: "View Code",
+                    url: item.repo_url,
+                  }
+                : undefined,
+            },
+          },
+          position: {
+            x: xPos,
+            y: itemYPosition,
+          },
+          ...getNodePositions(NODE_TYPES.ITEM),
+        });
+
+        edges.push({
+          id: `${subgardenId}-to-${itemId}`,
+          source: subgardenId,
+          target: itemId,
+          sourceHandle: "bottom",
+          targetHandle: "top",
+          type: options.edgeType || "default",
+          animated: options.animateEdges !== false,
+          style: {
+            stroke: "var(--muted-foreground)",
+            strokeWidth: 2,
+          },
+          markerEnd: { type: MarkerType.ArrowClosed },
+          interactionWidth: 1,
+        });
+      }
+    }
+
+    if (currentGarden?.subgardens?.length) {
+      processSubgarensRecursively({
+        schema,
+        parent: currentGarden,
+        parentId: subgardenId,
+        parentX: xPos,
+        parentY: yPos,
+        width,
+        nodes,
+        edges,
+        options,
+        level: level + 1,
+      });
+    }
+  }
+};
+
+interface GardenToFlowOptions {
   schema: Record<string, GardenTypes>;
   garden: GardenTypes;
   width?: number;
@@ -98,15 +267,7 @@ export const gardenToFlow = ({
   garden,
   width = 1600,
   options = {},
-}: Options): { nodes: Node[]; edges: Edge[] } => {
-  // create a shallow copy to prevent reference issues
-  const gardenCopy = { ...garden };
-
-  // Check for the required fields
-  if (!gardenCopy || !gardenCopy.name) {
-    return { nodes: [], edges: [] };
-  }
-
+}: GardenToFlowOptions): { nodes: Node[]; edges: Edge[] } => {
   // Store the garden theme for propagation to all nodes
   const currentGardenTheme = garden.theme || null;
 
@@ -200,8 +361,8 @@ export const gardenToFlow = ({
   }
 
   // Process supergardens if any
-  if (gardenCopy.supergardens && Array.isArray(gardenCopy.supergardens)) {
-    gardenCopy.supergardens.forEach((supergarden, index) => {
+  if (garden.supergardens && Array.isArray(garden.supergardens)) {
+    garden.supergardens.forEach((supergarden, index) => {
       const supergardenId = generateId(
         NODE_TYPES.SUPERGARDEN,
         supergarden.name,
@@ -257,56 +418,72 @@ export const gardenToFlow = ({
 
   // Process subgardens if any
   if (garden.subgardens && Array.isArray(garden.subgardens)) {
-    garden.subgardens.forEach((subgarden, index) => {
-      const subgardenId = generateId(NODE_TYPES.SUBGARDEN, subgarden.name);
-      const xOffset = 400 - index * 150; // Position subgardens to the right and above
-
-      // If the subgarden has a defined theme, use it. Otherwise, fallback to current garden theme
-      const gardenTheme =
-        Object.values(schema).find((g) => g.name === subgarden.name)?.theme ??
-        garden.theme;
-
-      // add the subgarden node
-      nodes.push({
-        id: subgardenId,
-        type: NODE_TYPES.SUBGARDEN,
-        data: {
-          label: subgarden.name,
-          description: subgarden.description,
-          url: subgarden.url,
-          logo: subgarden.logo,
-          version: subgarden.version,
-          icon: "SproutIcon",
-          icon_color: "var(--chart-5)",
-          theme: gardenTheme,
-        },
-        position: { x: centerX + xOffset, y: 200 },
-        ...getNodePositions(NODE_TYPES.SUBGARDEN),
-        style: {
-          background: "var(--chart-5)",
-          color: "var(--chart-5-foreground)",
-          borderRadius: "var(--radius)",
-        },
+    if (options.expandSubgardens) {
+      processSubgarensRecursively({
+        schema,
+        parent: garden,
+        parentId: gardenId,
+        parentX: centerX,
+        parentY: 0,
+        width,
+        nodes,
+        edges,
+        options,
       });
+    } else {
+      garden.subgardens.forEach((subgarden, index) => {
+        const subgardenId = generateId(NODE_TYPES.SUBGARDEN, subgarden.name);
+        const xOffset = 400 - index * 150; // Position subgardens to the right and above
 
-      // Create edge from garden to this subgarden
-      edges.push({
-        id: `${gardenId}-to-${subgardenId}`,
-        source: gardenId,
-        target: subgardenId,
-        sourceHandle: "bottom",
-        targetHandle: "top",
-        type: options.edgeType || "default",
-        animated: options.animateEdges !== false,
-        style: {
-          stroke: "var(--chart-5)",
-          strokeWidth: 2,
-          strokeDasharray: "5,5",
-        },
-        markerEnd: { type: MarkerType.ArrowClosed },
-        interactionWidth: 1,
+        const currentGarden = Object.values(schema).find(
+          (g) => g.name === subgarden.name,
+        );
+
+        // If the subgarden has a defined theme, use it. Otherwise, fallback to current garden theme
+        const gardenTheme = currentGarden?.theme ?? garden.theme;
+
+        // add the subgarden node
+        nodes.push({
+          id: subgardenId,
+          type: NODE_TYPES.SUBGARDEN,
+          data: {
+            label: subgarden.name,
+            description: subgarden.description,
+            url: subgarden.url,
+            logo: subgarden.logo,
+            version: subgarden.version,
+            icon: "SproutIcon",
+            icon_color: "var(--chart-5)",
+            theme: gardenTheme,
+          },
+          position: { x: centerX + xOffset, y: 200 },
+          ...getNodePositions(NODE_TYPES.SUBGARDEN),
+          style: {
+            background: "var(--chart-5)",
+            color: "var(--chart-5-foreground)",
+            borderRadius: "var(--radius)",
+          },
+        });
+
+        // Create edge from garden to this subgarden
+        edges.push({
+          id: `${gardenId}-to-${subgardenId}`,
+          source: gardenId,
+          target: subgardenId,
+          sourceHandle: "bottom",
+          targetHandle: "top",
+          type: options.edgeType || "default",
+          animated: options.animateEdges !== false,
+          style: {
+            stroke: "var(--chart-5)",
+            strokeWidth: 2,
+            strokeDasharray: "5,5",
+          },
+          markerEnd: { type: MarkerType.ArrowClosed },
+          interactionWidth: 1,
+        });
       });
-    });
+    }
   }
 
   // Process connections to ensure nodes know about their connections

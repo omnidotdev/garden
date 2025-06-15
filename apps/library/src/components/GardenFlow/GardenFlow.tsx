@@ -50,14 +50,20 @@ const calculateNodeHeight = (node: Node): number => {
   return 60;
 };
 
-const autoLayoutElements = async (nodes: Node[], edges: Edge[]) => {
+const autoLayoutElements = async (
+  nodes: Node[],
+  edges: Edge[],
+  expandSubgardens: boolean,
+) => {
   const graph = {
     id: "elk-root",
     layoutOptions: {
       "elk.algorithm": "mrtree",
       "elk.direction": "DOWN",
-      "elk.spacing.nodeNode": "200",
-      "elk.layered.spacing.nodeNodeBetweenLayers": "200",
+      "elk.spacing.nodeNode": expandSubgardens ? "400" : "200",
+      "elk.layered.spacing.nodeNodeBetweenLayers": expandSubgardens
+        ? "300"
+        : "200",
       "elk.layered.nodePlacement.strategy": "NETWORK_SIMPLEX",
     },
     children: nodes.map((node) => ({
@@ -105,6 +111,8 @@ interface GardenFlowProps {
   initialEdges: Edge[];
   /** Optional class name for the container */
   className?: string;
+  /** Optional flag to expand all subgardens for the current garden. Default is false. */
+  expandSubgardens?: boolean;
   /** Optional flag to enable or disable controls. Default is true. */
   showControls?: boolean;
   /** Optional flag to enable or disable the minimap. Default is true. */
@@ -126,11 +134,12 @@ const GardenFlow = ({
   initialNodes,
   initialEdges,
   className,
-  showControls = true,
-  showMinimap = true,
-  fitViewPadding = 0.2,
-  edgeType = "smoothstep",
-  animateEdges = true,
+  expandSubgardens = false,
+  showControls,
+  showMinimap,
+  fitViewPadding,
+  edgeType,
+  animateEdges,
   miniMapOptions,
   controlOptions,
 }: GardenFlowProps) => {
@@ -148,7 +157,7 @@ const GardenFlow = ({
 
   const onLayout = useCallback(
     async (nodes: Node[], edges: Edge[]) => {
-      await autoLayoutElements(nodes, edges).then(
+      await autoLayoutElements(nodes, edges, expandSubgardens).then(
         ({ nodes: layoutedNodes, edges: layoutedEdges }) => {
           setNodes(layoutedNodes as Node[]);
           setEdges(layoutedEdges as Edge[]);
@@ -176,7 +185,7 @@ const GardenFlow = ({
           schema,
           garden,
           options: {
-            expandSubgardens: false,
+            expandSubgardens,
             edgeType,
             animateEdges,
           },

@@ -13,6 +13,8 @@ export interface GardenProps {
   schema: Record<string, GardenTypes>;
   /** Optional class name for the container */
   className?: string;
+  /** Optional flag to expand all subgardens for the current garden. Default is false. */
+  expandSubgardens?: boolean;
   /** Optional flag to enable or disable controls. Default is true. */
   showControls?: boolean;
   /** Optional flag to enable or disable the minimap. Default is true. */
@@ -29,15 +31,24 @@ export interface GardenProps {
   controlOptions?: ControlProps;
 }
 
-const Garden = ({ schema, ...rest }: GardenProps) => {
+const Garden = ({
+  schema,
+  expandSubgardens = false,
+  showControls = true,
+  showMinimap = true,
+  fitViewPadding = 0.2,
+  edgeType = "smoothstep",
+  animateEdges = true,
+  ...rest
+}: GardenProps) => {
   const { nodes: initialNodes, edges: initialEdges } = gardenToFlow({
     schema,
     // TODO: make dynamic
     garden: Object.values(schema)[0],
     options: {
-      expandSubgardens: false,
-      edgeType: rest.edgeType,
-      animateEdges: rest.animateEdges,
+      expandSubgardens,
+      edgeType,
+      animateEdges,
     },
   });
 
@@ -47,6 +58,12 @@ const Garden = ({ schema, ...rest }: GardenProps) => {
         schema={schema}
         initialNodes={initialNodes}
         initialEdges={initialEdges}
+        showControls={showControls}
+        showMinimap={showMinimap}
+        fitViewPadding={fitViewPadding}
+        edgeType={edgeType}
+        animateEdges={animateEdges}
+        expandSubgardens={expandSubgardens}
         {...rest}
       />
     </ReactFlowProvider>
