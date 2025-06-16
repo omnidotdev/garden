@@ -55,12 +55,13 @@ const RotatingText = ({
   }, [interval, words.length]);
 
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <div className={cn("flex items-center justify-center", className)}>
       <h1 className="flex flex-col flex-wrap items-center justify-center py-2 font-bold text-4xl tracking-tighter md:flex-row md:text-5xl">
         <span
-          className={`transition-all duration-300 ease-in-out ${
-            isChanging && `md:translate-x-[8px]`
-          }`}
+          className={cn(
+            "transition-all duration-300 ease-in-out",
+            isChanging && "md:translate-x-[8px]",
+          )}
         >
           {prefix}
         </span>
@@ -72,8 +73,9 @@ const RotatingText = ({
           <span
             ref={wordRef}
             className={cn(
-              `inline-block bg-gradient-to-r ${colors[currentColor]} bg-clip-text py-1 text-transparent transition-all duration-300`,
+              "inline-block bg-gradient-to-r bg-clip-text py-1 text-transparent transition-all duration-300",
               isChanging ? "scale-95 opacity-0" : "scale-100 opacity-100",
+              colors[currentColor],
             )}
           >
             {words[currentIndex]}
@@ -81,10 +83,10 @@ const RotatingText = ({
         </div>
 
         <span
-          // className="transition-all duration-300 ease-in-out"
-          className={`transition-all duration-300 ease-in-out ${
-            isChanging && `md:translate-x-[-8px]`
-          }`}
+          className={cn(
+            "transition-all duration-300 ease-in-out",
+            isChanging && "md:translate-x-[-8px]",
+          )}
         >
           {suffix}
         </span>
