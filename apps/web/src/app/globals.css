@@ -1,2 +1,2 @@
 @import "@workspace/ui/globals.css";
-@import "@omnidotdev/garden/styles.css";
+@import "@omnidotdev/garden/styles.css" layer(garden);
