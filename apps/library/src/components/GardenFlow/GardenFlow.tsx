@@ -26,7 +26,7 @@ import {
 } from "@workspace/ui/components/dialog";
 import { cn } from "@workspace/ui/lib/utils";
 import { gardenToFlow } from "../../lib/utils";
-import { customNodes } from "../CustomNodes";
+import { customNodes } from "../nodes";
 
 import type {
   ConnectionLineType,
@@ -37,7 +37,7 @@ import type {
 } from "@xyflow/react";
 import type { MouseEvent, ReactNode } from "react";
 import type { GardenTypes, Theme } from "../../generated/garden.types";
-import type { NodeData } from "../CustomNodes/CustomNodes";
+import { NodeData } from "../nodes";
 
 const elk = new ELK();
 
@@ -50,7 +50,7 @@ const calculateNodeHeight = (node: Node): number => {
 const autoLayoutElements = async (
   nodes: Node[],
   edges: Edge[],
-  expandSubgardens: boolean,
+  expandSubgardens: boolean
 ) => {
   const graph = {
     id: "elk-root",
@@ -151,7 +151,7 @@ const GardenFlow = ({
 
   const currentGarden = useMemo(
     () => nodes.find((node) => node?.type === "garden"),
-    [nodes],
+    [nodes]
   );
 
   const onLayout = useCallback(
@@ -161,10 +161,10 @@ const GardenFlow = ({
           setNodes(layoutedNodes as Node[]);
           setEdges(layoutedEdges as Edge[]);
           fitView({ padding: fitViewPadding });
-        },
+        }
       );
     },
-    [nodes, edges],
+    [nodes, edges]
   );
 
   const handleNodeClick = useCallback((_: MouseEvent, node: Node) => {
@@ -177,7 +177,7 @@ const GardenFlow = ({
       setIsSubgardensExpanded(expandSubgardens);
 
       const garden = Object.values(schema).find(
-        (g) => g.name === node.data?.label,
+        (g) => g.name === node.data?.label
       );
 
       if (garden) {
@@ -200,7 +200,7 @@ const GardenFlow = ({
     setIsSubgardensExpanded(expand);
 
     const garden = Object.values(schema).find(
-      (garden) => garden.name === currentGarden?.data?.label,
+      (garden) => garden.name === currentGarden?.data?.label
     );
 
     if (!garden) return;
