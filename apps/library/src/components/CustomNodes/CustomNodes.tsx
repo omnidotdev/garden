@@ -56,7 +56,10 @@ const GardenNode: FC<NodeProps> = ({ data }) => {
 
   return (
     // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-    <div className="relative rounded-md border-2 bg-card shadow-lg">
+    <div
+      className="relative flex h-full items-center justify-center rounded-md border-2 bg-card text-center shadow-lg"
+      style={{ borderColor: primaryColor }}
+    >
       {hasTopTargets && (
         <Handle
           id="top"
@@ -75,10 +78,7 @@ const GardenNode: FC<NodeProps> = ({ data }) => {
         />
       )}
 
-      <div
-        className="flex flex-col items-center justify-center gap-2 rounded-md border-2 p-4 text-center text-foreground"
-        style={{ borderColor: primaryColor }}
-      >
+      <div className="flex flex-col items-center justify-center gap-2 rounded-md p-4 text-center text-foreground">
         <SproutIcon
           size={24}
           style={{
@@ -107,7 +107,7 @@ const ItemNode: FC<NodeProps> = ({ data }) => {
 
   return (
     // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-    <div className="relative cursor-pointer rounded-md border-2 bg-card shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+    <div className="relative cursor-pointer overflow-hidden rounded-md border-2 bg-card shadow-lg transition-all hover:scale-105 hover:shadow-xl">
       {hasTopTargets && (
         <Handle
           id="top"
@@ -127,7 +127,7 @@ const ItemNode: FC<NodeProps> = ({ data }) => {
       )}
 
       <div className="relative space-y-3">
-        <div className="aspect-video w-full overflow-hidden rounded-t-md">
+        <div className="aspect-video w-full">
           <img
             src={data.image}
             alt={data.label}
@@ -199,7 +199,7 @@ const SubgardenNode: FC<NodeProps> = ({ data }) => {
   return (
     <div
       // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-      className="relative rounded-md border-2 bg-card shadow-lg transition-transform hover:scale-105 hover:border-garden/70"
+      className="relative h-full rounded-md border-2 bg-card shadow-lg transition-transform hover:scale-105 hover:border-garden/70"
       style={{
         borderColor: secondaryColor,
       }}
@@ -219,7 +219,7 @@ const SubgardenNode: FC<NodeProps> = ({ data }) => {
         />
       )}
 
-      <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
+      <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg p-4 text-center">
         <div className="flex w-full justify-center">
           <div
             className="rounded-md px-2 py-1 font-medium text-sm"
@@ -265,7 +265,7 @@ const SupergardenNode: FC<NodeProps> = ({ data }) => {
   return (
     <div
       // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-      className="relative rounded-md border-2 bg-card shadow-lg transition-transform hover:scale-105 hover:border-garden/70"
+      className="relative h-full rounded-md border-2 bg-card shadow-lg transition-transform hover:scale-105 hover:border-garden/70"
       style={{
         borderColor: secondaryColor,
       }}
@@ -279,7 +279,7 @@ const SupergardenNode: FC<NodeProps> = ({ data }) => {
         />
       )}
 
-      <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg px-2 py-2 text-center">
+      <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg p-4 text-center">
         <div className="flex w-full justify-center">
           <div
             className="rounded-md px-2 py-1 font-medium text-sm hover:bg-secondary/80"

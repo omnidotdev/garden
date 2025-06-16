@@ -42,9 +42,7 @@ import type { NodeData } from "../CustomNodes/CustomNodes";
 const elk = new ELK();
 
 const calculateNodeHeight = (node: Node): number => {
-  if (node.type === "supergarden") return 175;
-
-  if (node.type === "garden") return 100;
+  if (node.type === "garden") return 150;
 
   return 200;
 };
