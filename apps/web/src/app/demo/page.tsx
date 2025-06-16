@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { gardens as defaultGardens } from "@/lib/schema/garden";
+import schema from "@/lib/schema/garden.json";
 // TODO: replace with bundled version
 import { Garden } from "../../../../library/src/components/Garden";
 
@@ -39,9 +39,9 @@ const DemoPage = () => (
 
     <div className="m-12 flex-1">
       <Garden
-        schema={defaultGardens}
+        schema={schema}
         // TODO: uncomment
-        // initialGardenName="Omni Products"
+        initialGardenName="Omni Products"
         // showMinimap={false}
         // showControls={false}
       />

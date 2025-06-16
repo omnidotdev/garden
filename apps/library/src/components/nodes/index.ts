@@ -1,10 +1,10 @@
-import type { Theme } from "../../generated/garden.types";
-
 import DefaultNode from "./DefaultNode/DefaultNode";
 import GardenNode from "./GardenNode/GardenNode";
 import ItemNode from "./ItemNode/ItemNode";
 import SubgardenNode from "./SubgardenNode/SubgardenNode";
 import SupergardenNode from "./SupergardenNode/SupergardenNode";
+
+import type { Theme } from "../../generated/garden.types";
 
 export interface NodeData {
   label: string;

@@ -1,17 +1,17 @@
 import { ReactFlowProvider } from "@xyflow/react";
 
-import { gardenToFlow } from "../../lib/utils";
+import { Convert } from "../../generated/garden.types";
+import { findGardenByName, gardenToFlow } from "../../lib/utils";
 import { GardenFlow } from "../GardenFlow";
 
 import type { ControlProps, MiniMapProps } from "@xyflow/react";
-import type { GardenTypes } from "../../generated/garden.types";
 
 import "@workspace/ui/globals.css";
 import "@xyflow/react/dist/style.css";
 
 export interface GardenProps {
   /** Garden schema to visualize */
-  schema: Record<string, GardenTypes>;
+  schema: any;
   /** Optional initial garden name to display. Defaults to first available garden. */
   initialGardenName?: string;
   /** Optional class name for the container */
@@ -45,13 +45,15 @@ const Garden = ({
   animateEdges = true,
   ...rest
 }: GardenProps) => {
-  const initialGarden =
-    Object.values(schema).find((garden) => garden.name === initialGardenName) ??
-    Object.values(schema)[0];
+  const convertedSchema = Convert.toGardenTypes(JSON.stringify(schema));
+
+  const initialGarden = initialGardenName
+    ? findGardenByName(convertedSchema, initialGardenName)
+    : convertedSchema;
 
   const { nodes: initialNodes, edges: initialEdges } = gardenToFlow({
-    schema,
-    garden: initialGarden,
+    schema: convertedSchema,
+    garden: initialGarden!,
     options: {
       expandSubgardens,
       edgeType,
@@ -62,7 +64,7 @@ const Garden = ({
   return (
     <ReactFlowProvider>
       <GardenFlow
-        schema={schema}
+        schema={convertedSchema}
         initialNodes={initialNodes}
         initialEdges={initialEdges}
         showControls={showControls}

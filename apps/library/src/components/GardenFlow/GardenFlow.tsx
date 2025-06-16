@@ -25,7 +25,7 @@ import {
   DialogTitle,
 } from "@workspace/ui/components/dialog";
 import { cn } from "@workspace/ui/lib/utils";
-import { gardenToFlow } from "../../lib/utils";
+import { findGardenByName, gardenToFlow } from "../../lib/utils";
 import { customNodes } from "../nodes";
 
 import type {
@@ -37,7 +37,7 @@ import type {
 } from "@xyflow/react";
 import type { MouseEvent, ReactNode } from "react";
 import type { GardenTypes, Theme } from "../../generated/garden.types";
-import { NodeData } from "../nodes";
+import type { NodeData } from "../nodes";
 
 const elk = new ELK();
 
@@ -50,7 +50,7 @@ const calculateNodeHeight = (node: Node): number => {
 const autoLayoutElements = async (
   nodes: Node[],
   edges: Edge[],
-  expandSubgardens: boolean
+  expandSubgardens: boolean,
 ) => {
   const graph = {
     id: "elk-root",
@@ -101,7 +101,7 @@ const autoLayoutElements = async (
 
 interface GardenFlowProps {
   /** Garden schema to visualize */
-  schema: Record<string, GardenTypes>;
+  schema: GardenTypes;
   /** Initial nodes and edges for the garden */
   initialNodes: Node[];
   /** Initial edges for the garden */
@@ -151,7 +151,7 @@ const GardenFlow = ({
 
   const currentGarden = useMemo(
     () => nodes.find((node) => node?.type === "garden"),
-    [nodes]
+    [nodes],
   );
 
   const onLayout = useCallback(
@@ -161,46 +161,55 @@ const GardenFlow = ({
           setNodes(layoutedNodes as Node[]);
           setEdges(layoutedEdges as Edge[]);
           fitView({ padding: fitViewPadding });
-        }
+        },
       );
     },
-    [nodes, edges]
+    [fitViewPadding, setEdges, setNodes, fitView],
   );
 
-  const handleNodeClick = useCallback((_: MouseEvent, node: Node) => {
-    if (node.type === "item") {
-      setSelectedItem(node.data as unknown as NodeData);
-      setIsItemDialogOpen(true);
-    } else {
-      if (node?.type === "garden") return;
+  const handleNodeClick = useCallback(
+    (_: MouseEvent, node: Node) => {
+      if (node.type === "item") {
+        setSelectedItem(node.data as unknown as NodeData);
+        setIsItemDialogOpen(true);
+      } else {
+        if (node?.type === "garden") return;
 
-      setIsSubgardensExpanded(expandSubgardens);
+        setIsSubgardensExpanded(expandSubgardens);
 
-      const garden = Object.values(schema).find(
-        (g) => g.name === node.data?.label
-      );
+        const garden = findGardenByName(schema, node.data?.label as string);
 
-      if (garden) {
-        const { nodes: updatedNodes, edges: updatedEdges } = gardenToFlow({
-          schema,
-          garden,
-          options: {
-            expandSubgardens: isSubgardensExpanded,
-            edgeType,
-            animateEdges,
-          },
-        });
+        if (garden) {
+          const { nodes: updatedNodes, edges: updatedEdges } = gardenToFlow({
+            schema,
+            garden,
+            options: {
+              expandSubgardens: isSubgardensExpanded,
+              edgeType,
+              animateEdges,
+            },
+          });
 
-        onLayout(updatedNodes, updatedEdges, isSubgardensExpanded);
+          onLayout(updatedNodes, updatedEdges, isSubgardensExpanded);
+        }
       }
-    }
-  }, []);
+    },
+    [
+      edgeType,
+      expandSubgardens,
+      isSubgardensExpanded,
+      onLayout,
+      schema,
+      animateEdges,
+    ],
+  );
 
   const handleToggleExpandedSubgardens = (expand: boolean) => {
     setIsSubgardensExpanded(expand);
 
-    const garden = Object.values(schema).find(
-      (garden) => garden.name === currentGarden?.data?.label
+    const garden = findGardenByName(
+      schema,
+      currentGarden?.data?.label as string,
     );
 
     if (!garden) return;
@@ -218,6 +227,7 @@ const GardenFlow = ({
     onLayout(updatedNodes, updatedEdges, expand);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only run once on mount
   useLayoutEffect(() => {
     onLayout(initialNodes, initialEdges, expandSubgardens);
   }, []);

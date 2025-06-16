@@ -13,8 +13,8 @@ export interface GardenTypes {
     items?:        GardenItem[] | null;
     maintainers?:  Maintainer[] | null;
     name:          string;
-    subgardens?:   GardenReference[] | null;
-    supergardens?: GardenReference[] | null;
+    subgardens?:   Garden[] | null;
+    supergardens?: Garden[] | null;
     theme?:        null | Theme;
     updated_at?:   null | string;
     version:       string;
@@ -39,12 +39,17 @@ export interface Maintainer {
     [property: string]: any;
 }
 
-export interface GardenReference {
-    description?: null | string;
-    logo?:        null | string;
-    name:         string;
-    url:          string;
-    version?:     null | string;
+export interface Garden {
+    created_at?:   null | string;
+    description?:  null | string;
+    items?:        GardenItem[] | null;
+    maintainers?:  Maintainer[] | null;
+    name:          string;
+    subgardens?:   Garden[] | null;
+    supergardens?: Garden[] | null;
+    theme?:        null | Theme;
+    updated_at?:   null | string;
+    version:       string;
     [property: string]: any;
 }
 
@@ -227,8 +232,8 @@ const typeMap: any = {
         { json: "items", js: "items", typ: u(undefined, u(a(r("GardenItem")), null)) },
         { json: "maintainers", js: "maintainers", typ: u(undefined, u(a(r("Maintainer")), null)) },
         { json: "name", js: "name", typ: "" },
-        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
-        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("GardenReference")), null)) },
+        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("Garden")), null)) },
+        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("Garden")), null)) },
         { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
         { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
         { json: "version", js: "version", typ: "" },
@@ -247,12 +252,17 @@ const typeMap: any = {
         { json: "name", js: "name", typ: "" },
         { json: "url", js: "url", typ: u(undefined, u(null, "")) },
     ], "any"),
-    "GardenReference": o([
+    "Garden": o([
+        { json: "created_at", js: "created_at", typ: u(undefined, u(null, "")) },
         { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "logo", js: "logo", typ: u(undefined, u(null, "")) },
+        { json: "items", js: "items", typ: u(undefined, u(a(r("GardenItem")), null)) },
+        { json: "maintainers", js: "maintainers", typ: u(undefined, u(a(r("Maintainer")), null)) },
         { json: "name", js: "name", typ: "" },
-        { json: "url", js: "url", typ: "" },
-        { json: "version", js: "version", typ: u(undefined, u(null, "")) },
+        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("Garden")), null)) },
+        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("Garden")), null)) },
+        { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
+        { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
+        { json: "version", js: "version", typ: "" },
     ], "any"),
     "Theme": o([
         { json: "background_color", js: "background_color", typ: u(undefined, u(null, "")) },

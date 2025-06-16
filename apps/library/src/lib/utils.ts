@@ -17,8 +17,38 @@ const NODE_TYPES = {
   SUBGARDEN: "subgarden",
 };
 
-const generateId = (type: string, name: string) =>
-  `${type}-${name.replace(/\s+/g, "-").toLowerCase()}`;
+const generateId = (type: string, name: string, prefix?: string) => {
+  const cleanName = name
+    .replace(/[^a-zA-Z0-9\s]/g, "")
+    .replace(/\s+/g, "-")
+    .toLowerCase();
+  const baseId = prefix ? `${prefix}-${cleanName}` : cleanName;
+  return `${type}-${baseId}`;
+};
+
+// Helper function to find a garden by name in the schema
+export const findGardenByName = (
+  schema: GardenTypes,
+  name: string,
+): GardenTypes | null => {
+  // Check if this is the garden we're looking for
+  if (schema.name === name) {
+    return schema;
+  }
+
+  // Search in subgardens recursively
+  if (schema.subgardens && Array.isArray(schema.subgardens)) {
+    for (const subgarden of schema.subgardens) {
+      const found = findGardenByName(subgarden as GardenTypes, name);
+
+      if (found) {
+        return found;
+      }
+    }
+  }
+
+  return null;
+};
 
 const getNodePositions = (
   type: string,
@@ -87,7 +117,7 @@ const trackNodeConnections = (nodes: Node[], edges: Edge[]): Node[] => {
 };
 
 interface RecursiveSubgardenOptions {
-  schema: Record<string, GardenTypes>;
+  schema: GardenTypes;
   parent: GardenTypes;
   parentId: string;
   parentX: number;
@@ -124,12 +154,11 @@ const processSubgarensRecursively = ({
   for (const subgarden of parent.subgardens) {
     const subgardenId = generateId(
       NODE_TYPES.SUBGARDEN,
-      `level-${level}-${subgarden.name}`,
+      subgarden.name,
+      `${parentId}-level-${level}`,
     );
 
-    const currentGarden = Object.values(schema).find(
-      (g) => g.name === subgarden.name,
-    );
+    const currentGarden = findGardenByName(schema, subgarden.name);
 
     // If the subgarden has a defined theme, use it. Otherwise, fallback to current parent theme
     const gardenTheme = currentGarden?.theme ?? parent.theme;
@@ -179,9 +208,19 @@ const processSubgarensRecursively = ({
 
     if (currentGarden?.items?.length) {
       for (const item of currentGarden.items) {
+        if (!item || !item.name) {
+          console.warn(
+            "Skipping invalid item in subgarden:",
+            subgarden.name,
+            item,
+          );
+          continue;
+        }
+
         const itemId = generateId(
           NODE_TYPES.ITEM,
-          `${subgardenId}-direct-${item.name}`,
+          item.name,
+          `${subgardenId}-item`,
         );
 
         // Distribute items with reasonable spacing
@@ -259,7 +298,7 @@ const processSubgarensRecursively = ({
 };
 
 interface GardenToFlowOptions {
-  schema: Record<string, GardenTypes>;
+  schema: GardenTypes;
   garden: GardenTypes;
   width?: number;
   options?: FlowOptions;
@@ -271,6 +310,17 @@ export const gardenToFlow = ({
   width = 1600,
   options = {},
 }: GardenToFlowOptions): { nodes: Node[]; edges: Edge[] } => {
+  // Validate inputs
+  if (!schema || typeof schema !== "object") {
+    console.error("Invalid schema provided to gardenToFlow:", schema);
+    return { nodes: [], edges: [] };
+  }
+
+  if (!garden || !garden.name) {
+    console.error("Invalid garden provided to gardenToFlow:", garden);
+    return { nodes: [], edges: [] };
+  }
+
   // Store the garden theme for propagation to all nodes
   const currentGardenTheme = garden.theme || null;
 
@@ -303,11 +353,15 @@ export const gardenToFlow = ({
   // Process items directly on the garden if any
   if (garden.items && Array.isArray(garden.items)) {
     garden.items.forEach((item, index) => {
-      if (!item || !item.name) return;
+      if (!item || !item.name) {
+        console.warn("Skipping invalid item at index", index, ":", item);
+        return;
+      }
 
       const itemId = generateId(
         NODE_TYPES.ITEM,
-        `${gardenId}-direct-${item.name}`,
+        item.name,
+        `${gardenId}-direct`,
       );
       const itemYPosition = 150 + index * 80;
 
@@ -369,13 +423,13 @@ export const gardenToFlow = ({
       const supergardenId = generateId(
         NODE_TYPES.SUPERGARDEN,
         supergarden.name,
+        `${gardenId}-super`,
       );
       const xOffset = -400 + index * 150; // Position supergardens to the left and above
 
       // If the supergarden has a defined theme, use it. Otherwise, fallback to current garden theme
       const gardenTheme =
-        Object.values(schema).find((g) => g.name === supergarden.name)?.theme ??
-        garden.theme;
+        findGardenByName(schema, supergarden.name)?.theme ?? garden.theme;
 
       nodes.push({
         id: supergardenId,
@@ -435,12 +489,14 @@ export const gardenToFlow = ({
       });
     } else {
       garden.subgardens.forEach((subgarden, index) => {
-        const subgardenId = generateId(NODE_TYPES.SUBGARDEN, subgarden.name);
+        const subgardenId = generateId(
+          NODE_TYPES.SUBGARDEN,
+          subgarden.name,
+          `${gardenId}-sub`,
+        );
         const xOffset = 400 - index * 150; // Position subgardens to the right and above
 
-        const currentGarden = Object.values(schema).find(
-          (g) => g.name === subgarden.name,
-        );
+        const currentGarden = findGardenByName(schema, subgarden.name);
 
         // If the subgarden has a defined theme, use it. Otherwise, fallback to current garden theme
         const gardenTheme = currentGarden?.theme ?? garden.theme;

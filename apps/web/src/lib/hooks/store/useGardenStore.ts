@@ -38,7 +38,7 @@ interface GardenActions {
 }
 
 const initialState: GardenState = {
-  activeGarden: Object.values(gardens)[0],
+  activeGarden: gardens,
   navigationHistory: [],
 };
 

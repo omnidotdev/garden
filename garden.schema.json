@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/garden.json",
   "title": "Garden",
   "type": "object",
   "required": [
@@ -46,7 +47,7 @@
         "null"
       ],
       "items": {
-        "$ref": "#/definitions/GardenReference"
+        "$ref": "https://example.com/schemas/garden.json"
       }
     },
     "supergardens": {
@@ -55,7 +56,7 @@
         "null"
       ],
       "items": {
-        "$ref": "#/definitions/GardenReference"
+        "$ref": "https://example.com/schemas/garden.json"
       }
     },
     "theme": {
@@ -117,39 +118,6 @@
           ]
         },
         "twitter": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
-    },
-    "GardenReference": {
-      "type": "object",
-      "required": [
-        "name",
-        "url"
-      ],
-      "properties": {
-        "description": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "logo": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "version": {
           "type": [
             "string",
             "null"
