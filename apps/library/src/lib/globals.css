@@ -1,0 +1,29 @@
+@import "@workspace/ui/globals.css";
+@import "@xyflow/react/dist/style.css";
+
+/* xyflow/react style overrides */
+.react-flow {
+  --xy-controls-button-background-color-hover: var(--background);
+  --xy-controls-button-color-default: var(--foreground);
+  --xy-controls-button-color-hover-default: var(--foreground);
+  --xy-controls-button-border-color-default: var(--border);
+  --xy-controls-box-shadow-default: 0 0 2px 1px rgba(0, 0, 0, 0.08);
+  --xy-minimap-background-color-default: var(--background);
+  --xy-controls-button-background-color: var(--background);
+  --xy-controls-button-border-color-props: var(--muted);
+  --xy-minimap-background-color: var(--muted);
+  --xy-minimap-mask-background-color-props: var(--muted);
+}
+
+.dark .react-flow {
+  --xy-controls-button-background-color-hover: var(--background);
+  --xy-controls-button-color-default: var(--foreground);
+  --xy-controls-button-color-hover-default: var(--foreground);
+  --xy-controls-button-border-color-default: var(--border);
+  --xy-controls-box-shadow-default: 0 0 2px 1px rgba(255, 255, 255, 0.18);
+  --xy-minimap-background-color-default: var(--background);
+  --xy-controls-button-background-color: var(--background);
+  --xy-controls-button-border-color-props: var(--muted);
+  --xy-minimap-background-color: var(--muted);
+  --xy-minimap-mask-background-color-props: var(--muted);
+}

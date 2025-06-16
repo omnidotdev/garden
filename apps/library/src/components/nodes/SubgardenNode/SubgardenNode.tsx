@@ -1,7 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
 import { GitBranchIcon } from "lucide-react";
 
-import { NodeProps } from "..";
+import type { NodeProps } from "..";
 
 const SubgardenNode = ({ data }: NodeProps) => {
   // check if there are any connections

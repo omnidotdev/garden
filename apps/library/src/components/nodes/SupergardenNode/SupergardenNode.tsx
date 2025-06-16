@@ -1,7 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
 import { GlobeIcon } from "lucide-react";
 
-import { NodeProps } from "..";
+import type { NodeProps } from "..";
 
 const SupergardenNode = ({ data }: NodeProps) => {
   // check if there are any connections

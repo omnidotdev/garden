@@ -1,7 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
-import { GitBranchIcon, ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
-import { NodeProps } from "..";
+import type { NodeProps } from "..";
 
 const ItemNode = ({ data }: NodeProps) => {
   // check if there are any connections

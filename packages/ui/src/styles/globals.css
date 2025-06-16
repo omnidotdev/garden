@@ -7,12 +7,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-:root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -126,34 +120,6 @@
 }
 
 @layer base {
-    /* xyflow/react style overrides */
-    .react-flow {
-      --xy-controls-button-background-color-hover: var(--background);
-      --xy-controls-button-color-default: var(--foreground);
-      --xy-controls-button-color-hover-default: var(--foreground);
-      --xy-controls-button-border-color-default: var(--border);
-      --xy-controls-box-shadow-default: 0 0 2px 1px rgba(0, 0, 0, 0.08);
-      --xy-minimap-background-color-default: var(--background);
-      --xy-controls-button-background-color: var(--background);
-      --xy-controls-button-border-color-props: var(--muted);
-      --xy-minimap-background-color: var(--muted);
-      --xy-minimap-mask-background-color-props: var(--muted);
-    }
-
-    .dark .react-flow {
-      --xy-controls-button-background-color-hover: var(--background);
-      --xy-controls-button-color-default: var(--foreground);
-      --xy-controls-button-color-hover-default: var(--foreground);
-      --xy-controls-button-border-color-default: var(--border);
-      --xy-controls-box-shadow-default: 0 0 2px 1px rgba(255, 255, 255, 0.18);
-      --xy-minimap-background-color-default: var(--background);
-      --xy-controls-button-background-color: var(--background);
-      --xy-controls-button-border-color-props: var(--muted);
-      --xy-minimap-background-color: var(--muted);
-      --xy-minimap-mask-background-color-props: var(--muted);
-    }
-
-
   * {
     @apply border-border outline-ring/50;
   }

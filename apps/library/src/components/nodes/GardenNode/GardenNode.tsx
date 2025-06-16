@@ -1,7 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
 import { SproutIcon } from "lucide-react";
 
-import { NodeProps } from "..";
+import type { NodeProps } from "..";
 
 const GardenNode = ({ data }: NodeProps) => {
   // check if there are any connections

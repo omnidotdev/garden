@@ -1,15 +1,10 @@
-import tailwindcss from "@tailwindcss/postcss";
+import tailwindcss from "@tailwindcss/vite";
 import { globbySync } from "globby";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
 // https://vite.dev/config/
 export default defineConfig({
-  css: {
-    postcss: {
-      plugins: [tailwindcss],
-    },
-  },
   build: {
     outDir: "build",
     target: "esnext",
@@ -40,6 +35,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    tailwindcss(),
     dts({
       entryRoot: "src",
       staticImport: true,
