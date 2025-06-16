@@ -1,10 +1,16 @@
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from "@tailwindcss/postcss";
 import { globbySync } from "globby";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import { libInjectCss } from "vite-plugin-lib-inject-css";
 
 // https://vite.dev/config/
 export default defineConfig({
+  css: {
+    postcss: {
+      plugins: [tailwindcss],
+    },
+  },
   build: {
     outDir: "build",
     target: "esnext",
@@ -31,11 +37,14 @@ export default defineConfig({
         preserveModules: true,
         preserveModulesRoot: "src",
         exports: "named",
+        globals: {
+          tailwindcss: "tailwindcss",
+        },
       },
     },
   },
   plugins: [
-    tailwindcss(),
+    libInjectCss(),
     dts({
       entryRoot: "src",
       staticImport: true,

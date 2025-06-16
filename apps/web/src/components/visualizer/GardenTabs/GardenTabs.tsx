@@ -14,8 +14,6 @@ import { useSearchParams } from "@/lib/hooks";
 
 import type { GardenTypes } from "@omnidotdev/garden";
 
-import "@omnidotdev/garden/styles.css";
-
 interface Props {
   /** All available gardens */
   gardens: Record<string, GardenTypes>;

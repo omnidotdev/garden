@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.10",
-    "@tailwindcss/vite": "^4.1.10",
     "@types/node": "^24.0.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
@@ -44,6 +43,7 @@
     "typescript": "5.8.3",
     "vite": "^6.3.5",
     "vite-plugin-bundle-css": "^0.1.1",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-lib-inject-css": "^2.2.2"
   }
 }

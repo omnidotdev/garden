@@ -2,11 +2,8 @@
 
 import Link from "next/link";
 
+import { Garden } from "@omnidotdev/garden";
 import schema from "@/lib/schema/garden.json";
-// TODO: replace with bundled version
-import { Garden } from "../../../../library/src/components/Garden";
-
-import "@omnidotdev/garden/styles.css";
 
 /**
  * Demo Page
@@ -40,10 +37,9 @@ const DemoPage = () => (
     <div className="m-12 flex-1">
       <Garden
         schema={schema}
-        // TODO: uncomment
         initialGardenName="Omni Products"
-        // showMinimap={false}
-        // showControls={false}
+        showMinimap={false}
+        showControls={false}
       />
     </div>
   </div>
