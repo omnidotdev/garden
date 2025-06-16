@@ -6,14 +6,6 @@ import ItemNode from "./ItemNode/ItemNode";
 import SubgardenNode from "./SubgardenNode/SubgardenNode";
 import SupergardenNode from "./SupergardenNode/SupergardenNode";
 
-export const customNodes = {
-  garden: GardenNode,
-  item: ItemNode,
-  supergarden: SupergardenNode,
-  subgarden: SubgardenNode,
-  default: DefaultNode,
-};
-
 export interface NodeData {
   label: string;
   description?: string;
@@ -40,3 +32,11 @@ export interface NodeData {
 export interface NodeProps {
   data: NodeData;
 }
+
+export const customNodes = {
+  garden: GardenNode,
+  item: ItemNode,
+  supergarden: SupergardenNode,
+  subgarden: SubgardenNode,
+  default: DefaultNode,
+};
