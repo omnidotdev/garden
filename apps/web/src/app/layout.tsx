@@ -34,15 +34,13 @@ const RootLayout = ({ children }: PropsWithChildren) => (
     <body className={assistant.className}>
       <ThemeProvider>
         <NuqsProvider>
-          <main className="grid h-dvh w-full grid-rows-layout">
-            <div className="flex h-screen w-full flex-col overflow-x-hidden">
-              <Header />
+          <div className="grid h-dvh w-full grid-rows-[auto_1fr_auto]">
+            <Header />
 
-              <div className="flex-1">{children}</div>
+            <main>{children}</main>
 
-              <Footer />
-            </div>
-          </main>
+            <Footer />
+          </div>
         </NuqsProvider>
       </ThemeProvider>
     </body>
