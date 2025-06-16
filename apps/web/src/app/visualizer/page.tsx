@@ -22,9 +22,7 @@ const VisualizerPage = () => {
           </div>
         }
       >
-        <div className="h-full w-full">
-          <Visualizer gardens={gardens} />
-        </div>
+        <Visualizer gardens={gardens} />
       </Suspense>
     </div>
   );

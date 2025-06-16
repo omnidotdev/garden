@@ -6,8 +6,7 @@ import { NuqsProvider, ThemeProvider } from "@/providers";
 import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
 
-// TODO: extract to globals.css
-import "@workspace/ui/globals.css";
+import "./globals.css";
 
 const assistant = Assistant({ subsets: ["latin"] });
 

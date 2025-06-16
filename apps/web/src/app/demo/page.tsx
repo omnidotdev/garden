@@ -5,9 +5,6 @@ import Link from "next/link";
 import { Garden } from "@omnidotdev/garden";
 import { gardens as defaultGardens } from "@/lib/schema/garden";
 
-// TODO: extract to common layer in globals.css
-import "@omnidotdev/garden/styles.css";
-
 /**
  * Demo Page
  *
