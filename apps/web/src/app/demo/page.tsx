@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Garden } from "@omnidotdev/garden";
 import { gardens as defaultGardens } from "@/lib/schema/garden";
 
+import "@omnidotdev/garden/styles.css";
+
 /**
  * Demo Page
  *
