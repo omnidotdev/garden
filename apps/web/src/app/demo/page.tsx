@@ -14,7 +14,7 @@ import schema from "@/lib/schema/garden.json";
  */
 const DemoPage = () => (
   <div className="flex h-full w-full flex-col">
-    <div className="border-b bg-card p-3 shadow-sm">
+    <div className="border-border border-b bg-card p-3 shadow-sm">
       <div className="mx-auto flex items-center justify-between">
         <div>
           <h1 className="font-semibold text-xl">Garden Demo</h1>
