@@ -1,8 +1,8 @@
 # 🌱 Garden
 
-<p align="center">
+<div align="center">
   <img src="/apps/web/public/img/logo.png" width="150" />
-</p>
+</div>
 
 Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed acyclic graph with unlimited recursion and composability. This repository holds a CLI for generating the JSON schema in `cli`, and visualizer web app in `app`, powered by Next.js.
 
