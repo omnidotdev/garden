@@ -3,7 +3,6 @@
 import { Suspense } from "react";
 
 import { Visualizer } from "@/components/visualizer";
-import { gardens } from "@/lib/schema/garden";
 
 /**
  * Garden visualizer page.
@@ -13,19 +12,19 @@ import { gardens } from "@/lib/schema/garden";
  * the garden visualization experience.
  */
 const VisualizerPage = () => {
-  return (
-    <div className="flex h-full w-full">
-      <Suspense
-        fallback={
-          <div className="flex h-full w-full items-center justify-center">
-            Loading visualizer...
-          </div>
-        }
-      >
-        <Visualizer gardens={gardens} />
-      </Suspense>
-    </div>
-  );
+	return (
+		<div className="flex h-full w-full">
+			<Suspense
+				fallback={
+					<div className="flex h-full w-full items-center justify-center">
+						Loading visualizer...
+					</div>
+				}
+			>
+				<Visualizer />
+			</Suspense>
+		</div>
+	);
 };
 
 export default VisualizerPage;
