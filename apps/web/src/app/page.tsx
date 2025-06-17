@@ -1,5 +1,7 @@
 import {
+  ArrowDownIcon,
   ArrowRightIcon,
+  ArrowUpIcon,
   CodeIcon,
   Share2Icon,
   SparklesIcon,
@@ -178,7 +180,7 @@ const HomePage = () => (
           <div className="grid gap-8 md:grid-cols-2">
             <div className="flex flex-col space-y-3 rounded-lg border border-border bg-card p-6">
               <div className="flex flex-wrap items-center space-x-3">
-                <ArrowRightIcon className="h-10 w-10 -rotate-90 text-primary" />
+                <ArrowUpIcon className="h-10 w-10 text-primary" />
                 <h3 className="font-bold text-xl">Supergardens</h3>
               </div>
               <p className="text-muted-foreground">
@@ -190,7 +192,7 @@ const HomePage = () => (
             </div>
             <div className="flex flex-col space-y-3 rounded-lg border border-border bg-card p-6">
               <div className="flex flex-wrap items-center space-x-3">
-                <ArrowRightIcon className="rotate-90 h-10 w-10 text-primary" />
+                <ArrowDownIcon className="h-10 w-10 text-primary" />
                 <h3 className="font-bold text-xl">Subgardens</h3>
               </div>
               <p className="text-muted-foreground">

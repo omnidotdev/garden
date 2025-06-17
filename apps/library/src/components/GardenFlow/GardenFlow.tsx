@@ -174,8 +174,6 @@ const GardenFlow = ({
       } else {
         if (node?.type === "garden") return;
 
-        setIsSubgardensExpanded(expandSubgardens);
-
         const garden = findGardenByName(schema, node.data?.label as string);
 
         if (garden) {
@@ -183,17 +181,17 @@ const GardenFlow = ({
             schema,
             garden,
             options: {
-              expandSubgardens: expandSubgardens,
+              expandSubgardens: isSubgardensExpanded,
               edgeType,
               animateEdges,
             },
           });
 
-          onLayout(updatedNodes, updatedEdges, expandSubgardens);
+          onLayout(updatedNodes, updatedEdges, isSubgardensExpanded);
         }
       }
     },
-    [edgeType, expandSubgardens, onLayout, schema, animateEdges],
+    [edgeType, isSubgardensExpanded, onLayout, schema, animateEdges],
   );
 
   const handleToggleExpandedSubgardens = (expand: boolean) => {

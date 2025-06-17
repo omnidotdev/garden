@@ -1,1 +1,1 @@
-turbo check
+turbo check -- --staged --no-errors-on-unmatched

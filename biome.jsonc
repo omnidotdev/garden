@@ -36,7 +36,7 @@
       "nursery": {
         "useUniqueElementIds": "off",
         "useSortedClasses": {
-          "level": "warn",
+          "level": "error",
           "fix": "safe",
           "options": {
             "attributes": ["className"],

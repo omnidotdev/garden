@@ -12,7 +12,8 @@
 			"dependsOn": ["^format"]
 		},
 		"check": {
-			"dependsOn": ["^check"]
+			"dependsOn": ["^check"],
+			"cache": false
 		},
 		"knip": {
 			"dependsOn": ["^knip"]
