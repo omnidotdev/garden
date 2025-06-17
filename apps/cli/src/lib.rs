@@ -1,9 +1,8 @@
 use schemars::{JsonSchema, schema_for};
 use serde::{Deserialize, Serialize};
 
-// GardenItem struct representing items in the garden
 #[derive(JsonSchema, Serialize, Deserialize, Debug)]
-pub struct GardenItem {
+pub struct Sprout {
     pub name: String,
     pub homepage_url: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -49,7 +48,7 @@ pub struct Garden {
     pub description: Option<String>,
     pub version: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub items: Option<Vec<GardenItem>>,
+    pub sprouts: Option<Vec<Sprout>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub maintainers: Option<Vec<Maintainer>>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -91,11 +90,11 @@ mod tests {
             "name": "Test Garden",
             "description": "A test garden",
             "version": "1.0.0",
-            "items": [
+            "sprouts": [
                 {
-                    "name": "Test Item",
+                    "name": "Test Sprout",
                     "homepage_url": "https://example.com",
-                    "description": "A test item"
+                    "description": "A test sprout"
                 }
             ],
             "subgardens": [

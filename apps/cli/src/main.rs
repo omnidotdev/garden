@@ -58,7 +58,7 @@ fn main() {
                     name: "Example Garden".to_string(),
                     description: Some("An example garden".to_string()),
                     version: "1.0.0".to_string(),
-                    items: Some(vec![]),
+                    sprouts: Some(vec![]),
                     maintainers: None,
                     created_at: None,
                     updated_at: None,
