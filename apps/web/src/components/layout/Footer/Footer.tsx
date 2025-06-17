@@ -12,6 +12,15 @@ const Footer = () => (
     <nav className="flex gap-4 sm:ml-auto sm:gap-6">
       <Link
         className="text-muted-foreground text-xs transition-colors hover:text-primary"
+        href="https://docs.omni.dev/garden/overview"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Docs
+      </Link>
+
+      <Link
+        className="text-muted-foreground text-xs transition-colors hover:text-primary"
         href="https://omni.dev/terms-of-service"
         target="_blank"
         rel="noopener noreferrer"
