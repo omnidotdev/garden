@@ -13,7 +13,8 @@
     "check": "biome check --diagnostic-level=error src",
     "format": "biome format --write src",
     "lint": "biome lint --diagnostic-level=error src",
-    "generate:types": "bunx quicktype@23.2.4 -s schema ../../garden.schema.json -o src/generated/garden.types.ts"
+    "generate:types": "bunx quicktype@23.2.4 -s schema ../../garden.schema.json -o src/generated/garden.types.ts",
+    "knip": "knip-bun --cache --tags=-knipignore"
   },
   "exports": {
     ".": {
@@ -29,21 +30,22 @@
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
     "@xyflow/react": "^12.7.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "elkjs": "^0.10.0",
+    "lucide-react": "^0.516.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.1",
     "ts-pattern": "^5.7.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^24.0.1",
     "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react": "^4.4.1",
     "globby": "^14.1.0",
+    "tailwindcss": "^4.1.10",
     "typescript": "5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.5.4",
-    "vite-plugin-lib-inject-css": "^2.2.2"
+    "vite-plugin-dts": "^4.5.4"
   }
 }

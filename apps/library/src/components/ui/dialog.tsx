@@ -141,8 +141,11 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  /** @knipignore */
   DialogOverlay,
+  /** @knipignore */
   DialogPortal,
   DialogTitle,
+  /** @knipignore */
   DialogTrigger,
 };
