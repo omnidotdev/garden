@@ -11,8 +11,6 @@ const knipConfig: KnipConfig = {
   // NB: files are reported as unused if they are in the set of project files, but not in the set of files resolved from the entry files. See: https://knip.dev/guides/configuring-project-files
   project: ["src/**/*.{ts,tsx}"],
   ignoreDependencies: ["tailwindcss"],
-  // TODO: re-enabled. Broken currently with biome v2 and updated extends pattern
-  biome: false,
 };
 
 export default knipConfig;
