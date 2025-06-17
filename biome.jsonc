@@ -10,9 +10,10 @@
     "includes": [
       "apps/**",
       "packages/**",
-      "!packages/ui/src/**",
       "!**/generated/**",
-      "!**/build/**"
+      "!**/build/**",
+      "!apps/library/src/lib/garden.css",
+      "!apps/web/src/components/ui/**"
     ]
   },
   "formatter": {
@@ -30,7 +31,8 @@
         "noStaticElementInteractions": "off"
       },
       "correctness": {
-        "noUnusedImports": "error"
+        "noUnusedImports": "error",
+        "noUnknownMediaFeatureName": "off"
       },
       "nursery": {
         "useUniqueElementIds": "off",
@@ -44,10 +46,22 @@
         }
       },
       "style": {
+        "noNonNullAssertion": "off",
+        "useSingleVarDeclarator": "off",
         "useImportType": {
           "level": "error",
           "options": { "style": "separatedType" }
         }
+      },
+      "suspicious": {
+        "noConsole": {
+          "level": "error",
+          "options": {
+            "allow": ["error", "warn"]
+          }
+        },
+        // TODO: remove this, and make sure it is indeed an error. For scaffolding purposes, it is easier to just have this be a warning for now
+        "noExplicitAny": "warn"
       }
     }
   },
