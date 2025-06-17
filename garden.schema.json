@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://example.com/schemas/garden.json",
   "title": "Garden",
   "type": "object",
   "required": [
@@ -47,7 +46,7 @@
         "null"
       ],
       "items": {
-        "$ref": "https://example.com/schemas/garden.json"
+        "$ref": "#/definitions/Garden"
       }
     },
     "supergardens": {
@@ -56,7 +55,7 @@
         "null"
       ],
       "items": {
-        "$ref": "https://example.com/schemas/garden.json"
+        "$ref": "#/definitions/Garden"
       }
     },
     "theme": {
@@ -80,6 +79,85 @@
     }
   },
   "definitions": {
+    "Garden": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "created_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "items": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/GardenItem"
+          }
+        },
+        "maintainers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Maintainer"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "subgardens": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Garden"
+          }
+        },
+        "supergardens": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Garden"
+          }
+        },
+        "theme": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Theme"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "updated_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
     "GardenItem": {
       "type": "object",
       "required": [

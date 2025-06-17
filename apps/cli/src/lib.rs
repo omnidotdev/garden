@@ -18,19 +18,6 @@ pub struct GardenItem {
     pub description: Option<String>,
 }
 
-// GardenReference struct for linking to other gardens
-#[derive(JsonSchema, Serialize, Deserialize, Debug)]
-pub struct GardenReference {
-    pub name: String,
-    pub url: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub logo: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub version: Option<String>,
-}
-
 // Maintainer struct
 #[derive(JsonSchema, Serialize, Deserialize, Debug)]
 pub struct Maintainer {
@@ -72,9 +59,9 @@ pub struct Garden {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub theme: Option<Theme>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub supergardens: Option<Vec<GardenReference>>,
+    pub supergardens: Option<Vec<Garden>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub subgardens: Option<Vec<GardenReference>>,
+    pub subgardens: Option<Vec<Garden>>,
 }
 
 // Function to generate JSON schema for Garden
@@ -114,7 +101,8 @@ mod tests {
             "subgardens": [
                 {
                     "name": "Subgarden",
-                    "url": "https://example.com/subgarden"
+                    "url": "https://example.com/subgarden",
+                    "version": "1.0.0"
                 }
             ]
         });
@@ -150,10 +138,9 @@ mod tests {
             .compile(&schema_value)
             .expect("Failed to compile schema");
 
-        // Invalid JSON (missing required 'subgardens' field)
+        // Invalid JSON (missing required 'version' field)
         let invalid_input = serde_json::json!({
-            "name": "Invalid Garden",
-            "version": "1.0.0"
+            "name": "Invalid Garden"
         });
 
         // Validate (should fail)
