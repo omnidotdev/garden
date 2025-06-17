@@ -6,7 +6,7 @@ import { GardenFlow } from "../GardenFlow";
 
 import type { ControlProps, MiniMapProps } from "@xyflow/react";
 
-import "../../lib/globals.css";
+import "../../lib/garden.css";
 
 export interface GardenProps {
   /** Garden schema to visualize */
