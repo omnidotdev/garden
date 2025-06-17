@@ -2,29 +2,17 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Garden",
   "type": "object",
-  "required": [
-    "name",
-    "version"
-  ],
+  "required": ["name", "version"],
   "properties": {
     "created_at": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "description": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "maintainers": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
+      "type": ["array", "null"],
+      "sprouts": {
         "$ref": "#/definitions/Maintainer"
       }
     },
@@ -32,29 +20,20 @@
       "type": "string"
     },
     "sprouts": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
+      "type": ["array", "null"],
+      "sprouts": {
         "$ref": "#/definitions/Sprout"
       }
     },
     "subgardens": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
+      "type": ["array", "null"],
+      "sprouts": {
         "$ref": "#/definitions/Garden"
       }
     },
     "supergardens": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
+      "type": ["array", "null"],
+      "sprouts": {
         "$ref": "#/definitions/Garden"
       }
     },
@@ -69,10 +48,7 @@
       ]
     },
     "updated_at": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "version": {
       "type": "string"
@@ -81,29 +57,17 @@
   "definitions": {
     "Garden": {
       "type": "object",
-      "required": [
-        "name",
-        "version"
-      ],
+      "required": ["name", "version"],
       "properties": {
         "created_at": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "description": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "maintainers": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
+          "type": ["array", "null"],
+          "sprouts": {
             "$ref": "#/definitions/Maintainer"
           }
         },
@@ -111,29 +75,20 @@
           "type": "string"
         },
         "sprouts": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
+          "type": ["array", "null"],
+          "sprouts": {
             "$ref": "#/definitions/Sprout"
           }
         },
         "subgardens": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
+          "type": ["array", "null"],
+          "sprouts": {
             "$ref": "#/definitions/Garden"
           }
         },
         "supergardens": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
+          "type": ["array", "null"],
+          "sprouts": {
             "$ref": "#/definitions/Garden"
           }
         },
@@ -148,10 +103,7 @@
           ]
         },
         "updated_at": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "version": {
           "type": "string"
@@ -160,69 +112,43 @@
     },
     "Maintainer": {
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "email": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "name": {
           "type": "string"
         },
         "url": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         }
       }
     },
     "Sprout": {
       "type": "object",
-      "required": [
-        "homepage_url",
-        "name"
-      ],
+      "required": ["homepage_url", "name"],
       "properties": {
         "description": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "homepage_url": {
           "type": "string"
         },
         "logo": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "name": {
           "type": "string"
         },
         "project_url": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "repo_url": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "twitter": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         }
       }
     },
@@ -230,28 +156,16 @@
       "type": "object",
       "properties": {
         "background_color": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "primary_color": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "secondary_color": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "text_color": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         }
       }
     }

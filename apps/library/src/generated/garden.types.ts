@@ -10,43 +10,11 @@
 export interface GardenTypes {
     created_at?:   null | string;
     description?:  null | string;
-    maintainers?:  Maintainer[] | null;
+    maintainers?:  any[] | null;
     name:          string;
-    sprouts?:      Sprout[] | null;
-    subgardens?:   Garden[] | null;
-    supergardens?: Garden[] | null;
-    theme?:        null | Theme;
-    updated_at?:   null | string;
-    version:       string;
-    [property: string]: any;
-}
-
-export interface Maintainer {
-    email?: null | string;
-    name:   string;
-    url?:   null | string;
-    [property: string]: any;
-}
-
-export interface Sprout {
-    description?: null | string;
-    homepage_url: string;
-    logo?:        null | string;
-    name:         string;
-    project_url?: null | string;
-    repo_url?:    null | string;
-    twitter?:     null | string;
-    [property: string]: any;
-}
-
-export interface Garden {
-    created_at?:   null | string;
-    description?:  null | string;
-    maintainers?:  Maintainer[] | null;
-    name:          string;
-    sprouts?:      Sprout[] | null;
-    subgardens?:   Garden[] | null;
-    supergardens?: Garden[] | null;
+    sprouts?:      any[] | null;
+    subgardens?:   any[] | null;
+    supergardens?: any[] | null;
     theme?:        null | Theme;
     updated_at?:   null | string;
     version:       string;
@@ -229,37 +197,11 @@ const typeMap: any = {
     "GardenTypes": o([
         { json: "created_at", js: "created_at", typ: u(undefined, u(null, "")) },
         { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "maintainers", js: "maintainers", typ: u(undefined, u(a(r("Maintainer")), null)) },
+        { json: "maintainers", js: "maintainers", typ: u(undefined, u(a("any"), null)) },
         { json: "name", js: "name", typ: "" },
-        { json: "sprouts", js: "sprouts", typ: u(undefined, u(a(r("Sprout")), null)) },
-        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("Garden")), null)) },
-        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("Garden")), null)) },
-        { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
-        { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
-        { json: "version", js: "version", typ: "" },
-    ], "any"),
-    "Maintainer": o([
-        { json: "email", js: "email", typ: u(undefined, u(null, "")) },
-        { json: "name", js: "name", typ: "" },
-        { json: "url", js: "url", typ: u(undefined, u(null, "")) },
-    ], "any"),
-    "Sprout": o([
-        { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "homepage_url", js: "homepage_url", typ: "" },
-        { json: "logo", js: "logo", typ: u(undefined, u(null, "")) },
-        { json: "name", js: "name", typ: "" },
-        { json: "project_url", js: "project_url", typ: u(undefined, u(null, "")) },
-        { json: "repo_url", js: "repo_url", typ: u(undefined, u(null, "")) },
-        { json: "twitter", js: "twitter", typ: u(undefined, u(null, "")) },
-    ], "any"),
-    "Garden": o([
-        { json: "created_at", js: "created_at", typ: u(undefined, u(null, "")) },
-        { json: "description", js: "description", typ: u(undefined, u(null, "")) },
-        { json: "maintainers", js: "maintainers", typ: u(undefined, u(a(r("Maintainer")), null)) },
-        { json: "name", js: "name", typ: "" },
-        { json: "sprouts", js: "sprouts", typ: u(undefined, u(a(r("Sprout")), null)) },
-        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a(r("Garden")), null)) },
-        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a(r("Garden")), null)) },
+        { json: "sprouts", js: "sprouts", typ: u(undefined, u(a("any"), null)) },
+        { json: "subgardens", js: "subgardens", typ: u(undefined, u(a("any"), null)) },
+        { json: "supergardens", js: "supergardens", typ: u(undefined, u(a("any"), null)) },
         { json: "theme", js: "theme", typ: u(undefined, u(null, r("Theme"))) },
         { json: "updated_at", js: "updated_at", typ: u(undefined, u(null, "")) },
         { json: "version", js: "version", typ: "" },

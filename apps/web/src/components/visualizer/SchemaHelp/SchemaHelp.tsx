@@ -1,3 +1,5 @@
+// TODO automatically generate this from schema to minimize human error and drift
+
 /**
  * Schema Help.
  */
@@ -28,8 +30,8 @@ const SchemaHelp = () => (
           Description of your Garden
         </li>
         <li>
-          <code className="rounded bg-muted px-1 text-sm">items</code>: Array of
-          item objects directly in the garden
+          <code className="rounded bg-muted px-1 text-sm">sprouts</code>: Array
+          of sprout objects directly in the garden
         </li>
         <li>
           <code className="rounded bg-muted px-1 text-sm">maintainers</code>:
@@ -61,17 +63,18 @@ const SchemaHelp = () => (
     <div className="space-y-2">
       <h4 className="font-medium">Organizational Structure:</h4>
       <p>
-        Gardens can contain items directly and can have subgardens, which can
-        themselves have items and further subgardens, allowing for hierarchical
-        organization of resources.
+        Gardens can contain sprouts directly and can have subgardens, which can
+        themselves have sprouts and further subgardens, allowing for
+        hierarchical organization of resources.
       </p>
     </div>
 
     <div className="space-y-2">
-      <h4 className="font-medium">Item Structure:</h4>
+      <h4 className="font-medium">Sprout Structure:</h4>
       <ul className="list-disc space-y-1 pl-6">
         <li>
-          <code className="rounded bg-muted px-1 text-sm">name</code>: Item name
+          <code className="rounded bg-muted px-1 text-sm">name</code>: Sprout
+          name
         </li>
         <li>
           <code className="rounded bg-muted px-1 text-sm">homepage_url</code>:
@@ -86,7 +89,7 @@ const SchemaHelp = () => (
         </li>
         <li>
           <code className="rounded bg-muted px-1 text-sm">description</code>:
-          (Optional) Item description
+          (Optional) Sprout description
         </li>
         <li>
           <code className="rounded bg-muted px-1 text-sm">twitter</code>:

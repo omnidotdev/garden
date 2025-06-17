@@ -20,7 +20,7 @@ export const gardens: GardenTypes = {
       url: "https://omni.dev",
     },
   ],
-  items: [
+  sprouts: [
     {
       name: "Omni Consulting",
       homepage_url: "https://omni.dev",
@@ -63,7 +63,7 @@ export const gardens: GardenTypes = {
           version: "2.0.0",
         },
       ],
-      items: [
+      sprouts: [
         {
           name: "Backfeed",
           homepage_url: "https://backfeed.omni.dev",
@@ -100,7 +100,7 @@ export const gardens: GardenTypes = {
           version: "2.0.0",
         },
       ],
-      items: [
+      sprouts: [
         {
           name: "Sigil",
           homepage_url: "https://sigil.omni.dev",
@@ -137,7 +137,7 @@ export const gardens: GardenTypes = {
           version: "2.0.0",
         },
       ],
-      items: [
+      sprouts: [
         {
           name: "Garden",
           homepage_url: "https://garden.omni.dev",

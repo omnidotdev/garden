@@ -150,7 +150,7 @@ const processSubgarensRecursively = ({
 }: RecursiveSubgardenOptions) => {
   if (!parent.subgardens?.length) return;
 
-  // Calculate spacing based on the number of items at this level
+  // calculate spacing based on the number of sprouts at this level
   const horizontalSpacing = Math.min(
     600,
     width / Math.max(1, parent.subgardens.length),
@@ -213,38 +213,38 @@ const processSubgarensRecursively = ({
       markerEnd: { type: MarkerType.ArrowClosed },
     });
 
-    if (currentGarden?.items?.length) {
-      for (const item of currentGarden.items) {
-        if (!item || !item.name) {
+    if (currentGarden?.sprouts?.length) {
+      for (const sprout of currentGarden.sprouts) {
+        if (!sprout || !sprout.name) {
           console.warn(
-            "Skipping invalid item in subgarden:",
+            "Skipping invalid sprout in subgarden:",
             subgarden.name,
-            item,
+            sprout,
           );
           continue;
         }
 
-        const itemId = generateId(
+        const sproutId = generateId(
           NODE_TYPES.SPROUT,
-          item.name,
-          `${subgardenId}-item`,
+          sprout.name,
+          `${subgardenId}-sprout`,
         );
 
-        // Distribute items with reasonable spacing
-        const itemSpacing = Math.max(60, 80 - level * 5);
-        const itemYPosition =
-          yPos + 100 + currentGarden.items.indexOf(item) * itemSpacing;
+        // distribute sprouts with reasonable spacing
+        const sproutSpacing = Math.max(60, 80 - level * 5);
+        const sproutYPosition =
+          yPos + 100 + currentGarden.sprouts.indexOf(sprout) * sproutSpacing;
 
         nodes.push({
-          id: itemId,
+          id: sproutId,
           type: NODE_TYPES.SPROUT,
           data: {
-            label: item.name,
-            homepage_url: item.homepage_url,
-            logo: item.logo,
-            image: item.logo,
-            repo_url: item.repo_url,
-            description: item.description,
+            label: sprout.name,
+            homepage_url: sprout.homepage_url,
+            logo: sprout.logo,
+            image: sprout.logo,
+            repo_url: sprout.repo_url,
+            description: sprout.description,
             theme: gardenTheme,
             level: level, // Track the nesting level for styling
             sourceConnections: [],
@@ -252,27 +252,27 @@ const processSubgarensRecursively = ({
             cta: {
               primary: {
                 label: "Visit Website",
-                url: item.homepage_url,
+                url: sprout.homepage_url,
               },
-              secondary: item.repo_url
+              secondary: sprout.repo_url
                 ? {
                     label: "View Code",
-                    url: item.repo_url,
+                    url: sprout.repo_url,
                   }
                 : undefined,
             },
           },
           position: {
             x: xPos,
-            y: itemYPosition,
+            y: sproutYPosition,
           },
           ...getNodePositions(NODE_TYPES.SPROUT),
         });
 
         edges.push({
-          id: `${subgardenId}-to-${itemId}`,
+          id: `${subgardenId}-to-${sproutId}`,
           source: subgardenId,
-          target: itemId,
+          target: sproutId,
           sourceHandle: "bottom",
           targetHandle: "top",
           type: options.edgeType || "default",
@@ -357,59 +357,59 @@ export const gardenToFlow = ({
     },
   });
 
-  // Process items directly on the garden if any
-  if (garden.items && Array.isArray(garden.items)) {
-    garden.items.forEach((item, index) => {
-      if (!item || !item.name) {
-        console.warn("Skipping invalid item at index", index, ":", item);
+  // process sprouts directly on the garden if any
+  if (garden.sprouts && Array.isArray(garden.sprouts)) {
+    garden.sprouts.forEach((sprout, index) => {
+      if (!sprout || !sprout.name) {
+        console.warn("Skipping invalid sprout at index", index, ":", sprout);
         return;
       }
 
-      const itemId = generateId(
+      const sproutId = generateId(
         NODE_TYPES.SPROUT,
-        item.name,
+        sprout.name,
         `${gardenId}-direct`,
       );
-      const itemYPosition = 150 + index * 80;
+      const sproutYPosition = 150 + index * 80;
 
       nodes.push({
-        id: itemId,
+        id: sproutId,
         type: NODE_TYPES.SPROUT,
         data: {
-          label: item.name,
-          homepage_url: item.homepage_url || "",
-          logo: item.logo || "",
+          label: sprout.name,
+          homepage_url: sprout.homepage_url || "",
+          logo: sprout.logo || "",
           image:
-            item.logo ||
+            sprout.logo ||
             "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
-          repo_url: item.repo_url || "",
-          description: item.description || "",
+          repo_url: sprout.repo_url || "",
+          description: sprout.description || "",
           theme: currentGardenTheme,
           cta: {
             primary: {
               label: "Visit Website",
-              url: item.homepage_url || "",
+              url: sprout.homepage_url || "",
             },
-            secondary: item.repo_url
+            secondary: sprout.repo_url
               ? {
                   label: "View Code",
-                  url: item.repo_url,
+                  url: sprout.repo_url,
                 }
               : undefined,
           },
         },
         position: {
           x: centerX,
-          y: itemYPosition,
+          y: sproutYPosition,
         },
         ...getNodePositions(NODE_TYPES.SPROUT),
       });
 
-      // Connect garden to this item
+      // connect garden to this sprout
       edges.push({
-        id: `${gardenId}-to-${itemId}`,
+        id: `${gardenId}-to-${sproutId}`,
         source: gardenId,
-        target: itemId,
+        target: sproutId,
         sourceHandle: "bottom",
         targetHandle: "top",
         type: options.edgeType || "default",
