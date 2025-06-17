@@ -3,6 +3,7 @@ local_resource(
     cmd='bun i',
 )
 
+
 local_resource(
     'build',
     cmd='bun turbo build',
