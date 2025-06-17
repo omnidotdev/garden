@@ -2,7 +2,6 @@ import tailwindcss from "@tailwindcss/postcss";
 import { globbySync } from "globby";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import { libInjectCss } from "vite-plugin-lib-inject-css";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -31,11 +30,11 @@ export default defineConfig({
         globals: {
           tailwindcss: "tailwindcss",
         },
+        banner: `"use client";`,
       },
     },
   },
   plugins: [
-    libInjectCss(),
     dts({
       entryRoot: "src",
       staticImport: true,
