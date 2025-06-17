@@ -12,8 +12,7 @@
       "packages/**",
       "!**/generated/**",
       "!**/build/**",
-      "!apps/library/src/lib/garden.css",
-      "!apps/web/src/components/ui/**"
+      "!apps/library/src/lib/garden.css"
     ]
   },
   "formatter": {
