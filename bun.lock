@@ -26,7 +26,6 @@
         "@types/react": "^19.1.2",
         "@types/react-dom": "^19.1.2",
         "@vitejs/plugin-react": "^4.4.1",
-        "@workspace/typescript-config": "workspace:*",
         "globby": "^14.1.0",
         "typescript": "5.8.3",
         "vite": "^6.3.5",
@@ -59,14 +58,9 @@
         "@types/node": "24.0.0",
         "@types/react": "19.1.7",
         "@types/react-dom": "19.1.6",
-        "@workspace/typescript-config": "workspace:*",
         "tailwindcss": "^4.1.10",
         "typescript": "5.8.3",
       },
-    },
-    "packages/typescript-config": {
-      "name": "@workspace/typescript-config",
-      "version": "0.0.0",
     },
   },
   "trustedDependencies": [
@@ -510,8 +504,6 @@
     "@vue/language-core": ["@vue/language-core@2.2.0", "", { "dependencies": { "@volar/language-core": "~2.4.11", "@vue/compiler-dom": "^3.5.0", "@vue/compiler-vue2": "^2.7.16", "@vue/shared": "^3.5.0", "alien-signals": "^0.4.9", "minimatch": "^9.0.3", "muggle-string": "^0.4.1", "path-browserify": "^1.0.1" }, "peerDependencies": { "typescript": "*" }, "optionalPeers": ["typescript"] }, "sha512-O1ZZFaaBGkKbsRfnVH1ifOK1/1BUkyK+3SQsfnh6PmMmD4qJcTU8godCeA96jjDRTL6zgnK7YzCHfaUlH2r0Mw=="],
 
     "@vue/shared": ["@vue/shared@3.5.16", "", {}, "sha512-c/0fWy3Jw6Z8L9FmTyYfkpM5zklnqqa9+a6dz3DvONRKW2NEbh46BP0FHuLFSWi2TnQEtp91Z6zOWNrU6QiyPg=="],
-
-    "@workspace/typescript-config": ["@workspace/typescript-config@workspace:packages/typescript-config"],
 
     "@xyflow/react": ["@xyflow/react@12.7.0", "", { "dependencies": { "@xyflow/system": "0.0.62", "classcat": "^5.0.3", "zustand": "^4.4.0" }, "peerDependencies": { "react": ">=17", "react-dom": ">=17" } }, "sha512-U6VMEbYjiCg1byHrR7S+b5ZdHTjgCFX4KpBc634G/WtEBUvBLoMQdlCD6uJHqodnOAxpt3+G2wiDeTmXAFJzgQ=="],
 
