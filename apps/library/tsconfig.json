@@ -4,8 +4,7 @@
     "outDir": "build",
     "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"],
-      "@workspace/ui/*": ["../../../packages/ui/src/*"]
+      "@/*": ["./*"]
     }
   },
   "include": ["src"],

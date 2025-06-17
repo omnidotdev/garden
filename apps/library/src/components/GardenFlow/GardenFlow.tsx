@@ -14,7 +14,9 @@ import ELK from "elkjs/lib/elk.bundled.js";
 import { FlowerIcon, Layers2Icon, LayersIcon } from "lucide-react";
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
-import { Button } from "@workspace/ui/components/button";
+import { cn, findGardenByName, gardenToFlow } from "../../lib/utils";
+import { customNodes } from "../nodes";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogClose,
@@ -23,10 +25,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@workspace/ui/components/dialog";
-import { cn } from "@workspace/ui/lib/utils";
-import { findGardenByName, gardenToFlow } from "../../lib/utils";
-import { customNodes } from "../nodes";
+} from "../ui/dialog";
 
 import type {
   ConnectionLineType,
@@ -233,13 +232,18 @@ const GardenFlow = ({
   }, []);
 
   return (
-    <div className={cn("h-full w-full rounded-lg border", className)}>
+    <div
+      className={cn(
+        "garden:h-full garden:w-full garden:rounded-lg garden:border garden:border-border",
+        className,
+      )}
+    >
       <ReactFlow
-        className="relative"
+        className="garden:relative"
         nodeTypes={customNodes}
         nodes={nodes.map((node) => ({
           ...node,
-          className: "!bg-background",
+          className: "!garden:bg-background",
           style: {
             ...node.style,
             cursor: node.type === "garden" ? "grab" : "pointer",
@@ -252,7 +256,7 @@ const GardenFlow = ({
           animated: animateEdges,
           style: {
             strokeWidth: 2,
-            stroke: "var(--ring)",
+            stroke: "var(--garden-ring)",
           },
           markerEnd: edge.markerEnd || { type: MarkerType.ArrowClosed },
         }))}
@@ -282,19 +286,13 @@ const GardenFlow = ({
         <Background />
 
         {showMinimap && (
-          <MiniMap
-            nodeStrokeWidth={3}
-            zoomable
-            pannable
-            {...miniMapOptions}
-            className={cn("!bg-background", miniMapOptions?.className ?? "")}
-          />
+          <MiniMap nodeStrokeWidth={3} zoomable pannable {...miniMapOptions} />
         )}
 
         {currentGarden && (
           <Panel position="top-right">
             <div
-              className="flex items-center gap-2 rounded-md border px-3 py-1.5 font-medium text-sm shadow-sm backdrop-blur-sm"
+              className="garden:flex garden:items-center garden:gap-2 garden:rounded-md garden:border garden:px-3 garden:py-1.5 garden:font-medium garden:text-sm garden:shadow-sm garden:backdrop-blur-sm"
               style={{
                 color:
                   (currentGarden.data?.theme as Theme)?.primary_color ??
@@ -304,12 +302,12 @@ const GardenFlow = ({
                   undefined,
               }}
             >
-              <FlowerIcon className="h-4 w-4" />
+              <FlowerIcon className="garden:h-4 garden:w-4" />
 
               {(currentGarden.data?.label as ReactNode) ?? "Garden"}
 
               {(currentGarden.data?.icon as string) && (
-                <span className="ml-1">
+                <span className="garden:ml-1">
                   {currentGarden.data.icon as string}
                 </span>
               )}
@@ -321,7 +319,10 @@ const GardenFlow = ({
           <Controls
             showInteractive={false}
             {...controlOptions}
-            className={cn("border", controlOptions?.className ?? "")}
+            className={cn(
+              "garden:border garden:border-border",
+              controlOptions?.className ?? "",
+            )}
           >
             <ControlButton
               title={
@@ -358,34 +359,36 @@ const GardenFlow = ({
           }
         }}
       >
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="garden:sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle className="text-xl">{selectedItem?.label}</DialogTitle>
+            <DialogTitle className="garden:text-xl">
+              {selectedItem?.label}
+            </DialogTitle>
             {selectedItem?.description && (
-              <DialogDescription className="text-base">
+              <DialogDescription className="garden:text-base">
                 {selectedItem.description}
               </DialogDescription>
             )}
           </DialogHeader>
 
           {selectedItem?.image && (
-            <div className="mt-2 aspect-video w-full overflow-hidden rounded-md">
+            <div className="garden:mt-2 garden:aspect-video garden:w-full garden:overflow-hidden garden:rounded-md">
               <img
                 src={selectedItem.image}
                 alt={selectedItem.label}
-                className="h-full w-full object-cover"
+                className="garden:h-full garden:w-full garden:object-cover"
               />
             </div>
           )}
 
           {selectedItem?.version && (
-            <div className="mt-2 text-muted-foreground text-sm">
+            <div className="garden:mt-2 garden:text-muted-foreground garden:text-sm">
               Version: {selectedItem.version}
             </div>
           )}
 
-          <DialogFooter className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
-            <div className="flex gap-2">
+          <DialogFooter className="garden:flex garden:flex-col garden:gap-2 garden:sm:flex-row garden:sm:justify-between garden:sm:gap-0">
+            <div className="garden:flex garden:gap-2">
               {selectedItem?.cta?.primary && (
                 <Button
                   variant="default"

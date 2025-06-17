@@ -9,13 +9,14 @@ const SupergardenNode = ({ data }: NodeProps) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "var(--garden)";
-  const secondaryColor = data.theme?.secondary_color || "var(--garden)/40";
+  const primaryColor = data.theme?.primary_color || "var(--garden-garden)";
+  const secondaryColor =
+    data.theme?.secondary_color || "var(--garden-garden)/40";
 
   return (
     <div
       // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-      className="relative h-full rounded-md border-2 bg-card shadow-lg transition-transform hover:scale-105 hover:border-garden/70"
+      className="garden:relative garden:h-full garden:rounded-md garden:border-2 garden:bg-card garden:shadow-lg garden:transition-transform garden:hover:scale-105 garden:hover:border-garden/70"
       style={{
         borderColor: secondaryColor,
       }}
@@ -29,30 +30,32 @@ const SupergardenNode = ({ data }: NodeProps) => {
         />
       )}
 
-      <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg p-4 text-center">
-        <div className="flex w-full justify-center">
+      <div className="garden:flex garden:cursor-pointer garden:flex-col garden:items-center garden:gap-4 garden:rounded-lg garden:p-4 garden:text-center">
+        <div className="garden:flex garden:w-full garden:justify-center">
           <div
-            className="rounded-md px-2 py-1 font-medium text-sm hover:bg-secondary/80"
+            className="garden:rounded-md garden:px-2 garden:py-1 garden:font-medium garden:text-sm garden:hover:bg-secondary/80"
             style={{
               backgroundColor: primaryColor,
-              color: "var(--background)",
+              color: "var(--garden-background)",
             }}
           >
             Supergarden
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-2 p-2">
+        <div className="garden:flex garden:flex-col garden:items-center garden:gap-2 garden:p-2">
           <GlobeIcon
             size={24}
-            className="animate-pulse"
+            className="garden:animate-pulse"
             style={{ color: primaryColor }}
           />
 
-          <h3 className="font-bold text-foreground">{data.label}</h3>
+          <h3 className="garden:font-bold garden:text-foreground">
+            {data.label}
+          </h3>
 
           {data.description && (
-            <h4 className="line-clamp-2 text-foreground text-sm opacity-90">
+            <h4 className="garden:line-clamp-2 garden:text-foreground garden:text-sm garden:opacity-90">
               {data.description}
             </h4>
           )}

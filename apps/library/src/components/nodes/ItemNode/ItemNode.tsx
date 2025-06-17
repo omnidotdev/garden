@@ -11,11 +11,11 @@ const ItemNode = ({ data }: NodeProps) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "var(--garden)";
+  const primaryColor = data.theme?.primary_color || "var(--garden-garden)";
 
   return (
     // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-    <div className="relative cursor-pointer overflow-hidden rounded-md border-2 bg-card shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+    <div className="garden:relative garden:cursor-pointer garden:overflow-hidden garden:rounded-md garden:border-2 garden:border-border garden:bg-card garden:shadow-lg garden:transition-all garden:hover:scale-105 garden:hover:shadow-xl">
       {hasTopTargets && (
         <Handle
           id="top"
@@ -34,30 +34,32 @@ const ItemNode = ({ data }: NodeProps) => {
         />
       )}
 
-      <div className="relative space-y-3">
-        <div className="aspect-video w-full">
+      <div className="garden:relative garden:space-y-3">
+        <div className="garden:aspect-video garden:w-full">
           <img
             src={data.image}
             alt={data.label}
-            className="h-full w-full object-cover"
+            className="garden:h-full garden:w-full garden:object-cover"
           />
         </div>
-        <div className="px-4">
-          <h3 className="font-medium text-foreground">{data.label}</h3>
+        <div className="garden:px-4">
+          <h3 className="garden:font-medium garden:text-foreground">
+            {data.label}
+          </h3>
           {data.description && (
-            <p className="mt-1 line-clamp-2 text-foreground text-sm">
+            <p className="garden:mt-1 garden:line-clamp-2 garden:text-foreground garden:text-sm">
               {data.description}
             </p>
           )}
         </div>
-        <div className="flex gap-2 p-4 pt-0">
+        <div className="garden:flex garden:gap-2 garden:p-4 garden:pt-0">
           {data.cta?.primary && (
             <button
               type="button"
-              className="w-full cursor-pointer rounded-md px-3 py-1 font-medium text-sm hover:opacity-90"
+              className="garden:w-full garden:cursor-pointer garden:rounded-md garden:px-3 garden:py-1 garden:font-medium garden:text-sm garden:hover:opacity-90"
               style={{
                 backgroundColor: primaryColor,
-                color: "var(--background)",
+                color: "var(--garden-background)",
               }}
               onClick={(e) => {
                 // prevent needlessly opening the item dialog
@@ -65,7 +67,10 @@ const ItemNode = ({ data }: NodeProps) => {
                 window.open(data.cta?.primary.url, "_blank");
               }}
             >
-              <ExternalLinkIcon size={14} className="mr-1 inline-block" />
+              <ExternalLinkIcon
+                size={14}
+                className="garden:mr-1 garden:inline-block"
+              />
               {data.cta?.primary.label}
             </button>
           )}
@@ -73,7 +78,7 @@ const ItemNode = ({ data }: NodeProps) => {
           {data.cta?.secondary && (
             <button
               type="button"
-              className="rounded-md border px-2 py-1 font-medium text-sm"
+              className="garden:rounded-md garden:border garden:px-2 garden:py-1 garden:font-medium garden:text-sm"
               style={{
                 borderColor: primaryColor,
                 color: primaryColor,
@@ -81,7 +86,7 @@ const ItemNode = ({ data }: NodeProps) => {
               onClick={() => window.open(data.cta?.secondary?.url, "_blank")}
             >
               <GitBranchIcon
-                className="h-4 w-4"
+                className="garden:h-4 garden:w-4"
                 style={{
                   color: primaryColor,
                 }}

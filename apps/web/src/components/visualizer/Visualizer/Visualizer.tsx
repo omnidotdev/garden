@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@workspace/ui/components/button";
 import { GardenTabs } from "components/visualizer";
 import { InfoIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useIsClient } from "usehooks-ts";
+import { Button } from "@/components/ui/button";
 
 const INSTRUCTIONS_STORAGE_KEY = "garden_instructions_visible";
 
@@ -30,7 +30,7 @@ const Visualizer = () => {
 	return (
 		<div className="flex h-full w-full flex-col">
 			{/* Header with garden selector */}
-			<div className="border-b bg-card p-4 shadow-sm">
+			<div className="border-b border-border bg-card p-4 shadow-sm">
 				<div className="container mx-auto flex items-center justify-between">
 					<div className="flex w-full items-center justify-between gap-2">
 						<div className="flex items-center gap-1">

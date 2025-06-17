@@ -22,13 +22,13 @@ const DefaultNode = ({ data }: NodeProps) => {
 
   return (
     // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-    <div className="relative rounded-md border border-muted bg-card p-2">
+    <div className="garden:relative garden:rounded-md garden:border garden:border-muted garden:bg-card garden:p-2">
       {hasTopSources && <Handle type="source" position={Position.Top} />}
       {hasBottomSources && <Handle type="source" position={Position.Bottom} />}
       {hasTopTargets && <Handle type="target" position={Position.Top} />}
       {hasBottomTargets && <Handle type="target" position={Position.Bottom} />}
       {hasLeftTargets && <Handle type="target" position={Position.Left} />}
-      <div className="p-2">{data.label}</div>
+      <div className="garden:p-2">{data.label}</div>
     </div>
   );
 };

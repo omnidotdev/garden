@@ -26,7 +26,8 @@
     "./styles.css": "./build/garden.css"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-slot": "^1.2.3",
     "@xyflow/react": "^12.7.0",
     "elkjs": "^0.10.0",
     "react": "^19.1.0",
@@ -42,7 +43,6 @@
     "globby": "^14.1.0",
     "typescript": "5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-bundle-css": "^0.1.1",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-lib-inject-css": "^2.2.2"
   }

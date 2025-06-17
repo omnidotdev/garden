@@ -21,16 +21,7 @@ export default defineConfig({
       formats: ["es"],
     },
     rollupOptions: {
-      external: [
-        "react",
-        "react-dom",
-        "react/jsx-runtime",
-        "tailwindcss",
-        /^@radix-ui/,
-        "class-variance-authority",
-        "clsx",
-        "tailwind-merge",
-      ],
+      external: ["react", "react-dom", "react/jsx-runtime"],
       output: {
         entryFileNames: "[name].js",
         format: "es",

@@ -1,26 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@workspace/ui/components/card";
+} from "@/components/ui/card";
 import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from "@workspace/ui/components/sheet";
-import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
-} from "@workspace/ui/components/tabs";
-import { useEffect, useState } from "react";
+} from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	EditorActions,
 	EditorControls,

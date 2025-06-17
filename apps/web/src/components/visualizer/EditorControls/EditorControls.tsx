@@ -1,5 +1,5 @@
-import { Button } from "@workspace/ui/components/button";
 import { ExpandIcon, Minimize2Icon, MinusIcon, PlusIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useSearchParams } from "@/lib/hooks";
 
 /**

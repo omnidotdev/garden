@@ -1,14 +1,9 @@
 "use client";
 
 import { Garden } from "@omnidotdev/garden";
-import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
-} from "@workspace/ui/components/tabs";
 import { BarChartIcon, CodeIcon } from "lucide-react";
 import { useIsClient } from "usehooks-ts";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SchemaEditor } from "@/components/visualizer";
 import { useSearchParams } from "@/lib/hooks";
 import { useGardenStore } from "@/lib/hooks/store";

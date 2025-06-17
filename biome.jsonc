@@ -65,8 +65,7 @@
                 "source": [
                   ":PACKAGE:",
                   ":PACKAGE_WITH_PROTOCOL:",
-                  "!@omnidotdev/**",
-                  "!@workspace/ui/**"
+                  "!@omnidotdev/**"
                 ]
               },
               ":BLANK_LINE:",

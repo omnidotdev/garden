@@ -1,8 +1,15 @@
 import { MarkerType, Position } from "@xyflow/react";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import { match } from "ts-pattern";
 
 import type { Edge, Node } from "@xyflow/react";
+import type { ClassValue } from "clsx";
 import type { GardenTypes } from "../generated/garden.types";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 interface FlowOptions {
   expandSubgardens?: boolean;
@@ -271,7 +278,7 @@ const processSubgarensRecursively = ({
           type: options.edgeType || "default",
           animated: options.animateEdges !== false,
           style: {
-            stroke: "var(--muted-foreground)",
+            stroke: "var(--garden-muted-foreground)",
             strokeWidth: 2,
           },
           markerEnd: { type: MarkerType.ArrowClosed },
@@ -338,15 +345,15 @@ export const gardenToFlow = ({
       description: garden.description,
       version: garden.version,
       theme: currentGardenTheme,
-      icon_color: "var(--primary)",
+      icon_color: "var(--garden-primary)",
       icon: garden.icon,
     },
     position: { x: centerX, y: 0 },
     ...getNodePositions(NODE_TYPES.GARDEN),
     style: {
       background: currentGardenTheme?.primary_color ?? undefined,
-      color: "var(--primary-foreground)",
-      borderRadius: "var(--radius)",
+      color: "var(--garden-primary-foreground)",
+      borderRadius: "var(--garden-radius)",
     },
   });
 
@@ -408,7 +415,7 @@ export const gardenToFlow = ({
         type: options.edgeType || "default",
         animated: options.animateEdges !== false,
         style: {
-          stroke: "var(--muted-foreground)",
+          stroke: "var(--garden-muted-foreground)",
           strokeWidth: 2,
         },
         markerEnd: { type: MarkerType.ArrowClosed },
@@ -441,15 +448,15 @@ export const gardenToFlow = ({
           logo: supergarden.logo,
           version: supergarden.version,
           icon: "GlobeIcon",
-          icon_color: "var(--chart-9)",
+          icon_color: "var(--garden-chart-9)",
           theme: gardenTheme,
         },
         position: { x: centerX + xOffset, y: -200 },
         ...getNodePositions(NODE_TYPES.SUPERGARDEN),
         style: {
           background: gardenTheme?.primary_color ?? undefined,
-          color: "var(--chart-9-foreground)",
-          borderRadius: "var(--radius)",
+          color: "var(--garden-chart-9-foreground)",
+          borderRadius: "var(--garden-radius)",
         },
       });
 
@@ -463,7 +470,7 @@ export const gardenToFlow = ({
         type: options.edgeType || "default",
         animated: options.animateEdges !== false,
         style: {
-          stroke: "var(--chart-9)",
+          stroke: "var(--garden-chart-9)",
           strokeWidth: 2,
           strokeDasharray: "5,5",
         },
@@ -512,15 +519,15 @@ export const gardenToFlow = ({
             logo: subgarden.logo,
             version: subgarden.version,
             icon: "SproutIcon",
-            icon_color: "var(--chart-5)",
+            icon_color: "var(--garden-chart-5)",
             theme: gardenTheme,
           },
           position: { x: centerX + xOffset, y: 200 },
           ...getNodePositions(NODE_TYPES.SUBGARDEN),
           style: {
             background: gardenTheme?.primary_color ?? undefined,
-            color: "var(--chart-5-foreground)",
-            borderRadius: "var(--radius)",
+            color: "var(--garden-chart-5-foreground)",
+            borderRadius: "var(--garden-radius)",
           },
         });
 
@@ -534,7 +541,7 @@ export const gardenToFlow = ({
           type: options.edgeType || "default",
           animated: options.animateEdges !== false,
           style: {
-            stroke: "var(--chart-5)",
+            stroke: "var(--garden-chart-5)",
             strokeWidth: 2,
             strokeDasharray: "5,5",
           },

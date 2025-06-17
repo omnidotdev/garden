@@ -11,12 +11,12 @@ const GardenNode = ({ data }: NodeProps) => {
     data.sourceConnections && data.sourceConnections.length > 0;
 
   // Use theme colors from garden data if available
-  const primaryColor = data.theme?.primary_color || "var(--garden)";
+  const primaryColor = data.theme?.primary_color || "var(--garden-garden)";
 
   return (
     // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
     <div
-      className="relative flex h-full items-center justify-center rounded-md border-2 bg-card text-center shadow-lg"
+      className="garden:relative garden:flex garden:h-full garden:items-center garden:justify-center garden:rounded-md garden:border-2 garden:bg-card garden:text-center garden:shadow-lg"
       style={{ borderColor: primaryColor }}
     >
       {hasTopTargets && (
@@ -37,7 +37,7 @@ const GardenNode = ({ data }: NodeProps) => {
         />
       )}
 
-      <div className="flex flex-col items-center justify-center gap-2 rounded-md p-4 text-center text-foreground">
+      <div className="garden:flex garden:flex-col garden:items-center garden:justify-center garden:gap-2 garden:rounded-md garden:p-4 garden:text-center garden:text-foreground">
         <SproutIcon
           size={24}
           style={{
@@ -45,9 +45,11 @@ const GardenNode = ({ data }: NodeProps) => {
           }}
         />
 
-        <h3 className="font-bold">{data.label}</h3>
+        <h3 className="garden:font-bold">{data.label}</h3>
 
-        {data.description && <h4 className="text-sm">{data.description}</h4>}
+        {data.description && (
+          <h4 className="garden:text-sm">{data.description}</h4>
+        )}
       </div>
     </div>
   );
