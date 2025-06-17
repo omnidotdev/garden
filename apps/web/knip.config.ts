@@ -10,7 +10,14 @@ const knipConfig: KnipConfig = {
   },
   // NB: files are reported as unused if they are in the set of project files, but not in the set of files resolved from the entry files. See: https://knip.dev/guides/configuring-project-files
   project: ["src/**/*.{ts,tsx}"],
-  ignoreDependencies: ["tailwindcss", "tw-animate-css"],
+  // TODO: figure out how to remove these ignore patterns
+  ignoreDependencies: [
+    "@omnidotdev/garden",
+    "tailwindcss",
+    "tw-animate-css",
+    "react-dom",
+    "@types/react-dom",
+  ],
 };
 
 export default knipConfig;

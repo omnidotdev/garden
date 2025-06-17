@@ -130,10 +130,13 @@ function SheetDescription({
 
 export {
   Sheet,
+  /** @knipignore */
   SheetTrigger,
+  /** @knipignore */
   SheetClose,
   SheetContent,
   SheetHeader,
+  /** @knipignore */
   SheetFooter,
   SheetTitle,
   SheetDescription,

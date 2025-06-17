@@ -84,8 +84,10 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 export {
   Card,
   CardHeader,
+  /** @knipignore */
   CardFooter,
   CardTitle,
+  /** @knipignore */
   CardAction,
   CardDescription,
   CardContent,

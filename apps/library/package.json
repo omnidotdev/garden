@@ -41,13 +41,10 @@
     "ts-pattern": "^5.7.1"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.4",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^24.0.1",
     "@types/react": "^19.1.2",
     "globby": "^14.1.0",
-    "pkg-pr-new": "^0.0.51",
     "tailwindcss": "^4.1.10",
     "typescript": "5.8.3",
     "vite": "^6.3.5",
