@@ -2,6 +2,3 @@ tsconfig.tsbuildinfo
 
 node_modules
 build
-
-# Misc
-.DS_Store
