@@ -57,7 +57,7 @@ fn main() {
                 let example = Garden {
                     name: "Example Garden".to_string(),
                     description: Some("An example garden".to_string()),
-                    version: "1.0.0".to_string(),
+                    version: Some("1.0.0".to_string()),
                     sprouts: Some(vec![]),
                     maintainers: None,
                     created_at: None,

@@ -3,8 +3,7 @@
   "title": "Garden",
   "type": "object",
   "required": [
-    "name",
-    "version"
+    "name"
   ],
   "properties": {
     "created_at": {
@@ -75,15 +74,17 @@
       ]
     },
     "version": {
-      "type": "string"
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "definitions": {
     "Garden": {
       "type": "object",
       "required": [
-        "name",
-        "version"
+        "name"
       ],
       "properties": {
         "created_at": {
@@ -154,7 +155,10 @@
           ]
         },
         "version": {
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },

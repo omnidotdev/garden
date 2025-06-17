@@ -46,7 +46,8 @@ pub struct Garden {
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
-    pub version: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub version: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sprouts: Option<Vec<Sprout>>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -137,9 +138,9 @@ mod tests {
             .compile(&schema_value)
             .expect("Failed to compile schema");
 
-        // Invalid JSON (missing required 'version' field)
+        // Invalid JSON (missing required `name` field)
         let invalid_input = serde_json::json!({
-            "name": "Invalid Garden"
+            "test": "Invalid Garden"
         });
 
         // Validate (should fail)
