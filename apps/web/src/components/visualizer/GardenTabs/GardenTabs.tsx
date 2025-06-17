@@ -8,6 +8,7 @@ import {
 	TabsTrigger,
 } from "@workspace/ui/components/tabs";
 import { BarChartIcon, CodeIcon } from "lucide-react";
+import { useIsClient } from "usehooks-ts";
 import { SchemaEditor } from "@/components/visualizer";
 import { useSearchParams } from "@/lib/hooks";
 import { useGardenStore } from "@/lib/hooks/store";
@@ -16,6 +17,8 @@ import { useGardenStore } from "@/lib/hooks/store";
  * Garden Tabs.
  */
 const GardenTabs = () => {
+	const isClient = useIsClient();
+
 	const { activeGarden } = useGardenStore();
 
 	const [{ activeTab }, setSearchParams] = useSearchParams();
@@ -43,8 +46,12 @@ const GardenTabs = () => {
 			</TabsList>
 
 			<TabsContent value="visualize" className="mt-6 flex-1">
-				<div className="h-full w-full">
-					<Garden schema={activeGarden} />
+				<div className="flex items-center justify-center h-full w-full">
+					{isClient ? (
+						<Garden schema={activeGarden} />
+					) : (
+						"Loading visualizer..."
+					)}
 				</div>
 			</TabsContent>
 
