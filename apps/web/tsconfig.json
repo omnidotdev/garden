@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "lib": ["es2022", "dom", "dom.iterable"],
+    "target": "esnext",
+    "lib": ["esnext", "dom", "dom.iterable"],
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -25,8 +25,8 @@
   "include": [
     "next-env.d.ts",
     "next.config.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
+    "**/*.ts",
+    "**/*.tsx",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
