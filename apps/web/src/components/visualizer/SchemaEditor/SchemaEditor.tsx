@@ -4,7 +4,6 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@workspace/ui/components/card";
@@ -99,6 +98,8 @@ const SchemaEditor = () => {
 								setError={setError}
 							/>
 						</div>
+
+						<EditorActions schemaText={schemaText} setError={setError} />
 					</TabsContent>
 
 					<TabsContent value="help">
@@ -106,10 +107,6 @@ const SchemaEditor = () => {
 					</TabsContent>
 				</Tabs>
 			</CardContent>
-
-			<CardFooter>
-				<EditorActions schemaText={schemaText} setError={setError} />
-			</CardFooter>
 		</Card>
 	);
 };
