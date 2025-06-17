@@ -365,13 +365,11 @@ const GardenFlow = ({
           </DialogHeader>
 
           {selectedItem?.image && (
-            <div className="garden:mt-2 garden:aspect-video garden:w-full garden:overflow-hidden garden:rounded-md">
-              <img
-                src={selectedItem.image}
-                alt={selectedItem.label}
-                className="garden:h-full garden:w-full garden:object-cover"
-              />
-            </div>
+            <img
+              src={selectedItem.image}
+              alt={selectedItem.label}
+              className="garden:h-64 garden:w-full garden:object-contain p-3"
+            />
           )}
 
           {selectedItem?.version && (
