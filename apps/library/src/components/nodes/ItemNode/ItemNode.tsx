@@ -34,14 +34,12 @@ const ItemNode = ({ data }: NodeProps) => {
         />
       )}
 
-      <div className="garden:relative garden:space-y-3">
-        <div className="garden:aspect-video garden:w-full">
-          <img
-            src={data.image}
-            alt={data.label}
-            className="garden:h-full garden:w-full garden:object-cover"
-          />
-        </div>
+      <div className="garden:relative garden:space-y-1">
+        <img
+          src={data.image}
+          alt={data.label}
+          className="garden:h-28 garden:w-full garden:object-contain p-3"
+        />
         <div className="garden:px-4">
           <h3 className="garden:font-medium garden:text-foreground">
             {data.label}
