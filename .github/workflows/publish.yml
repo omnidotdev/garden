@@ -32,6 +32,6 @@ jobs:
         run: bun i
         working-directory: apps/library
       - name: Build package
-        run: bun run --cwd ./apps/library build
+        run: bun run --cwd apps/library build
       - name: Publish package
-        run: bunx --cwd ./apps/library pkg-pr-new publish
+        run: bunx --cwd apps/library pkg-pr-new publish
