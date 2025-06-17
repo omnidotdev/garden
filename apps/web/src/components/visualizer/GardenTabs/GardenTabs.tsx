@@ -15,7 +15,7 @@ import { useGardenStore } from "@/lib/hooks/store";
 const GardenTabs = () => {
   const isClient = useIsClient();
 
-  const { activeGarden } = useGardenStore();
+  const { activeSchema } = useGardenStore();
 
   const [{ activeTab }, setSearchParams] = useSearchParams();
 
@@ -44,7 +44,7 @@ const GardenTabs = () => {
       <TabsContent value="visualize" className="mt-6 flex-1">
         <div className="flex h-full w-full items-center justify-center">
           {isClient ? (
-            <Garden schema={activeGarden} />
+            <Garden schema={activeSchema} />
           ) : (
             "Loading visualizer..."
           )}

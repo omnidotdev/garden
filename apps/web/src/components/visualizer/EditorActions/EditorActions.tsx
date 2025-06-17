@@ -17,18 +17,18 @@ interface Props {
  * Editor Actions.
  */
 const EditorActions = ({ schemaText, setError }: Props) => {
-  const { setActiveGarden, reset } = useGardenStore();
+  const { setActiveSchema, reset } = useGardenStore();
 
   const validateAndApply = () => {
     try {
-      // Validate garden. Will throw error if not valid.
+      // Validate schema. Will throw error if not valid.
       Convert.toGardenTypes(schemaText);
 
       // Keep structure and order of `schemaText`
       const parsedJson = JSON.parse(schemaText);
 
       setError(null);
-      setActiveGarden(parsedJson as GardenTypes);
+      setActiveSchema(parsedJson as GardenTypes);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }

@@ -34,15 +34,15 @@ const SchemaEditor = () => {
   const [error, setError] = useState<string | null>(null);
   const [{ editorExpanded }, setSearchParams] = useSearchParams();
 
-  const { activeGarden } = useGardenStore();
+  const { activeSchema } = useGardenStore();
 
   const title = "Garden Editor";
   const description = "Edit the JSON schema for your Garden visualization";
 
-  // update schema text when activeGarden changes
+  // update schema text when activeSchema changes
   useEffect(() => {
-    setSchemaText(JSON.stringify(activeGarden, null, 2));
-  }, [activeGarden]);
+    setSchemaText(JSON.stringify(activeSchema, null, 2));
+  }, [activeSchema]);
 
   return (
     <Card className="w-full">

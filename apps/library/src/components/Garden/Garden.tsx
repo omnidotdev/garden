@@ -5,12 +5,16 @@ import { findGardenByName, gardenToFlow } from "../../lib/utils";
 import { GardenFlow } from "../GardenFlow";
 
 import type { ControlProps, MiniMapProps } from "@xyflow/react";
+import type { GardenTypes } from "../../generated/garden.types";
 
 import "../../lib/garden.css";
 
+type JsonPrimitive = string | number | boolean | null;
+type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
+
 export interface GardenProps {
   /** Garden schema to visualize */
-  schema: any;
+  schema: JsonValue | GardenTypes;
   /** Optional initial garden name to display. Defaults to first available garden. */
   initialGardenName?: string;
   /** Optional class name for the container */
