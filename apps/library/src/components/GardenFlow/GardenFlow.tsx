@@ -183,24 +183,17 @@ const GardenFlow = ({
             schema,
             garden,
             options: {
-              expandSubgardens: isSubgardensExpanded,
+              expandSubgardens: expandSubgardens,
               edgeType,
               animateEdges,
             },
           });
 
-          onLayout(updatedNodes, updatedEdges, isSubgardensExpanded);
+          onLayout(updatedNodes, updatedEdges, expandSubgardens);
         }
       }
     },
-    [
-      edgeType,
-      expandSubgardens,
-      isSubgardensExpanded,
-      onLayout,
-      schema,
-      animateEdges,
-    ],
+    [edgeType, expandSubgardens, onLayout, schema, animateEdges],
   );
 
   const handleToggleExpandedSubgardens = (expand: boolean) => {
