@@ -78,7 +78,7 @@ const Visualizer = () => {
                 <div className="mt-2 space-y-2 text-foreground text-sm">
                   <p>
                     <strong>Navigation:</strong> Click on any garden, subgarden,
-                    or item to navigate or view details.
+                    or sprout to navigate or view details.
                   </p>
                   <p>
                     <strong>Expand/condense subgardens:</strong> Toggle this
