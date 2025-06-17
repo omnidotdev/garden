@@ -60,7 +60,7 @@ const SproutNode = ({ data }: NodeProps) => {
                 color: "var(--garden-background)",
               }}
               onClick={(e) => {
-                // prevent needlessly opening the item dialog
+                // prevent needlessly opening the dialog
                 e.stopPropagation();
                 window.open(data.cta?.primary.url, "_blank");
               }}

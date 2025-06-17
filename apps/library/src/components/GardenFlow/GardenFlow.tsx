@@ -141,8 +141,8 @@ const GardenFlow = ({
 }: GardenFlowProps) => {
   const [isSubgardensExpanded, setIsSubgardensExpanded] =
     useState(expandSubgardens);
-  const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<NodeData | null>(null);
+  const [isSproutDialogOpen, setIsSproutDialogOpen] = useState(false);
+  const [selectedSprout, setSelectedSprout] = useState<NodeData | null>(null);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
@@ -168,9 +168,9 @@ const GardenFlow = ({
 
   const handleNodeClick = useCallback(
     (_: MouseEvent, node: Node) => {
-      if (node.type === "item") {
-        setSelectedItem(node.data as unknown as NodeData);
-        setIsItemDialogOpen(true);
+      if (node.type === "sprout") {
+        setSelectedSprout(node.data as unknown as NodeData);
+        setIsSproutDialogOpen(true);
       } else {
         if (node?.type === "garden") return;
 
@@ -341,13 +341,13 @@ const GardenFlow = ({
       </ReactFlow>
 
       <Dialog
-        open={isItemDialogOpen}
+        open={isSproutDialogOpen}
         onOpenChange={(open) => {
-          setIsItemDialogOpen(open);
+          setIsSproutDialogOpen(open);
 
           if (!open) {
             setTimeout(() => {
-              setSelectedItem(null);
+              setSelectedSprout(null);
             }, 200);
           }
         }}
@@ -355,50 +355,50 @@ const GardenFlow = ({
         <DialogContent className="garden:sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="garden:text-xl">
-              {selectedItem?.label}
+              {selectedSprout?.label}
             </DialogTitle>
-            {selectedItem?.description && (
+            {selectedSprout?.description && (
               <DialogDescription className="garden:text-base">
-                {selectedItem.description}
+                {selectedSprout.description}
               </DialogDescription>
             )}
           </DialogHeader>
 
-          {selectedItem?.image && (
+          {selectedSprout?.image && (
             <img
-              src={selectedItem.image}
-              alt={selectedItem.label}
+              src={selectedSprout.image}
+              alt={selectedSprout.label}
               className="garden:h-64 garden:w-full garden:object-contain p-3"
             />
           )}
 
-          {selectedItem?.version && (
+          {selectedSprout?.version && (
             <div className="garden:mt-2 garden:text-muted-foreground garden:text-sm">
-              Version: {selectedItem.version}
+              Version: {selectedSprout.version}
             </div>
           )}
 
           <DialogFooter className="garden:flex garden:flex-col garden:gap-2 garden:sm:flex-row garden:sm:justify-between garden:sm:gap-0">
             <div className="garden:flex garden:gap-2">
-              {selectedItem?.cta?.primary && (
+              {selectedSprout?.cta?.primary && (
                 <Button
                   variant="default"
                   onClick={() =>
-                    window.open(selectedItem.cta?.primary.url, "_blank")
+                    window.open(selectedSprout.cta?.primary.url, "_blank")
                   }
                 >
-                  {selectedItem.cta.primary.label || "View"}
+                  {selectedSprout.cta.primary.label || "View"}
                 </Button>
               )}
 
-              {selectedItem?.cta?.secondary && (
+              {selectedSprout?.cta?.secondary && (
                 <Button
                   variant="outline"
                   onClick={() =>
-                    window.open(selectedItem.cta?.secondary?.url, "_blank")
+                    window.open(selectedSprout.cta?.secondary?.url, "_blank")
                   }
                 >
-                  {selectedItem.cta.secondary.label || "Source"}
+                  {selectedSprout.cta.secondary.label || "Source"}
                 </Button>
               )}
             </div>

@@ -35,7 +35,7 @@ export interface NodeProps {
 
 export const customNodes = {
   garden: GardenNode,
-  item: SproutNode,
+  sprout: SproutNode,
   supergarden: SupergardenNode,
   subgarden: SubgardenNode,
   default: DefaultNode,

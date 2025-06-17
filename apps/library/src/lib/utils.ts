@@ -19,7 +19,7 @@ interface FlowOptions {
 
 const NODE_TYPES = {
   GARDEN: "garden",
-  ITEM: "item",
+  SPROUT: "sprout",
   SUPERGARDEN: "supergarden",
   SUBGARDEN: "subgarden",
 };
@@ -65,7 +65,7 @@ const getNodePositions = (
       sourcePosition: Position.Bottom,
       targetPosition: Position.Top,
     }))
-    .with(NODE_TYPES.ITEM, () => ({
+    .with(NODE_TYPES.SPROUT, () => ({
       targetPosition: Position.Top,
     }))
     .with(NODE_TYPES.SUPERGARDEN, () => ({
@@ -225,7 +225,7 @@ const processSubgarensRecursively = ({
         }
 
         const itemId = generateId(
-          NODE_TYPES.ITEM,
+          NODE_TYPES.SPROUT,
           item.name,
           `${subgardenId}-item`,
         );
@@ -237,7 +237,7 @@ const processSubgarensRecursively = ({
 
         nodes.push({
           id: itemId,
-          type: NODE_TYPES.ITEM,
+          type: NODE_TYPES.SPROUT,
           data: {
             label: item.name,
             homepage_url: item.homepage_url,
@@ -266,7 +266,7 @@ const processSubgarensRecursively = ({
             x: xPos,
             y: itemYPosition,
           },
-          ...getNodePositions(NODE_TYPES.ITEM),
+          ...getNodePositions(NODE_TYPES.SPROUT),
         });
 
         edges.push({
@@ -366,7 +366,7 @@ export const gardenToFlow = ({
       }
 
       const itemId = generateId(
-        NODE_TYPES.ITEM,
+        NODE_TYPES.SPROUT,
         item.name,
         `${gardenId}-direct`,
       );
@@ -374,7 +374,7 @@ export const gardenToFlow = ({
 
       nodes.push({
         id: itemId,
-        type: NODE_TYPES.ITEM,
+        type: NODE_TYPES.SPROUT,
         data: {
           label: item.name,
           homepage_url: item.homepage_url || "",
@@ -402,7 +402,7 @@ export const gardenToFlow = ({
           x: centerX,
           y: itemYPosition,
         },
-        ...getNodePositions(NODE_TYPES.ITEM),
+        ...getNodePositions(NODE_TYPES.SPROUT),
       });
 
       // Connect garden to this item
