@@ -118,7 +118,7 @@ const HomePage = () => (
               key={feature.title}
               className={cn(
                 "group relative flex flex-col items-center space-y-4 text-center",
-                "rounded-lg border border-border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl",
+                "rounded-lg border border-border bg-background p-6 shadow-lg transition-shadow hover:shadow-xl"
               )}
             >
               <div className="rounded-full bg-primary/10 p-4 text-primary">
@@ -178,7 +178,7 @@ const HomePage = () => (
           <div className="grid gap-8 md:grid-cols-2">
             <div className="flex flex-col space-y-3 rounded-lg border border-border bg-card p-6">
               <div className="flex flex-wrap items-center space-x-3">
-                <ArrowRightIcon className="h-10 w-10 rotate-90 text-primary" />
+                <ArrowRightIcon className="h-10 w-10 -rotate-90 text-primary" />
                 <h3 className="font-bold text-xl">Supergardens</h3>
               </div>
               <p className="text-muted-foreground">
@@ -190,7 +190,7 @@ const HomePage = () => (
             </div>
             <div className="flex flex-col space-y-3 rounded-lg border border-border bg-card p-6">
               <div className="flex flex-wrap items-center space-x-3">
-                <ArrowRightIcon className="-rotate-90 h-10 w-10 text-primary" />
+                <ArrowRightIcon className="rotate-90 h-10 w-10 text-primary" />
                 <h3 className="font-bold text-xl">Subgardens</h3>
               </div>
               <p className="text-muted-foreground">
