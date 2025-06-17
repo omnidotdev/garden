@@ -34,4 +34,4 @@ jobs:
       - name: Build package
         run: bun run --cwd ./apps/library build
       - name: Publish package
-        run: bunx pkg-pr-new publish "./apps/library"
+        run: bunx --cwd ./apps/library pkg-pr-new publish
