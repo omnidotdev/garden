@@ -1,6 +1,6 @@
 import DefaultNode from "./DefaultNode/DefaultNode";
 import GardenNode from "./GardenNode/GardenNode";
-import ItemNode from "./ItemNode/ItemNode";
+import SproutNode from "./SproutNode/SproutNode";
 import SubgardenNode from "./SubgardenNode/SubgardenNode";
 import SupergardenNode from "./SupergardenNode/SupergardenNode";
 
@@ -35,7 +35,7 @@ export interface NodeProps {
 
 export const customNodes = {
   garden: GardenNode,
-  item: ItemNode,
+  item: SproutNode,
   supergarden: SupergardenNode,
   subgarden: SubgardenNode,
   default: DefaultNode,

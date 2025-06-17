@@ -3,7 +3,7 @@ import { ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
 import type { NodeProps } from "..";
 
-const ItemNode = ({ data }: NodeProps) => {
+const SproutNode = ({ data }: NodeProps) => {
   // check if there are any connections
   const hasTopTargets =
     data.targetConnections && data.targetConnections.length > 0;
@@ -97,4 +97,4 @@ const ItemNode = ({ data }: NodeProps) => {
   );
 };
 
-export default ItemNode;
+export default SproutNode;
