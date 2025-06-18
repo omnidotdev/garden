@@ -3,6 +3,7 @@ import {
   ArrowRightIcon,
   ArrowUpIcon,
   CodeIcon,
+  GithubIcon,
   Share2Icon,
   SparklesIcon,
   ZapIcon,
@@ -93,20 +94,29 @@ const HomePage = () => (
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
               Transform complex business ecosystem relationships into clear,
               interactive, and interconnected visualizations that evolve with
-              your organization.
+              your organization. <b>Garden is open source 🌱</b>
             </p>
           </div>
 
-          <div className="mt-8 space-x-4">
+          <div className="mt-2 flex gap-4">
             <Link href="/visualizer">
-              <Button
-                size="lg"
-                className="mt-4 gap-2 bg-primary hover:bg-primary/90"
-              >
+              <Button size="lg">
                 Start Modeling
                 <ArrowRightIcon className="h-4 w-4" />
               </Button>
             </Link>
+
+            <a
+              href="https://github.com/omnidotdev/garden"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" variant="outline">
+                <GithubIcon className="h-4 w-4" />
+                View Repository
+                <ArrowRightIcon className="h-4 w-4" />
+              </Button>
+            </a>
           </div>
         </div>
       </div>
