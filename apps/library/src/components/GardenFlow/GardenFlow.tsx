@@ -35,7 +35,7 @@ import type {
   Node,
 } from "@xyflow/react";
 import type { MouseEvent, ReactNode } from "react";
-import type { GardenTypes, Theme } from "../../generated/garden.types";
+import type { GardenSchema, Theme } from "../../generated/garden.types";
 import type { NodeData } from "../nodes";
 
 const elk = new ELK();
@@ -93,29 +93,44 @@ const autoLayoutElements = async (nodes: Node[], edges: Edge[]) => {
 };
 
 interface GardenFlowProps {
-  /** Garden schema to visualize */
-  schema: GardenTypes;
-  /** Initial nodes and edges for the garden */
+  /** Garden schema to visualize. */
+  schema: GardenSchema;
+  /** Initial graph nodes. */
   initialNodes: Node[];
-  /** Initial edges for the garden */
+  /** Initial graph edges. */
   initialEdges: Edge[];
-  /** Optional class name for the container */
+  /** Container class name. */
   className?: string;
-  /** Optional flag to expand all subgardens for the current garden. Default is false. */
+  /**
+   * Whether to expand all subgardens.
+   * @default false
+   */
   expandSubgardens?: boolean;
-  /** Optional flag to enable or disable controls. Default is true. */
+  /**
+   * Whether to show controls.
+   * @default true
+   */
   showControls?: boolean;
-  /** Optional flag to enable or disable the minimap. Default is true. */
+  /**
+   * Whether to show minimap.
+   * @default true
+   */
   showMinimap?: boolean;
-  /** Optional padding for fit view. Default is 0.2. */
+  /**
+   * View padding.
+   * @default 0.2
+   */
   fitViewPadding?: number;
-  /** Optional edge type for connections. Options: 'default', 'straight', 'step', 'smoothstep', 'simplebezier'. Default is 'smoothstep'. */
+  /** Edge type (cosmetic). */
   edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
-  /** Optional flag to enable or disable edge animations. Default is true. */
+  /**
+   * Whether to enable edge animations.
+   * @default true
+   */
   animateEdges?: boolean;
-  /** Minimap options */
+  /** Minimap options. */
   miniMapOptions?: MiniMapProps;
-  /** Controls options */
+  /** Controls options. */
   controlOptions?: ControlProps;
 }
 

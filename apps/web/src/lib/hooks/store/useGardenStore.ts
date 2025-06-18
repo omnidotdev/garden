@@ -5,14 +5,14 @@ import { createWithEqualityFn } from "zustand/traditional";
 
 import { gardens } from "@/lib/schema/garden";
 
-import type { GardenTypes } from "@omnidotdev/garden";
+import type { GardenSchema } from "@omnidotdev/garden";
 
 /**
  * Garden state.
  */
 interface GardenState {
   /** The currently active schema to be visualized. */
-  activeSchema: GardenTypes;
+  activeSchema: GardenSchema;
 }
 
 /**
@@ -20,7 +20,7 @@ interface GardenState {
  */
 interface GardenActions {
   /** Set the active schema. */
-  setActiveSchema: (schema: GardenTypes) => void;
+  setActiveSchema: (schema: GardenSchema) => void;
   reset: () => void;
 }
 

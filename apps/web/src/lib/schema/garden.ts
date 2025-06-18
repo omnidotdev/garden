@@ -1,6 +1,6 @@
-import type { GardenTypes } from "@omnidotdev/garden";
+import type { GardenSchema } from "@omnidotdev/garden";
 
-export const gardens: GardenTypes = {
+export const gardens: GardenSchema = {
   name: "Omni Ecosystem",
   description: "Complete Omni product and tooling ecosystem",
   icon: "🌱",

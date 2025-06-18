@@ -5,7 +5,7 @@ import { findGardenByName, gardenToFlow } from "../../lib/utils";
 import { GardenFlow } from "../GardenFlow";
 
 import type { ControlProps, MiniMapProps } from "@xyflow/react";
-import type { GardenTypes } from "../../generated/garden.types";
+import type { GardenSchema } from "../../generated/garden.types";
 
 import "../../lib/garden.css";
 
@@ -13,8 +13,8 @@ type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
 
 export interface GardenProps {
-  /** Garden schema to visualize */
-  schema: JsonValue | GardenTypes;
+  /** Garden schema to visualize. */
+  schema: JsonValue | GardenSchema;
   /** Optional initial garden name to display. Defaults to first available garden. */
   initialGardenName?: string;
   /** Optional class name for the container */
@@ -31,9 +31,9 @@ export interface GardenProps {
   edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
   /** Optional flag to enable or disable edge animations. Default is true. */
   animateEdges?: boolean;
-  /** Minimap options */
+  /** Minimap options. */
   miniMapOptions?: MiniMapProps;
-  /** Controls options */
+  /** Controls options. */
   controlOptions?: ControlProps;
 }
 
@@ -48,7 +48,7 @@ const Garden = ({
   animateEdges = true,
   ...rest
 }: GardenProps) => {
-  const convertedSchema = Convert.toGardenTypes(JSON.stringify(schema));
+  const convertedSchema = Convert.toGardenSchema(JSON.stringify(schema));
 
   const initialGarden = initialGardenName
     ? findGardenByName(convertedSchema, initialGardenName)

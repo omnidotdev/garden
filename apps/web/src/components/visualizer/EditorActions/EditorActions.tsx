@@ -4,7 +4,7 @@ import { DownloadIcon, RotateCcwIcon } from "lucide-react";
 import { Convert } from "@omnidotdev/garden";
 import { Button } from "@/components/ui/button";
 
-import type { GardenTypes } from "@omnidotdev/garden";
+import type { GardenSchema } from "@omnidotdev/garden";
 
 interface Props {
   /** The current JSON schema text being edited. */
@@ -22,13 +22,13 @@ const EditorActions = ({ schemaText, setError }: Props) => {
   const validateAndApply = () => {
     try {
       // Validate schema. Will throw error if not valid.
-      Convert.toGardenTypes(schemaText);
+      Convert.toGardenSchema(schemaText);
 
       // Keep structure and order of `schemaText`
       const parsedJson = JSON.parse(schemaText);
 
       setError(null);
-      setActiveSchema(parsedJson as GardenTypes);
+      setActiveSchema(parsedJson as GardenSchema);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }

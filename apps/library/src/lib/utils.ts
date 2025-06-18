@@ -5,7 +5,7 @@ import { match } from "ts-pattern";
 
 import type { Edge, Node } from "@xyflow/react";
 import type { ClassValue } from "clsx";
-import type { GardenTypes } from "../generated/garden.types";
+import type { GardenSchema } from "../generated/garden.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -35,9 +35,9 @@ const generateId = (type: string, name: string, prefix?: string) => {
 
 // Helper function to find a garden by name in the schema
 export const findGardenByName = (
-  schema: GardenTypes,
+  schema: GardenSchema,
   name: string,
-): GardenTypes | null => {
+): GardenSchema | null => {
   // Check if this is the garden we're looking for
   if (schema.name === name) {
     return schema;
@@ -46,7 +46,7 @@ export const findGardenByName = (
   // Search in subgardens recursively
   if (schema.subgardens && Array.isArray(schema.subgardens)) {
     for (const subgarden of schema.subgardens) {
-      const found = findGardenByName(subgarden as GardenTypes, name);
+      const found = findGardenByName(subgarden as GardenSchema, name);
 
       if (found) {
         return found;
@@ -124,8 +124,8 @@ const trackNodeConnections = (nodes: Node[], edges: Edge[]): Node[] => {
 };
 
 interface RecursiveSubgardenOptions {
-  schema: GardenTypes;
-  parent: GardenTypes;
+  schema: GardenSchema;
+  parent: GardenSchema;
   parentId: string;
   parentX: number;
   parentY: number;
@@ -305,8 +305,8 @@ const processSubgarensRecursively = ({
 };
 
 interface GardenToFlowOptions {
-  schema: GardenTypes;
-  garden: GardenTypes;
+  schema: GardenSchema;
+  garden: GardenSchema;
   width?: number;
   options?: FlowOptions;
 }
