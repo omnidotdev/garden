@@ -46,20 +46,14 @@ const calculateNodeHeight = (node: Node): number => {
   return 200;
 };
 
-const autoLayoutElements = async (
-  nodes: Node[],
-  edges: Edge[],
-  expandSubgardens: boolean,
-) => {
+const autoLayoutElements = async (nodes: Node[], edges: Edge[]) => {
   const graph = {
     id: "elk-root",
     layoutOptions: {
       "elk.algorithm": "mrtree",
       "elk.direction": "DOWN",
-      "elk.spacing.nodeNode": expandSubgardens ? "400" : "200",
-      "elk.layered.spacing.nodeNodeBetweenLayers": expandSubgardens
-        ? "300"
-        : "200",
+      "elk.spacing.nodeNode": "200",
+      "elk.layered.spacing.nodeNodeBetweenLayers": "200",
       "elk.layered.nodePlacement.strategy": "NETWORK_SIMPLEX",
     },
     children: nodes.map((node) => ({
@@ -154,8 +148,8 @@ const GardenFlow = ({
   );
 
   const onLayout = useCallback(
-    async (nodes: Node[], edges: Edge[], isSubgardensExpanded: boolean) => {
-      await autoLayoutElements(nodes, edges, isSubgardensExpanded).then(
+    async (nodes: Node[], edges: Edge[]) => {
+      await autoLayoutElements(nodes, edges).then(
         ({ nodes: layoutedNodes, edges: layoutedEdges }) => {
           setNodes(layoutedNodes as Node[]);
           setEdges(layoutedEdges as Edge[]);
@@ -187,7 +181,7 @@ const GardenFlow = ({
             },
           });
 
-          onLayout(updatedNodes, updatedEdges, isSubgardensExpanded);
+          onLayout(updatedNodes, updatedEdges);
         }
       }
     },
@@ -214,12 +208,12 @@ const GardenFlow = ({
       },
     });
 
-    onLayout(updatedNodes, updatedEdges, expand);
+    onLayout(updatedNodes, updatedEdges);
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: only run once on mount
   useLayoutEffect(() => {
-    onLayout(initialNodes, initialEdges, expandSubgardens);
+    onLayout(initialNodes, initialEdges);
   }, []);
 
   return (

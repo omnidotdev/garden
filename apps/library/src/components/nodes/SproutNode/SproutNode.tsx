@@ -15,7 +15,7 @@ const SproutNode = ({ data }: NodeProps) => {
 
   return (
     // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-    <div className="garden:relative garden:cursor-pointer garden:overflow-hidden garden:rounded-md garden:border-2 garden:border-border garden:bg-card garden:shadow-lg garden:transition-all garden:hover:scale-105 garden:hover:shadow-xl">
+    <div className="garden:relative garden:cursor-pointer garden:rounded-md garden:border-2 garden:border-border garden:bg-card garden:shadow-lg garden:hover:scale-105 garden:hover:shadow-xl">
       {hasTopTargets && (
         <Handle
           id="top"
