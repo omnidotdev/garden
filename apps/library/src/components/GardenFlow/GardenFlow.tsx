@@ -27,15 +27,10 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
-import type {
-  ConnectionLineType,
-  ControlProps,
-  Edge,
-  MiniMapProps,
-  Node,
-} from "@xyflow/react";
+import type { ConnectionLineType, Edge, Node } from "@xyflow/react";
 import type { MouseEvent, ReactNode } from "react";
 import type { GardenSchema, Theme } from "../../generated/garden.types";
+import type { GardenVisualizationProps } from "../../lib/types/garden.types";
 import type { NodeData } from "../nodes";
 
 const elk = new ELK();
@@ -92,46 +87,13 @@ const autoLayoutElements = async (nodes: Node[], edges: Edge[]) => {
     }));
 };
 
-interface GardenFlowProps {
+interface GardenFlowProps extends GardenVisualizationProps {
   /** Garden schema to visualize. */
   schema: GardenSchema;
   /** Initial graph nodes. */
   initialNodes: Node[];
   /** Initial graph edges. */
   initialEdges: Edge[];
-  /** Container class name. */
-  className?: string;
-  /**
-   * Whether to expand all subgardens.
-   * @default false
-   */
-  expandSubgardens?: boolean;
-  /**
-   * Whether to show controls.
-   * @default true
-   */
-  showControls?: boolean;
-  /**
-   * Whether to show minimap.
-   * @default true
-   */
-  showMinimap?: boolean;
-  /**
-   * View padding.
-   * @default 0.2
-   */
-  fitViewPadding?: number;
-  /** Edge type (cosmetic). */
-  edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
-  /**
-   * Whether to enable edge animations.
-   * @default true
-   */
-  animateEdges?: boolean;
-  /** Minimap options. */
-  miniMapOptions?: MiniMapProps;
-  /** Controls options. */
-  controlOptions?: ControlProps;
 }
 
 const GardenFlow = ({

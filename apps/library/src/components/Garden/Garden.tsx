@@ -4,37 +4,19 @@ import { Convert } from "../../generated/garden.types";
 import { findGardenByName, gardenToFlow } from "../../lib/utils";
 import { GardenFlow } from "../GardenFlow";
 
-import type { ControlProps, MiniMapProps } from "@xyflow/react";
 import type { GardenSchema } from "../../generated/garden.types";
+import type { GardenVisualizationProps } from "../../lib/types/garden.types";
 
 import "../../lib/garden.css";
 
 type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
 
-export interface GardenProps {
+export interface GardenProps extends GardenVisualizationProps {
   /** Garden schema to visualize. */
   schema: JsonValue | GardenSchema;
-  /** Optional initial garden name to display. Defaults to first available garden. */
+  /** Initial garden name to display. Defaults to first available garden. */
   initialGardenName?: string;
-  /** Optional class name for the container */
-  className?: string;
-  /** Optional flag to expand all subgardens for the current garden. Default is false. */
-  expandSubgardens?: boolean;
-  /** Optional flag to enable or disable controls. Default is true. */
-  showControls?: boolean;
-  /** Optional flag to enable or disable the minimap. Default is true. */
-  showMinimap?: boolean;
-  /** Optional padding for fit view. Default is 0.2. */
-  fitViewPadding?: number;
-  /** Optional edge type for connections. Options: 'default', 'straight', 'step', 'smoothstep', 'simplebezier'. Default is 'smoothstep'. */
-  edgeType?: "default" | "straight" | "step" | "smoothstep" | "simplebezier";
-  /** Optional flag to enable or disable edge animations. Default is true. */
-  animateEdges?: boolean;
-  /** Minimap options. */
-  miniMapOptions?: MiniMapProps;
-  /** Controls options. */
-  controlOptions?: ControlProps;
 }
 
 const Garden = ({
