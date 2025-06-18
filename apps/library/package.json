@@ -8,6 +8,7 @@
     "build"
   ],
   "scripts": {
+    "dev": "tsc -b && vite build --watch",
     "build": "tsc -b && vite build",
     "check": "biome check --diagnostic-level=error src",
     "format": "biome format --write src",
