@@ -28,6 +28,7 @@ const Garden = ({
   fitViewPadding = 0.2,
   edgeType = "smoothstep",
   animateEdges = true,
+  showPoweredBy = true,
   ...rest
 }: GardenProps) => {
   const convertedSchema = Convert.toGardenSchema(JSON.stringify(schema));
@@ -58,6 +59,7 @@ const Garden = ({
         edgeType={edgeType}
         animateEdges={animateEdges}
         expandSubgardens={expandSubgardens}
+        showPoweredBy={showPoweredBy}
         {...rest}
       />
     </ReactFlowProvider>

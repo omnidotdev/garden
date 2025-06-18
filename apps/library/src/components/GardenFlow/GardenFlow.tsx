@@ -11,7 +11,12 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import ELK from "elkjs/lib/elk.bundled.js";
-import { FlowerIcon, Layers2Icon, LayersIcon } from "lucide-react";
+import {
+  ExternalLinkIcon,
+  FlowerIcon,
+  Layers2Icon,
+  LayersIcon,
+} from "lucide-react";
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 import { cn, findGardenByName, gardenToFlow } from "../../lib/utils";
@@ -107,6 +112,7 @@ const GardenFlow = ({
   fitViewPadding,
   edgeType,
   animateEdges,
+  showPoweredBy = true,
   miniMapOptions,
   controlOptions,
 }: GardenFlowProps) => {
@@ -274,6 +280,29 @@ const GardenFlow = ({
                 </span>
               )}
             </div>
+          </Panel>
+        )}
+
+        {showPoweredBy && (
+          <Panel position="bottom-right">
+            <a
+              href="https://garden.omni.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="garden:flex garden:items-center garden:gap-1.5 garden:rounded-md garden:border garden:px-2.5 garden:py-1 garden:text-xs garden:opacity-80 garden:shadow-sm garden:backdrop-blur-sm garden:transition-opacity garden:hover:opacity-100"
+              style={{
+                color:
+                  (currentGarden?.data?.theme as Theme)?.primary_color ??
+                  "var(--garden-primary)",
+                borderColor:
+                  (currentGarden?.data?.theme as Theme)?.secondary_color ??
+                  "var(--garden-border)",
+              }}
+            >
+              <FlowerIcon className="garden:h-3 garden:w-3" />
+              Powered by Garden
+              <ExternalLinkIcon className="garden:h-3 garden:w-3" />
+            </a>
           </Panel>
         )}
 

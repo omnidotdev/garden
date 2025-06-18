@@ -33,6 +33,11 @@ export interface GardenVisualizationProps {
    * @default true
    */
   animateEdges?: boolean;
+  /**
+   * Whether to show "Powered by Garden" badge.
+   * @default true
+   */
+  showPoweredBy?: boolean;
   /** Minimap options. */
   miniMapOptions?: MiniMapProps;
   /** Controls options. */
