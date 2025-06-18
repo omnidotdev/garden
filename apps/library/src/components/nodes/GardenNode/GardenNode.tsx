@@ -48,7 +48,9 @@ const GardenNode = ({ data }: NodeProps) => {
         <h3 className="garden:font-bold">{data.label}</h3>
 
         {data.description && (
-          <h4 className="garden:text-sm">{data.description}</h4>
+          <h4 className="garden:text-foreground/70 garden:text-sm">
+            {data.description}
+          </h4>
         )}
       </div>
     </div>

@@ -33,10 +33,9 @@ const SupergardenNode = ({ data }: NodeProps) => {
       <div className="garden:flex garden:cursor-pointer garden:flex-col garden:items-center garden:gap-4 garden:rounded-lg garden:p-4 garden:text-center">
         <div className="garden:flex garden:w-full garden:justify-center">
           <div
-            className="garden:rounded-md garden:px-2 garden:py-1 garden:font-medium garden:text-sm garden:hover:bg-secondary/80"
+            className="garden:rounded-md garden:px-2 garden:py-1 garden:font-medium garden:text-background garden:text-sm garden:hover:bg-secondary/80"
             style={{
               backgroundColor: primaryColor,
-              color: "var(--garden-background)",
             }}
           >
             Supergarden
@@ -55,7 +54,7 @@ const SupergardenNode = ({ data }: NodeProps) => {
           </h3>
 
           {data.description && (
-            <h4 className="garden:line-clamp-2 garden:text-foreground garden:text-sm garden:opacity-90">
+            <h4 className="garden:line-clamp-2 garden:text-foreground/70 garden:text-sm">
               {data.description}
             </h4>
           )}
