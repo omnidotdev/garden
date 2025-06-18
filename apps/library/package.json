@@ -13,7 +13,7 @@
     "check": "biome check --diagnostic-level=error src",
     "format": "biome format --write src",
     "lint": "biome lint --diagnostic-level=error src",
-    "generate:types": "bunx quicktype@23.2.4 -s schema ../../garden.schema.json -o src/generated/garden.types.ts",
+    "generate": "bunx quicktype@23.2.4 -s schema ../../garden.schema.json -o src/generated/garden.types.ts",
     "knip": "knip-bun --cache --tags=-knipignore",
     "changeset": "changeset",
     "release": "bun run build && changeset publish"

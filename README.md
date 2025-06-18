@@ -4,11 +4,11 @@
   <img src="/apps/web/public/img/logo.png" width="150" />
 </div>
 
-Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed acyclic graph with unlimited recursion and composability. This repository holds a CLI for generating the JSON schema in `cli`, and visualizer web app in `app`, powered by Next.js.
+[Website](https://garden.omni.dev) | [Docs](https://docs.omni.dev/garden/overview)
 
-For a reference implementation, check out the [Omniverse](https://verse.omni.dev) (coming soon).
+Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed graph with unlimited recursion and composability. This repository holds a CLI for generating the JSON schema in `apps/cli`, a library published to `@omnidotdev/garden` in `apps/library`, and a visualizer web app in `apps/web`, powered by Next.js.
 
-In the future, a `<Garden />` React component will be created as well as the ability to compose and nest gardens as "subgardens" within a "supergarden".
+For a reference implementation, check out the [Omniverse](https://verse.omni.dev).
 
 Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel.de/elklive), more layouting engines will be supported in the future.
 
@@ -23,15 +23,15 @@ Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel
 
 ## Generate the Schema
 
-`cd cli`, then `cargo run -- $OUTPUT_FILE`. For example, `cargo run -- ../garden.schema.json`.
+`cd apps/cli`, then `cargo run -- $OUTPUT_FILE`. For example, `cargo run -- ../garden.schema.json`.
 
-## Local Development (Web App)
+## Local Development (Library and Web App)
 
 The app is a landing page and visualizer for Garden schemas. `cd app`, then continue below.
 
 ### Generate Types from Schema
 
-`bun generate`
+`cd apps/library && bun generate`
 
 ### Building and Running
 
@@ -40,7 +40,11 @@ bun install
 ```
 
 ```sh
-bun run dev
+bun turbo build
+```
+
+```sh
+bun turbo dev
 ```
 
 ## Inspiration
