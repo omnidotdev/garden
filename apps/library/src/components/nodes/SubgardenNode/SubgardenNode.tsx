@@ -16,7 +16,7 @@ const SubgardenNode = ({ data }: NodeProps) => {
   return (
     <div
       // NB: relative positioning is important for `Handle` placement because it uses `absolute` positioning internally
-      className="garden:relative garden:h-full garden:rounded-md garden:border-2 garden:bg-card garden:shadow-lg garden:transition-transform garden:hover:scale-105 garden:hover:border-garden/70"
+      className="garden:relative garden:h-full garden:scale-105 garden:rounded-md garden:border-2 garden:bg-card garden:shadow-lg garden:hover:scale-110 garden:hover:border-garden/70"
       style={{
         borderColor: secondaryColor,
       }}
