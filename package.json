@@ -2,9 +2,14 @@
   "name": "@omnidotdev/garden-root",
   "private": true,
   "version": "0.0.0",
+  "packageManager": "bun@1.2.16",
   "workspaces": [
     "apps/*"
   ],
+  "scripts": {
+    "release": "bun run --cwd apps/library build && changeset publish",
+    "prepare": "husky"
+  },
   "trustedDependencies": [
     "@biomejs/biome"
   ],
@@ -16,9 +21,5 @@
     "knip": "^5.60.2",
     "pkg-pr-new": "^0.0.51",
     "turbo": "^2.5.4"
-  },
-  "packageManager": "bun@1.2.16",
-  "scripts": {
-    "prepare": "husky"
   }
 }

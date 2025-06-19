@@ -19,7 +19,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bun --cwd apps/library release
+          publish: bun release
           title: "feature(release): version packages"
           commit: "ci(changesets): version packages"
         env:
