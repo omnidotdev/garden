@@ -30,8 +30,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: Install dependencies
         run: bun i
-        working-directory: app
       - name: Build package
-        run: bun --cwd app run build
+        run: bun run --cwd apps/library build
       - name: Publish package
-        run: bunx --cwd app pkg-pr-new publish
+        run: bunx pkg-pr-new publish "./apps/library"

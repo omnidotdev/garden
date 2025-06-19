@@ -3,8 +3,7 @@
   "title": "Garden",
   "type": "object",
   "required": [
-    "name",
-    "version"
+    "name"
   ],
   "properties": {
     "created_at": {
@@ -19,15 +18,6 @@
         "null"
       ]
     },
-    "items": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
-        "$ref": "#/definitions/GardenItem"
-      }
-    },
     "maintainers": {
       "type": [
         "array",
@@ -40,13 +30,22 @@
     "name": {
       "type": "string"
     },
+    "sprouts": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/Sprout"
+      }
+    },
     "subgardens": {
       "type": [
         "array",
         "null"
       ],
       "items": {
-        "$ref": "#/definitions/GardenReference"
+        "$ref": "#/definitions/Garden"
       }
     },
     "supergardens": {
@@ -55,7 +54,7 @@
         "null"
       ],
       "items": {
-        "$ref": "#/definitions/GardenReference"
+        "$ref": "#/definitions/Garden"
       }
     },
     "theme": {
@@ -75,11 +74,118 @@
       ]
     },
     "version": {
-      "type": "string"
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "definitions": {
-    "GardenItem": {
+    "Garden": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "created_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "maintainers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Maintainer"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "sprouts": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Sprout"
+          }
+        },
+        "subgardens": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Garden"
+          }
+        },
+        "supergardens": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Garden"
+          }
+        },
+        "theme": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Theme"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "updated_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "Maintainer": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "Sprout": {
       "type": "object",
       "required": [
         "homepage_url",
@@ -117,62 +223,6 @@
           ]
         },
         "twitter": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
-    },
-    "GardenReference": {
-      "type": "object",
-      "required": [
-        "name",
-        "url"
-      ],
-      "properties": {
-        "description": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "logo": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "version": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
-    },
-    "Maintainer": {
-      "type": "object",
-      "required": [
-        "name"
-      ],
-      "properties": {
-        "email": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "url": {
           "type": [
             "string",
             "null"
