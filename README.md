@@ -2,9 +2,9 @@
 
 <div align="center">
   <img src="/apps/web/public/img/logo.png" width="150" />
-</div>
 
-[Website](https://garden.omni.dev) | [Docs](https://docs.omni.dev/garden/overview)
+  [Website](https://garden.omni.dev) | [Docs](https://docs.omni.dev/garden/overview)
+</div>
 
 Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed graph with unlimited recursion and composability. This repository holds a CLI for generating the JSON schema in `apps/cli`, a library published to `@omnidotdev/garden` in `apps/library`, and a visualizer web app in `apps/web`, powered by Next.js.
 
