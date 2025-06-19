@@ -1,12 +1,11 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": [
-      "@changesets/changelog-github",
-      { "repo": "omnidotdev/garden" }
-    ],
+    "@changesets/changelog-github",
+    { "repo": "omnidotdev/garden" }
+  ],
   "commit": false,
   "access": "public",
   "baseBranch": "master",
-  "updateInternalDependencies": "patch",
-  "ignore": ["@omnidotdev/garden-app"]
+  "updateInternalDependencies": "patch"
 }
