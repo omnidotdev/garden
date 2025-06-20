@@ -1,8 +1,6 @@
 # 🌱 Garden
 
-<div align="center">
-  [Website](https://garden.omni.dev) | [Docs](https://docs.omni.dev/garden/overview)
-</div>
+[Website](https://garden.omni.dev) | [Docs](https://docs.omni.dev/garden/overview)
 
 Garden is a specification for modeling an ecosystem (e.g. of products, services) as a directed graph with unlimited recursion and composability.
 
