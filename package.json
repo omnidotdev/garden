@@ -4,9 +4,11 @@
   "version": "0.0.0",
   "packageManager": "bun@1.2.16",
   "workspaces": [
-    "apps/*"
+    "apps/library",
+    "apps/web"
   ],
   "scripts": {
+    "sherif": "sherif",
     "release": "bun run --cwd apps/library build && changeset publish",
     "prepare": "husky"
   },
@@ -20,6 +22,7 @@
     "husky": "^9.1.7",
     "knip": "^5.60.2",
     "pkg-pr-new": "^0.0.51",
+    "sherif": "^1.6.1",
     "turbo": "^2.5.4"
   }
 }

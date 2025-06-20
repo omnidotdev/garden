@@ -43,7 +43,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^24.0.1",
-    "@types/react": "^19.1.2",
+    "@types/react": "19.1.7",
     "globby": "^14.1.0",
     "tailwindcss": "^4.1.10",
     "typescript": "5.8.3",

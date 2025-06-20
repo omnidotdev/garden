@@ -1,1 +1,1 @@
-turbo check -- --staged --no-errors-on-unmatched
+bun sherif && turbo check -- --staged --no-errors-on-unmatched

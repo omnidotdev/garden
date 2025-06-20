@@ -10,12 +10,13 @@
         "husky": "^9.1.7",
         "knip": "^5.60.2",
         "pkg-pr-new": "^0.0.51",
+        "sherif": "^1.6.1",
         "turbo": "^2.5.4",
       },
     },
     "apps/library": {
       "name": "@omnidotdev/garden",
-      "version": "0.0.0",
+      "version": "0.1.4",
       "dependencies": {
         "@radix-ui/react-dialog": "^1.1.14",
         "@radix-ui/react-slot": "^1.2.3",
@@ -31,7 +32,7 @@
       "devDependencies": {
         "@tailwindcss/postcss": "^4.1.10",
         "@types/node": "^24.0.1",
-        "@types/react": "^19.1.2",
+        "@types/react": "19.1.7",
         "globby": "^14.1.0",
         "tailwindcss": "^4.1.10",
         "typescript": "5.8.3",
@@ -41,7 +42,6 @@
     },
     "apps/web": {
       "name": "@omnidotdev/garden-app",
-      "version": "0.0.0",
       "dependencies": {
         "@monaco-editor/react": "^4.7.0",
         "@omnidotdev/garden": "workspace:*",
@@ -55,8 +55,8 @@
         "next-themes": "^0.4.6",
         "nuqs": "^2.4.3",
         "postcss": "^8.5.6",
-        "react": "19.1.0",
-        "react-dom": "19.1.0",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
         "tailwind-merge": "^3.3.1",
         "tw-animate-css": "^1.3.4",
         "usehooks-ts": "^3.1.1",
@@ -65,7 +65,7 @@
       "devDependencies": {
         "@tailwindcss/postcss": "^4.1.10",
         "@types/bun": "^1.2.15",
-        "@types/node": "24.0.0",
+        "@types/node": "^24.0.1",
         "@types/react": "19.1.7",
         "@types/react-dom": "19.1.6",
         "tailwindcss": "^4.1.10",
@@ -905,6 +905,20 @@
 
     "shebang-regex": ["shebang-regex@3.0.0", "", {}, "sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A=="],
 
+    "sherif": ["sherif@1.6.1", "", { "optionalDependencies": { "sherif-darwin-arm64": "1.6.1", "sherif-darwin-x64": "1.6.1", "sherif-linux-arm64": "1.6.1", "sherif-linux-x64": "1.6.1", "sherif-windows-arm64": "1.6.1", "sherif-windows-x64": "1.6.1" }, "bin": { "sherif": "index.js" } }, "sha512-ZnwyTnmXoUOPClkOA37JWIyFxCoozMGHmhk/p7XbTREI554XXCnBAn3BMX8UsqkhSzQ9eNQsq4U+jnImEIppsQ=="],
+
+    "sherif-darwin-arm64": ["sherif-darwin-arm64@1.6.1", "", { "os": "darwin", "cpu": "arm64" }, "sha512-J15oBJcrnCAZ0rQE8WbMShYw3204A18akCH6C/uZrILTwX/vZyJIqi7lAt5L00LzsadA3HcyQqVjLNNCvuihoQ=="],
+
+    "sherif-darwin-x64": ["sherif-darwin-x64@1.6.1", "", { "os": "darwin", "cpu": "x64" }, "sha512-oLA/GtvUasi+qCl35LczOhQ4g/xY2mxE5/eiTYQGT3Ow7FKLscnkE6v5l28bgkFeR/uke0AgZ/CgHhozAf0ulg=="],
+
+    "sherif-linux-arm64": ["sherif-linux-arm64@1.6.1", "", { "os": "linux", "cpu": "arm64" }, "sha512-OoltlucT7v9BZdkYZRbs1QU0DYMCQ5qgpMqQdMW1Rq3w3amr7+oEiV9NHntD83udOo8xRxKq0uPXfNYu+VptJw=="],
+
+    "sherif-linux-x64": ["sherif-linux-x64@1.6.1", "", { "os": "linux", "cpu": "x64" }, "sha512-qyDyYqpi3ABGkRuCnjnxN3OMT8DxMiiLzhS9p9xC05Y9nr5hjkxvqP4DdJ4e5opm4E7vzRAS7VQoZ6m7h6tsgQ=="],
+
+    "sherif-windows-arm64": ["sherif-windows-arm64@1.6.1", "", { "os": "win32", "cpu": "arm64" }, "sha512-wAbCiqP//lo7bZUlHmZUV3/sGjnJxo6QB5/fqhz5/GUeWh4CTyvlSacJKZxLnXnzpiUSeFnWutquWnHkRov5Ug=="],
+
+    "sherif-windows-x64": ["sherif-windows-x64@1.6.1", "", { "os": "win32", "cpu": "x64" }, "sha512-2r0qMxZGCMO2aq8Hlq7npxtAsUFVDsEFtUM/6dFo1npa/jHe2mbU7ii/Ymy0bloSa/qw/azrSfRV6GLU7Gjtxg=="],
+
     "signal-exit": ["signal-exit@4.1.0", "", {}, "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw=="],
 
     "simple-swizzle": ["simple-swizzle@0.2.2", "", { "dependencies": { "is-arrayish": "^0.3.1" } }, "sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg=="],
@@ -1062,8 +1076,6 @@
     "@octokit/request/@octokit/types": ["@octokit/types@13.10.0", "", { "dependencies": { "@octokit/openapi-types": "^24.2.0" } }, "sha512-ifLaO34EbbPj0Xgro4G5lP5asESjwHracYJvVaPIyXMuiuXLlhic3S47cBdTb+jfODkTE5YtGCLt3Ay3+J97sA=="],
 
     "@octokit/request-error/@octokit/types": ["@octokit/types@13.10.0", "", { "dependencies": { "@octokit/openapi-types": "^24.2.0" } }, "sha512-ifLaO34EbbPj0Xgro4G5lP5asESjwHracYJvVaPIyXMuiuXLlhic3S47cBdTb+jfODkTE5YtGCLt3Ay3+J97sA=="],
-
-    "@omnidotdev/garden-app/@types/node": ["@types/node@24.0.0", "", { "dependencies": { "undici-types": "~7.8.0" } }, "sha512-yZQa2zm87aRVcqDyH5+4Hv9KYgSdgwX1rFnGvpbzMaC7YAljmhBET93TPiTd3ObwTL+gSpIzPKg5BqVxdCvxKg=="],
 
     "@rushstack/node-core-library/ajv": ["ajv@8.13.0", "", { "dependencies": { "fast-deep-equal": "^3.1.3", "json-schema-traverse": "^1.0.0", "require-from-string": "^2.0.2", "uri-js": "^4.4.1" } }, "sha512-PRA911Blj99jR5RMeTunVbNXMF6Lp4vZXnk5GQjcnUWUTsrXtekg/pnmFFI2u/I36Y/2bITGS30GZCXei6uNkA=="],
 
