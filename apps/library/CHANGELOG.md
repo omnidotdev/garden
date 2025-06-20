@@ -1,5 +1,11 @@
 # @omnidotdev/garden
 
+## 0.1.1
+
+### Patch Changes
+
+- [#20](https://github.com/omnidotdev/garden/pull/20) [`00e3298`](https://github.com/omnidotdev/garden/commit/00e329807807840b946cb38a8107e51e76c7849f) Thanks [@coopbri](https://github.com/coopbri)! - Add `README`
+
 ## 0.1.0
 
 ### Minor Changes
