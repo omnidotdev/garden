@@ -1,8 +1,6 @@
 # 🌱 Garden
 
 <div align="center">
-  <img src="/apps/web/public/img/logo.png" width="150" />
-
   [Website](https://garden.omni.dev) | [Docs](https://docs.omni.dev/garden/overview)
 </div>
 
@@ -24,6 +22,32 @@ Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel
 ## Inspiration
 
 Garden is inspired by the [CNCF Landscape](https://landscape.cncf.io) project, which is a collection of projects that are part of the [CNCF](https://cncf.io). The CNCF Landscape is a visual representation of the projects and their relationships, making it easier to understand the relationships between projects and the larger ecosystem.
+
+## Getting Started
+
+To integrate Garden in your React application, first `bun add @omnidotdev/garden`, then:
+
+```tsx
+import { Garden } from "@omnidotdev/garden";
+
+import type { GardenSchema } from "@omnidotdev/garden";
+
+// import required Garden styles
+import "@omnidotdev/garden/styles.css";
+
+const schema: GardenSchema = {
+  name: "Ecosystem",
+  // ...
+};
+
+/**
+ * Render the Garden component with the provided ecosystem schema.
+ *
+ * `schema` is validated against the Garden specification at runtime.
+ * If the schema is invalid, an error will be thrown.
+ */
+const App = () => <Garden schema={schema} />;
+```
 
 ## License
 
