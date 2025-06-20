@@ -1,5 +1,11 @@
 # @omnidotdev/garden
 
+## 0.1.3
+
+### Patch Changes
+
+- [`46df614`](https://github.com/omnidotdev/garden/commit/46df614d7849cc404c9db0129a44f185cb2b0a8d) Thanks [@hobbescodes](https://github.com/hobbescodes)! - Update README
+
 ## 0.1.2
 
 ### Patch Changes
