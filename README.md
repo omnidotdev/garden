@@ -23,15 +23,15 @@ Garden layouting is currently powered by [ELK](https://rtsys.informatik.uni-kiel
 
 ## Generate the Schema
 
-`cd apps/cli`, then `cargo run -- $OUTPUT_FILE`. For example, `cargo run -- ../garden.schema.json`.
+`cd apps/cli`, then `cargo run -- $OUTPUT_FILE`. For example, `cargo run -- ../../garden.schema.json`.
+
+## Generate Types from Schema
+
+`cd apps/library && bun generate`
 
 ## Local Development (Library and Web App)
 
-The app is a landing page and visualizer for Garden schemas. `cd app`, then continue below.
-
-### Generate Types from Schema
-
-`cd apps/library && bun generate`
+The app is a landing page and visualizer for Garden schemas. From the root directory, run the following:
 
 ### Building and Running
 
