@@ -7,5 +7,6 @@
   "commit": false,
   "access": "public",
   "baseBranch": "master",
-  "updateInternalDependencies": "patch"
+  "updateInternalDependencies": "patch",
+  "ignore": ["@omnidotdev/garden-app"]
 }
