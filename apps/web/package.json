@@ -1,7 +1,6 @@
 {
   "name": "@omnidotdev/garden-app",
   "private": true,
-  "version": "0.0.1",
   "license": "MIT",
   "type": "module",
   "scripts": {
