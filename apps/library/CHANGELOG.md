@@ -1,5 +1,11 @@
 # @omnidotdev/garden
 
+## 0.1.4
+
+### Patch Changes
+
+- [`6b67616`](https://github.com/omnidotdev/garden/commit/6b6761671b8e09bf77546123530158cf1c13806e) Thanks [@hobbescodes](https://github.com/hobbescodes)! - Add LICENSE
+
 ## 0.1.3
 
 ### Patch Changes
