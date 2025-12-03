@@ -21,7 +21,7 @@
     "@changesets/cli": "^2.29.4",
     "husky": "^9.1.7",
     "knip": "^5.60.2",
-    "pkg-pr-new": "^0.0.51",
+    "pkg-pr-new": "^0.0.62",
     "sherif": "^1.6.1",
     "turbo": "^2.5.4"
   }
