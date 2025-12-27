@@ -1,7 +1,7 @@
 # 🌱 Garden
 
 <div align="center">
-  <img src="/apps/web/public/img/logo.png" width="150" />
+  <img src="./assets/logo.png" width="150" />
 
 [Website](https://garden.omni.dev) | [Docs](https://docs.omni.dev/garden)
 
