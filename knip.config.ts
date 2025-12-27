@@ -15,10 +15,6 @@ const knipConfig: KnipConfig = {
       project: ["src/**/*.{ts,tsx,css}"],
       ignore: ["src/generated/**"],
     },
-    "apps/web": {
-      project: ["src/**/*.{ts,tsx}"],
-      ignoreDependencies: ["tailwindcss", "tw-animate-css"],
-    },
   },
   ignoreExportsUsedInFile: true,
 };
