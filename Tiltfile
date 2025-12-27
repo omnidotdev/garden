@@ -5,12 +5,14 @@ local_resource(
 
 
 local_resource(
-    'build',
-    cmd='bun turbo build',
+  "build",
+  "bun turbo build",
+  auto_init=False,
+  trigger_mode=TRIGGER_MODE_MANUAL
 )
 
 
 local_resource(
     'dev',
-    cmd='bun turbo dev',
+    serve_cmd='bun turbo dev',
 )

@@ -1,19 +1,18 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.0-beta.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": false
+    "useIgnoreFile": true
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "apps/**",
-      "packages/**",
-      "!**/generated/**",
-      "!**/build/**",
-      "!apps/library/src/lib/garden.css"
-    ]
+    "includes": ["**", "!!**/generated", "!!src/routeTree.gen.ts"]
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
   },
   "formatter": {
     "enabled": true,
@@ -27,20 +26,19 @@
       "recommended": true,
       "a11y": {
         "useSemanticElements": "off",
-        "noStaticElementInteractions": "off"
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off"
       },
       "correctness": {
-        "noUnusedImports": "error",
-        "noUnknownMediaFeatureName": "off"
+        "noUnusedImports": { "fix": "safe", "options": {}, "level": "error" }
       },
       "nursery": {
-        "useUniqueElementIds": "off",
         "useSortedClasses": {
           "level": "error",
           "fix": "safe",
           "options": {
             "attributes": ["className"],
-            "functions": ["cn, cva"]
+            "functions": ["cn, cva, tv"]
           }
         }
       },
@@ -53,14 +51,15 @@
         }
       },
       "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noNonNullAssertedOptionalChain": "off",
+        "useIterableCallbackReturn": "off",
         "noConsole": {
           "level": "error",
           "options": {
             "allow": ["error", "warn"]
           }
-        },
-        // TODO: remove this, and make sure it is indeed an error. For scaffolding purposes, it is easier to just have this be a warning for now
-        "noExplicitAny": "warn"
+        }
       }
     }
   },
@@ -70,16 +69,13 @@
         "organizeImports": {
           "level": "on",
           "options": {
+            "identifierOrder": "lexicographic",
             "groups": [
               { "type": false, "source": [":BUN:", ":NODE:"] },
               ":BLANK_LINE:",
               {
                 "type": false,
-                "source": [
-                  ":PACKAGE:",
-                  ":PACKAGE_WITH_PROTOCOL:",
-                  "!@omnidotdev/**"
-                ]
+                "source": [":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:"]
               },
               ":BLANK_LINE:",
               { "type": false, "source": ["**"] },

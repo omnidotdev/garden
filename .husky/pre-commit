@@ -1,1 +1,3 @@
-bun sherif && turbo check -- --staged --no-errors-on-unmatched
+bun knip
+bun sherif
+turbo check -- --staged --no-errors-on-unmatched
