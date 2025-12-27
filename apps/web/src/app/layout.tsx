@@ -1,3 +1,5 @@
+import "@omnidotdev/garden/styles.css";
+
 import { Assistant } from "next/font/google";
 
 import { Footer, Header } from "@/components/layout";

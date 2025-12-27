@@ -21,10 +21,12 @@ const Visualizer = () => {
 
   const [showInstructions, setShowInstructions] = useState(() => {
     // Initialize from localStorage if available, default to true
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
       const stored = localStorage.getItem(INSTRUCTIONS_STORAGE_KEY);
+
       return stored !== null ? stored === "true" : true;
     }
+
     return true;
   });
 

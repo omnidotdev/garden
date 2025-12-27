@@ -1,1 +1,1 @@
-export { default as Garden, type GardenProps } from "./Garden";
+export { type GardenProps, default as Garden } from "./Garden";

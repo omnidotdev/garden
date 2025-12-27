@@ -40,7 +40,7 @@ const features = [
 const HomePage = () => (
   <div className="flex flex-col bg-gradient-to-b from-background via-background/90 to-background/80">
     <section className="relative flex w-full flex-1 justify-center py-12 md:py-24 lg:py-32 xl:py-48">
-      <div className="-z-10 absolute inset-0 mx-0 max-w-none overflow-hidden">
+      <div className="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
         <div className="absolute top-0 left-1/2 ml-[-38rem] h-[25rem] w-[81.25rem] dark:[mask-image:linear-gradient(white,transparent)]">
           <div className="absolute inset-0 bg-gradient-to-r from-[#36b49f] to-[#DBFF75] opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-[#36b49f]/30 dark:to-[#DBFF75]/30 dark:opacity-100">
             <svg

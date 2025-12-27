@@ -1,5 +1,4 @@
 @import "tailwindcss" prefix(garden);
-@import "tw-animate-css";
 @import "@xyflow/react/dist/style.css";
 
 @custom-variant dark (&:is(.dark *));

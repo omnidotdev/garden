@@ -1,6 +1,6 @@
+import { Garden } from "@omnidotdev/garden";
 import Link from "next/link";
 
-import { Garden } from "@omnidotdev/garden";
 import schema from "@/lib/schema/garden.json";
 
 /**
