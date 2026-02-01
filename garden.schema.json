@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://manifold.omni.dev/@omni/schemas/garden.schema.json",
   "title": "Garden",
   "type": "object",
   "required": [
