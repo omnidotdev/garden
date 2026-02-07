@@ -2,23 +2,21 @@
   "name": "@omnidotdev/garden-root",
   "private": true,
   "version": "0.0.0",
-  "packageManager": "bun@1.3.5",
+  "packageManager": "bun@1.3.6",
   "workspaces": [
     "apps/library"
   ],
   "scripts": {
-    "sherif": "sherif",
     "release": "bun run --cwd apps/library build && changeset publish",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.10",
+    "@biomejs/biome": "2.3.11",
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
     "husky": "^9.1.7",
     "knip": "^5.77.4",
     "pkg-pr-new": "^0.0.62",
-    "sherif": "^1.9.0",
     "turbo": "^2.7.2"
   },
   "trustedDependencies": [

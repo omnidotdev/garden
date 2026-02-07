@@ -49,4 +49,4 @@ const App = () => <Garden schema={schema} />;
 
 ## License
 
-The code in this repository is licensed under MIT, &copy; Omni LLC. See [LICENSE.md](LICENSE.md) for more information.
+The code in this repository is licensed under MIT, &copy; [Omni LLC](https://omni.dev). See [LICENSE.md](LICENSE.md) for more information.

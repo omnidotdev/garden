@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://weaver.omni.dev/schema.json
+# Garden - Developer environment management
+
+workspace: .
+
+repositories:
+  garden:
+    url: git@github.com:omnidotdev/garden.git
+    path: .
+    tags: [devtools, metarepo]
+    description: Developer environment management
+
+  garden-cli:
+    path: ./apps/cli
+    tags: [cli]
+    description: Garden CLI
+
+  garden-library:
+    path: ./apps/library
+    tags: [library]
+    description: Garden shared library
+
+  garden-site:
+    path: ./services/garden-site
+    tags: [docs, frontend]
+    description: Garden documentation site
