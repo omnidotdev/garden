@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://weaver.omni.dev/schema.json
+# Garden - Visualize your product, service, or other ecosystem
+
+workspace: .
+
+repositories:
+  garden:
+    url: git@github.com:omnidotdev/garden.git
+    path: .
+    tags: [product, metarepo]
+    description: Visualize your product, service, or other ecosystem
+
+  garden-cli:
+    url: git@github.com:omnidotdev/garden-cli.git
+    path: ./services/garden-cli
+    tags: [product, cli, rust]
+    description: Garden schema generator CLI
+
+  garden-react:
+    url: git@github.com:omnidotdev/garden-react.git
+    path: ./services/garden-react
+    tags: [product, library, react]
+    description: Garden visualization React component library
+
+  garden-site:
+    url: git@github.com:omnidotdev/garden-site.git
+    path: ./services/garden-site
+    tags: [product, frontend]
+    description: Garden documentation site

@@ -5,18 +5,8 @@ import type { KnipConfig } from "knip";
  * @see https://knip.dev/overview/configuration
  */
 const knipConfig: KnipConfig = {
-  workspaces: {
-    ".": {
-      ignoreDependencies: ["turbo"],
-      ignoreBinaries: ["i"],
-    },
-    "apps/library": {
-      entry: ["src/lib/garden.css"],
-      project: ["src/**/*.{ts,tsx,css}"],
-      ignore: ["src/generated/**"],
-    },
-  },
-  ignoreExportsUsedInFile: true,
+  ignoreDependencies: ["@biomejs/biome"],
+  ignore: ["apps/**", "services/**"],
 };
 
 export default knipConfig;

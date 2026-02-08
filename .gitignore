@@ -1,6 +1,15 @@
-node_modules
+# ignore all by default
+*
 
-.turbo
-
-# IDE
-.zed
+!.gitignore
+!.husky/
+!LICENSE.md
+!README.md
+!Tiltfile
+!assets/
+!biome.jsonc
+!bun.lock
+!garden.schema.json
+!knip.config.ts
+!package.json
+!weaver.yaml
