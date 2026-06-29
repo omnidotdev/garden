@@ -79,6 +79,15 @@
         "string",
         "null"
       ]
+    },
+    "edges": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/Edge"
+      }
     }
   },
   "definitions": {
@@ -160,6 +169,15 @@
             "string",
             "null"
           ]
+        },
+        "edges": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Edge"
+          }
         }
       }
     },
@@ -253,6 +271,48 @@
           ]
         },
         "text_color": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "Edge": {
+      "type": "object",
+      "required": [
+        "source",
+        "target"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "relations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
           "type": [
             "string",
             "null"
