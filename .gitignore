@@ -2,6 +2,10 @@
 *
 
 !.gitignore
+!.changeset/
+!.changeset/**
+!.github/
+!.github/**
 !.husky/
 !LICENSE.md
 !README.md
